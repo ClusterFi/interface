@@ -2,76 +2,76 @@
 @import "@/styles/variables";
 
 .base {
-    padding: 24px 24px 12px;
+  padding: 24px 24px 12px;
 }
 
 .head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
 }
 
 .claim {
-    padding: 0 24px;
-    min-width: 100px;
+  padding: 0 24px;
+  min-width: 100px;
 
-    > p {
-        margin: 0;
-    }
+  > p {
+    margin: 0;
+  }
 
-    &.loading {
-        padding: 0;
-        height: 34px;
-        border-radius: 64px;
-    }
+  &.loading {
+    padding: 0;
+    height: 34px;
+    border-radius: 64px;
+  }
 }
 
-
 .table {
-    width: calc(100% + 24px);
-    margin: -4px -12px 0;
+  width: calc(100% + 24px);
+  margin: -4px -12px 0;
 
-    td {
-        padding: 12px;
+  td {
+    padding: 12px;
 
-        &:nth-child(2), &:nth-child(3) {
-            width: 144px;
-            text-align: right;
-        }
-
-        &:last-child {
-            width: 172px;
-            padding: 12px 12px 12px 48px;
-        }
-
-        &:first-child {
-            padding-left: 12px;
-        }
+    &:nth-child(2),
+    &:nth-child(3) {
+      width: 144px;
+      text-align: right;
     }
+
+    &:last-child {
+      width: 172px;
+      padding: 12px 12px 12px 48px;
+    }
+
+    &:first-child {
+      padding-left: 12px;
+    }
+  }
 }
 
 .button {
-    width: 100%;
+  width: 100%;
 
-    > p {
-        margin: 0;
-    }
+  > p {
+    margin: 0;
+  }
 
-    &.skeleton {
-        width: 110px;
-        height: 32px;
-        border-radius: 64px;
-    }
+  &.skeleton {
+    width: 110px;
+    height: 32px;
+    border-radius: 64px;
+  }
 }
 
 .text {
-    margin: 0;
-    color: $text-white;
+  margin: 0;
+  color: $text-white;
 
-    &.skeleton {
-        border-radius: 4px;
-        width: 50px;
-        height: 16px;
-    }
+  &.skeleton {
+    border-radius: 4px;
+    width: 50px;
+    height: 16px;
+  }
 }

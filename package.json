@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md,scss}\""
   },
   "dependencies": {
     "classnames": "^2.5.1",
@@ -26,6 +27,7 @@
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.2.3",
+    "prettier": "^3.3.3",
     "sharp": "^0.33.4",
     "typescript": "^5"
   }

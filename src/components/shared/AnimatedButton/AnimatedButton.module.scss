@@ -2,83 +2,83 @@
 @import "@/styles/variables";
 
 .container {
-	position: relative;
-	display: inline-flex;
-	border-radius: 50px;
-	border: 1px solid transparent;
-	justify-content: center;
-	align-items: center;
-	overflow: visible;
-	padding: 1px;
-	text-decoration: none;
-	color: white;
-	backdrop-filter: blur(7px);
-	-webkit-backdrop-filter: blur(7px);
-	background-color: transparent;
-    cursor: pointer;
-    overflow: hidden;
-	transition: background-color 0.3s ease;
+  position: relative;
+  display: inline-flex;
+  border-radius: 50px;
+  border: 1px solid transparent;
+  justify-content: center;
+  align-items: center;
+  overflow: visible;
+  padding: 1px;
+  text-decoration: none;
+  color: white;
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+  background-color: transparent;
+  cursor: pointer;
+  overflow: hidden;
+  transition: background-color 0.3s ease;
 
-	&.default,
-	&.large {
-		height: 38px;
-		font-size: 14px;
-		font-weight: 600;
-	}
+  &.default,
+  &.large {
+    height: 38px;
+    font-size: 14px;
+    font-weight: 600;
+  }
 
-	&.default {
-		@media (max-width: 992px) {
-			height: 34px;
-			font-size: 13px;
-		}
-	}
+  &.default {
+    @media (max-width: 992px) {
+      height: 34px;
+      font-size: 13px;
+    }
+  }
 
-	&.large {
-		height: 44px;
-	}
+  &.large {
+    height: 44px;
+  }
 
-	&:hover {
-        .inner {
-            background: rgba(228, 207, 255, 0.04);
-        }
-	}
+  &:hover {
+    .inner {
+      background: rgba(228, 207, 255, 0.04);
+    }
+  }
 
-	&.dark {
-		background-color: #48454E;
-	}
+  &.dark {
+    background-color: #48454e;
+  }
 }
 
 .inner {
-	width: auto;
-	z-index: 10;
-	border-radius: inherit;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    transition: background .3s;
+  width: auto;
+  z-index: 10;
+  border-radius: inherit;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  transition: background 0.3s;
 }
 
 .motionDiv {
-	position: absolute;
-	inset: 0px;
-	overflow: hidden;
-	z-index: 0;
-	border-radius: inherit;
+  position: absolute;
+  inset: 0px;
+  overflow: hidden;
+  z-index: 0;
+  border-radius: inherit;
 }
 
 .bgOverlay {
-	position: absolute;
-	inset: 1px;
-	background-color: $bg-main;
-	z-index: 1;
-	border-radius: inherit;
+  position: absolute;
+  inset: 1px;
+  background-color: $bg-main;
+  z-index: 1;
+  border-radius: inherit;
 
-    &:before {
-        content: '';
-        position: absolute;
-        inset: -1px;
-        pointer-events: none;
-        border: 1px solid rgba(228, 207, 255, 0.1);
-        border-radius: inherit;
-    }
+  &:before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    pointer-events: none;
+    border: 1px solid rgba(228, 207, 255, 0.1);
+    border-radius: inherit;
+  }
 }

@@ -2,28 +2,36 @@
 @import "@/styles/variables";
 
 .base {
-    position: relative;
-    background: $bg-secondary;
-    border-radius: 18px;
+  position: relative;
+  background: $bg-secondary;
+  border-radius: 18px;
 
-    &:after {
-		content: "";
-		position: absolute;
-        z-index: 1;
-		inset: 0;
-		border-radius: inherit;
-		padding: 1px;
-        background: linear-gradient(136deg, #2A2732 -0.84%, rgba(42, 39, 50, 0.00) 47.36%);
-		mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-		-webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-		-webkit-mask-composite: xor;
-		mask-composite: exclude;
-		pointer-events: none;
-		transition: opacity 0.2s;
-	}
+  &:after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      136deg,
+      #2a2732 -0.84%,
+      rgba(42, 39, 50, 0) 47.36%
+    );
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    transition: opacity 0.2s;
+  }
 }
 
 .container {
-    position: relative;
-    z-index: 2;
+  position: relative;
+  z-index: 2;
 }

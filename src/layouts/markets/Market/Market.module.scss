@@ -2,66 +2,69 @@
 @import "@/styles/variables";
 
 .base {
-    padding: 24px 24px 12px;
+  padding: 24px 24px 12px;
 }
 
 .title {
-    display: grid;
-    align-items: center;
-    grid-template-columns: 20px 1fr;
-    gap: 8px;
-    color: $text-white;
-    margin: 0;
+  display: grid;
+  align-items: center;
+  grid-template-columns: 20px 1fr;
+  gap: 8px;
+  color: $text-white;
+  margin: 0;
 }
 
 .table {
-    width: calc(100% + 24px);
-    margin: 20px -12px 0;
+  width: calc(100% + 24px);
+  margin: 20px -12px 0;
 
-    td {
-        padding: 12px;
+  td {
+    padding: 12px;
 
-        &:nth-child(2), &:nth-child(3), &:nth-child(4), &:nth-child(5) {
-            width: 144px;
-            text-align: right;
-        }
-
-        &:last-child {
-            width: 48px;
-            padding: 12px;
-        }
-
-        &:first-child {
-            padding-left: 12px;
-        }
+    &:nth-child(2),
+    &:nth-child(3),
+    &:nth-child(4),
+    &:nth-child(5) {
+      width: 144px;
+      text-align: right;
     }
+
+    &:last-child {
+      width: 48px;
+      padding: 12px;
+    }
+
+    &:first-child {
+      padding-left: 12px;
+    }
+  }
 }
 
 .row {
-    position: relative;
+  position: relative;
 }
 
 .text {
-    margin: 0;
+  margin: 0;
 }
 
 .skeleton {
-    border-radius: 4px;
+  border-radius: 4px;
 }
 
 .table .skeleton {
-    width: 50px;
-    height: 16px;
+  width: 50px;
+  height: 16px;
 }
 
 .link {
-    position: absolute;
-    z-index: 1;
-    inset: 0;
-    border-radius: 14px;
-    transition: background .2s;
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  border-radius: 14px;
+  transition: background 0.2s;
 
-    &:hover {
-        background: rgba(61, 55, 79, 0.18);
-    }
+  &:hover {
+    background: rgba(61, 55, 79, 0.18);
+  }
 }

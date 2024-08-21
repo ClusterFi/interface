@@ -7,151 +7,196 @@ import { Button, Glyph, Icon, Skeleton, Text } from "@/components";
 export type TableProps = {} & React.HTMLAttributes<HTMLElement>;
 
 export const Table = ({ className, children, ...rest }: TableProps) => {
-    return (
-        <table className={cx(styles.base, className)} {...rest}>
-            {children}
-        </table>
-    );
-}
+  return (
+    <table className={cx(styles.base, className)} {...rest}>
+      {children}
+    </table>
+  );
+};
 
-const Body: React.FC<React.HTMLAttributes<HTMLElement>> = ({ children, className, ...rest }) => {
-    return (
-        <tbody className={cx(styles.body, className)} {...rest}>
-            {children}
-        </tbody>
-    );
-}
+const Body: React.FC<React.HTMLAttributes<HTMLElement>> = ({
+  children,
+  className,
+  ...rest
+}) => {
+  return (
+    <tbody className={cx(styles.body, className)} {...rest}>
+      {children}
+    </tbody>
+  );
+};
 
-const Head: React.FC<React.HTMLAttributes<HTMLElement>> = ({ children, className, ...rest }) => {
-    return (
-        <thead className={cx(styles.head, className)} {...rest}>
-            {children}
-        </thead>
-    );
-}
+const Head: React.FC<React.HTMLAttributes<HTMLElement>> = ({
+  children,
+  className,
+  ...rest
+}) => {
+  return (
+    <thead className={cx(styles.head, className)} {...rest}>
+      {children}
+    </thead>
+  );
+};
 
-const Row: React.FC<React.HTMLAttributes<HTMLElement>> = ({ children, className, ...rest }) => {
-    return (
-        <tr className={cx(styles.row, className)} {...rest}>
-            {children}
-        </tr>
-    );
-}
+const Row: React.FC<React.HTMLAttributes<HTMLElement>> = ({
+  children,
+  className,
+  ...rest
+}) => {
+  return (
+    <tr className={cx(styles.row, className)} {...rest}>
+      {children}
+    </tr>
+  );
+};
 
 type ItemProps = {} & React.HTMLAttributes<HTMLElement>;
 
 const Item: React.FC<ItemProps> = ({ children, className, ...rest }) => {
-    return (
-        <td className={cx(styles.item, className)} {...rest}>
-            {children}
-        </td>
-    );
-}
+  return (
+    <td className={cx(styles.item, className)} {...rest}>
+      {children}
+    </td>
+  );
+};
 
 type ItemAmountProps = {
-    primaryValue: string
-    secondaryValue: string
-    isReward?: boolean
-    isLoading?: boolean
+  primaryValue: string;
+  secondaryValue: string;
+  isReward?: boolean;
+  isLoading?: boolean;
 } & React.HTMLAttributes<HTMLElement>;
 
-const ItemAmount: React.FC<ItemAmountProps> = ({ children, className, primaryValue, secondaryValue, isReward, isLoading, ...rest }) => {
-    if (isLoading) {
-        return (
-            <Item {...rest}>
-                <div className={styles.box}>
-                    <Skeleton className={styles.skeleton} />
-                    <Skeleton className={styles.skeleton} />
-                </div>
-            </Item>
-        )
-    }
-
+const ItemAmount: React.FC<ItemAmountProps> = ({
+  children,
+  className,
+  primaryValue,
+  secondaryValue,
+  isReward,
+  isLoading,
+  ...rest
+}) => {
+  if (isLoading) {
     return (
-        <Item {...rest}>
-            <div className={styles.box}>
-                <Text size={16} theme={500} className={cx(styles.boxRow, styles.default)}>
-                    {primaryValue}
-                </Text>
-                {isReward ? (
-                    <div className={styles.boxRow}>
-                        <Button className={styles.reward} as={'div'} size={'extra-small'} variant={'gradient-light'}>
-                            <Text size={12} theme={400}>
-                                <Icon glyph={'ClusterFlat'} width={12} height={12} />
-                                {secondaryValue}
-                            </Text>
-                        </Button>
-                    </div>
-                ) : (
-                    <Text size={12} theme={400} className={cx(styles.boxRow, styles.small)}>
-                        {secondaryValue}
-                    </Text>
-                )}
-            </div>
-        </Item>
+      <Item {...rest}>
+        <div className={styles.box}>
+          <Skeleton className={styles.skeleton} />
+          <Skeleton className={styles.skeleton} />
+        </div>
+      </Item>
     );
-}
+  }
+
+  return (
+    <Item {...rest}>
+      <div className={styles.box}>
+        <Text
+          size={16}
+          theme={500}
+          className={cx(styles.boxRow, styles.default)}
+        >
+          {primaryValue}
+        </Text>
+        {isReward ? (
+          <div className={styles.boxRow}>
+            <Button
+              className={styles.reward}
+              as={"div"}
+              size={"extra-small"}
+              variant={"gradient-light"}
+            >
+              <Text size={12} theme={400}>
+                <Icon glyph={"ClusterFlat"} width={12} height={12} />
+                {secondaryValue}
+              </Text>
+            </Button>
+          </div>
+        ) : (
+          <Text
+            size={12}
+            theme={400}
+            className={cx(styles.boxRow, styles.small)}
+          >
+            {secondaryValue}
+          </Text>
+        )}
+      </div>
+    </Item>
+  );
+};
 
 type ItemArrowProps = {
-    isLoading?: boolean
+  isLoading?: boolean;
 } & React.HTMLAttributes<HTMLElement>;
 
-const ItemArrow: React.FC<ItemArrowProps> = ({ children, className, isLoading, ...rest }) => {
-    if (isLoading) {
-        return (
-            <Table.Item {...rest}>
-                <Skeleton className={cx(styles.skeleton, styles.next)} />
-            </Table.Item>
-        )
-    }
-
+const ItemArrow: React.FC<ItemArrowProps> = ({
+  children,
+  className,
+  isLoading,
+  ...rest
+}) => {
+  if (isLoading) {
     return (
-        <Item {...rest}>
-            <div className={styles.next}>
-                <Icon glyph={'Arrow'} width={24} height={24} />
-            </div>
-        </Item>
+      <Table.Item {...rest}>
+        <Skeleton className={cx(styles.skeleton, styles.next)} />
+      </Table.Item>
     );
-}
+  }
+
+  return (
+    <Item {...rest}>
+      <div className={styles.next}>
+        <Icon glyph={"Arrow"} width={24} height={24} />
+      </div>
+    </Item>
+  );
+};
 
 type ItemAssetProps = {
-    icon: Glyph
-    primaryText: string
-    secondaryText?: string
-    isLoading: boolean
+  icon: Glyph;
+  primaryText: string;
+  secondaryText?: string;
+  isLoading: boolean;
 } & React.HTMLAttributes<HTMLElement>;
 
-const ItemAsset: React.FC<ItemAssetProps> = ({ children, className, icon, primaryText, secondaryText, isLoading, ...rest }) => {
-    if (isLoading) {
-        return (
-            <Item {...rest}>
-                <div className={styles.asset}>
-                    <Skeleton className={styles.skeleton} />
-                    <Skeleton className={styles.skeleton} />
-                </div>
-            </Item>
-        )
-    }
-
+const ItemAsset: React.FC<ItemAssetProps> = ({
+  children,
+  className,
+  icon,
+  primaryText,
+  secondaryText,
+  isLoading,
+  ...rest
+}) => {
+  if (isLoading) {
     return (
-        <Item {...rest}>
-            <div className={styles.asset}>
-                <Icon glyph={icon} width={40} height={40} />
-                <div className={styles.assetContent}>
-                    <Text size={16} theme={500}>
-                        {primaryText}
-                    </Text>
-                    {secondaryText && (
-                        <Text size={12} theme={400}>
-                            {secondaryText}
-                        </Text>
-                    )}
-                </div>
-            </div>
-        </Item>
+      <Item {...rest}>
+        <div className={styles.asset}>
+          <Skeleton className={styles.skeleton} />
+          <Skeleton className={styles.skeleton} />
+        </div>
+      </Item>
     );
-}
+  }
 
+  return (
+    <Item {...rest}>
+      <div className={styles.asset}>
+        <Icon glyph={icon} width={40} height={40} />
+        <div className={styles.assetContent}>
+          <Text size={16} theme={500}>
+            {primaryText}
+          </Text>
+          {secondaryText && (
+            <Text size={12} theme={400}>
+              {secondaryText}
+            </Text>
+          )}
+        </div>
+      </div>
+    </Item>
+  );
+};
 
 Table.Row = Row;
 Table.Item = Item;

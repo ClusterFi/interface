@@ -1,24 +1,24 @@
-import { ComponentPropsWithRef, forwardRef } from 'react'
+import { ComponentPropsWithRef, forwardRef } from "react";
 
-import * as Icons from './icons'
+import * as Icons from "./icons";
 
-export type Glyph = keyof typeof Icons
+export type Glyph = keyof typeof Icons;
 
-export { Icons }
+export { Icons };
 
 export type IconProps = {
-  glyph: Glyph
-} & ComponentPropsWithRef<'svg'>
+  glyph: Glyph;
+} & ComponentPropsWithRef<"svg">;
 
 export const Icon = forwardRef<SVGSVGElement, IconProps>(function Icon(
   { glyph, ...restProps },
   ref,
 ) {
-  const Component = Icons[glyph]
+  const Component = Icons[glyph];
   if (Component) {
-    return <Component {...restProps} ref={ref} />
+    return <Component {...restProps} ref={ref} />;
   }
 
-  console.warn('Unknown icon glyph to render', glyph)
-  return null
-})
+  console.warn("Unknown icon glyph to render", glyph);
+  return null;
+});

@@ -2,30 +2,30 @@
 @import "@/styles/variables";
 
 .base {
-    font-style: normal;
-    line-height: 100%;
+  font-style: normal;
+  line-height: 100%;
 }
 
 .size__16 {
-    font-size: toRem(16px);
+  font-size: toRem(16px);
 }
 
 .size__14 {
-    font-size: toRem(14px);
+  font-size: toRem(14px);
 }
 
 .size__12 {
-    font-size: toRem(12px);
+  font-size: toRem(12px);
 }
 
 .theme__400 {
-    font-weight: 400;
+  font-weight: 400;
 }
 
 .theme__500 {
-    font-weight: 500;
+  font-weight: 500;
 }
 
 .theme__600 {
-    font-weight: 600;
+  font-weight: 600;
 }
