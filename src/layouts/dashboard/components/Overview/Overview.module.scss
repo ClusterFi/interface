@@ -1,0 +1,131 @@
+@import "@/styles/utils";
+@import "@/styles/variables";
+
+.base {
+    padding: 32px 24px 24px;
+}
+
+.info {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 80px;
+}
+
+.filter {
+    margin-left: auto;
+    display: flex;
+    gap: 6px;
+
+    .skeleton {
+        width: 68px;
+        height: 30px;
+        border-radius: 24px;
+    }
+}
+
+.filterItem {
+    min-width: 70px;
+    height: 30px;
+    padding: 0 10px;
+
+    > p {
+        margin: 0;
+    }
+}
+
+.subtitle {
+    --color: var(--color-ui-secondary);
+    color: var(--color);
+
+    &.green {
+        --color: var(--color-ui-green);
+    }
+
+    &.purple {
+        --color: var(--color-ui-purpure);
+    }
+
+    .skeleton {
+        width: 80px;
+        height: 12px;
+    }
+}
+
+.primary {
+    .subtitle {
+        margin: 0 0 16px;
+    }
+}
+
+.primaryText, .infoText {
+    color: $text-white;
+
+    span {
+        color: $text-inactive;
+    }
+}
+
+.primaryText .skeleton {
+    width: 200px;
+    height: 40px;
+}
+
+.infoText .skeleton {
+    width: 120px;
+    height: 24px;
+}
+
+.box {
+    .subtitle.purple, .subtitle.green {
+        margin: 0 0 12px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+
+        &:before {
+            content: '';
+            display: block;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--color);
+        }
+    }
+}
+
+.skeleton {
+    border-radius: 4px;
+}
+
+.chart {
+    margin: 32px 0 0;
+}
+
+.skeleton.chart {
+    display: block;
+    height: 50px;
+    width: 100%;
+    
+    + .skeleton.chart {
+        margin: 18px 0 0;
+    }
+}
+
+.chartRow {
+    display: flex;
+    justify-content: space-between;
+    margin: 12px 0 0;
+
+    .skeleton {
+        width: 32px;
+        height: 16px;
+    }
+}

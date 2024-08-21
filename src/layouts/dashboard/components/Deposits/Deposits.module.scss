@@ -1,0 +1,57 @@
+@import "@/styles/utils";
+@import "@/styles/variables";
+
+.base {
+    padding: 24px 24px 12px;
+}
+
+.table {
+    width: calc(100% + 24px);
+    margin: 20px -12px 0;
+
+    td {
+        padding: 12px;
+
+        &:nth-child(2), &:nth-child(3), &:nth-child(4) {
+            text-align: right;
+        }
+
+        &:nth-child(2), &:nth-child(3) {
+            width: 144px;
+        }
+
+        &:nth-child(4) {
+            width: 104px;
+        }
+
+        &:last-child {
+            width: 48px;
+            padding: 12px;
+        }
+
+        &:first-child {
+            padding-left: 12px;
+        }
+    }
+}
+
+.switcher {
+    position: relative;
+    z-index: 2;
+}
+
+.row {
+    position: relative;
+}
+
+.link {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    border-radius: 14px;
+    transition: background .2s;
+
+    &:hover {
+        background: rgba(61, 55, 79, 0.18);
+    }
+}

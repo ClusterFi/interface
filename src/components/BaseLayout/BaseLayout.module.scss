@@ -1,0 +1,18 @@
+@import "@/styles/utils";
+@import "@/styles/variables";
+
+.base {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	overflow-x: clip;
+}
+
+.content {
+	flex-grow: 1;
+}
+
+.footer {
+	flex-shrink: 0;
+}

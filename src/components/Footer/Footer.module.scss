@@ -1,0 +1,46 @@
+@import "@/styles/utils";
+@import "@/styles/variables";
+
+.base {
+    position: relative;
+    padding: 28px 0;
+
+    &:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        height: 1px;
+        width: 1440px;
+        max-width: 100%;
+        transform: translateX(-50%);
+        background: linear-gradient(90deg, rgba(37, 32, 48, 0.00) 0%, #252030 49.98%, rgba(37, 32, 48, 0.00) 100%);
+        pointer-events: none;
+    }
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.link {
+    color: $text-inactive;
+    text-decoration: none;
+    transition: color .2s;
+
+    @include hover {
+        color: $text-white;
+    }
+}
+
+.text {
+    margin: 0;
+}

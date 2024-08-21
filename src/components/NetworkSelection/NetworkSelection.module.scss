@@ -1,0 +1,102 @@
+@import "@/styles/utils";
+@import "@/styles/variables";
+
+.base {
+    position: relative;
+    display: flex;
+}
+
+.base .trigger {
+    padding: 0 34px 0 16px;
+    justify-content: flex-start;
+    min-width: 132px;
+}
+
+.icon {
+    flex-shrink: 0;
+}
+
+.arrow {
+    position: absolute;
+    top: calc(50% - 8px);
+    right: 12px;
+    transform: rotate(90deg);
+    color: $text-secondary;
+    transition: transform .2s;
+
+    &.isInverted {
+        transform: rotate(90deg) scale(-1, 1);
+    }
+}
+
+.text {
+    gap: 6px;
+    color: $text-white;
+}
+
+.dropdown {
+    position: absolute;
+    z-index: 1000;
+    left: 0;
+    top: calc(100% + 4px);
+    box-shadow: 4px 6px 24px 0px rgba(16, 15, 21, 0.20);
+    background: $ui-tooltip;
+    border-radius: 12px;
+    padding: 8px;
+
+    &:after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		border-radius: inherit;
+		padding: 1px;
+        background: linear-gradient(136deg, #2A2732 -0%, rgba(42, 39, 50, 0.00) 47%);
+		mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+		-webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+		-webkit-mask-composite: xor;
+		mask-composite: exclude;
+		pointer-events: none;
+	}
+}
+
+.item {
+    width: 100%;
+    padding: 8px 28px 8px 8px;
+    border: none;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 8px;
+    position: relative;
+    min-width: 164px;
+    transition: background .2s;
+
+    + .item {
+        margin: 2px 0 0;
+    }
+
+    &.isActive {
+        background: rgba(61, 55, 79, 0.18);
+    }
+
+    @include hover {
+        background: rgba(61, 55, 79, 0.18);
+    }
+}
+
+.check {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%);
+    color: $ui-purpure;
+}
+
+.text {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 18px 1fr;
+    gap: 8px;
+    margin: 0;
+    color: $text-white;
+}

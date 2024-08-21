@@ -1,0 +1,55 @@
+@import "@/styles/utils";
+@import "@/styles/variables";
+
+:root {
+    --color-background-main: #0F0E11;
+    --color-background-secondary: linear-gradient(98deg, #1A1725 0%, #101014 100%);
+    --color-background-ui: #2A2636;
+    --color-text-black: #0F0E11;
+    --color-text-inactive: #5C566B;
+    --color-text-secondary: #9086A7;
+    --color-text-white: #FFFFFF;
+    --color-text-bright: #B5A8D3;
+    --color-ui-purpure: #9969FF;
+    --color-ui-secondary: #9086A7;
+    --color-ui-green: #74DDE3;
+    --color-ui-white: #FFFFFF;
+    --color-ui-tooltip: #1E1B28;
+    --color-ui-loading: rgba(185, 187, 241, 0.06);
+    --color-stroke-main: #2E2C37;
+    --color-stroke-secondary: #2A2732;
+    --color-stroke-gradient: linear-gradient(97deg, #3D3948 13%, rgba(61, 57, 72, 0.00) 76%);
+    --color-stroke-grey: #26232C;
+    --color-success: #3BCD75;
+    --color-danger: #DB5C5C;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+    word-break: break-word;
+}
+
+img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+html,
+body {
+    color: $text-white;
+    background: $bg-main;
+    font-family: var(--font-primary), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 16px;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    overflow-x: clip;
+}
+
+button:focus {
+    outline: none;
+}

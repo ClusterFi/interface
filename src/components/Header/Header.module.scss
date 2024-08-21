@@ -1,0 +1,70 @@
+@import "@/styles/utils";
+@import "@/styles/variables";
+
+.base {
+    position: relative;
+    padding: 17px 0;
+
+    &:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        height: 1px;
+        width: 1440px;
+        max-width: 100%;
+        transform: translateX(-50%);
+        background: linear-gradient(90deg, rgba(37, 32, 48, 0.00) 0%, #252030 49.98%, rgba(37, 32, 48, 0.00) 100%);
+        pointer-events: none;
+    }
+}
+
+.container {
+    display: flex;
+    align-items: center;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    min-height: 20px;
+    position: relative;
+    border-left: 1px solid $stroke-main;
+    padding-left: 40px;
+    margin-left: 40px;
+}
+
+.link {
+    color: $text-secondary;
+    text-decoration: none;
+    transition: color .2s;
+
+    > p {
+        margin: 0;
+    }
+
+    &.isActive {
+        color: $text-white;
+    }
+
+    @include hover {
+        color: $text-white;
+    }
+}
+
+.manage {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-left: auto;
+    padding-left: 40px;
+}
+
+.base .wallet {
+    padding: 0 16px;
+}
+
+.base .balance {
+    padding: 0 12px 0 5px;
+}

@@ -1,0 +1,198 @@
+@import "@/styles/utils";
+@import "@/styles/variables";
+
+// @Button component styles.
+.button {
+	cursor: pointer;
+	text-decoration: none;
+	padding: 0;
+	border: none;
+	background: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	color: inherit;
+
+	&:disabled {
+		cursor: not-allowed;
+	}
+
+	> p {
+		display: flex;
+		align-items: center;
+	}
+}
+
+.extra-small {
+	height: 23px;
+}
+
+.small {
+	height: 34px;
+	border-radius: 50px;
+}
+
+.medium {
+	height: 38px;
+	border-radius: 50px;
+}
+
+.gradient-dark,
+.gradient-light {
+	position: relative;
+
+	&:after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		border-radius: inherit;
+		padding: 1px;
+		mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+		-webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+		-webkit-mask-composite: xor;
+		mask-composite: exclude;
+		pointer-events: none;
+		transition: opacity 0.2s;
+	}
+}
+
+.gradient-dark {
+	background: $bg-secondary;
+	color: $text-bright;
+	transition: 0.2s;
+	transition-property: color, border, background;
+
+	&:after {
+		background: linear-gradient(transparent, transparent), linear-gradient(136deg, #2a2732 -0.84%, rgba(42, 39, 50, 0) 47.36%);
+	}
+
+	@include hover {
+		background: linear-gradient(0deg, rgba(61, 55, 79, 0.18) 0%, rgba(61, 55, 79, 0.18) 100%), linear-gradient(98deg, #1a1725 0.3%, #101014 101.16%);
+	}
+
+	&.isActive {
+		background: linear-gradient(0deg, rgba(61, 55, 79, 0.18) 0%, rgba(61, 55, 79, 0.18) 100%), linear-gradient(98deg, #1a1725 0.3%, #101014 101.16%);
+	}
+
+	&:active {
+		background: $bg-secondary;
+	}
+
+	&:disabled {
+		border: 1px solid $stroke-main;
+		background: $bg-secondary;
+		color: $text-inactive;
+
+		&:after {
+			opacity: 0;
+		}
+	}
+}
+
+.gradient-light {
+	background: $bg-ui;
+	color: $text-secondary;
+	transition: 0.2s;
+	transition-property: color, border-color, background;
+
+	&:after {
+		background: linear-gradient(transparent, transparent), $stroke-gradient;
+	}
+
+	@include hover {
+		background: #363146;
+	}
+
+	&:active {
+		background: $bg-ui;
+	}
+
+	&:disabled {
+		background: $bg-ui;
+		color: $text-inactive;
+	}
+}
+
+.stroke {
+	background: transparent;
+	border: 1px solid $stroke-grey;
+	color: $text-white;
+	transition: 0.2s;
+	transition-property: color, border-color;
+
+	@include hover {
+		border-color: $ui-white;
+	}
+
+	&:active {
+		border-color: $stroke-grey;
+	}
+
+	&:disabled {
+		color: $text-inactive;
+		border-color: $stroke-grey;
+	}
+}
+
+.stroke-purple {
+	background: transparent;
+	border: 1px solid $ui-purpure;
+	color: $ui-purpure;
+	transition: 0.2s;
+	transition-property: color, border-color, background;
+
+	@include hover {
+        background: $ui-purpure;
+        color: $text-white;
+	}
+
+	&:active {
+		background: transparent;
+        color: $ui-purpure;
+	}
+
+	&:disabled {
+		color: $text-inactive;
+		border-color: $stroke-grey;
+	}
+}
+
+.white {
+	background: $text-white;
+	color: $text-black;
+	transition: 0.2s;
+	transition-property: background, color;
+
+	@include hover {
+		background: #ded3f6;
+	}
+
+	&:active {
+		background: $text-white;
+	}
+
+	&:disabled {
+		background: $text-white;
+		color: $text-inactive;
+	}
+}
+
+.purple {
+	background: $ui-purpure;
+	color: $text-white;
+	transition: 0.2s;
+	transition-property: background, color;
+
+	@include hover {
+		background: #7d4ee0;
+	}
+
+	&:active {
+		background: $ui-purpure;
+	}
+
+	&:disabled {
+		background: $bg-ui;
+		color: $text-inactive;
+	}
+}
