@@ -38,7 +38,7 @@
         transition: background 0.2s;
     }
 
-    &:hover {
+    @include hover {
         td {
             background: rgba(61, 55, 79, 0.18);
 

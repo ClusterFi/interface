@@ -49,7 +49,7 @@
     clip-path: inset(0);
     transition: background 0.2s;
 
-    &:hover {
+    @include hover {
         td {
             background: rgba(61, 55, 79, 0.18);
             transition: background .2s;

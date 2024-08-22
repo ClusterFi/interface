@@ -37,7 +37,7 @@
     height: 44px;
   }
 
-  &:hover {
+  @include hover {
     .inner {
       background: rgba(228, 207, 255, 0.04);
     }
