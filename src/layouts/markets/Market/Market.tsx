@@ -28,7 +28,7 @@ export const Market: React.FC<MarketProps> = ({ icon, name, isLoading }) => {
             <Table.Item></Table.Item>
           </Table.Row>
         </Table.Head>
-        <Table.Body>
+        <Table.Body className={styles.body}>
           {Array.from({ length: 3 }).map((_, index) => (
             <MarketItem isLoading={isLoading} key={index} />
           ))}
