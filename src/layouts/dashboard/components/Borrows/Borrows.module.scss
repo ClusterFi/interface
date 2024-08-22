@@ -29,18 +29,31 @@
   }
 }
 
-.row {
-  position: relative;
+.body .row {
+    position: relative;
+    transform: translate(0);
+    clip-path: inset(0);
+    transition: background 0.2s;
+
+    &:hover {
+        td {
+            background: rgba(61, 55, 79, 0.18);
+            transition: background .2s;
+
+            &:nth-of-type(1) {
+                border-radius: 14px 0 0 14px;
+            }
+
+            &:nth-last-of-type(1) {
+                border-radius: 0 14px 14px 0;
+            }
+        }
+    }
 }
 
 .link {
   position: absolute;
   z-index: 1;
   inset: 0;
-  border-radius: 14px;
-  transition: background 0.2s;
-
-  &:hover {
-    background: rgba(61, 55, 79, 0.18);
-  }
+  text-decoration: none;
 }

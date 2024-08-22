@@ -35,7 +35,7 @@ export const Borrows: React.FC<BorrowsProps> = ({ state }) => {
                     <Table.Item></Table.Item>
                   </Table.Row>
                 </Table.Head>
-                <Table.Body>
+                <Table.Body className={styles.body}>
                   <BorrowItem isLoading={state === "loading"} />
                 </Table.Body>
               </Table>

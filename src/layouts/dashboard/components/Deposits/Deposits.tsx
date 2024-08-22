@@ -37,7 +37,7 @@ export const Deposits: React.FC<DepositsProps> = ({ state }) => {
                     <Table.Item></Table.Item>
                   </Table.Row>
                 </Table.Head>
-                <Table.Body>
+                <Table.Body className={styles.body}>
                   {Array.from({ length: 2 }).map((_, index) => (
                     <DepositItem isLoading={state === "loading"} key={index} />
                   ))}
