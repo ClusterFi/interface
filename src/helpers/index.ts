@@ -8,6 +8,6 @@ export function formatUSD(value: number): string {
 export function formatCoin(value: number): string {
   return value.toLocaleString("en-US", {
     minimumFractionDigits: 2,
-    maximumFractionDigits: 33,
+    maximumFractionDigits: 20,
   });
 }
