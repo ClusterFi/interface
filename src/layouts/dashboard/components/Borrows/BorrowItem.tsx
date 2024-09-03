@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Table } from "@/components";
 
 import styles from "./Borrows.module.scss";
+import { formatCoin, formatUSD } from "@/helpers";
 
 type BorrowItemProps = {
   isLoading: boolean;
@@ -12,13 +13,13 @@ export const BorrowItem: React.FC<BorrowItemProps> = ({ isLoading }) => {
   return (
     <Table.Row className={styles.row}>
       <Table.ItemAsset
-        icon={"USDC"}
+        currency={"USDCoin"}
         primaryText={"USDC"}
         isLoading={isLoading}
       />
       <Table.ItemAmount
-        primaryValue={"1,540.05"}
-        secondaryValue={"$1,539.90"}
+        primaryValue={formatCoin(1540.05)}
+        secondaryValue={"$" + formatUSD(1539.9)}
         isLoading={isLoading}
       />
       <Table.ItemAmount

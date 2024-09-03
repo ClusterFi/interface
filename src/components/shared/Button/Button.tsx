@@ -11,8 +11,9 @@ export type ButtonOwnProps<E extends React.ElementType = React.ElementType> = {
     | "gradient-light"
     | "white"
     | "purple"
-    | "stroke-purple";
-  size: "extra-small" | "small" | "medium" | "large";
+    | "stroke-purple"
+    | "custom";
+  size: "extra-small" | "small" | "medium" | "large" | "custom";
   isActive?: boolean;
   as?: E;
 };

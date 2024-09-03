@@ -22,12 +22,12 @@ export const MarketsPage: React.FC = () => {
         <div className={styles.grid}>
           <Market
             isLoading={controls["Is loading?"]}
-            icon={"Ethereum"}
+            currency={"Ethereum"}
             name={"Ethereum network"}
           />
           <Market
             isLoading={controls["Is loading?"]}
-            icon={"Solana"}
+            currency={"Solana"}
             name={"Solana network"}
           />
         </div>

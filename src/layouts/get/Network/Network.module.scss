@@ -1,0 +1,64 @@
+@import "@/styles/utils";
+@import "@/styles/variables";
+
+.base {
+  padding: 24px 24px 12px;
+}
+
+.title {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 20px 1fr;
+  gap: 8px;
+  color: $text-white;
+  margin: 0;
+}
+
+.table {
+  margin: 20px 0 0;
+  width: 100%;
+
+  td {
+    padding: 12px;
+
+    &:nth-child(2),
+    &:nth-child(3),
+    &:nth-child(4) {
+      width: 144px;
+      text-align: right;
+    }
+
+    &:last-child {
+      width: 66px;
+      padding: 12px 0 12px 12px;
+    }
+
+    &:first-child {
+      padding-left: 0;
+    }
+  }
+}
+
+.text {
+  margin: 0;
+}
+
+.skeleton {
+  border-radius: 4px;
+}
+
+.table .skeleton {
+  width: 50px;
+  height: 16px;
+}
+
+.button {
+  width: 100%;
+  padding: 1px 0 0;
+
+  &.skeleton {
+    width: 54px;
+    height: 34px;
+    border-radius: 50px;
+  }
+}

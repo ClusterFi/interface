@@ -1,0 +1,36 @@
+@import "@/styles/utils";
+@import "@/styles/variables";
+
+.base {
+  border-radius: 18px;
+  background: radial-gradient(
+      143.14% 101.21% at 47.97% 2.55%,
+      rgba(12, 12, 21, 0) 33.77%,
+      rgba(97, 71, 152, 0.7) 82.16%,
+      rgba(121, 89, 188, 0.7) 94.48%,
+      rgba(118, 85, 186, 0.7) 100%
+    ),
+    linear-gradient(98deg, #1a1725 0.3%, #101014 101.16%);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  margin: 0;
+}
+
+.text {
+  margin: 24px 0;
+  line-height: 140%;
+}
+
+.button {
+  margin: auto 0 0;
+  padding: 0 20px 0 24px;
+  gap: 10px;
+
+  p {
+    margin: 0;
+  }
+}

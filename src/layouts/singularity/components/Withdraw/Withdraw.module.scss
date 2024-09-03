@@ -1,0 +1,71 @@
+@import "@/styles/utils";
+@import "@/styles/variables";
+
+.base {
+  width: 100%;
+
+  td {
+    padding: 12px;
+
+    &:nth-child(3),
+    &:nth-child(4) {
+      text-align: right;
+
+      .skeleton {
+        width: 80px;
+      }
+    }
+
+    &:nth-child(3) {
+      width: 124px;
+    }
+
+    &:last-child {
+      width: 88px;
+      padding: 12px 0 12px 12px;
+    }
+
+    &:first-child {
+      padding-left: 0;
+    }
+  }
+}
+
+.text {
+  margin: 0;
+}
+
+.skeleton {
+  border-radius: 4px;
+}
+
+.table .skeleton {
+  width: 50px;
+  height: 16px;
+}
+
+.button {
+  width: 100%;
+  padding: 1px 0 0;
+  position: relative;
+
+  &.skeleton {
+    width: 76px;
+    height: 34px;
+    border-radius: 50px;
+  }
+}
+
+.countdown {
+  padding: 3px 5px 2px;
+  border-radius: 50px;
+  background: $ui-purpure;
+  color: $bg-main;
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  top: 100%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  margin: 0;
+}

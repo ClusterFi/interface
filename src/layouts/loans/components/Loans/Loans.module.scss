@@ -1,0 +1,67 @@
+@import "@/styles/utils";
+@import "@/styles/variables";
+
+.base {
+  padding: 24px;
+}
+
+.title {
+  margin: 0 0 24px;
+}
+
+.subtitle {
+  margin: 48px 0 24px;
+}
+
+.text {
+  margin: 0 0 10px;
+  color: $text-secondary;
+}
+
+.select {
+  margin: 0 0 32px;
+}
+
+.rows {
+  display: grid;
+  grid-template-columns: 100%;
+  gap: 16px;
+}
+
+.submit {
+  width: 100%;
+  margin: 0 0 24px;
+}
+
+.row,
+.label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
+  gap: 12px;
+}
+
+.label {
+  margin: 0 0 10px;
+}
+
+.labelTitle,
+.labelContent {
+  margin: 0;
+  color: $text-secondary;
+}
+
+.labelContent span {
+  color: $text-white;
+}
+
+.row {
+  color: $text-secondary;
+
+  span {
+    text-align: right;
+    max-width: 40%;
+    color: $text-white;
+  }
+}

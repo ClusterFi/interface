@@ -1,0 +1,131 @@
+@import "@/styles/utils";
+@import "@/styles/variables";
+
+.base {
+  position: relative;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0 0;
+}
+
+.base .action {
+  height: 30px;
+  border-radius: 50px;
+  flex: 1;
+  background: $bg-main;
+  padding: 2px 0 0;
+
+  @include hover {
+    background: $ui-purpure;
+    color: $text-white;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.input {
+  background: $bg-main;
+  border-radius: 12px;
+  height: 62px;
+  position: relative;
+  display: block;
+  transition: background 0.2s;
+
+  &:after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    background: linear-gradient(transparent, transparent),
+      linear-gradient(136deg, #2a2732 -0.84%, rgba(42, 39, 50, 0) 47.36%);
+    transition: opacity 0.2s;
+  }
+
+  @include hover {
+    background-color: #1b1823;
+  }
+
+  &:focus-within {
+    background-color: #1b1823;
+  }
+}
+
+.max {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 1px 10px 0;
+  font-size: toRem(10px);
+  height: 23px;
+  border-radius: 6px;
+}
+
+.usd {
+  position: absolute;
+  margin: 0;
+  left: 16px;
+  bottom: 15px;
+  color: $text-secondary;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.element {
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  right: 72px;
+  transform: translateY(-50%);
+  appearance: none;
+  -webkit-appearance: none;
+  box-shadow: none;
+  background: transparent;
+  border: none;
+  font-size: toRem(18px);
+  font-weight: 600;
+  font-family: inherit;
+  color: $text-white;
+  padding: 0;
+  transition: transform 0.2s;
+
+  &:focus {
+    outline: none;
+  }
+
+  &::placeholder {
+    color: $text-secondary;
+  }
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+  }
+}
+
+.input.active {
+  .usd {
+    opacity: 1;
+  }
+  .element {
+    transform: translateY(calc(-50% - 7px));
+  }
+}

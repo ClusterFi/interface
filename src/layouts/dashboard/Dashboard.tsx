@@ -3,9 +3,9 @@
 import * as React from "react";
 import { useControls } from "leva";
 
-import { Heading, Container } from "@/components";
+import { Heading, Container, PendingRewards } from "@/components";
 
-import { Deposits, Borrows, PendingRewards, Overview } from "./components";
+import { Deposits, Borrows, Overview } from "./components";
 import { getState } from "./common";
 
 import styles from "./Dashboard.module.scss";

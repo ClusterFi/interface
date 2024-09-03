@@ -1,0 +1,38 @@
+@import "@/styles/utils";
+@import "@/styles/variables";
+
+.base {
+  padding: 80px 0;
+}
+
+.base .container {
+  width: 480px;
+}
+
+.title {
+  margin: 0 0 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 37px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 100%;
+  gap: 24px;
+  align-content: flex-start;
+}
+
+.more {
+  padding: 0 12px 0 16px;
+  gap: 4px;
+
+  p {
+    margin: 0;
+  }
+
+  svg {
+    flex-shrink: 0;
+  }
+}

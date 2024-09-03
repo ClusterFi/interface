@@ -2,28 +2,40 @@
 
 import * as React from "react";
 import cx from "classnames";
-import { Button, Glyph, Text, Icon } from "@/components/shared";
+import {
+  Button,
+  Currency,
+  Text,
+  Icon,
+  CurrencyIcon,
+} from "@/components/shared";
 import { motion, AnimatePresence } from "framer-motion";
 import { useOnClickOutside } from "usehooks-ts";
 import styles from "./NetworkSelection.module.scss";
 
 type Network = {
   name: string;
-  icon: Glyph;
+  currency: Currency;
 };
 
 const networks: Network[] = [
   {
     name: "Ethereum",
-    icon: "Ethereum",
+    currency: "Ethereum",
   },
   {
     name: "Solana",
-    icon: "Solana",
+    currency: "Solana",
   },
 ];
 
-export const NetworkSelection = () => {
+type NetworkSelectionProps = {
+  className?: string;
+};
+
+export const NetworkSelection: React.FC<NetworkSelectionProps> = ({
+  className,
+}) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = React.useState(false);
   const [selectedNetwork, setSelectedNetwork] = React.useState<Network>(
@@ -39,7 +51,7 @@ export const NetworkSelection = () => {
   useOnClickOutside(containerRef, onClose);
 
   return (
-    <div ref={containerRef} className={styles.base}>
+    <div ref={containerRef} className={cx(styles.base, className)}>
       <Button
         onClick={isVisible ? onClose : onOpen}
         size={"medium"}
@@ -48,10 +60,10 @@ export const NetworkSelection = () => {
         className={styles.trigger}
       >
         <Text size={12} theme={400} className={styles.text}>
-          <Icon
+          <CurrencyIcon
             width={18}
             height={18}
-            glyph={selectedNetwork.icon}
+            currency={selectedNetwork.currency}
             className={styles.icon}
           />
           {selectedNetwork.name}
@@ -81,7 +93,11 @@ export const NetworkSelection = () => {
                   key={network.name}
                 >
                   <Text size={12} theme={400} className={styles.text}>
-                    <Icon width={18} height={18} glyph={network.icon} />
+                    <CurrencyIcon
+                      width={18}
+                      height={18}
+                      currency={network.currency}
+                    />
                     {network.name}
                     {isActive && (
                       <Icon

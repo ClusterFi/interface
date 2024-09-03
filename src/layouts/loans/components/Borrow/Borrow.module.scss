@@ -1,0 +1,101 @@
+@import "@/styles/utils";
+@import "@/styles/variables";
+
+.base {
+  padding: 24px;
+}
+
+.title {
+  margin: 0 0 16px;
+}
+
+.rows {
+  display: grid;
+  grid-template-columns: 100%;
+  gap: 16px;
+
+  + .rows {
+    margin: 24px 0 0;
+    padding: 24px 0 0;
+    border-top: 1px solid $stroke-main;
+  }
+}
+
+.heading {
+  margin: 0 0 4px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
+  gap: 12px;
+  color: $text-secondary;
+
+  span {
+    text-align: right;
+    max-width: 40%;
+    color: $text-white;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+
+    svg {
+      flex-shrink: 0;
+    }
+  }
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: 100%;
+  gap: 10px;
+  margin: 24px 0 32px;
+}
+
+.button {
+  width: 100%;
+  padding: 0 16px;
+}
+
+.amount {
+  margin: 0 0 20px;
+  padding: 0 0 20px;
+  border-bottom: 1px solid $stroke-main;
+}
+
+.amount {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.coin {
+  margin: 0;
+}
+
+.usd {
+  color: $text-secondary;
+  margin: 5px 0 0;
+}
+
+.coin {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.label {
+  margin: 0 0 10px;
+  color: $text-secondary;
+}
+
+.subtitle {
+  margin: 0 0 32px;
+  line-height: 120%;
+  color: $text-secondary;
+}
