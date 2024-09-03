@@ -28,13 +28,15 @@ export const Epoch: React.FC<EpochProps> = ({ className }) => {
         </div>
       </div>
       <Text size={12} theme={400} className={styles.text}>
-        $aMTT distribution and real return rewards to liquidity providers will
-        happen every 6 hours (1 epoch). The size of your rewards depends on the
-        length of consecutive epochs during which you deposit and hold the LP in
-        the Singularity.
+        {`
+             $aMTT distribution and real return rewards to liquidity providers will
+            happen every 6 hours (1 epoch). The size of your rewards depends on the
+            length of consecutive epochs during which you deposit and hold the LP in
+            the Singularity.
+        `}
       </Text>
       <Text size={12} theme={500} className={styles.note}>
-        Adding LP or claiming rewards won't reset the timer.
+        {`Adding LP or claiming rewards won't reset the timer.`}
       </Text>
       <Link href={"/"} className={styles.link}>
         <Text size={12} theme={500}>
