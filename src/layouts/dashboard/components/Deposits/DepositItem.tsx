@@ -42,7 +42,9 @@ export const DepositItem: React.FC<DepositItemProps> = ({ isLoading }) => {
         )}
       </Table.Item>
       <Table.ItemArrow isLoading={isLoading} />
-      <Link href={"/"} className={styles.link} />
+      <th className={styles.link}>
+        <Link href={"/"} className={styles.link} />
+      </th>
     </Table.Row>
   );
 };

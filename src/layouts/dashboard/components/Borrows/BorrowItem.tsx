@@ -29,7 +29,9 @@ export const BorrowItem: React.FC<BorrowItemProps> = ({ isLoading }) => {
         isLoading={isLoading}
       />
       <Table.ItemArrow isLoading={isLoading} />
-      <Link href={"/"} className={styles.link} />
+      <th className={styles.link}>
+        <Link href={"/"} className={styles.link} />
+      </th>
     </Table.Row>
   );
 };

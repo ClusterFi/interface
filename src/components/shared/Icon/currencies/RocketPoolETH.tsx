@@ -281,7 +281,7 @@ export const RocketPoolETH = forwardRef<SVGSVGElement, Props>(
             gradientUnits="userSpaceOnUse"
           >
             <stop stopColor="#FFE090" />
-            <stop offset="1" stopColor="#FFE090" stop-opacity="0" />
+            <stop offset="1" stopColor="#FFE090" stopOpacity="0" />
           </linearGradient>
           <linearGradient
             id="paint4_linear_307_11129"
@@ -292,7 +292,7 @@ export const RocketPoolETH = forwardRef<SVGSVGElement, Props>(
             gradientUnits="userSpaceOnUse"
           >
             <stop stopColor="#DF3600" />
-            <stop offset="1" stopColor="#DF3600" stop-opacity="0" />
+            <stop offset="1" stopColor="#DF3600" stopOpacity="0" />
           </linearGradient>
           <linearGradient
             id="paint5_linear_307_11129"
@@ -303,7 +303,7 @@ export const RocketPoolETH = forwardRef<SVGSVGElement, Props>(
             gradientUnits="userSpaceOnUse"
           >
             <stop stopColor="#DF3600" />
-            <stop offset="1" stopColor="#DF3600" stop-opacity="0" />
+            <stop offset="1" stopColor="#DF3600" stopOpacity="0" />
           </linearGradient>
           <linearGradient
             id="paint6_linear_307_11129"
@@ -314,7 +314,7 @@ export const RocketPoolETH = forwardRef<SVGSVGElement, Props>(
             gradientUnits="userSpaceOnUse"
           >
             <stop stopColor="#DF3600" />
-            <stop offset="1" stopColor="#DF3600" stop-opacity="0" />
+            <stop offset="1" stopColor="#DF3600" stopOpacity="0" />
           </linearGradient>
           <clipPath id="clip0_307_11129">
             <rect

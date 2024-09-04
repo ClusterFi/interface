@@ -48,7 +48,7 @@ export const JITOStakedSOL = forwardRef<SVGSVGElement, Props>(
         <path
           d="M24.1051 14C24.1051 19.581 19.5808 24.1053 13.9999 24.1053C8.41881 24.1053 3.89453 19.581 3.89453 14C3.89453 8.41903 8.41881 3.89478 13.9999 3.89478C19.5808 3.89478 24.1051 8.41903 24.1051 14"
           stroke="white"
-          stroke-width="0.545455"
+          strokeWidth="0.545455"
         />
         <g clipPath="url(#clip0_307_11136)">
           <path

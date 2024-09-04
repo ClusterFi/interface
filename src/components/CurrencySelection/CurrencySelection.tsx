@@ -139,7 +139,7 @@ export const CurrencySelection: React.FC<CurrencySelectionProps> = ({
                 <button
                   className={cx(styles.item, isActive && styles.isActive)}
                   onClick={() => onCurrencySelect(currency)}
-                  key={currency.name}
+                  key={currency.id}
                 >
                   <CurrencyIcon
                     width={33}

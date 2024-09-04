@@ -47,7 +47,9 @@ export const MarketItem: React.FC<MarketItemProps> = ({ isLoading }) => {
         )}
       </Table.Item>
       <Table.ItemArrow isLoading={isLoading} />
-      <Link href={"/"} className={styles.link} />
+      <th className={styles.link}>
+        <Link href={"/"} className={styles.link} />
+      </th>
     </Table.Row>
   );
 };
