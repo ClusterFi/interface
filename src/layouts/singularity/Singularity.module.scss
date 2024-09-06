@@ -1,0 +1,116 @@
+@import "@/styles/utils";
+@import "@/styles/variables";
+
+.base {
+  padding: 80px 0;
+}
+
+.title {
+  margin: 80px 0 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+.more {
+  padding: 0 12px 0 16px;
+  gap: 4px;
+
+  p {
+    margin: 0;
+  }
+}
+
+.epochs {
+  padding: 0 12px 0 16px;
+  gap: 8px;
+  position: relative;
+  z-index: 11;
+
+  &.skeleton {
+    width: 188px;
+    height: 35px;
+    border-radius: 64px;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  span {
+    color: $text-white;
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: calc(100% - 400px - 20px) 400px;
+  gap: 20px;
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 0 24px;
+  gap: 24px;
+}
+
+.tab {
+  color: $text-secondary;
+  text-transform: capitalize;
+  transition: color 0.2s;
+
+  @include hover {
+    color: $text-white;
+  }
+
+  &.active {
+    color: $text-white;
+  }
+}
+
+.box {
+  padding: 24px 24px 12px;
+}
+
+.epoch {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 4px);
+  z-index: 10;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  opacity: 0;
+
+  &:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    height: 30px;
+  }
+}
+
+.epochWrapper {
+  position: relative;
+
+  @include hover {
+    .epoch {
+      opacity: 1;
+      pointer-events: all;
+    }
+  }
+
+  &:focus-within {
+    .epoch {
+      opacity: 1;
+      pointer-events: all;
+    }
+  }
+}

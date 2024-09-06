@@ -1,6 +1,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { Skeleton, Table, Text } from "@/components";
+import { formatCoin, formatUSD } from "@/helpers";
 
 import styles from "./Market.module.scss";
 
@@ -12,19 +13,19 @@ export const MarketItem: React.FC<MarketItemProps> = ({ isLoading }) => {
   return (
     <Table.Row className={styles.row}>
       <Table.ItemAsset
-        icon={"Ethereum"}
+        currency={"Ethereum"}
         primaryText={"Ethereum"}
         secondaryText={"ETH"}
         isLoading={isLoading}
       />
       <Table.ItemAmount
-        primaryValue={"1,540.05"}
-        secondaryValue={"$1,539.90"}
+        primaryValue={formatCoin(1.05)}
+        secondaryValue={"$" + formatUSD(1539.9)}
         isLoading={isLoading}
       />
       <Table.ItemAmount
-        primaryValue={"1,540.05"}
-        secondaryValue={"$1,539.90"}
+        primaryValue={formatCoin(1.05)}
+        secondaryValue={"$" + formatUSD(1539.9)}
         isLoading={isLoading}
       />
       <Table.Item>
@@ -46,7 +47,9 @@ export const MarketItem: React.FC<MarketItemProps> = ({ isLoading }) => {
         )}
       </Table.Item>
       <Table.ItemArrow isLoading={isLoading} />
-      <Link href={"/"} className={styles.link} />
+      <th className={styles.link}>
+        <Link href={"/"} className={styles.link} />
+      </th>
     </Table.Row>
   );
 };

@@ -11,11 +11,13 @@ import {
   Icon,
   ConnectWalletButton,
   NetworkSelection,
+  CurrencyIcon,
 } from "@/components";
 
 import styles from "./Header.module.scss";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { formatCoin } from "@/helpers";
 
 type HeaderProps = {
   className?: string;
@@ -83,8 +85,8 @@ const Header = ({ className }: HeaderProps) => {
                 variant={"gradient-dark"}
               >
                 <Text size={12} theme={500}>
-                  <Icon glyph={"Cluster"} width={30} height={30} />
-                  134.34780
+                  <CurrencyIcon currency={"Cluster"} width={30} height={30} />
+                  {formatCoin(134.3478)}
                 </Text>
               </Button>
               <Button

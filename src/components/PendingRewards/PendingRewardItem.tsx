@@ -3,6 +3,7 @@ import cx from "classnames";
 import { Button, Skeleton, Table, Text } from "@/components";
 
 import styles from "./PendingRewards.module.scss";
+import { formatCoin, formatUSD } from "@/helpers";
 
 type PendingRewardItemProps = {
   isLoading: boolean;
@@ -14,7 +15,7 @@ export const PendingRewardItem: React.FC<PendingRewardItemProps> = ({
   return (
     <Table.Row className={styles.row}>
       <Table.ItemAsset
-        icon={"Ethereum"}
+        currency={"Ethereum"}
         primaryText={"Ethereum"}
         secondaryText={"ETH"}
         isLoading={isLoading}
@@ -22,7 +23,7 @@ export const PendingRewardItem: React.FC<PendingRewardItemProps> = ({
       <Table.Item>
         {!isLoading ? (
           <Text size={16} theme={500} className={styles.text}>
-            0.345 ETH
+            {formatCoin(0.345)} ETH
           </Text>
         ) : (
           <Skeleton className={cx(styles.skeleton, styles.text)} />
@@ -31,7 +32,7 @@ export const PendingRewardItem: React.FC<PendingRewardItemProps> = ({
       <Table.Item>
         {!isLoading ? (
           <Text size={16} theme={500} className={styles.text}>
-            1,140.643
+            {formatUSD(1140.64)}
           </Text>
         ) : (
           <Skeleton className={cx(styles.skeleton, styles.text)} />

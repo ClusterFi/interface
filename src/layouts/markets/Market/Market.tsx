@@ -1,20 +1,32 @@
 import * as React from "react";
 
-import { Glyph, Heading, Section, Table, Icon } from "@/components";
+import {
+  Glyph,
+  Heading,
+  Section,
+  Table,
+  Icon,
+  Currency,
+  CurrencyIcon,
+} from "@/components";
 import { MarketItem } from "./MarketItem";
 import styles from "./Market.module.scss";
 
 type MarketProps = {
-  icon: Glyph;
+  currency: Currency;
   name: string;
   isLoading: boolean;
 };
 
-export const Market: React.FC<MarketProps> = ({ icon, name, isLoading }) => {
+export const Market: React.FC<MarketProps> = ({
+  currency,
+  name,
+  isLoading,
+}) => {
   return (
     <Section className={styles.base}>
       <Heading element="h4" as={"h2"} className={styles.title}>
-        <Icon glyph={icon} width={20} height={20} />
+        <CurrencyIcon currency={currency} width={20} height={20} />
         {name}
       </Heading>
       <Table className={styles.table}>

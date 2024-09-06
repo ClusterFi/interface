@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Table, Switcher, Skeleton } from "@/components";
 
 import styles from "./Deposits.module.scss";
+import { formatCoin, formatUSD } from "@/helpers";
 
 type DepositItemProps = {
   isLoading: boolean;
@@ -14,13 +15,13 @@ export const DepositItem: React.FC<DepositItemProps> = ({ isLoading }) => {
   return (
     <Table.Row className={styles.row}>
       <Table.ItemAsset
-        icon={"Ethereum"}
+        currency={"Ethereum"}
         primaryText={"ETH"}
         isLoading={isLoading}
       />
       <Table.ItemAmount
-        primaryValue={"0.159"}
-        secondaryValue={"$303.00"}
+        primaryValue={formatCoin(0.159)}
+        secondaryValue={"$" + formatUSD(303.0)}
         isLoading={isLoading}
       />
       <Table.ItemAmount
@@ -41,7 +42,9 @@ export const DepositItem: React.FC<DepositItemProps> = ({ isLoading }) => {
         )}
       </Table.Item>
       <Table.ItemArrow isLoading={isLoading} />
-      <Link href={"/"} className={styles.link} />
+      <th className={styles.link}>
+        <Link href={"/"} className={styles.link} />
+      </th>
     </Table.Row>
   );
 };

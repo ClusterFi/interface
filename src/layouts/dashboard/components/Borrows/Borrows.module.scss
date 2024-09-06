@@ -30,27 +30,27 @@
 }
 
 .body .row {
-    position: relative;
-    transform: translate(0);
-    clip-path: inset(0);
+  position: relative;
+  transform: translate(0);
+  clip-path: inset(0);
 
+  td {
+    transition: background 0.2s;
+
+    &:nth-of-type(1) {
+      border-radius: 14px 0 0 14px;
+    }
+
+    &:nth-last-of-type(1) {
+      border-radius: 0 14px 14px 0;
+    }
+  }
+
+  @include hover {
     td {
-        transition: background 0.2s;
-
-        &:nth-of-type(1) {
-            border-radius: 14px 0 0 14px;
-        }
-
-        &:nth-last-of-type(1) {
-            border-radius: 0 14px 14px 0;
-        }
+      background: rgba(61, 55, 79, 0.18);
     }
-
-    @include hover {
-        td {
-            background: rgba(61, 55, 79, 0.18);
-        }
-    }
+  }
 }
 
 .link {

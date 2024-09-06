@@ -1,0 +1,64 @@
+@import "@/styles/utils";
+@import "@/styles/variables";
+
+.base {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.info {
+  margin: 0 -16px 16px;
+  padding: 0 16px 16px;
+  border-bottom: 1px solid $stroke-secondary;
+  width: 385px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px 40px;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  p {
+    margin: 0;
+    color: $text-secondary;
+  }
+
+  h3 {
+    color: $text-white;
+    margin: 0;
+  }
+}
+
+.text {
+  margin: 0 0 16px;
+  color: $text-secondary;
+  line-height: 140%;
+}
+
+.note {
+  color: $text-white;
+  line-height: 140%;
+  margin: 0 0 24px;
+}
+
+.link {
+  display: flex;
+  width: min-content;
+  white-space: nowrap;
+  align-items: center;
+  gap: 4px;
+  color: $ui-purpure;
+  text-decoration: none;
+
+  @include hover {
+    text-decoration: underline;
+  }
+
+  p {
+    margin: 0;
+  }
+}

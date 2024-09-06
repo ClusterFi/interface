@@ -2,7 +2,15 @@ import * as React from "react";
 import cx from "classnames";
 
 import styles from "./Table.module.scss";
-import { Button, Glyph, Icon, Skeleton, Text } from "@/components";
+import {
+  Button,
+  Currency,
+  CurrencyIcon,
+  Glyph,
+  Icon,
+  Skeleton,
+  Text,
+} from "@/components";
 
 export type TableProps = {} & React.HTMLAttributes<HTMLElement>;
 
@@ -153,7 +161,8 @@ const ItemArrow: React.FC<ItemArrowProps> = ({
 };
 
 type ItemAssetProps = {
-  icon: Glyph;
+  currency: Currency | [Currency, Currency];
+  variant?: "default" | "small";
   primaryText: string;
   secondaryText?: string;
   isLoading: boolean;
@@ -162,16 +171,19 @@ type ItemAssetProps = {
 const ItemAsset: React.FC<ItemAssetProps> = ({
   children,
   className,
-  icon,
+  variant = "default",
+  currency,
   primaryText,
   secondaryText,
   isLoading,
   ...rest
 }) => {
+  const isMulti = Array.isArray(currency);
+
   if (isLoading) {
     return (
-      <Item {...rest}>
-        <div className={styles.asset}>
+      <Item className={cx(styles[variant], className)} {...rest}>
+        <div className={cx(styles.asset)}>
           <Skeleton className={styles.skeleton} />
           <Skeleton className={styles.skeleton} />
         </div>
@@ -180,9 +192,17 @@ const ItemAsset: React.FC<ItemAssetProps> = ({
   }
 
   return (
-    <Item {...rest}>
-      <div className={styles.asset}>
-        <Icon glyph={icon} width={40} height={40} />
+    <Item className={cx(styles[variant], className)} {...rest}>
+      <div className={cx(styles.asset, isMulti && styles.multi)}>
+        {isMulti ? (
+          <div className={styles.currencies}>
+            {currency.map((item) => (
+              <CurrencyIcon key={item} currency={item} width={40} height={40} />
+            ))}
+          </div>
+        ) : (
+          <CurrencyIcon currency={currency} width={40} height={40} />
+        )}
         <div className={styles.assetContent}>
           <Text size={16} theme={500}>
             {primaryText}
