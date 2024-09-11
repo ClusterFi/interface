@@ -176,13 +176,13 @@
   gap: 24px;
   padding: 44px 0;
 
-  @include breakpoint-max('tablet') {
+  @include breakpoint-max("tablet") {
     gap: 16px;
     padding: 24px 0;
 
     > svg {
-        width: 48px;
-        height: 48px;
+      width: 48px;
+      height: 48px;
     }
   }
 }
@@ -190,7 +190,7 @@
 .loading .loadingText {
   margin: 0;
 
-  @include breakpoint-max('tablet') {
+  @include breakpoint-max("tablet") {
     font-size: toRem(18px);
   }
 }
@@ -203,7 +203,7 @@
   gap: 24px;
   padding: 8px 0;
 
-  @include breakpoint-max('tablet') {
+  @include breakpoint-max("tablet") {
     min-height: 294px;
   }
 }
@@ -211,7 +211,7 @@
 .errorIcon {
   margin: 85px 0 0;
 
-  @include breakpoint-max('tablet') {
+  @include breakpoint-max("tablet") {
     margin: 79px 0 0;
     width: 48px;
     height: 48px;
@@ -223,7 +223,7 @@
   color: $text-white;
   margin: 0;
 
-  @include breakpoint-max('tablet') {
+  @include breakpoint-max("tablet") {
     font-size: toRem(18px);
   }
 }
@@ -241,9 +241,9 @@
   align-items: center;
 
   > svg {
-    @include breakpoint-max('tablet') {
-        width: 48px;
-        height: 48px;
+    @include breakpoint-max("tablet") {
+      width: 48px;
+      height: 48px;
     }
   }
 }
@@ -266,7 +266,7 @@
   color: $text-white;
   text-align: center;
 
-  @include breakpoint-max('tablet') {
+  @include breakpoint-max("tablet") {
     margin: 16px 0 0;
     font-size: toRem(18px);
   }
@@ -279,7 +279,7 @@
   color: $text-white;
   margin: 0;
 
-  @include breakpoint-max('tablet') {
+  @include breakpoint-max("tablet") {
     font-size: toRem(14px);
   }
 

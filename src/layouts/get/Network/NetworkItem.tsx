@@ -20,7 +20,7 @@ export const NetworkItem: React.FC<NetworkItemProps> = ({ isLoading }) => {
         secondaryText={"ETH"}
         isLoading={isLoading}
       />
-      <Table.Item mobileTitle={'My Balance'}>
+      <Table.Item mobileTitle={"My Balance"}>
         {isLoading ? (
           <Skeleton className={styles.skeleton} />
         ) : (
@@ -29,7 +29,7 @@ export const NetworkItem: React.FC<NetworkItemProps> = ({ isLoading }) => {
           </Text>
         )}
       </Table.Item>
-      <Table.Item mobileTitle={'Total Supply, $'}>
+      <Table.Item mobileTitle={"Total Supply, $"}>
         {isLoading ? (
           <Skeleton className={styles.skeleton} />
         ) : (
@@ -38,7 +38,7 @@ export const NetworkItem: React.FC<NetworkItemProps> = ({ isLoading }) => {
           </Text>
         )}
       </Table.Item>
-      <Table.Item mobileTitle={'Price, $'}>
+      <Table.Item mobileTitle={"Price, $"}>
         {isLoading ? (
           <Skeleton className={styles.skeleton} />
         ) : (
