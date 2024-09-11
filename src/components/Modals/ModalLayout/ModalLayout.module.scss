@@ -1,0 +1,143 @@
+@import "@/styles/utils";
+@import "@/styles/variables";
+
+.overlay,
+.backdrop {
+  position: fixed;
+  appearance: none;
+  -webkit-appearance: none;
+  z-index: 1201;
+  border: none;
+  inset: 0;
+  background: rgba(15, 14, 17, 0.8);
+  backdrop-filter: blur(0.5px);
+  -webkit-backdrop-filter: blur(0.5px);
+}
+
+.overlay {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: overlayShow 300ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  @keyframes overlayShow {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+.content {
+  position: fixed;
+  z-index: 1202;
+  inset: 0;
+  display: flex;
+  overflow: hidden auto;
+  pointer-events: none !important;
+  padding: 15vh 0;
+  max-width: 100%;
+
+  @include breakpoint-max("tablet") {
+    padding: 5vh 0;
+  }
+
+  > * {
+    pointer-events: all;
+  }
+}
+
+.modal {
+  margin: auto;
+  width: 400px;
+  max-width: 100%;
+  position: relative;
+
+  @include breakpoint-max("tablet") {
+    max-width: calc(100% - 40px);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    animation: contentShow 300ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes contentShow {
+    from {
+      opacity: 0;
+      transform: translate(0, -5%) scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: translate(0, 0) scale(1);
+    }
+  }
+}
+
+.swipeable {
+  max-width: 100%;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  .modal {
+    position: absolute;
+    inset: 0;
+    overflow: hidden auto;
+    border-radius: 32px 32px 0 0;
+
+    @include breakpoint-max("tablet") {
+      width: 400px;
+      max-width: 100%;
+    }
+  }
+}
+
+.handler {
+  width: 32px;
+  height: 4px;
+  position: absolute;
+  z-index: 10;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: $text-inactive;
+  border-radius: 40px;
+}
+
+.close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  z-index: 5;
+  color: $text-white;
+  transition: color 0.2s;
+
+  @include breakpoint-max("tablet") {
+    top: 16px;
+    right: 16px;
+  }
+
+  @include hover {
+    color: $ui-purpure;
+  }
+}
+
+.title {
+  margin: 0;
+  font-size: toRem(24px);
+  font-weight: 600;
+  padding: 19px 24px;
+  border-bottom: 1px solid $stroke-grey;
+  color: $text-white;
+
+  @include breakpoint-max("tablet") {
+    padding: 16px;
+    font-size: toRem(18px);
+  }
+}

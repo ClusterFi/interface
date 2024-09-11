@@ -13,7 +13,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { useOnClickOutside } from "usehooks-ts";
 import styles from "./CurrencySelection.module.scss";
-import { formatCoin } from "@/helpers";
+import { formatCoin } from "@/utils";
 
 type TCurrency = {
   name: string;

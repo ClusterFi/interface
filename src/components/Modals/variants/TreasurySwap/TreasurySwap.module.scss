@@ -1,0 +1,108 @@
+@import "@/styles/utils";
+@import "@/styles/variables";
+
+.modal {
+  width: 420px;
+  min-height: 390px;
+}
+
+.content {
+  padding: 24px;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+
+  @include breakpoint-max("tablet") {
+    padding: 16px;
+  }
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 10px;
+}
+
+.token,
+.balance {
+  margin: 0;
+}
+
+.token {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  svg {
+    flex-shrink: 0;
+
+    &:nth-of-type(2) {
+      transform: translateY(-2px);
+    }
+  }
+}
+
+.balance {
+  color: $text-secondary;
+
+  span {
+    color: $text-white;
+  }
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: space-between;
+  color: $text-secondary;
+  margin: 0 0 16px;
+
+  &:last-of-type {
+    margin-bottom: 24px;
+  }
+}
+
+.row span {
+  color: $text-white;
+}
+
+.submit {
+  width: 100%;
+  margin: auto 0 0;
+}
+
+.input {
+  margin: 0 0 24px;
+}
+
+.text {
+  margin: 0 0 24px;
+  color: $text-secondary;
+  line-height: 130%;
+}
+
+.list {
+  padding: 0;
+  margin: 0 0 32px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px 40px;
+}
+
+.item {
+  list-style: none;
+  margin: 0;
+}
+
+.title {
+  margin: 0 0 12px;
+  color: $text-secondary;
+}
+
+.info {
+  color: $text-white;
+  margin: 0;
+}

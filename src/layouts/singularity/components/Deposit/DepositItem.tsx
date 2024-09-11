@@ -3,12 +3,15 @@ import cx from "classnames";
 import { Button, Skeleton, Table, Text } from "@/components";
 
 import styles from "./Deposit.module.scss";
+import { useModalsStore } from "@/utils/stores";
 
 type DepositItemProps = {
   isLoading: boolean;
 };
 
 export const DepositItem: React.FC<DepositItemProps> = ({ isLoading }) => {
+  const { openModal } = useModalsStore();
+
   return (
     <Table.Row className={styles.row}>
       <Table.ItemAsset
@@ -22,7 +25,7 @@ export const DepositItem: React.FC<DepositItemProps> = ({ isLoading }) => {
         primaryText={"Ethereum"}
         isLoading={isLoading}
       />
-      <Table.Item>
+      <Table.Item mobileTitle={"TVL"}>
         {isLoading ? (
           <Skeleton className={styles.skeleton} />
         ) : (
@@ -31,7 +34,7 @@ export const DepositItem: React.FC<DepositItemProps> = ({ isLoading }) => {
           </Text>
         )}
       </Table.Item>
-      <Table.Item>
+      <Table.Item mobileTitle={"Earn"}>
         {isLoading ? (
           <Skeleton className={styles.skeleton} />
         ) : (
@@ -40,7 +43,7 @@ export const DepositItem: React.FC<DepositItemProps> = ({ isLoading }) => {
           </Text>
         )}
       </Table.Item>
-      <Table.Item>
+      <Table.Item mobileTitle={"APR"}>
         {isLoading ? (
           <Skeleton className={styles.skeleton} />
         ) : (
@@ -53,7 +56,16 @@ export const DepositItem: React.FC<DepositItemProps> = ({ isLoading }) => {
         {isLoading ? (
           <Skeleton className={cx(styles.button, styles.skeleton)} />
         ) : (
-          <Button className={styles.button} variant={"stroke"} size={"small"}>
+          <Button
+            onClick={() =>
+              openModal("StakingDeposit", {
+                token: "CLR-LP",
+              })
+            }
+            className={styles.button}
+            variant={"stroke"}
+            size={"small"}
+          >
             <Text size={12} theme={600}>
               Deposit
             </Text>

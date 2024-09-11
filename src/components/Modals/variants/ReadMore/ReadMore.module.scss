@@ -1,0 +1,44 @@
+@import "@/styles/utils";
+@import "@/styles/variables";
+
+.list {
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  gap: 50px;
+
+  @include breakpoint-max("tablet") {
+    padding: 32px 16px;
+  }
+}
+
+.text {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  line-height: 140%;
+  color: $text-white;
+  position: relative;
+
+  &:not(:last-child):after {
+    content: "";
+    width: 23px;
+    height: 30px;
+    position: absolute;
+    left: 50%;
+    top: calc(100% + 12px);
+    transform: translateX(-50%);
+    background: url("data:image/svg+xml,%3Csvg width='23' height='30' viewBox='0 0 23 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='11.5' cy='1.5' r='1.5' fill='%235C566B'/%3E%3Ccircle cx='11.5' cy='8.5' r='1.5' fill='%235C566B'/%3E%3Cpath d='M5.64258 16.3039L11.4991 22.1603L17.3555 16.3039' stroke='%235C566B' stroke-width='1.46412' stroke-linecap='round'/%3E%3C/svg%3E%0A")
+      center / cover no-repeat;
+  }
+}
+
+.count {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  font-size: toRem(16px);
+}

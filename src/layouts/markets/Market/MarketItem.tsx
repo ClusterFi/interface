@@ -1,7 +1,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { Skeleton, Table, Text } from "@/components";
-import { formatCoin, formatUSD } from "@/helpers";
+import { formatCoin, formatUSD } from "@/utils";
 
 import styles from "./Market.module.scss";
 
@@ -22,13 +22,15 @@ export const MarketItem: React.FC<MarketItemProps> = ({ isLoading }) => {
         primaryValue={formatCoin(1.05)}
         secondaryValue={"$" + formatUSD(1539.9)}
         isLoading={isLoading}
+        mobileTitle={"My Balance"}
       />
       <Table.ItemAmount
         primaryValue={formatCoin(1.05)}
         secondaryValue={"$" + formatUSD(1539.9)}
         isLoading={isLoading}
+        mobileTitle={"Total Supply, $"}
       />
-      <Table.Item>
+      <Table.Item mobileTitle={"Price, $"}>
         {isLoading ? (
           <Skeleton className={styles.skeleton} />
         ) : (
@@ -37,7 +39,7 @@ export const MarketItem: React.FC<MarketItemProps> = ({ isLoading }) => {
           </Text>
         )}
       </Table.Item>
-      <Table.Item>
+      <Table.Item mobileTitle={"Borrow APY"}>
         {isLoading ? (
           <Skeleton className={styles.skeleton} />
         ) : (
@@ -48,7 +50,7 @@ export const MarketItem: React.FC<MarketItemProps> = ({ isLoading }) => {
       </Table.Item>
       <Table.ItemArrow isLoading={isLoading} />
       <th className={styles.link}>
-        <Link href={"/"} className={styles.link} />
+        <Link href={"/single-market"} className={styles.link} />
       </th>
     </Table.Row>
   );

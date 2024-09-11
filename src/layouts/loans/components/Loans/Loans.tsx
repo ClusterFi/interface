@@ -11,7 +11,7 @@ import {
   CustomInput,
 } from "@/components";
 import styles from "./Loans.module.scss";
-import { formatCoin, formatUSD } from "@/helpers";
+import { formatCoin, formatUSD } from "@/utils";
 
 export const Loans: React.FC = () => {
   const [value, setValue] = React.useState("");

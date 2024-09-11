@@ -1,0 +1,144 @@
+@import "@/styles/utils";
+@import "@/styles/variables";
+
+.base {
+  padding: 36px 0 80px;
+
+  @include breakpoint-max("xga") {
+    padding: 32px 0 60px;
+  }
+
+  @include breakpoint-max("tablet") {
+    padding-top: 16px;
+  }
+}
+
+.container {
+  min-height: calc(100vh - 36px - 24px - 72px);
+  display: flex;
+  flex-direction: column;
+
+  @include breakpoint-max("tablet") {
+    min-height: unset;
+  }
+}
+
+.back {
+  color: $text-secondary;
+  text-decoration: none;
+  transition: color 0.2s;
+
+  @include hover {
+    color: $text-white;
+  }
+
+  svg {
+    flex-shrink: 0;
+    transform: scale(-1, 1);
+  }
+
+  p {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+}
+
+.grid {
+  display: flex;
+  gap: 20px;
+  align-content: flex-start;
+  flex-grow: 1;
+
+  @include breakpoint-max("tablet") {
+    flex-direction: column;
+  }
+}
+
+.row {
+  display: grid;
+  align-items: flex-start;
+  grid-template-columns: 286px 1fr;
+  gap: 16px;
+  margin: 20px 0 30px;
+
+  @include breakpoint-max("tablet") {
+    grid-template-columns: 100%;
+    gap: 16px;
+    margin: 24px 0 32px;
+  }
+}
+
+.box {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 16px 24px;
+
+  @include breakpoint-max("tablet") {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr) auto;
+    padding: 16px;
+  }
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 100%;
+  gap: 11px;
+  min-width: 80px;
+
+  @include breakpoint-max("tablet") {
+    min-width: unset;
+  }
+
+  > * {
+    margin: 0;
+  }
+
+  > h3 {
+    @include breakpoint-max("tablet") {
+      font-size: toRem(18px);
+    }
+  }
+
+  p {
+    color: $text-secondary;
+  }
+}
+
+.skeleton {
+  height: 24px;
+  width: 80px;
+  border-radius: 6px;
+}
+
+.section {
+  width: calc(50% - 10px);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+
+  @include breakpoint-max("tablet") {
+    width: 100%;
+    padding: 20px 16px;
+    min-height: 375px;
+  }
+
+  > * {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.tabs {
+  margin: 0 0 24px;
+
+  @include breakpoint-max("tablet") {
+    margin: -4px 0 24px;
+  }
+}

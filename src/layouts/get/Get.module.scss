@@ -3,10 +3,19 @@
 
 .base {
   padding: 80px 0;
+
+  @include breakpoint-max("xga") {
+    padding: 32px 0 60px;
+  }
 }
 
-.title {
+.base .title {
   margin: 0 0 32px;
+
+  @include breakpoint-max('tablet') {
+    margin-bottom: 24px;
+    font-size: toRem(24px);
+  }
 }
 
 .grid {

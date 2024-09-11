@@ -3,10 +3,19 @@
 
 .base {
   padding: 24px;
+
+  @include breakpoint-max("tablet") {
+    padding: 20px 16px;
+  }
 }
 
-.title {
+.base .title {
   margin: 0 0 24px;
+
+  @include breakpoint-max("tablet") {
+    margin-bottom: 16px;
+    font-size: toRem(18px);
+  }
 }
 
 .box {
@@ -21,6 +30,10 @@
   align-items: center;
   gap: 16px;
   text-align: center;
+
+  @include breakpoint-max("tablet") {
+    padding: 40px 16px;
+  }
 }
 
 .text {
@@ -42,12 +55,22 @@
   color: $text-white;
   padding: 0 16px;
 
+  @include breakpoint-max("tablet") {
+    padding: 0 11px;
+  }
+
   p {
     display: flex;
     align-items: center;
     gap: 10px;
     margin: 0;
     height: 38px;
+
+    @include breakpoint-max("tablet") {
+      font-size: toRem(11px);
+      gap: 6px;
+      height: 32px;
+    }
   }
 
   svg {

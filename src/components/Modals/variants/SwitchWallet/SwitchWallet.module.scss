@@ -1,0 +1,25 @@
+@import "@/styles/utils";
+@import "@/styles/variables";
+
+.content {
+  padding: 32px 24px;
+  text-align: center;
+
+  @include breakpoint-max("tablet") {
+    padding-top: 36px;
+  }
+}
+
+.icon {
+  margin: 0 0 16px;
+}
+
+.text {
+  margin: 0 0 20px;
+  color: $text-secondary;
+  line-height: 140%;
+}
+
+.button {
+  width: 180px;
+}

@@ -3,3 +3,4 @@ export * from "./markets/Markets";
 export * from "./loans/Loans";
 export * from "./singularity/Singularity";
 export * from "./get/Get";
+export * from "./single-market/SingleMarket";
