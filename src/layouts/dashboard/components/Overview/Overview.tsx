@@ -69,24 +69,14 @@ export const Overview: React.FC<OverviewProps> = ({ state }) => {
             </Heading>
           </div>
           <div className={styles.box}>
-            <Text
-              size={12}
-              theme={500}
-              className={cx(styles.subtitle)}
-            >
-              {isLoading ? (
-                <Skeleton className={styles.skeleton} />
-              ) : (
-                "Markets"
-              )}
+            <Text size={12} theme={500} className={cx(styles.subtitle)}>
+              {isLoading ? <Skeleton className={styles.skeleton} /> : "Markets"}
             </Text>
             <Heading className={styles.infoText} element="h3" as="div">
               {isLoading ? (
                 <Skeleton className={styles.skeleton} />
               ) : (
-                <React.Fragment>
-                  5
-                </React.Fragment>
+                <React.Fragment>5</React.Fragment>
               )}
             </Heading>
           </div>
