@@ -44,9 +44,9 @@ const CustomInput = React.forwardRef<
           </Button>
         )}
       </label>
-      {actions?.length !== 0 && (
+      {actions && actions?.length !== 0 && (
         <div className={styles.actions}>
-          {actions!.map((action, index) => (
+          {actions.map((action, index) => (
             <Button
               className={styles.action}
               key={index}

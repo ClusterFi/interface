@@ -17,6 +17,7 @@ import {
 import { TreasurySwap, Withdraw, Deposit, Epoch } from "./components";
 
 import styles from "./Singularity.module.scss";
+import { useModalsStore } from "@/utils/stores";
 
 const tabs = {
   deposit: "deposit",
@@ -27,10 +28,28 @@ type Tabs = keyof typeof tabs;
 
 export const SingularityPage: React.FC = () => {
   const [activeTab, setActiveTab] = React.useState<Tabs>(tabs.deposit);
+  const { openModal } = useModalsStore();
   const controls = useControls({
-    ["Is Loading?"]: false,
+    ["singularity-loading"]: {
+      value: false,
+      label: "Is loading?",
+    },
   });
-  const isLoading = controls["Is Loading?"] === true;
+
+  const onClickReadMore = () =>
+    openModal("ReadMore", {
+      title: "Staking read more",
+      content: [
+        `Singularity - Deposit collateral from the list.`,
+        <>
+          {`Pick what chain you want to take`}
+          <br />
+          {`out the loan on.`}
+        </>,
+        `Input the wallet address that will be granted the right to take the loan on said chain.`,
+        `That's it!  Simply connect to our app using the specified wallet and be able to borrow any supported asset.`,
+      ],
+    });
 
   return (
     <section className={styles.base}>
@@ -41,6 +60,7 @@ export const SingularityPage: React.FC = () => {
             className={styles.more}
             size={"small"}
             variant={"gradient-light"}
+            onClick={onClickReadMore}
           >
             <Text size={12} theme={600}>
               Read more
@@ -68,9 +88,13 @@ export const SingularityPage: React.FC = () => {
             {(() => {
               switch (activeTab) {
                 case tabs.deposit:
-                  return <Deposit isLoading={isLoading} />;
+                  return (
+                    <Deposit isLoading={controls["singularity-loading"]} />
+                  );
                 case tabs.withdraw:
-                  return <Withdraw isLoading={isLoading} />;
+                  return (
+                    <Withdraw isLoading={controls["singularity-loading"]} />
+                  );
                 default:
                   return null;
               }
@@ -80,7 +104,7 @@ export const SingularityPage: React.FC = () => {
         </div>
         <Heading element="h2" as="h2" className={styles.title}>
           My Rewards
-          {isLoading ? (
+          {controls["singularity-loading"] ? (
             <Skeleton className={cx(styles.epochs, styles.skeleton)} />
           ) : (
             <div className={styles.epochWrapper}>
@@ -98,7 +122,9 @@ export const SingularityPage: React.FC = () => {
             </div>
           )}
         </Heading>
-        <PendingRewards state={isLoading ? "loading" : "default"} />
+        <PendingRewards
+          state={controls["singularity-loading"] ? "loading" : "default"}
+        />
       </Container>
     </section>
   );

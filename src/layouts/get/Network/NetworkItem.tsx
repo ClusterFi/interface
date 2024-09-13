@@ -1,6 +1,7 @@
 import * as React from "react";
 import cx from "classnames";
 import { Skeleton, Table, Text, Button } from "@/components";
+import { useModalsStore } from "@/utils/stores";
 
 import styles from "./Network.module.scss";
 
@@ -9,6 +10,8 @@ type NetworkItemProps = {
 };
 
 export const NetworkItem: React.FC<NetworkItemProps> = ({ isLoading }) => {
+  const { openModal } = useModalsStore();
+
   return (
     <Table.Row className={styles.row}>
       <Table.ItemAsset
@@ -17,7 +20,7 @@ export const NetworkItem: React.FC<NetworkItemProps> = ({ isLoading }) => {
         secondaryText={"ETH"}
         isLoading={isLoading}
       />
-      <Table.Item>
+      <Table.Item mobileTitle={"My Balance"}>
         {isLoading ? (
           <Skeleton className={styles.skeleton} />
         ) : (
@@ -26,7 +29,7 @@ export const NetworkItem: React.FC<NetworkItemProps> = ({ isLoading }) => {
           </Text>
         )}
       </Table.Item>
-      <Table.Item>
+      <Table.Item mobileTitle={"Total Supply, $"}>
         {isLoading ? (
           <Skeleton className={styles.skeleton} />
         ) : (
@@ -35,7 +38,7 @@ export const NetworkItem: React.FC<NetworkItemProps> = ({ isLoading }) => {
           </Text>
         )}
       </Table.Item>
-      <Table.Item>
+      <Table.Item mobileTitle={"Price, $"}>
         {isLoading ? (
           <Skeleton className={styles.skeleton} />
         ) : (
@@ -48,7 +51,12 @@ export const NetworkItem: React.FC<NetworkItemProps> = ({ isLoading }) => {
         {isLoading ? (
           <Skeleton className={cx(styles.button, styles.skeleton)} />
         ) : (
-          <Button className={styles.button} variant={"stroke"} size={"small"}>
+          <Button
+            onClick={() => openModal("GetLSDs", null)}
+            className={styles.button}
+            variant={"stroke"}
+            size={"small"}
+          >
             <Text size={12} theme={600}>
               Get
             </Text>

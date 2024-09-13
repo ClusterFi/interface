@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Table, Switcher, Skeleton } from "@/components";
 
 import styles from "./Deposits.module.scss";
-import { formatCoin, formatUSD } from "@/helpers";
+import { formatCoin, formatUSD } from "@/utils";
 
 type DepositItemProps = {
   isLoading: boolean;
@@ -23,14 +23,16 @@ export const DepositItem: React.FC<DepositItemProps> = ({ isLoading }) => {
         primaryValue={formatCoin(0.159)}
         secondaryValue={"$" + formatUSD(303.0)}
         isLoading={isLoading}
+        mobileTitle={"Deposits"}
       />
       <Table.ItemAmount
         primaryValue={"0.54%"}
         secondaryValue={"10.32%"}
         isReward
         isLoading={isLoading}
+        mobileTitle={"APY"}
       />
-      <Table.Item>
+      <Table.Item mobileTitle={"Collateral"}>
         {!isLoading ? (
           <Switcher
             className={styles.switcher}

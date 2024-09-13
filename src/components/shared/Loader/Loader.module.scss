@@ -1,0 +1,13 @@
+.base {
+  flex-shrink: 0;
+  animation: loading 0.7s linear infinite;
+}
+
+@keyframes loading {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

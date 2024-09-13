@@ -7,3 +7,6 @@ export * from "./ConnectWalletButton/ConnectWalletButton";
 export * from "./CurrencySelection/CurrencySelection";
 export * from "./CustomInput/CustomInput";
 export * from "./PendingRewards/PendingRewards";
+export * from "./Modals/Modals";
+export * from "./Balance/Balance";
+export * from "./ConnectedWallet/ConnectedWallet";

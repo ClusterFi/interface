@@ -4,6 +4,7 @@ import cx from "classnames";
 import { Section, Text, Heading, Button, Skeleton } from "@/components";
 import { ComponentState } from "@/layouts/dashboard/common";
 import { useResizeObserver } from "usehooks-ts";
+import { Chart } from "./Chart/Chart";
 
 import styles from "./Overview.module.scss";
 
@@ -125,17 +126,24 @@ export const Overview: React.FC<OverviewProps> = ({ state }) => {
           )}
         </div>
       </div>
-      <div className={styles.chart}>
-        {Array.from({ length: 5 }).map((_, index) => (
-          <Skeleton key={index} className={cx(styles.skeleton, styles.chart)} />
-        ))}
-        <div ref={chartRowRef} className={styles.chartRow}>
-          {width !== 0 &&
-            Array.from({ length: Math.round(width / 90) }).map((_, index) => (
-              <Skeleton key={index} className={styles.skeleton} />
-            ))}
+      {isLoading ? (
+        <div className={styles.chart}>
+          {Array.from({ length: 5 }).map((_, index) => (
+            <Skeleton
+              key={index}
+              className={cx(styles.skeleton, styles.chart)}
+            />
+          ))}
+          <div ref={chartRowRef} className={styles.chartRow}>
+            {width !== 0 &&
+              Array.from({ length: Math.round(width / 90) }).map((_, index) => (
+                <Skeleton key={index} className={styles.skeleton} />
+              ))}
+          </div>
         </div>
-      </div>
+      ) : (
+        <Chart />
+      )}
     </Section>
   );
 };

@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { Heading, Section, Text, Button, CurrencyIcon } from "@/components";
 import styles from "./Borrow.module.scss";
-import { formatCoin, formatUSD } from "@/helpers";
+import { formatCoin, formatUSD } from "@/utils";
 
 export const Borrow: React.FC = () => {
   return (
@@ -19,7 +19,7 @@ export const Borrow: React.FC = () => {
       </Text>
       <div className={styles.amount}>
         <div className={styles.value}>
-          <Heading element="h3" as="div" className={styles.coins}>
+          <Heading element="h2" as="div" className={styles.coins}>
             {formatCoin(1.213)}
           </Heading>
           <Text size={12} theme={400} className={styles.usd}>

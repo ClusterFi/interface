@@ -10,6 +10,11 @@
   padding: 0 34px 0 16px;
   justify-content: flex-start;
   min-width: 132px;
+
+  @include breakpoint-max("xga") {
+    padding: 0 28px 0 10px;
+    min-width: 120px;
+  }
 }
 
 .icon {
@@ -23,6 +28,10 @@
   transform: rotate(90deg);
   color: $text-secondary;
   transition: transform 0.2s;
+
+  @include breakpoint-max("xga") {
+    right: 8px;
+  }
 
   &.isInverted {
     transform: rotate(90deg) scale(-1, 1);

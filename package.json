@@ -10,16 +10,23 @@
     "format": "prettier --write \"**/*.{ts,tsx,md,scss}\""
   },
   "dependencies": {
+    "@radix-ui/react-dialog": "^1.1.1",
+    "@radix-ui/react-visually-hidden": "^1.1.0",
+    "chart.js": "^4.4.4",
     "classnames": "^2.5.1",
     "framer-motion": "^11.3.29",
     "leva": "^0.9.35",
     "next": "14.2.3",
     "normalize.css": "^8.0.1",
     "react": "^18",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18",
     "react-loading-skeleton": "^3.4.0",
+    "react-swipeable": "^7.0.1",
+    "recharts": "^2.12.7",
     "sass": "^1.77.2",
-    "usehooks-ts": "^3.1.0"
+    "usehooks-ts": "^3.1.0",
+    "zustand": "^4.5.5"
   },
   "devDependencies": {
     "@types/node": "^20",

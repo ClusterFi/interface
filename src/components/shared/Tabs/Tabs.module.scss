@@ -1,0 +1,50 @@
+@import "@/styles/utils";
+@import "@/styles/variables";
+
+.base {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 0;
+  padding: 4px;
+  border-radius: 40px;
+  border: 1px solid $stroke-grey;
+  background: $bg-ui;
+
+  @include breakpoint-max("tablet") {
+    gap: 0;
+  }
+}
+
+.tab {
+  height: 36px;
+  border-radius: 50px;
+  flex: 1;
+  padding: 0 12px;
+  color: $text-secondary;
+  text-transform: capitalize;
+  transition:
+    color 0.2s,
+    background 0.2s;
+
+  @include breakpoint-max("tablet") {
+    padding: 0;
+    height: 30px;
+  }
+
+  > p {
+    margin: 0;
+
+    @include breakpoint-max("tablet") {
+      font-size: toRem(12px);
+    }
+  }
+
+  @include hover {
+    color: $text-white;
+  }
+
+  &.active {
+    background: $text-inactive;
+    color: $text-white;
+  }
+}

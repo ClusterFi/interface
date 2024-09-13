@@ -3,14 +3,28 @@
 
 .base {
   padding: 24px;
+
+  @include breakpoint-max("tablet") {
+    padding: 20px 16px;
+  }
 }
 
-.title {
+.base .title {
   margin: 0 0 24px;
+
+  @include breakpoint-max("tablet") {
+    margin-bottom: 16px;
+    font-size: toRem(18px);
+  }
 }
 
-.subtitle {
+.base .subtitle {
   margin: 48px 0 24px;
+
+  @include breakpoint-max("tablet") {
+    margin: 40px 0 16px;
+    font-size: toRem(18px);
+  }
 }
 
 .text {

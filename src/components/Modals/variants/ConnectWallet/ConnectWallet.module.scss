@@ -1,0 +1,123 @@
+@import "@/styles/utils";
+@import "@/styles/variables";
+
+.content {
+  padding: 40px 40px 32px;
+  display: flex;
+  flex-direction: column;
+  min-height: 410px;
+}
+
+.title,
+.subtitle {
+  width: 100%;
+  margin: 0 0 16px;
+  text-align: center;
+}
+
+.title {
+  position: relative;
+
+  &.next {
+    margin-bottom: 32px;
+  }
+}
+
+.back {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  color: $text-secondary;
+  transition: color 0.2s;
+
+  svg {
+    transform: scale(-1, 1);
+  }
+
+  @include hover {
+    color: $text-white;
+  }
+}
+
+.button {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  margin: 0 -8px;
+  border-radius: 8px;
+
+  &.solana {
+    margin-bottom: 21px;
+    position: relative;
+
+    &:after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: calc(100% + 10px);
+      height: 1px;
+      background: $stroke-grey;
+    }
+  }
+
+  @include hover {
+    background: rgba(61, 55, 79, 0.18);
+  }
+}
+
+.wallet {
+  opacity: 0;
+  margin: 0;
+  display: flex;
+  gap: 10px;
+  color: $text-white;
+  animation: showWallet 0.5s ease-in-out 1 forwards;
+}
+
+@keyframes showWallet {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.arrow {
+  margin-left: auto;
+  flex-shrink: 0;
+  color: $text-white;
+}
+
+.status {
+  margin-left: auto;
+  white-space: nowrap;
+  text-align: right;
+  color: $text-inactive;
+  font-size: toRem(12px);
+  font-weight: 500;
+
+  &.highlight {
+    color: $text-secondary;
+  }
+}
+
+.note {
+  margin: auto 0 0;
+  padding: 24px 0 0;
+  text-align: center;
+  color: $text-secondary;
+
+  a {
+    color: $text-white;
+    text-decoration: none;
+
+    @include hover {
+      text-decoration: underline;
+    }
+  }
+}

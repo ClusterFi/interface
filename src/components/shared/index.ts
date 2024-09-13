@@ -9,3 +9,5 @@ export * from "./Section/Section";
 export * from "./Skeleton/Skeleton";
 export * from "./Table/Table";
 export * from "./Switcher/Switcher";
+export * from "./Loader/Loader";
+export * from "./Tabs/Tabs";
