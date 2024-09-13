@@ -14,25 +14,15 @@
 }
 
 .tooltip {
-  padding: 6px 6px 12px 12px;
+  padding: 12px;
   width: 250px;
   background: $ui-tooltip;
   border-radius: 12px;
 }
 
 .head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   color: $text-secondary;
   margin: 0;
-
-  span {
-    padding: 6px;
-    border-radius: 4px;
-    border: 1px solid #342b4a;
-    background: $bg-ui;
-  }
 }
 
 .row {

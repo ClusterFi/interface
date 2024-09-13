@@ -62,6 +62,7 @@
 .subtitle {
   --color: var(--color-ui-secondary);
   color: var(--color);
+  margin: 0 0 12px;
 
   &.green {
     --color: var(--color-ui-green);

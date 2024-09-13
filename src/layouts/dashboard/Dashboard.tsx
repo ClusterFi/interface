@@ -27,7 +27,7 @@ export const DashboardPage: React.FC = () => {
     <section className={styles.base}>
       <Container className={styles.container}>
         <Heading element="h2" as="h1" className={styles.title}>
-          My Position
+          My Positions
         </Heading>
         <div className={styles.grid}>
           <div className={styles.row}>

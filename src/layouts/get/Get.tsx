@@ -37,12 +37,12 @@ export const GetPage: React.FC = () => {
           <Network
             isLoading={controls["get-loading"]}
             currency={"Ethereum"}
-            name={"Ethereum network"}
+            name={"Ethereum"}
           />
           <Network
             isLoading={controls["get-loading"]}
             currency={"Solana"}
-            name={"Solana network"}
+            name={"Solana"}
           />
         </div>
       </Container>

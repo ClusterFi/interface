@@ -26,12 +26,12 @@ export const MarketsPage: React.FC = () => {
           <Market
             isLoading={controls["markets-loading"]}
             currency={"Ethereum"}
-            name={"Ethereum network"}
+            name={"Ethereum"}
           />
           <Market
             isLoading={controls["markets-loading"]}
             currency={"Solana"}
-            name={"Solana network"}
+            name={"Solana"}
           />
         </div>
       </Container>

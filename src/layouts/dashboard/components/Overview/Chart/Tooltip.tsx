@@ -11,7 +11,6 @@ export const CustomTooltip = ({ active, payload, label, ...rest }: any) => {
     <div className={styles.tooltip}>
       <Text size={12} theme={500} className={styles.head}>
         {label}
-        <span>TVL: $2.04M</span>
       </Text>
       <Text size={14} theme={500} className={styles.row}>
         Total Deposits
