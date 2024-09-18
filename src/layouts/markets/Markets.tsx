@@ -10,7 +10,10 @@ import styles from "./Markets.module.scss";
 
 export const MarketsPage: React.FC = () => {
   const controls = useControls({
-    ["Is loading?"]: false,
+    ["markets-loading"]: {
+      value: false,
+      label: "Is loading?",
+    },
   });
 
   return (
@@ -21,14 +24,14 @@ export const MarketsPage: React.FC = () => {
         </Heading>
         <div className={styles.grid}>
           <Market
-            isLoading={controls["Is loading?"]}
+            isLoading={controls["markets-loading"]}
             currency={"Ethereum"}
-            name={"Ethereum network"}
+            name={"Ethereum"}
           />
           <Market
-            isLoading={controls["Is loading?"]}
+            isLoading={controls["markets-loading"]}
             currency={"Solana"}
-            name={"Solana network"}
+            name={"Solana"}
           />
         </div>
       </Container>

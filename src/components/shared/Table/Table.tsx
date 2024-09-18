@@ -11,6 +11,7 @@ import {
   Skeleton,
   Text,
 } from "@/components";
+import { mediaBreaks, useMedia } from "@/utils";
 
 export type TableProps = {} & React.HTMLAttributes<HTMLElement>;
 
@@ -58,11 +59,25 @@ const Row: React.FC<React.HTMLAttributes<HTMLElement>> = ({
   );
 };
 
-type ItemProps = {} & React.HTMLAttributes<HTMLElement>;
+type ItemProps = {
+  mobileTitle?: string;
+} & React.HTMLAttributes<HTMLElement>;
 
-const Item: React.FC<ItemProps> = ({ children, className, ...rest }) => {
+const Item: React.FC<ItemProps> = ({
+  children,
+  className,
+  mobileTitle,
+  ...rest
+}) => {
+  const isMobile = useMedia(mediaBreaks.max.tablet);
+
   return (
     <td className={cx(styles.item, className)} {...rest}>
+      {isMobile && mobileTitle && (
+        <Text size={12} theme={500} className={styles.label}>
+          {mobileTitle}
+        </Text>
+      )}
       {children}
     </td>
   );
@@ -73,7 +88,7 @@ type ItemAmountProps = {
   secondaryValue: string;
   isReward?: boolean;
   isLoading?: boolean;
-} & React.HTMLAttributes<HTMLElement>;
+} & ItemProps;
 
 const ItemAmount: React.FC<ItemAmountProps> = ({
   children,
@@ -135,7 +150,7 @@ const ItemAmount: React.FC<ItemAmountProps> = ({
 
 type ItemArrowProps = {
   isLoading?: boolean;
-} & React.HTMLAttributes<HTMLElement>;
+} & ItemProps;
 
 const ItemArrow: React.FC<ItemArrowProps> = ({
   children,
@@ -166,7 +181,7 @@ type ItemAssetProps = {
   primaryText: string;
   secondaryText?: string;
   isLoading: boolean;
-} & React.HTMLAttributes<HTMLElement>;
+} & ItemProps;
 
 const ItemAsset: React.FC<ItemAssetProps> = ({
   children,

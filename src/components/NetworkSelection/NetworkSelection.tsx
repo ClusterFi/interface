@@ -12,6 +12,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { useOnClickOutside } from "usehooks-ts";
 import styles from "./NetworkSelection.module.scss";
+import { mediaBreaks, useMedia } from "@/utils";
 
 type Network = {
   name: string;
@@ -37,6 +38,7 @@ export const NetworkSelection: React.FC<NetworkSelectionProps> = ({
   className,
 }) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
+  const isMobile = useMedia(mediaBreaks.max.xga);
   const [isVisible, setIsVisible] = React.useState(false);
   const [selectedNetwork, setSelectedNetwork] = React.useState<Network>(
     networks[0],
@@ -54,7 +56,7 @@ export const NetworkSelection: React.FC<NetworkSelectionProps> = ({
     <div ref={containerRef} className={cx(styles.base, className)}>
       <Button
         onClick={isVisible ? onClose : onOpen}
-        size={"medium"}
+        size={isMobile ? "small" : "medium"}
         variant={"gradient-dark"}
         isActive={isVisible}
         className={styles.trigger}

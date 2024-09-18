@@ -4,6 +4,7 @@ import cx from "classnames";
 import { Section, Text, Heading, Button, Skeleton } from "@/components";
 import { ComponentState } from "@/layouts/dashboard/common";
 import { useResizeObserver } from "usehooks-ts";
+import { Chart } from "./Chart/Chart";
 
 import styles from "./Overview.module.scss";
 
@@ -22,24 +23,6 @@ export const Overview: React.FC<OverviewProps> = ({ state }) => {
   return (
     <Section className={styles.base}>
       <div className={styles.row}>
-        <div className={styles.primary}>
-          <Text size={12} theme={500} className={styles.subtitle}>
-            {isLoading ? (
-              <Skeleton className={styles.skeleton} />
-            ) : (
-              "Total Value Locked"
-            )}
-          </Text>
-          <Heading className={styles.primaryText} element="h1" as="div">
-            {isLoading ? (
-              <Skeleton className={styles.skeleton} />
-            ) : (
-              <React.Fragment>
-                $2,040,012<span>.15</span>
-              </React.Fragment>
-            )}
-          </Heading>
-        </div>
         <div className={styles.info}>
           <div className={styles.box}>
             <Text
@@ -50,7 +33,7 @@ export const Overview: React.FC<OverviewProps> = ({ state }) => {
               {isLoading ? (
                 <Skeleton className={styles.skeleton} />
               ) : (
-                "Total Deposits"
+                "Total Deposited"
               )}
             </Text>
             <Heading className={styles.infoText} element="h3" as="div">
@@ -82,6 +65,18 @@ export const Overview: React.FC<OverviewProps> = ({ state }) => {
                 <React.Fragment>
                   $3,299,012<span>.15</span>
                 </React.Fragment>
+              )}
+            </Heading>
+          </div>
+          <div className={styles.box}>
+            <Text size={12} theme={500} className={cx(styles.subtitle)}>
+              {isLoading ? <Skeleton className={styles.skeleton} /> : "Markets"}
+            </Text>
+            <Heading className={styles.infoText} element="h3" as="div">
+              {isLoading ? (
+                <Skeleton className={styles.skeleton} />
+              ) : (
+                <React.Fragment>5</React.Fragment>
               )}
             </Heading>
           </div>
@@ -125,17 +120,24 @@ export const Overview: React.FC<OverviewProps> = ({ state }) => {
           )}
         </div>
       </div>
-      <div className={styles.chart}>
-        {Array.from({ length: 5 }).map((_, index) => (
-          <Skeleton key={index} className={cx(styles.skeleton, styles.chart)} />
-        ))}
-        <div ref={chartRowRef} className={styles.chartRow}>
-          {width !== 0 &&
-            Array.from({ length: Math.round(width / 90) }).map((_, index) => (
-              <Skeleton key={index} className={styles.skeleton} />
-            ))}
+      {isLoading ? (
+        <div className={styles.chart}>
+          {Array.from({ length: 5 }).map((_, index) => (
+            <Skeleton
+              key={index}
+              className={cx(styles.skeleton, styles.chart)}
+            />
+          ))}
+          <div ref={chartRowRef} className={styles.chartRow}>
+            {width !== 0 &&
+              Array.from({ length: Math.round(width / 90) }).map((_, index) => (
+                <Skeleton key={index} className={styles.skeleton} />
+              ))}
+          </div>
         </div>
-      </div>
+      ) : (
+        <Chart />
+      )}
     </Section>
   );
 };

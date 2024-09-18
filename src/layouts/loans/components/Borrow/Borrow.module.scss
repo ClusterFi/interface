@@ -3,10 +3,18 @@
 
 .base {
   padding: 24px;
+
+  @include breakpoint-max("tablet") {
+    padding: 20px 16px;
+  }
 }
 
-.title {
+.base .title {
   margin: 0 0 16px;
+
+  @include breakpoint-max("tablet") {
+    font-size: toRem(18px);
+  }
 }
 
 .rows {
@@ -21,8 +29,12 @@
   }
 }
 
-.heading {
+.base .heading {
   margin: 0 0 4px;
+
+  @include breakpoint-max("tablet") {
+    font-size: toRem(16px);
+  }
 }
 
 .row {

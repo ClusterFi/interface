@@ -3,12 +3,15 @@ import cx from "classnames";
 import { Button, Skeleton, Table, Text } from "@/components";
 
 import styles from "./Withdraw.module.scss";
+import { useModalsStore } from "@/utils/stores";
 
 type WithdrawItemProps = {
   isLoading: boolean;
 };
 
 export const WithdrawItem: React.FC<WithdrawItemProps> = ({ isLoading }) => {
+  const { openModal } = useModalsStore();
+
   return (
     <Table.Row className={styles.row}>
       <Table.ItemAsset
@@ -22,7 +25,7 @@ export const WithdrawItem: React.FC<WithdrawItemProps> = ({ isLoading }) => {
         primaryText={"Ethereum"}
         isLoading={isLoading}
       />
-      <Table.Item>
+      <Table.Item mobileTitle={"Total Deposit, $"}>
         {isLoading ? (
           <Skeleton className={styles.skeleton} />
         ) : (
@@ -31,7 +34,7 @@ export const WithdrawItem: React.FC<WithdrawItemProps> = ({ isLoading }) => {
           </Text>
         )}
       </Table.Item>
-      <Table.Item>
+      <Table.Item mobileTitle={"Earned"}>
         {isLoading ? (
           <Skeleton className={styles.skeleton} />
         ) : (
@@ -45,7 +48,11 @@ export const WithdrawItem: React.FC<WithdrawItemProps> = ({ isLoading }) => {
           <Skeleton className={cx(styles.button, styles.skeleton)} />
         ) : (
           <Button
-            disabled
+            onClick={() =>
+              openModal("StakingWithdraw", {
+                token: "CLR-LP",
+              })
+            }
             className={styles.button}
             variant={"stroke"}
             size={"small"}

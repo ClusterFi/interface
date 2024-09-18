@@ -1,0 +1,67 @@
+@import "@/styles/utils";
+@import "@/styles/variables";
+
+.modal {
+  width: 420px;
+  display: flex;
+  flex-direction: column;
+  min-height: 390px;
+
+  > * {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.content {
+  padding: 24px;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+
+  @include breakpoint-max("tablet") {
+    padding: 16px;
+  }
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 10px;
+}
+
+.token,
+.balance {
+  margin: 0;
+}
+
+.token {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  svg {
+    flex-shrink: 0;
+  }
+}
+
+.balance {
+  color: $text-secondary;
+
+  span {
+    color: $text-white;
+  }
+}
+
+.submit {
+  width: 100%;
+  margin: auto 0 0;
+}
+
+.input {
+  margin: 0 0 24px;
+}

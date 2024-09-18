@@ -1,0 +1,37 @@
+@import "@/styles/utils";
+@import "@/styles/variables";
+
+.base {
+  width: 240px;
+}
+
+.token {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: $text-secondary;
+  margin: 0;
+
+  span {
+    margin-left: auto;
+    white-space: nowrap;
+    text-align: right;
+  }
+
+  svg {
+    flex-shrink: 0;
+  }
+}
+
+.main {
+  padding: 16px 16px 12px;
+  border-bottom: 1px solid $stroke-grey;
+  color: $text-white;
+}
+
+.list {
+  padding: 12px 16px 16px;
+  display: grid;
+  grid-template-columns: 100%;
+  gap: 8px;
+}

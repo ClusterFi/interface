@@ -10,7 +10,21 @@ import styles from "./Get.module.scss";
 
 export const GetPage: React.FC = () => {
   const controls = useControls({
-    ["Is-Loading?"]: false,
+    ["get-loading"]: {
+      value: false,
+      label: "Is loading?",
+    },
+    ["lsds-state"]: {
+      options: [
+        "Form",
+        "Confirm-Swap",
+        "Confirm-Loading",
+        "Status-Loading",
+        "Status-Succeed",
+        "Status-Error",
+      ],
+      label: "Get LSDs Modal state",
+    },
   });
 
   return (
@@ -21,14 +35,14 @@ export const GetPage: React.FC = () => {
         </Heading>
         <div className={styles.grid}>
           <Network
-            isLoading={controls["Is-Loading?"]}
+            isLoading={controls["get-loading"]}
             currency={"Ethereum"}
-            name={"Ethereum network"}
+            name={"Ethereum"}
           />
           <Network
-            isLoading={controls["Is-Loading?"]}
+            isLoading={controls["get-loading"]}
             currency={"Solana"}
-            name={"Solana network"}
+            name={"Solana"}
           />
         </div>
       </Container>

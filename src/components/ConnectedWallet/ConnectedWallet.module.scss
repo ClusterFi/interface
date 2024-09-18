@@ -1,0 +1,70 @@
+@import "@/styles/utils";
+@import "@/styles/variables";
+
+.base {
+  width: 300px;
+  padding: 16px;
+}
+
+.wallet {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: $text-secondary;
+  margin: 0 0 20px;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s;
+
+  svg {
+    flex-shrink: 0;
+    color: $text-white;
+  }
+
+  @include hover {
+    color: $text-white;
+  }
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  color: $text-white;
+  gap: 8px;
+  margin: 0 0 16px;
+
+  > svg {
+    flex-shrink: 0;
+  }
+}
+
+.copy {
+  margin-left: auto;
+  flex-shrink: 0;
+  color: $text-white;
+  transition: color 0.2s;
+
+  @include hover {
+    color: $ui-purpure;
+  }
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: 100%;
+  gap: 8px;
+}
+
+.button {
+  width: 100%;
+
+  p {
+    margin: 0;
+  }
+}

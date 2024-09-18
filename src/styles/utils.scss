@@ -1,4 +1,5 @@
 @use "sass:math";
+@use "./variables/breakpoints";
 
 @mixin hover {
   @media (hover: hover) {
@@ -18,4 +19,24 @@ $base-font-size: 16px;
 
 @function toRem($value) {
   @return math.div($value, $base-font-size) * 1rem;
+}
+
+@mixin breakpoint-max($breakpoint) {
+  @if map-has-key(breakpoints.$max, $breakpoint) {
+    @media (max-width: map-get(breakpoints.$max, $breakpoint)) {
+      @content;
+    }
+  } @else {
+    @warn "Unavailable breakpoint #{$breakpoint}";
+  }
+}
+
+@mixin breakpoint-min($breakpoint) {
+  @if map-has-key(breakpoints.$min, $breakpoint) {
+    @media (min-width: map-get(breakpoints.$min, $breakpoint)) {
+      @content;
+    }
+  } @else {
+    @warn "Unavailable breakpoint #{$breakpoint}";
+  }
 }

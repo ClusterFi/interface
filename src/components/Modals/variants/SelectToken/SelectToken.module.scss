@@ -1,0 +1,205 @@
+@import "@/styles/utils";
+@import "@/styles/variables";
+
+.modal {
+  @include breakpoint-max("tablet") {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 100px;
+    width: 100%;
+    border-radius: 32px 32px 0 0;
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+
+    > * {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+
+      > *:first-child {
+        padding-left: 24px;
+        padding-right: 24px;
+        padding-top: 32px;
+      }
+    }
+  }
+}
+
+.modal h2 {
+  border-bottom: none;
+}
+
+.box {
+  padding: 0 24px 24px;
+  border-bottom: 1px solid $stroke-grey;
+}
+
+.wrapper {
+  margin: 0 0 12px;
+  position: relative;
+  height: 47px;
+  background: $bg-main;
+  border-radius: 12px;
+
+  &:after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    background: linear-gradient(transparent, transparent),
+      linear-gradient(136deg, #2a2732 -0.84%, rgba(42, 39, 50, 0) 47.36%);
+    transition: opacity 0.2s;
+  }
+}
+
+.input {
+  position: absolute;
+  inset: 0;
+  padding: 0 24px 0 40px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  font-size: toRem(12px);
+  font-weight: 400px;
+  color: $text-white;
+
+  &:focus {
+    outline: none;
+  }
+
+  &::placeholder {
+    color: $text-secondary;
+  }
+}
+
+.icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: $text-secondary;
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.options .option {
+  background: $bg-main;
+  padding: 0 12px 0 8px;
+  gap: 6px;
+  color: $text-white;
+  transition: opacity 0.2s;
+
+  @include hover {
+    opacity: 0.8;
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.list {
+  height: 320px;
+  position: relative;
+
+  @include breakpoint-max("tablet") {
+    height: unset;
+    flex-grow: 1;
+    min-height: 150px;
+  }
+}
+
+.track {
+  position: absolute;
+  inset: 4px 3px 0;
+  padding: 24px 16px;
+  overflow: hidden auto;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+
+    &-track {
+      background-color: transparent;
+    }
+
+    &-thumb {
+      background: $text-inactive;
+      border-radius: 30px;
+    }
+  }
+}
+
+.title {
+  margin: 0 0 12px;
+  padding: 0 8px;
+  color: $text-secondary;
+}
+
+.token {
+  height: 46px;
+  padding: 0 8px 0 7px;
+  display: flex;
+  gap: 7px;
+  width: 100%;
+  border-radius: 8px;
+  transition: background 0.2s;
+
+  @include hover {
+    background: rgba(61, 55, 79, 0.18);
+  }
+
+  + .token {
+    margin: 6px 0 0;
+  }
+
+  svg {
+    flex-shrink: 0;
+  }
+}
+
+.token > .text {
+  flex-grow: 1;
+  color: $text-white;
+  line-height: 100%;
+  margin: 0;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 5px;
+
+  span {
+    font-size: toRem(12px);
+    color: $text-secondary;
+    line-height: 120%;
+  }
+}
+
+.amount {
+  color: $text-white;
+  white-space: nowrap;
+  flex-shrink: 0;
+  text-align: right;
+  margin: 0;
+
+  &.inactive {
+    color: $text-inactive;
+  }
+}
