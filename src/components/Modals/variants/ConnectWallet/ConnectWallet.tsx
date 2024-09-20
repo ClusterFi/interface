@@ -38,12 +38,12 @@ const EVM_WALLETS: WalletVariant[] = [
     icon: (
       <Image src={"/metamask-and-more.png"} width={24} height={24} alt="icon" />
     ),
-    name: "Metamask and more",
+    name: "MetaMask",
   },
-  {
-    icon: <WalletIcon wallet={"Ledger"} width={24} height={24} />,
-    name: "Ledger",
-  },
+  // {
+  //   icon: <WalletIcon wallet={"Ledger"} width={24} height={24} />,
+  //   name: "Ledger",
+  // },
   {
     icon: <WalletIcon wallet={"WalletConnect"} width={24} height={24} />,
     name: "WalletConnect",

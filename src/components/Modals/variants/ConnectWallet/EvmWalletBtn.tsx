@@ -8,6 +8,8 @@ import {
 } from "@/components";
 import styles from "./ConnectWallet.module.scss";
 import { WalletVariant } from "./ConnectWallet";
+import { useConnect } from "wagmi";
+import { EVM_CHAIN_ID } from "@/constants";
 
 export type WalletBtnPros = {
   index: number;
@@ -15,7 +17,20 @@ export type WalletBtnPros = {
 
 export const EvmWalletBtn: React.FC<WalletBtnPros> = ({ name, icon, index }) => {
 
-  const isDetected = false;
+  const { connectors, connect } = useConnect();
+
+  const connector = React.useMemo(() => {
+    return connectors.filter(t => t.name == name)[0];
+  }, [
+    connectors,
+    name,
+  ])
+
+  const isDetected = React.useMemo(() => {
+    return !!connector;
+  }, [
+    connector
+  ]);
 
   return (
     <Button
@@ -23,6 +38,12 @@ export const EvmWalletBtn: React.FC<WalletBtnPros> = ({ name, icon, index }) => 
       size={"custom"}
       className={styles.button}
       onClick={() => {
+        if (connector) {
+          connect({
+            chainId: EVM_CHAIN_ID,
+            connector
+          })
+        }
       }}
     >
       <Text
