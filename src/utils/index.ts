@@ -14,3 +14,7 @@ export function formatCoin(value: number): string {
     maximumFractionDigits: 20,
   });
 }
+
+export const shortenAddress = (address: string | undefined) => {
+  return `${address?.slice(0, 4)}...${address?.slice(-4)}`;
+};

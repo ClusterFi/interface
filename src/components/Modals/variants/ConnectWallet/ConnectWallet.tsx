@@ -1,3 +1,6 @@
+"use client";
+
+
 import * as React from "react";
 import cx from "classnames";
 import { ModalLayout } from "@/components/Modals/ModalLayout/ModalLayout";
@@ -13,6 +16,10 @@ import {
 import Link from "next/link";
 import styles from "./ConnectWallet.module.scss";
 import Image from "next/image";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { WalletReadyState } from "@solana/wallet-adapter-base";
+import { SolanaWalletBtn } from "./SolanaWalletBtn";
+import { EvmWalletBtn } from "./EvmWalletBtn";
 
 export type ConnectWalletProps = null;
 
@@ -20,71 +27,61 @@ type ConnectWallet = ModalProps & {
   props: ConnectWalletProps;
 };
 
-type WalletVariant = {
+export type WalletVariant = {
   icon: React.ReactNode;
+  id?: string;
   name: string;
-  isDetected: boolean;
 };
 
-const common_list: WalletVariant[] = [
+const EVM_WALLETS: WalletVariant[] = [
   {
     icon: (
       <Image src={"/metamask-and-more.png"} width={24} height={24} alt="icon" />
     ),
     name: "Metamask and more",
-    isDetected: true,
   },
   {
     icon: <WalletIcon wallet={"Ledger"} width={24} height={24} />,
     name: "Ledger",
-    isDetected: false,
   },
   {
     icon: <WalletIcon wallet={"WalletConnect"} width={24} height={24} />,
     name: "WalletConnect",
-    isDetected: false,
   },
   {
     icon: <WalletIcon wallet={"Coinbase"} width={24} height={24} />,
     name: "Coinbase Wallet",
-    isDetected: true,
   },
 ];
 
-const solana_list: WalletVariant[] = [
+const SOL_WALLETS: WalletVariant[] = [
   {
     icon: <WalletIcon wallet={"Phantom"} width={24} height={24} />,
     name: "Phantom",
-    isDetected: true,
   },
-  {
-    icon: <WalletIcon wallet={"PontemWallet"} width={24} height={24} />,
-    name: "Pontem Wallet",
-    isDetected: false,
-  },
+  // {
+  //   icon: <WalletIcon wallet={"PontemWallet"} width={24} height={24} />,
+  //   name: "Pontem Wallet",
+  // },
   {
     icon: <WalletIcon wallet={"MetaMask"} width={24} height={24} />,
     name: "MetaMask",
-    isDetected: true,
   },
   {
     icon: (
       <Image src={"/backpack-wallet.png"} width={24} height={24} alt="icon" />
     ),
     name: "Backpack",
-    isDetected: false,
   },
   {
     icon: (
       <Image src={"/solflare-wallet.png"} width={24} height={24} alt="icon" />
     ),
     name: "Solflare",
-    isDetected: false,
   },
   {
     icon: <Image src={"/brave-wallet.png"} width={24} height={24} alt="icon" />,
     name: "Brave",
-    isDetected: false,
   },
 ];
 
@@ -137,32 +134,24 @@ export const ConnectWallet: React.FC<ConnectWallet> = ({ props, ...rest }) => {
             </Button>
           </React.Fragment>
         )}
-        {(solanaOpened ? solana_list : common_list).map((wallet, index) => (
-          <Button
-            key={wallet.name}
-            variant={"custom"}
-            size={"custom"}
-            className={styles.button}
-          >
-            <Text
-              size={16}
-              theme={500}
-              className={styles.wallet}
-              style={{ animationDelay: index * 50 + "ms" }}
-            >
-              {wallet.icon}
-              {wallet.name}
-              <span
-                className={cx(
-                  styles.status,
-                  wallet.isDetected && styles.highlight,
-                )}
-              >
-                {wallet.isDetected ? "Connect" : "Not Detected"}
-              </span>
-            </Text>
-          </Button>
-        ))}
+
+        {
+          solanaOpened ? (
+            SOL_WALLETS.map((wallet, index) =>
+              <SolanaWalletBtn key={`solana-wallet-${wallet.name}`}
+                index={index}
+                {...wallet}
+              />)
+          )
+            : (
+              EVM_WALLETS.map((wallet, index) =>
+                <EvmWalletBtn key={`evm-wallet-${wallet.name}`}
+                  index={index}
+                  {...wallet}
+                />)
+            )
+        }
+
         <Text size={12} theme={400} className={styles.note}>
           By connecting I accept Cluster’s{" "}
           <Link target={"_blank"} href="#">

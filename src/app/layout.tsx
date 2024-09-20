@@ -17,7 +17,7 @@ export default function RootLayout({
           .map((font) => `${font.variable}`)
           .join(" ")}
       >
-        <BaseLayout>{children}</BaseLayout>
+          <BaseLayout>{children}</BaseLayout>
       </body>
     </html>
   );
