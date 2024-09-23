@@ -23,15 +23,23 @@ type DesktopProps = {
 };
 
 export const Desktop: React.FC<DesktopProps> = ({ className, isAuthed }) => {
+
+  const [network, setNetwork] = React.useState("Ethereum");
+
+  const handleSelectNetwork = (network: string) => {
+    setNetwork(network);
+  }
+
   return (
     <header className={cx(styles.base, className)}>
       <Container className={styles.container}>
         <Logotype className={styles.logotype} />
         <Nav />
         <div className={styles.manage}>
-          <NetworkSelection />
+          <NetworkSelection
+            onSelect={handleSelectNetwork} />
           {!isAuthed ? (
-            <ConnectWalletButton />
+            <ConnectWalletButton isSolana={network == "Solana"} />
           ) : (
             <React.Fragment>
               <div className={styles.balance}>
