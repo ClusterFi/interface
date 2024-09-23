@@ -32,10 +32,12 @@ const networks: Network[] = [
 
 type NetworkSelectionProps = {
   className?: string;
+  onSelect: (network: string) => void;
 };
 
 export const NetworkSelection: React.FC<NetworkSelectionProps> = ({
   className,
+  onSelect,
 }) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const isMobile = useMedia(mediaBreaks.max.xga);
@@ -48,6 +50,7 @@ export const NetworkSelection: React.FC<NetworkSelectionProps> = ({
   const onNetworkSelect = (network: Network) => {
     setSelectedNetwork(network);
     setIsVisible(false);
+    onSelect(network.name);
   };
 
   useOnClickOutside(containerRef, onClose);
