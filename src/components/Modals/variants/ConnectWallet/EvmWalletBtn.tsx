@@ -9,7 +9,7 @@ import {
 import styles from "./ConnectWallet.module.scss";
 import { WalletVariant } from "./ConnectWallet";
 import { useConnect } from "wagmi";
-import { EVM_CHAIN_ID } from "@/constants";
+import { MAIN_CHAIN_ID } from "@/constants";
 
 export type WalletBtnPros = {
   index: number;
@@ -40,7 +40,7 @@ export const EvmWalletBtn: React.FC<WalletBtnPros> = ({ name, icon, index }) => 
       onClick={() => {
         if (connector) {
           connect({
-            chainId: EVM_CHAIN_ID,
+            chainId: MAIN_CHAIN_ID,
             connector
           })
         }
