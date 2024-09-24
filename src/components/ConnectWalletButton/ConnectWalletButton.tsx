@@ -5,25 +5,31 @@ import cx from "classnames";
 
 import styles from "./ConnectWalletButton.module.scss";
 import { AnimatedButton } from "@/components/shared";
-import { useModalsStore } from "@/utils/stores";
+import { useGlobalStore, useModalsStore } from "@/utils/stores";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { shortenAddress } from "@/utils";
 import { useAccount } from "wagmi";
+import { SOLANA_CHAIN_ID } from "@/constants";
 
 type ConnectWalletButtonProps = {
   className?: string;
-  isSolana: boolean;
 } & React.HTMLAttributes<HTMLButtonElement>;
 
 export const ConnectWalletButton: React.FC<ConnectWalletButtonProps> = ({
   className,
-  isSolana,
   ...rest
 }) => {
+  const { chainId } = useGlobalStore();
   const { openModal } = useModalsStore();
 
   const { publicKey } = useWallet();
   const { address } = useAccount();
+
+  const isSolana = React.useMemo(() => {
+    return chainId == SOLANA_CHAIN_ID;
+  }, [
+    chainId
+  ]);
 
   const btnTitle = React.useMemo(() => {
     if (isSolana) {
