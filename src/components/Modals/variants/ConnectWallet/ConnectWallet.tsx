@@ -20,6 +20,8 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletReadyState } from "@solana/wallet-adapter-base";
 import { SolanaWalletBtn } from "./SolanaWalletBtn";
 import { EvmWalletBtn } from "./EvmWalletBtn";
+import { useGlobalStore } from "@/utils/stores";
+import { SOLANA_CHAIN_ID } from "@/constants";
 
 export type ConnectWalletProps = null;
 
@@ -35,20 +37,22 @@ export type WalletVariant = {
 
 const EVM_WALLETS: WalletVariant[] = [
   {
-    icon: (
-      <Image src={"/metamask-and-more.png"} width={24} height={24} alt="icon" />
-    ),
+    id: "metaMask",
+    icon: <WalletIcon wallet={"MetaMask"} width={24} height={24} />,
     name: "MetaMask",
   },
-  // {
-  //   icon: <WalletIcon wallet={"Ledger"} width={24} height={24} />,
-  //   name: "Ledger",
-  // },
   {
+    id: "phantom",
+    icon: <WalletIcon wallet={"Phantom"} width={24} height={24} />,
+    name: "Phantom",
+  },
+  {
+    id: "walletConnect",
     icon: <WalletIcon wallet={"WalletConnect"} width={24} height={24} />,
     name: "WalletConnect",
   },
   {
+    id: "coinbaseWalletSDK",
     icon: <WalletIcon wallet={"Coinbase"} width={24} height={24} />,
     name: "Coinbase Wallet",
   },
@@ -67,12 +71,12 @@ const SOL_WALLETS: WalletVariant[] = [
     icon: <WalletIcon wallet={"MetaMask"} width={24} height={24} />,
     name: "MetaMask",
   },
-  {
-    icon: (
-      <Image src={"/backpack-wallet.png"} width={24} height={24} alt="icon" />
-    ),
-    name: "Backpack",
-  },
+  // {
+  //   icon: (
+  //     <Image src={"/backpack-wallet.png"} width={24} height={24} alt="icon" />
+  //   ),
+  //   name: "Backpack",
+  // },
   {
     icon: (
       <Image src={"/solflare-wallet.png"} width={24} height={24} alt="icon" />
@@ -80,63 +84,28 @@ const SOL_WALLETS: WalletVariant[] = [
     name: "Solflare",
   },
   {
-    icon: <Image src={"/brave-wallet.png"} width={24} height={24} alt="icon" />,
-    name: "Brave",
+    icon: <WalletIcon wallet={"Ledger"} width={24} height={24} />,
+    name: "Ledger",
   },
 ];
 
 export const ConnectWallet: React.FC<ConnectWallet> = ({ props, ...rest }) => {
-  const [solanaOpened, setSolanaOpened] = React.useState(false);
+  const { chainId } = useGlobalStore();
 
   return (
     <ModalLayout title={"Connect Wallet"} isSwipeable {...rest}>
       <div className={styles.content}>
-        {solanaOpened ? (
-          <Heading
-            element="h3"
-            as="div"
-            className={cx(styles.title, styles.next)}
-          >
-            <Button
-              onClick={() => setSolanaOpened(false)}
-              size="custom"
-              variant={"custom"}
-              className={styles.back}
-            >
-              <Icon glyph={"Arrow"} width={24} height={24} />
-            </Button>
-            Solana wallet
+        <React.Fragment>
+          <Heading element="h3" as="div" className={styles.title}>
+            Connect Wallet
           </Heading>
-        ) : (
-          <React.Fragment>
-            <Heading element="h3" as="div" className={styles.title}>
-              Connect Wallet
-            </Heading>
-            <Text size={12} theme={400} className={styles.subtitle}>
-              To start using Cluster
-            </Text>
-            <Button
-              onClick={() => setSolanaOpened(true)}
-              variant={"custom"}
-              size={"custom"}
-              className={cx(styles.button, styles.solana)}
-            >
-              <Text size={16} theme={500} className={styles.wallet}>
-                <CurrencyIcon currency={"Solana"} width={24} height={24} />
-                Solana wallet
-                <Icon
-                  glyph={"Arrow"}
-                  width={24}
-                  height={24}
-                  className={styles.arrow}
-                />
-              </Text>
-            </Button>
-          </React.Fragment>
-        )}
+          <Text size={12} theme={400} className={styles.subtitle}>
+            To start using Cluster
+          </Text>
+        </React.Fragment>
 
         {
-          solanaOpened ? (
+          chainId == SOLANA_CHAIN_ID ? (
             SOL_WALLETS.map((wallet, index) =>
               <SolanaWalletBtn key={`solana-wallet-${wallet.name}`}
                 index={index}

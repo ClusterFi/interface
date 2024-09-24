@@ -8,10 +8,9 @@ import { ReactNode, useMemo } from "react";
 import {
   PhantomWalletAdapter,
   SolflareWalletAdapter,
+  LedgerWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
-import { BraveWalletAdapter } from "@solana/wallet-adapter-brave";
 
-import { BackpackWalletAdapter } from "@solana/wallet-adapter-backpack";
 import { SOLANA_RPC } from "@/constants";
 
 require("@solana/wallet-adapter-react-ui/styles.css");
@@ -25,9 +24,8 @@ export const SolanaWalletProvider = ({ children }: { children: ReactNode }) => {
   const wallets = useMemo(
     () => [
       new PhantomWalletAdapter(),
-      new BackpackWalletAdapter(),
       new SolflareWalletAdapter(),
-      new BraveWalletAdapter(),
+      new LedgerWalletAdapter(),
     ],
     [network]
   );
