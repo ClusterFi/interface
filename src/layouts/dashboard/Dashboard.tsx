@@ -11,17 +11,7 @@ import { getState } from "./common";
 import styles from "./Dashboard.module.scss";
 
 export const DashboardPage: React.FC = () => {
-  const controls = useControls({
-    ["dashboard-state"]: {
-      options: ["Default", "Loading", "Not Authorized", "Empty"],
-      value: "Default",
-      label: "Page state",
-    },
-  });
-  const componentState = React.useMemo(
-    () => getState(controls["dashboard-state"]),
-    [controls],
-  );
+  const componentState = "default";
 
   return (
     <section className={styles.base}>

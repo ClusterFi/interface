@@ -19,10 +19,9 @@ import { usePathname } from "next/navigation";
 
 type MobileProps = {
   className?: string;
-  isAuthed: boolean;
 };
 
-export const Mobile: React.FC<MobileProps> = ({ className, isAuthed }) => {
+export const Mobile: React.FC<MobileProps> = ({ className }) => {
   const [menuOpened, setMenuOpened] = React.useState(false);
   const { openModal } = useModalsStore();
   const pathname = usePathname();
@@ -31,11 +30,6 @@ export const Mobile: React.FC<MobileProps> = ({ className, isAuthed }) => {
   }, [pathname]);
 
   const onWalletClick = () => {
-    if (isAuthed) {
-      openModal("Wallet", null);
-      return;
-    }
-
     openModal("ConnectWallet", null);
   };
 

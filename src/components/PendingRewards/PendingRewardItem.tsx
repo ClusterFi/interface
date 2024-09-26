@@ -15,15 +15,15 @@ export const PendingRewardItem: React.FC<PendingRewardItemProps> = ({
   return (
     <Table.Row className={styles.row}>
       <Table.ItemAsset
-        currency={"Ethereum"}
-        primaryText={"Ethereum"}
-        secondaryText={"ETH"}
+        currency={"USDCoin"}
+        primaryText={"USD Coin"}
+        secondaryText={"USDC"}
         isLoading={isLoading}
       />
       <Table.Item mobileTitle={"Amount"}>
         {!isLoading ? (
           <Text size={16} theme={500} className={styles.text}>
-            {formatCoin(0.345)} ETH
+            {formatCoin(110.34)} USDC
           </Text>
         ) : (
           <Skeleton className={cx(styles.skeleton, styles.text)} />

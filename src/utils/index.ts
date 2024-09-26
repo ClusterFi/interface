@@ -1,6 +1,7 @@
 import { SOLANA_CHAIN_ID } from "@/constants";
 
 export * from "./hooks";
+export * from "./solana";
 export * from "./media";
 
 export function isSolanaChain(chainId: number): boolean {
@@ -17,7 +18,7 @@ export function formatUSD(value: number): string {
 export function formatCoin(value: number): string {
   return value.toLocaleString("en-US", {
     minimumFractionDigits: 2,
-    maximumFractionDigits: 20,
+    maximumFractionDigits: 5,
   });
 }
 

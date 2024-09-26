@@ -1,8 +1,9 @@
-import { isSolanaChain } from "@/utils";
+import { fetchSolBalance, isSolanaChain } from "@/utils";
 import { useGlobalStore } from "@/utils/stores";
 import { useWallet } from "@solana/wallet-adapter-react";
 import React, { PropsWithChildren, createContext, useEffect, useMemo, useState } from "react";
-import { useAccount } from "wagmi";
+import { formatEther, parseEther } from "viem";
+import { useAccount, useBalance, useConnectorClient } from "wagmi";
 
 interface IAppContextProps {
   isSolana: boolean;
@@ -16,9 +17,13 @@ export const AppContext = createContext<IAppContextProps>({
 
 export const AppContextProvider = (props: PropsWithChildren) => {
 
-  const { chainId } = useGlobalStore();
+  const { chainId, setBalance } = useGlobalStore();
   const { publicKey: solAddr } = useWallet();
+
   const { address: ethAddr } = useAccount();
+  const { data: ethBalance } = useBalance({
+    address: ethAddr
+  });
 
   const isSolana = useMemo(() => {
     return isSolanaChain(chainId);
@@ -37,6 +42,33 @@ export const AppContextProvider = (props: PropsWithChildren) => {
     isSolana,
     solAddr,
     ethAddr
+  ])
+
+  useEffect(() => {
+    (async () => {
+      if (solAddr) {
+        const balance = await fetchSolBalance(solAddr);
+        setBalance("Solana", balance);
+      }
+      else {
+        setBalance("Solana", 0);
+      }
+    })();
+
+  }, [
+    solAddr
+  ])
+
+  useEffect(() => {
+    if (ethBalance) {
+      const balance = parseFloat(formatEther(ethBalance.value));
+      setBalance("Ethereum", balance);
+    }
+    else {
+      setBalance("Ethereum", 0);
+    }
+  }, [
+    ethBalance
   ])
 
   return (

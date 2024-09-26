@@ -8,6 +8,7 @@ import { useAccount, useConnect, useConnectors, useDisconnect } from "wagmi";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { isSolanaChain, shortenAddress } from "@/utils";
 import { AppContext } from "@/contexts/AppContext";
+import Image from "next/image";
 
 type ConnectedWalletProps = {
   className?: string;
@@ -21,7 +22,8 @@ export const ConnectedWallet: React.FC<ConnectedWalletProps> = ({
   const { openModal } = useModalsStore();
   const { account, isSolana } = React.useContext(AppContext);
 
-  const { disconnect: disconnectSol } = useWallet();
+  const { wallet: solWallet, disconnect: disconnectSol } = useWallet();
+  const { connectors } = useConnect();
   const { disconnect: disconnectEvm } = useDisconnect();
 
   const handleToggleWallet = () => {
@@ -46,7 +48,10 @@ export const ConnectedWallet: React.FC<ConnectedWalletProps> = ({
         </Link>
       </Text>
       <Text size={14} theme={400} className={styles.row}>
-        <WalletIcon wallet={"MetaMask"} width={16} height={16} />
+        {
+          isSolana ? <img src={solWallet?.adapter.icon ?? ""} alt={solWallet?.adapter.name} className={styles.walletBtn} />
+            : <WalletIcon wallet={"MetaMask"} width={16} height={16} />
+        }
         {shortenAddress(account)}
         <Button size={"custom"} variant={"custom"} className={styles.copy}>
           <Icon glyph={"Copy"} width={12} height={12} />

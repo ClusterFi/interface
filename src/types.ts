@@ -1,9 +1,12 @@
-import { Currency } from "./components";
-
 export enum Network {
     Ethereum,
     Solana,
 }
+
+export type Currency =
+    "Ethereum" | "Solana" | "RocketPoolETH" | "WrappedEETH" | "WrappedStakedETH" | "USDCoin" | "USDTether" | "Cluster" | "MarinadeStakedSOL" | "JITOStakedSOL" | "AnkrStakedETH" | "Polygon" | "Arbitrum";
+
+export type CurrencyList = Partial<Record<Currency, number>>;
 
 export type ChainProps = {
     name: string;

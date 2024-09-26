@@ -1,5 +1,6 @@
 export * from "./RocketPoolETH";
 export * from "./WrappedEETH";
+export * from "./WrappedStakedETH";
 export * from "./Ethereum";
 export * from "./USDCoin";
 export * from "./USDTether";

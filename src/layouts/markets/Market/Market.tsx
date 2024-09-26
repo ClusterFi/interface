@@ -12,6 +12,43 @@ import {
 import { MarketItem } from "./MarketItem";
 import styles from "./Market.module.scss";
 
+type TMarket = {
+  id: string;
+  name: string;
+  fullName: string;
+  currency: Currency;
+};
+
+const ethMarkets: TMarket[] = [
+  {
+    id: "0",
+    name: "rETH",
+    fullName: "Rocket Pool ETH",
+    currency: "RocketPoolETH",
+  },
+  {
+    id: "1",
+    name: "weETH",
+    fullName: "Wrapped eETH",
+    currency: "WrappedEETH",
+  }
+];
+
+const solMarkets: TMarket[] = [
+  {
+    id: "0",
+    name: "JitoSOL",
+    fullName: "Jito Staked SOL",
+    currency: "JITOStakedSOL",
+  },
+  {
+    id: "1",
+    name: "mSOL",
+    fullName: "Marinade staked SOL",
+    currency: "MarinadeStakedSOL",
+  }
+];
+
 type MarketProps = {
   currency: Currency;
   name: string;
@@ -41,9 +78,31 @@ export const Market: React.FC<MarketProps> = ({
           </Table.Row>
         </Table.Head>
         <Table.Body className={styles.body}>
-          {Array.from({ length: 3 }).map((_, index) => (
-            <MarketItem isLoading={isLoading} key={index} />
-          ))}
+          {
+            currency == "Ethereum" ?
+            ethMarkets.map(market => {
+              return (
+                <MarketItem
+                  isLoading={isLoading}
+                  currency={market.currency}
+                  name={market.name}
+                  fullName={market.fullName}
+                  key={market.id}
+                />
+              )
+            }) :
+            solMarkets.map(market => {
+              return (
+                <MarketItem
+                  isLoading={isLoading}
+                  currency={market.currency}
+                  name={market.name}
+                  fullName={market.fullName}
+                  key={market.id}
+                />
+              )
+            })
+          }
         </Table.Body>
       </Table>
     </Section>
