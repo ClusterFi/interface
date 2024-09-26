@@ -1,20 +1,22 @@
 import * as React from "react";
 import Link from "next/link";
-import { Table } from "@/components";
+import { Currency, Table } from "@/components";
 
 import styles from "./Borrows.module.scss";
 import { formatCoin, formatUSD } from "@/utils";
 
 type BorrowItemProps = {
   isLoading: boolean;
+  currency: Currency;
+  name: string;
 };
 
-export const BorrowItem: React.FC<BorrowItemProps> = ({ isLoading }) => {
+export const BorrowItem: React.FC<BorrowItemProps> = ({ isLoading, currency, name }) => {
   return (
     <Table.Row className={styles.row}>
       <Table.ItemAsset
-        currency={"USDCoin"}
-        primaryText={"USDC"}
+        currency={currency}
+        primaryText={name}
         isLoading={isLoading}
       />
       <Table.ItemAmount

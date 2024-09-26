@@ -68,16 +68,13 @@ export const Loans: React.FC = () => {
       </Button>
       <div className={styles.rows}>
         <Text size={14} theme={500} className={styles.row}>
-          Collateral Value <span>${formatUSD(1900)}</span>
+          Collateral Price <span>${formatUSD(2200)}</span>
         </Text>
         <Text size={14} theme={500} className={styles.row}>
-          Liquidation Point <span>${formatUSD(1900)}</span>
+          Liquidation Price <span>${formatUSD(1900)}</span>
         </Text>
         <Text size={14} theme={500} className={styles.row}>
-          Borrow Capacity <span>{formatCoin(1640)} USDT</span>
-        </Text>
-        <Text size={14} theme={500} className={styles.row}>
-          Available to Borrow <span>{formatCoin(1530)} USDT</span>
+          Available to Borrow <span>{formatCoin(1530)} wstETH</span>
         </Text>
       </div>
     </Section>

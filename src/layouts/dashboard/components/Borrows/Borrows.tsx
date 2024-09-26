@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Section, Table } from "@/components";
+import { Currency, Section, Table } from "@/components";
 import {
   UnauthorizedState,
   ComponentState,
@@ -9,6 +9,20 @@ import {
 } from "@/layouts/dashboard/common";
 import { BorrowItem } from "./BorrowItem";
 import styles from "./Borrows.module.scss";
+
+type TAsset = {
+  id: string;
+  name: string;
+  currency: Currency;
+};
+
+const assets: TAsset[] = [
+  {
+    id: "0",
+    name: "weETH",
+    currency: "WrappedEETH",
+  }
+];
 
 type BorrowsProps = {
   state: ComponentState;
@@ -36,7 +50,18 @@ export const Borrows: React.FC<BorrowsProps> = ({ state }) => {
                   </Table.Row>
                 </Table.Head>
                 <Table.Body className={styles.body}>
-                  <BorrowItem isLoading={state === "loading"} />
+                  {
+                    assets.map(asset => {
+                      return (
+                        <BorrowItem
+                          isLoading={state === "loading"}
+                          currency={asset.currency}
+                          name={asset.name}
+                          key={asset.id}
+                        />
+                      )
+                    })
+                  }
                 </Table.Body>
               </Table>
             );
