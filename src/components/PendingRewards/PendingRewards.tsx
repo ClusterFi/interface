@@ -61,7 +61,7 @@ export const PendingRewards: React.FC<PendingRewardsProps> = ({ state }) => {
                   </Table.Row>
                 </Table.Head>
                 <Table.Body>
-                  {Array.from({ length: 2 }).map((_, index) => (
+                  {Array.from({ length: 1 }).map((_, index) => (
                     <PendingRewardItem
                       isLoading={state === "loading"}
                       key={index}

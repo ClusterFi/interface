@@ -2,21 +2,25 @@ import * as React from "react";
 import cx from "classnames";
 
 import Link from "next/link";
-import { Table, Switcher, Skeleton } from "@/components";
+import { Table, Switcher, Skeleton, Currency } from "@/components";
 
 import styles from "./Deposits.module.scss";
 import { formatCoin, formatUSD } from "@/utils";
 
 type DepositItemProps = {
   isLoading: boolean;
+  currency: Currency;
+  name: string;
 };
 
-export const DepositItem: React.FC<DepositItemProps> = ({ isLoading }) => {
+export const DepositItem: React.FC<DepositItemProps> = ({
+  isLoading, currency, name
+}) => {
   return (
     <Table.Row className={styles.row}>
       <Table.ItemAsset
-        currency={"Ethereum"}
-        primaryText={"ETH"}
+        currency={currency}
+        primaryText={name}
         isLoading={isLoading}
       />
       <Table.ItemAmount

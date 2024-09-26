@@ -26,46 +26,25 @@ type TCurrency = {
 const currencies: TCurrency[] = [
   {
     id: "0",
-    name: "ETH",
-    fullName: "Ethereum",
-    currency: "Ethereum",
+    name: "wstETH",
+    fullName: "Wrapped liquid staked Ether",
+    currency: "WrappedStakedETH",
     amount: 0.0,
   },
   {
     id: "1",
-    name: "ETH",
+    name: "rETH",
     fullName: "Rocket Pool ETH",
     currency: "RocketPoolETH",
     amount: 0.0,
   },
   {
     id: "2",
-    name: "USDC",
-    fullName: "USD Coin",
-    currency: "USDCoin",
-    amount: 4324.5,
-  },
-  {
-    id: "3",
     name: "weETH",
     fullName: "Wrapped eETH",
     currency: "WrappedEETH",
     amount: 0.0,
-  },
-  {
-    id: "4",
-    name: "AnkrETH",
-    fullName: "Ankr Staked ETH",
-    currency: "AnkrStakedETH",
-    amount: 0.0,
-  },
-  {
-    id: "5",
-    name: "USDT",
-    fullName: "Tether USD",
-    currency: "USDTether",
-    amount: 0.0,
-  },
+  }
 ];
 
 type CurrencySelectionProps = {
