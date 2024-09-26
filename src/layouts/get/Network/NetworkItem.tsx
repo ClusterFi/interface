@@ -1,23 +1,31 @@
 import * as React from "react";
 import cx from "classnames";
-import { Skeleton, Table, Text, Button } from "@/components";
+import { Skeleton, Table, Text, Button, Currency } from "@/components";
 import { useModalsStore } from "@/utils/stores";
 
 import styles from "./Network.module.scss";
 
 type NetworkItemProps = {
   isLoading: boolean;
+  name: string;
+  fullName: string;
+  currency: Currency;
 };
 
-export const NetworkItem: React.FC<NetworkItemProps> = ({ isLoading }) => {
+export const NetworkItem: React.FC<NetworkItemProps> = ({
+  isLoading,
+  currency,
+  name,
+  fullName
+}) => {
   const { openModal } = useModalsStore();
 
   return (
     <Table.Row className={styles.row}>
       <Table.ItemAsset
-        currency={"Ethereum"}
-        primaryText={"Ethereum"}
-        secondaryText={"ETH"}
+        currency={currency}
+        primaryText={fullName}
+        secondaryText={name}
         isLoading={isLoading}
       />
       <Table.Item mobileTitle={"My Balance"}>

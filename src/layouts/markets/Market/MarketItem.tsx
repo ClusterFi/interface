@@ -1,21 +1,29 @@
 import * as React from "react";
 import Link from "next/link";
-import { Skeleton, Table, Text } from "@/components";
+import { Currency, Skeleton, Table, Text } from "@/components";
 import { formatCoin, formatUSD } from "@/utils";
 
 import styles from "./Market.module.scss";
 
 type MarketItemProps = {
   isLoading: boolean;
+  name: string;
+  fullName: string;
+  currency: Currency;
 };
 
-export const MarketItem: React.FC<MarketItemProps> = ({ isLoading }) => {
+export const MarketItem: React.FC<MarketItemProps> = ({
+  isLoading,
+  name,
+  fullName,
+  currency
+}) => {
   return (
     <Table.Row className={styles.row}>
       <Table.ItemAsset
-        currency={"Ethereum"}
-        primaryText={"Ethereum"}
-        secondaryText={"ETH"}
+        currency={currency}
+        primaryText={fullName}
+        secondaryText={name}
         isLoading={isLoading}
       />
       <Table.ItemAmount
