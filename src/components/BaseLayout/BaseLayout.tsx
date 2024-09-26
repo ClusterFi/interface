@@ -8,8 +8,6 @@ import { Leva } from "leva";
 
 import styles from "./BaseLayout.module.scss";
 import { isReady, mediaBreaks, useMedia } from "@/utils";
-import { SolanaWalletProvider } from "@/contexts/SolanaWalletProvider";
-import { EvmWalletProvider } from "@/contexts/EvmWalletProvider";
 
 type BaseLayoutProps = React.PropsWithChildren;
 
@@ -27,24 +25,20 @@ const BaseLayout = ({ children }: BaseLayoutProps) => {
   }
 
   return (
-    <EvmWalletProvider>
-      <SolanaWalletProvider>
-        <div className={styles.base}>
-          <Header className={styles.header} />
-          <main className={styles.content}>{children}</main>
-          <Footer className={styles.footer} />
-          <Modals />
-          <Leva
-            titleBar={{
-              position: {
-                y: height - 250,
-                x: 0,
-              },
-            }}
-          />
-        </div>
-      </SolanaWalletProvider>
-    </EvmWalletProvider>
+    <div className={styles.base}>
+      <Header className={styles.header} />
+      <main className={styles.content}>{children}</main>
+      <Footer className={styles.footer} />
+      <Modals />
+      <Leva
+        titleBar={{
+          position: {
+            y: height - 250,
+            x: 0,
+          },
+        }}
+      />
+    </div>
   );
 };
 

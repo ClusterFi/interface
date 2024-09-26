@@ -37,14 +37,14 @@ export type WalletVariant = {
 
 const EVM_WALLETS: WalletVariant[] = [
   {
-    id: "metaMask",
+    id: "metamask",
     icon: <WalletIcon wallet={"MetaMask"} width={24} height={24} />,
     name: "MetaMask",
   },
   {
-    id: "phantom",
-    icon: <WalletIcon wallet={"Phantom"} width={24} height={24} />,
-    name: "Phantom",
+    id: "coinbase",
+    icon: <WalletIcon wallet={"Coinbase"} width={24} height={24} />,
+    name: "Coinbase",
   },
   {
     id: "walletConnect",
@@ -52,9 +52,23 @@ const EVM_WALLETS: WalletVariant[] = [
     name: "WalletConnect",
   },
   {
-    id: "coinbaseWalletSDK",
-    icon: <WalletIcon wallet={"Coinbase"} width={24} height={24} />,
-    name: "Coinbase Wallet",
+    id: "trust",
+    icon: (
+      <Image src={"/images/wallet-trust.svg"} width={24} height={24} alt="icon" />
+    ),
+    name: "Trust Wallet",
+  },
+  {
+    id: "gate",
+    icon: (
+      <Image src={"/images/wallet-gate.png"} width={24} height={24} alt="icon" />
+    ),
+    name: "Gate Wallet",
+  },
+  {
+    id: "ledger",
+    icon: <WalletIcon wallet={"Ledger"} width={24} height={24} />,
+    name: "Ledger",
   },
 ];
 
@@ -73,13 +87,13 @@ const SOL_WALLETS: WalletVariant[] = [
   },
   // {
   //   icon: (
-  //     <Image src={"/backpack-wallet.png"} width={24} height={24} alt="icon" />
+  //     <Image src={"/images/wallet-backpack.png"} width={24} height={24} alt="icon" />
   //   ),
   //   name: "Backpack",
   // },
   {
     icon: (
-      <Image src={"/solflare-wallet.png"} width={24} height={24} alt="icon" />
+      <Image src={"/images/wallet-solflare.png"} width={24} height={24} alt="icon" />
     ),
     name: "Solflare",
   },

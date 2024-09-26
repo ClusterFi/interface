@@ -1,5 +1,7 @@
 import * as React from "react";
 import cx from "classnames";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { useAccount } from "wagmi";
 
 import {
   Container,
@@ -12,17 +14,34 @@ import {
   ConnectedWallet,
   Logotype,
 } from "@/components";
-import { formatCoin } from "@/utils";
+import { formatCoin, isSolanaChain, shortenAddress } from "@/utils";
+import { useGlobalStore } from "@/utils/stores";
 import { Nav } from "./Nav";
 
 import styles from "./Header.module.scss";
 
 type DesktopProps = {
   className?: string;
-  isAuthed: boolean;
 };
 
-export const Desktop: React.FC<DesktopProps> = ({ className, isAuthed }) => {
+export const Desktop: React.FC<DesktopProps> = ({ className }) => {
+
+  const { chainId } = useGlobalStore();
+  const { publicKey: solAddr } = useWallet();
+  const { address: ethAddr } = useAccount();
+
+  const account = React.useMemo(() => {
+    if (isSolanaChain(chainId)) {
+      return solAddr?.toBase58();
+    }
+    else {
+      return ethAddr;
+    }
+  }, [
+    chainId,
+    solAddr,
+    ethAddr
+  ])
 
   return (
     <header className={cx(styles.base, className)}>
@@ -31,7 +50,7 @@ export const Desktop: React.FC<DesktopProps> = ({ className, isAuthed }) => {
         <Nav />
         <div className={styles.manage}>
           <NetworkSelection />
-          {!isAuthed ? (
+          {!account ? (
             <ConnectWalletButton />
           ) : (
             <React.Fragment>
@@ -55,7 +74,7 @@ export const Desktop: React.FC<DesktopProps> = ({ className, isAuthed }) => {
                   variant={"stroke"}
                 >
                   <Text size={14} theme={600}>
-                    0x6fdfr...680a
+                    {shortenAddress(account)}
                   </Text>
                 </Button>
                 <ConnectedWallet className={styles.walletPopup} />
