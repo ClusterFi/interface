@@ -1,16 +1,14 @@
 import * as React from "react";
 
 import {
-  Glyph,
   Heading,
   Section,
   Table,
-  Icon,
-  Currency,
   CurrencyIcon,
 } from "@/components";
 import { MarketItem } from "./MarketItem";
 import styles from "./Market.module.scss";
+import { Currency } from "@/types";
 
 type TMarket = {
   id: string;
@@ -80,28 +78,28 @@ export const Market: React.FC<MarketProps> = ({
         <Table.Body className={styles.body}>
           {
             currency == "Ethereum" ?
-            ethMarkets.map(market => {
-              return (
-                <MarketItem
-                  isLoading={isLoading}
-                  currency={market.currency}
-                  name={market.name}
-                  fullName={market.fullName}
-                  key={market.id}
-                />
-              )
-            }) :
-            solMarkets.map(market => {
-              return (
-                <MarketItem
-                  isLoading={isLoading}
-                  currency={market.currency}
-                  name={market.name}
-                  fullName={market.fullName}
-                  key={market.id}
-                />
-              )
-            })
+              ethMarkets.map(market => {
+                return (
+                  <MarketItem
+                    isLoading={isLoading}
+                    currency={market.currency}
+                    name={market.name}
+                    fullName={market.fullName}
+                    key={market.id}
+                  />
+                )
+              }) :
+              solMarkets.map(market => {
+                return (
+                  <MarketItem
+                    isLoading={isLoading}
+                    currency={market.currency}
+                    name={market.name}
+                    fullName={market.fullName}
+                    key={market.id}
+                  />
+                )
+              })
           }
         </Table.Body>
       </Table>

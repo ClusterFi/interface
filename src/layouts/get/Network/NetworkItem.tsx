@@ -1,9 +1,10 @@
 import * as React from "react";
 import cx from "classnames";
-import { Skeleton, Table, Text, Button, Currency } from "@/components";
+import { Skeleton, Table, Text, Button } from "@/components";
 import { useModalsStore } from "@/utils/stores";
 
 import styles from "./Network.module.scss";
+import { Currency } from "@/types";
 
 type NetworkItemProps = {
   isLoading: boolean;

@@ -4,7 +4,6 @@ import * as React from "react";
 import cx from "classnames";
 import {
   Button,
-  Currency,
   Text,
   Icon,
   CurrencyIcon,

@@ -8,12 +8,12 @@ import {
   Text,
   Icon,
   CurrencyIcon,
-  Currency,
 } from "@/components/shared";
 import { motion, AnimatePresence } from "framer-motion";
 import { useOnClickOutside } from "usehooks-ts";
 import styles from "./CurrencySelection.module.scss";
 import { formatCoin } from "@/utils";
+import { Currency } from "@/types";
 
 type TCurrency = {
   name: string;

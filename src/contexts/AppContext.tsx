@@ -56,7 +56,8 @@ export const AppContextProvider = (props: PropsWithChildren) => {
     })();
 
   }, [
-    solAddr
+    solAddr,
+    setBalance,
   ])
 
   useEffect(() => {
@@ -68,7 +69,8 @@ export const AppContextProvider = (props: PropsWithChildren) => {
       setBalance("Ethereum", 0);
     }
   }, [
-    ethBalance
+    ethBalance,
+    setBalance,
   ])
 
   return (

@@ -49,7 +49,7 @@ export const ConnectedWallet: React.FC<ConnectedWalletProps> = ({
       </Text>
       <Text size={14} theme={400} className={styles.row}>
         {
-          isSolana ? <img src={solWallet?.adapter.icon ?? ""} alt={solWallet?.adapter.name} className={styles.walletBtn} />
+          isSolana ? <Image src={solWallet?.adapter.icon ?? ""} alt={solWallet?.adapter.name ?? ""} className={styles.walletBtn} width={32} height={32} />
             : <WalletIcon wallet={"MetaMask"} width={16} height={16} />
         }
         {shortenAddress(account)}

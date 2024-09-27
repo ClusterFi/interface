@@ -1,9 +1,10 @@
 import * as React from "react";
 import Link from "next/link";
-import { Currency, Skeleton, Table, Text } from "@/components";
+import { Skeleton, Table, Text } from "@/components";
 import { formatCoin, formatUSD } from "@/utils";
 
 import styles from "./Market.module.scss";
+import { Currency } from "@/types";
 
 type MarketItemProps = {
   isLoading: boolean;
