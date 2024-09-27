@@ -9,9 +9,14 @@ import { Deposits, Borrows, Overview } from "./components";
 import { getState } from "./common";
 
 import styles from "./Dashboard.module.scss";
+import { useGlobalStore } from "@/utils/stores";
+import { AppContext } from "@/contexts/AppContext";
 
 export const DashboardPage: React.FC = () => {
-  const componentState = "default";
+
+  const { account } = React.useContext(AppContext);
+
+  const componentState = account ?   "default" : "unauthorized";
 
   return (
     <section className={styles.base}>
