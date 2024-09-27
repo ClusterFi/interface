@@ -68,6 +68,9 @@ export const Loans: React.FC = () => {
       </Button>
       <div className={styles.rows}>
         <Text size={14} theme={500} className={styles.row}>
+          Health Factor <span>1.2</span>
+        </Text>
+        <Text size={14} theme={500} className={styles.row}>
           Collateral Price <span>${formatUSD(2200)}</span>
         </Text>
         <Text size={14} theme={500} className={styles.row}>
