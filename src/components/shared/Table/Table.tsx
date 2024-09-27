@@ -4,14 +4,13 @@ import cx from "classnames";
 import styles from "./Table.module.scss";
 import {
   Button,
-  Currency,
   CurrencyIcon,
-  Glyph,
   Icon,
   Skeleton,
   Text,
 } from "@/components";
 import { mediaBreaks, useMedia } from "@/utils";
+import { Currency } from "@/types";
 
 export type TableProps = {} & React.HTMLAttributes<HTMLElement>;
 

@@ -1,16 +1,14 @@
 import * as React from "react";
 
 import {
-  Glyph,
   Heading,
   Section,
   Table,
-  Icon,
-  Currency,
   CurrencyIcon,
 } from "@/components";
 import { NetworkItem } from "./NetworkItem";
 import styles from "./Network.module.scss";
+import { Currency } from "@/types";
 
 type NetworkProps = {
   currency: Currency;

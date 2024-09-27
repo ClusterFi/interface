@@ -1,8 +1,7 @@
 import { ComponentPropsWithRef, forwardRef } from "react";
 
 import * as Currencies from "./currencies";
-
-export type Currency = keyof typeof Currencies;
+import { Currency } from "@/types";
 
 export { Currencies };
 

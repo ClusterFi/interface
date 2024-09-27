@@ -1,9 +1,10 @@
 import * as React from "react";
 import Link from "next/link";
-import { Currency, Table } from "@/components";
+import { Table } from "@/components";
 
 import styles from "./Borrows.module.scss";
 import { formatCoin, formatUSD } from "@/utils";
+import { Currency } from "@/types";
 
 type BorrowItemProps = {
   isLoading: boolean;

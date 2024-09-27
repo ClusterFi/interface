@@ -8,61 +8,58 @@ import {
 } from "@/components";
 import styles from "./ConnectWallet.module.scss";
 import { WalletVariant } from "./ConnectWallet";
-import { useConnect } from "wagmi";
+import { useAccount, useConnect } from "wagmi";
 import { MAIN_CHAIN_ID } from "@/constants";
+import { WalletButton } from "@rainbow-me/rainbowkit";
 
 export type WalletBtnPros = {
   index: number;
 } & WalletVariant;
 
-export const EvmWalletBtn: React.FC<WalletBtnPros> = ({ name, icon, index }) => {
-
-  const { connectors, connect } = useConnect();
-
-  const connector = React.useMemo(() => {
-    return connectors.filter(t => t.name == name)[0];
-  }, [
-    connectors,
-    name,
-  ])
-
-  const isDetected = React.useMemo(() => {
-    return !!connector;
-  }, [
-    connector
-  ]);
+export const EvmWalletBtn: React.FC<WalletBtnPros> = ({ id, name, icon, index }) => {
 
   return (
-    <Button
-      variant={"custom"}
-      size={"custom"}
-      className={styles.button}
-      onClick={() => {
-        if (connector) {
-          connect({
-            chainId: MAIN_CHAIN_ID,
-            connector
-          })
-        }
+
+    <WalletButton.Custom wallet={id}>
+      {({ ready, mounted, connected, loading, connect, connector }) => {
+        return (
+          <Button
+            variant={"custom"}
+            size={"custom"}
+            className={styles.button}
+            disabled={!mounted}
+            onClick={() => {
+              if(connected) {
+                connector.disconnect();
+              }
+              else {
+                connect();
+              }
+            }}
+          >
+            <Text
+              size={16}
+              theme={500}
+              className={styles.wallet}
+              style={{ animationDelay: index * 50 + "ms" }}
+            >
+              {icon}
+              {name}
+              <span
+                className={cx(
+                  styles.status,
+                  ready && styles.highlight,
+                )}
+              >
+                {connected ? "Disconnect" : (
+                  loading ? "Connecting..." : (
+                    mounted ? "Connect" : "Not detected"
+                  ))}
+              </span>
+            </Text>
+          </Button>
+        );
       }}
-    >
-      <Text
-        size={16}
-        theme={500}
-        className={styles.wallet}
-        style={{ animationDelay: index * 50 + "ms" }}
-      >
-        {icon}
-        {name}
-        <span
-          className={cx(
-            styles.status,
-            isDetected && styles.highlight,
-          )}
-        >
-          {isDetected ? "Connect" : "Not Detected"}
-        </span>
-      </Text>
-    </Button>
+    </WalletButton.Custom>
   );
 };

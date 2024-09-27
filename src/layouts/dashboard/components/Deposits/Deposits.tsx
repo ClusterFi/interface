@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Currency, Section, Table } from "@/components";
+import { Section, Table } from "@/components";
 import {
   UnauthorizedState,
   EmptyState,
@@ -10,6 +10,7 @@ import {
 import { DepositItem } from "./DepositItem";
 
 import styles from "./Deposits.module.scss";
+import { Currency } from "@/types";
 
 type TAsset = {
   id: string;

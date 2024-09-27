@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Currency, Section, Table } from "@/components";
+import { Section, Table } from "@/components";
 import {
   UnauthorizedState,
   ComponentState,
@@ -9,6 +9,7 @@ import {
 } from "@/layouts/dashboard/common";
 import { BorrowItem } from "./BorrowItem";
 import styles from "./Borrows.module.scss";
+import { Currency } from "@/types";
 
 type TAsset = {
   id: string;

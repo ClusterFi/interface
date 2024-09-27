@@ -2,10 +2,11 @@ import * as React from "react";
 import cx from "classnames";
 
 import Link from "next/link";
-import { Table, Switcher, Skeleton, Currency } from "@/components";
+import { Table, Switcher, Skeleton } from "@/components";
 
 import styles from "./Deposits.module.scss";
 import { formatCoin, formatUSD } from "@/utils";
+import { Currency } from "@/types";
 
 type DepositItemProps = {
   isLoading: boolean;

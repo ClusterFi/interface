@@ -7,10 +7,10 @@ import {
   Icon,
   Text,
   CurrencyIcon,
-  Currency,
 } from "@/components";
 import { formatCoin } from "@/utils";
 import styles from "./SelectToken.module.scss";
+import { Currency } from "@/types";
 
 export type SelectTokenProps = null;
 
