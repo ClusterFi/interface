@@ -2,16 +2,7 @@
 
 import * as React from "react";
 import cx from "classnames";
-<<<<<<< Updated upstream
-import {
-  Button,
-  Text,
-  Icon,
-  CurrencyIcon,
-} from "@/components/shared";
-=======
-import { Button, Currency, Text, Icon, CurrencyIcon } from "@/components/shared";
->>>>>>> Stashed changes
+import { Button, Text, Icon, CurrencyIcon } from "@/components/shared";
 import { motion, AnimatePresence } from "framer-motion";
 import { useOnClickOutside } from "usehooks-ts";
 import styles from "./NetworkSelection.module.scss";

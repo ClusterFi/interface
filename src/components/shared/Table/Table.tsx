@@ -2,17 +2,7 @@ import * as React from "react";
 import cx from "classnames";
 
 import styles from "./Table.module.scss";
-<<<<<<< Updated upstream
-import {
-  Button,
-  CurrencyIcon,
-  Icon,
-  Skeleton,
-  Text,
-} from "@/components";
-=======
-import { Button, Currency, CurrencyIcon, Glyph, Icon, Skeleton, Text } from "@/components";
->>>>>>> Stashed changes
+import { Button, CurrencyIcon, Glyph, Icon, Skeleton, Text } from "@/components";
 import { mediaBreaks, useMedia } from "@/utils";
 import { Currency } from "@/types";
 

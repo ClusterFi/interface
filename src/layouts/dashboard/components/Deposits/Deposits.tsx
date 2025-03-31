@@ -9,17 +9,17 @@ import styles from "./Deposits.module.scss";
 import { Currency } from "@/types";
 
 type TAsset = {
-  id: string;
-  name: string;
-  currency: Currency;
+	id: string;
+	name: string;
+	currency: Currency;
 };
 
 const assets: TAsset[] = [
-  {
-    id: "0",
-    name: "rETH",
-    currency: "RocketPoolETH",
-  }
+	{
+		id: "0",
+		name: "rETH",
+		currency: "RocketPoolETH",
+	},
 ];
 
 type DepositsProps = {
@@ -27,47 +27,6 @@ type DepositsProps = {
 };
 
 export const Deposits: React.FC<DepositsProps> = ({ state }) => {
-<<<<<<< Updated upstream
-  return (
-    <Section className={styles.base}>
-      <Title text={"Deposits"} />
-      {(() => {
-        switch (state) {
-          case "empty":
-            return <EmptyState text={"There is no deposits yet."} />;
-          case "unauthorized":
-            return <UnauthorizedState />;
-          default:
-            return (
-              <Table className={styles.table}>
-                <Table.Head>
-                  <Table.Row>
-                    <Table.Item>Asset</Table.Item>
-                    <Table.Item>Deposits</Table.Item>
-                    <Table.Item>APY</Table.Item>
-                    <Table.Item>Collateral</Table.Item>
-                    <Table.Item></Table.Item>
-                  </Table.Row>
-                </Table.Head>
-                <Table.Body className={styles.body}>
-                  {assets.map(asset => {
-                    return (
-                      <DepositItem
-                        isLoading={state === "loading"}
-                        currency={asset.currency}
-                        name={asset.name}
-                        key={asset.id}
-                      />
-                    )
-                  })}
-                </Table.Body>
-              </Table>
-            );
-        }
-      })()}
-    </Section>
-  );
-=======
 	return (
 		<div className={styles.base}>
 			<Accordion defaultOpen title="Your supplies">
@@ -118,5 +77,4 @@ export const Deposits: React.FC<DepositsProps> = ({ state }) => {
 			</Accordion>
 		</div>
 	);
->>>>>>> Stashed changes
 };

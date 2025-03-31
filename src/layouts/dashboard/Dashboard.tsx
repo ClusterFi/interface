@@ -10,16 +10,6 @@ import { Deposits, Borrows } from "./components";
 import { getState } from "./common";
 
 import styles from "./Dashboard.module.scss";
-<<<<<<< Updated upstream
-import { useGlobalStore } from "@/utils/stores";
-import { AppContext } from "@/contexts/AppContext";
-
-export const DashboardPage: React.FC = () => {
-
-  const { account } = React.useContext(AppContext);
-
-  const componentState = account ?   "default" : "unauthorized";
-=======
 import Image from "next/image";
 
 export const DashboardPage: React.FC = () => {
@@ -31,7 +21,6 @@ export const DashboardPage: React.FC = () => {
 		},
 	});
 	const componentState = React.useMemo(() => getState(controls["dashboard-state"]), [controls]);
->>>>>>> Stashed changes
 
 	return (
 		<section className={styles.base}>
