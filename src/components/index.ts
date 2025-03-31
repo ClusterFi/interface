@@ -10,3 +10,4 @@ export * from "./PendingRewards/PendingRewards";
 export * from "./Modals/Modals";
 export * from "./Balance/Balance";
 export * from "./ConnectedWallet/ConnectedWallet";
+export * from "./Overview/Overview";

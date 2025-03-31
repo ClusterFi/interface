@@ -2,178 +2,183 @@
 @import "@/styles/variables";
 
 .base {
-  border-spacing: 0;
-  white-space: nowrap;
+	border-spacing: 0;
+	white-space: nowrap;
 }
 
 .head {
-  .item {
-    font-size: toRem(12px);
-    font-weight: 500;
-    color: $text-secondary;
-    padding-bottom: 10px;
-  }
+	.item {
+		font-size: toRem(12px);
+		font-weight: 500;
+		color: $text-secondary;
+		padding-bottom: 10px;
+
+		svg {
+			margin: -1px 0 0 6px;
+			vertical-align: middle;
+		}
+	}
 }
 
 .label {
-  margin: 0 0 12px;
-  color: $text-secondary;
+	margin: 0 0 12px;
+	color: $text-secondary;
 }
 
 .box {
-  display: grid;
-  grid-template-columns: 100%;
-  align-content: flex-start;
-  align-items: flex-start;
-  gap: 2px;
+	display: grid;
+	grid-template-columns: 100%;
+	align-content: flex-start;
+	align-items: flex-start;
+	gap: 2px;
 }
 
 .boxRow {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  text-align: right;
-  margin: 0;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	text-align: right;
+	margin: 0;
 
-  &.small {
-    margin: 6px 0 0;
-    color: $text-secondary;
-  }
+	&.small {
+		margin: 6px 0 0;
+		color: $text-secondary;
+	}
 
-  &.default {
-    color: $text-white;
-  }
+	&.default {
+		color: $text-white;
+	}
 }
 
 .reward {
-  padding: 0 6px;
-  border-radius: 44px;
+	padding: 0 6px;
+	border-radius: 44px;
 
-  > p {
-    gap: 3px;
-    margin: 0;
-    padding: 1px 0 0;
-  }
+	> p {
+		gap: 3px;
+		margin: 0;
+		padding: 1px 0 0;
+	}
 }
 
 .asset {
-  display: grid;
-  gap: 8px;
-  align-items: center;
-  grid-template-columns: 40px calc(100% - 40px - 8px);
+	display: grid;
+	gap: 8px;
+	align-items: center;
+	grid-template-columns: 40px calc(100% - 40px - 8px);
 }
 
 .assetContent {
-  display: grid;
-  grid-template-columns: 100%;
-  gap: 6px;
-  align-items: center;
+	display: grid;
+	grid-template-columns: 100%;
+	gap: 6px;
+	align-items: center;
 
-  > p {
-    margin: 0;
+	> p {
+		margin: 0;
 
-    &:nth-child(1) {
-      color: $text-white;
-    }
+		&:nth-child(1) {
+			color: $text-white;
+		}
 
-    &:nth-child(2) {
-      color: $text-secondary;
-    }
-  }
+		&:nth-child(2) {
+			color: $text-secondary;
+		}
+	}
 }
 
 .skeleton {
-  border-radius: 4px;
+	border-radius: 4px;
 }
 
 .box .skeleton {
-  margin-left: auto;
+	margin-left: auto;
 
-  &:nth-child(1) {
-    width: 50px;
-    height: 16px;
+	&:nth-child(1) {
+		width: 50px;
+		height: 16px;
 
-    @include breakpoint-max("tablet") {
-      width: 70px;
-    }
-  }
+		@include breakpoint-max("tablet") {
+			width: 70px;
+		}
+	}
 
-  &:nth-child(2) {
-    width: 70px;
-    height: 12px;
-    margin: 2px 0 0 auto;
-  }
+	&:nth-child(2) {
+		width: 70px;
+		height: 12px;
+		margin: 2px 0 0 auto;
+	}
 }
 
 .next {
-  color: $ui-secondary;
-  width: 24px;
-  height: 24px;
+	color: $ui-secondary;
+	width: 24px;
+	height: 24px;
 }
 
 .asset .skeleton {
-  &:nth-child(1) {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-  }
+	&:nth-child(1) {
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+	}
 
-  &:nth-child(2) {
-    width: 100%;
-    max-width: 60px;
-    height: 16px;
-  }
+	&:nth-child(2) {
+		width: 100%;
+		max-width: 60px;
+		height: 16px;
+	}
 }
 
 .asset.multi {
-  .currencies .skeleton {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-  }
+	.currencies .skeleton {
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+	}
 }
 
 .currencies {
-  display: flex;
-  align-items: center;
+	display: flex;
+	align-items: center;
 
-  > * {
-    flex-shrink: 0;
+	> * {
+		flex-shrink: 0;
 
-    &:nth-child(1) {
-      position: relative;
-      z-index: 1;
-    }
-  }
+		&:nth-child(1) {
+			position: relative;
+			z-index: 1;
+		}
+	}
 
-  > * + * {
-    margin-left: -12px;
-  }
+	> * + * {
+		margin-left: -12px;
+	}
 }
 
 .asset.multi {
-  grid-template-columns: 68px calc(100% - 68px - 8px);
+	grid-template-columns: 68px calc(100% - 68px - 8px);
 }
 
 .item.small {
-  .asset {
-    grid-template-columns: 20px calc(100% - 20px - 8px);
+	.asset {
+		grid-template-columns: 20px calc(100% - 20px - 8px);
 
-    svg {
-      width: 20px;
-      height: 20px;
-    }
+		svg {
+			width: 20px;
+			height: 20px;
+		}
 
-    .skeleton {
-      &:nth-child(1) {
-        width: 20px;
-        height: 20px;
-      }
-    }
-  }
+		.skeleton {
+			&:nth-child(1) {
+				width: 20px;
+				height: 20px;
+			}
+		}
+	}
 
-  .assetContent > p {
-    font-size: 14px;
-    font-weight: 500;
-  }
+	.assetContent > p {
+		font-size: 14px;
+		font-weight: 500;
+	}
 }

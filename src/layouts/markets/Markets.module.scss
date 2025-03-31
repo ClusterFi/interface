@@ -2,25 +2,34 @@
 @import "@/styles/variables";
 
 .base {
-  padding: 80px 0;
+	padding: 80px 0;
 
-  @include breakpoint-max("xga") {
-    padding: 32px 0 60px;
-  }
+	@include breakpoint-max("xga") {
+		padding: 32px 0 60px;
+	}
 }
 
 .base .title {
-  margin: 0 0 32px;
+	margin: 0 0 32px;
 
-  @include breakpoint-max("tablet") {
-    margin-bottom: 24px;
-    font-size: toRem(24px);
-  }
+	@include breakpoint-max("tablet") {
+		margin-bottom: 24px;
+		font-size: toRem(24px);
+	}
 }
 
 .grid {
-  display: grid;
-  grid-template-columns: 100%;
-  gap: 20px;
-  align-content: flex-start;
+	display: grid;
+	grid-template-columns: 100%;
+	gap: 20px;
+	align-content: flex-start;
+}
+
+.overview {
+	padding: 32px 24px 24px;
+	margin: 0 0 80px;
+
+	@include breakpoint-max("tablet") {
+		padding: 20px 16px 16px;
+	}
 }

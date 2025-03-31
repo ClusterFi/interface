@@ -4,6 +4,6 @@ export * from "./StakingWithdraw/StakingWithdraw";
 export * from "./TreasurySwap/TreasurySwap";
 export * from "./ConnectWallet/ConnectWallet";
 export * from "./SelectToken/SelectToken";
-export * from "./GetLSDs/GetLSDs";
+export * from "./Swap/Swap";
 export * from "./SwitchWallet/SwitchWallet";
 export * from "./Wallet/Wallet";
