@@ -16,7 +16,8 @@ export type Currency =
   | "JITOStakedSOL"
   | "AnkrStakedETH"
   | "Polygon"
-  | "Arbitrum";
+  | "Arbitrum"
+  | "Hyperliquid";
 
 export type CurrencyList = Partial<Record<Currency, number>>;
 

@@ -1,8 +1,8 @@
 import React from "react";
-import styles from "./styles.module.scss";
+import styles from "./CommonInfo.module.scss";
 import { Button, Icon, Text } from "@/components";
 
-export const Info: React.FC = () => {
+export const CommonInfo: React.FC = () => {
   return (
     <div className={styles.info}>
       <Button

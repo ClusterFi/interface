@@ -21,38 +21,20 @@ export const Loans: React.FC = () => {
       <Heading className={styles.title} element="h3" as="h2">
         Borrow amount
       </Heading>
-      <div className={styles.label}>
-        <Text size={14} theme={400} className={styles.labelTitle}>
-          Total amount
-        </Text>
-        <Text size={12} theme={400} className={styles.labelContent}>
-          Available: <span>{formatCoin(2.5413)} ETH</span>
-        </Text>
-      </div>
       <CustomInput
+        className={styles.input}
         value={value}
-        USDValue={formatUSD(Number(value) * 1.2)}
         onChange={(e) => setValue(e.target.value)}
-        onClickMax={() => setValue("1000.00")}
-        placeholder={"0.00"}
-        actions={[
-          {
-            text: "25%",
-            onClick: () => setValue("125.00"),
-          },
-          {
-            text: "50%",
-            onClick: () => setValue("250.00"),
-          },
-          {
-            text: "75%",
-            onClick: () => setValue("375.00"),
-          },
-          {
-            text: "100%",
-            onClick: () => setValue("500.00"),
-          },
-        ]}
+        values={{
+          usd: Number(value) ? formatUSD(Number(value) * 1.2) : undefined,
+          balance: 2.5413,
+        }}
+        title={"Total Amount"}
+        fastOptions
+        token={{
+          icon: "WrappedStakedETH",
+          name: "wstETH",
+        }}
       />
       <Heading className={styles.subtitle} element="h3">
         Select chain

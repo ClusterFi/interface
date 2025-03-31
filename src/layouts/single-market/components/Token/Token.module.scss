@@ -1,0 +1,53 @@
+@import "@/styles/utils";
+@import "@/styles/variables";
+
+.base {
+  padding: 24px;
+}
+
+.heading {
+  padding-left: 54px;
+  position: relative;
+  min-height: 36px;
+  margin: 0 0 24px;
+
+  span {
+    color: $text-secondary;
+    margin-left: 20px;
+    position: relative;
+
+    &:before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: -14px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      transform: translateY(-50%);
+      background: $text-secondary;
+    }
+  }
+}
+
+.icon {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 36px;
+  height: 36px;
+
+  svg {
+    position: absolute;
+
+    &:nth-child(1) {
+      left: -2px;
+      top: -2px;
+    }
+
+    &:nth-child(2) {
+      left: 24px;
+      top: 18px;
+    }
+  }
+}

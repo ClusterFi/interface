@@ -1,14 +1,13 @@
 import * as React from "react";
 import cx from "classnames";
 
-import { Section, Button, Skeleton, Table, Text } from "@/components";
-import { ComponentState, EmptyState, Title } from "@/layouts/dashboard/common";
+import { Section, Button, Skeleton, Table, Text, Heading } from "@/components";
 import { PendingRewardItem } from "./PendingRewardItem";
 
 import styles from "./PendingRewards.module.scss";
 
 type PendingRewardsProps = {
-  state: ComponentState;
+  state: "default" | "loading" | "unauthorized" | "empty";
 };
 
 export const PendingRewards: React.FC<PendingRewardsProps> = ({ state }) => {
@@ -19,7 +18,9 @@ export const PendingRewards: React.FC<PendingRewardsProps> = ({ state }) => {
   return (
     <Section className={styles.base}>
       <div className={styles.head}>
-        <Title text={"Pending rewards"} />
+        <Heading element="h4" as={"h2"} className={styles.title}>
+          Pending rewards
+        </Heading>
         {(() => {
           switch (state) {
             case "empty":
@@ -47,7 +48,11 @@ export const PendingRewards: React.FC<PendingRewardsProps> = ({ state }) => {
       {(() => {
         switch (state) {
           case "empty":
-            return <EmptyState text={"There is no pending rewards yet."} />;
+            return (
+              <Text size={12} theme={400} className={styles.empty}>
+                There is no pending rewards yet.
+              </Text>
+            );
           case "loading":
           case "default":
             return (

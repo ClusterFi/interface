@@ -4,6 +4,7 @@
 .base {
   display: grid;
   grid-template-columns: 100%;
+  align-content: flex-start;
   gap: 20px;
 
   @include breakpoint-max("tablet") {
@@ -11,6 +12,20 @@
       display: none;
     }
   }
+}
+
+.empty {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 12px;
+  padding: 52px 24px 61px;
+}
+
+.emptyTitle {
+  text-align: center;
+  color: $text-white;
+  margin: 0;
 }
 
 .table {

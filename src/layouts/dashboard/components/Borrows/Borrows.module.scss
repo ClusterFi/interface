@@ -2,20 +2,51 @@
 @import "@/styles/variables";
 
 .base {
-  padding: 24px 24px 12px;
+  display: grid;
+  grid-template-columns: 100%;
+  align-content: flex-start;
+  gap: 20px;
 
   @include breakpoint-max("tablet") {
-    padding: 0;
-
     thead {
       display: none;
     }
   }
 }
 
+.empty {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 12px;
+  padding: 52px 24px 61px;
+}
+
+.emptyTitle {
+  text-align: center;
+  color: $text-white;
+  margin: 0;
+}
+
 .table {
   width: calc(100% + 24px);
   margin: 20px -12px 0;
+
+  + .table {
+    margin-top: 12px;
+    padding-top: 8px;
+    position: relative;
+
+    &:before {
+      content: "";
+      position: absolute;
+      background: $stroke-grey;
+      height: 1px;
+      left: -12px;
+      right: -12px;
+      top: 0;
+    }
+  }
 
   @include breakpoint-max("tablet") {
     margin: 0;
@@ -83,12 +114,11 @@
     @include breakpoint-min("tablet") {
       &:nth-child(2),
       &:nth-child(3) {
-        width: 144px;
         text-align: right;
       }
 
       &:last-child {
-        width: 48px;
+        width: 184px;
         padding: 12px;
       }
 
@@ -96,6 +126,17 @@
         padding-left: 12px;
       }
     }
+  }
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 5px;
+
+  > * {
+    flex: 1;
+    max-width: calc(50% - 3px);
   }
 }
 

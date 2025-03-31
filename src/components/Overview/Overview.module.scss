@@ -3,7 +3,7 @@
 
 .info {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   gap: 32px;
 
   @include breakpoint-max("tablet") {
@@ -118,6 +118,10 @@
 }
 
 .box {
+  &.white {
+    margin: 0 0 -3px;
+  }
+
   .subtitle.purple,
   .subtitle.green {
     margin: 0 0 12px;

@@ -2,26 +2,135 @@
 @import "@/styles/variables";
 
 .base {
-  position: relative;
-}
-
-.actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 8px 0 0;
-}
-
-.base .action {
-  height: 30px;
-  border-radius: 50px;
-  flex: 1;
+  height: 125px;
   background: $bg-main;
-  padding: 2px 0 0;
+  border-radius: 20px;
+  position: relative;
+  padding: 16px;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 0 0 16px;
+  min-height: 19px;
+}
+
+.title {
+  margin: 0;
+  color: $text-secondary;
+}
+
+.subtitle {
+  margin: 0;
+  color: $text-secondary;
+  text-align: right;
+
+  span {
+    color: $text-white;
+  }
+}
+
+.options {
+  display: flex;
+  justify-content: flex-end;
+  gap: 2px;
+}
+
+.option {
+  height: 19px;
+  min-width: 40px;
+  padding: 2px 8px 0;
+  border-radius: 50px;
+  background: rgba(153, 105, 255, 0.16);
+  font-size: 12px;
+  font-weight: 500;
+  color: #a180e9;
+  display: flex;
+  align-items: center;
+  transition: background 0.2s;
 
   @include hover {
-    background: $ui-purpure;
-    color: $text-white;
+    background: rgba(153, 105, 255, 0.32);
+  }
+}
+
+.input {
+  width: calc(100% - 150px);
+  padding: 7px 0 0;
+}
+
+.element {
+  appearance: none;
+  -webkit-appearance: none;
+  background: none;
+  padding: 0;
+  border: none;
+  box-shadow: none;
+  font-family: inherit;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 100%;
+  height: 22px;
+  min-width: 1px;
+  width: 100%;
+  color: $text-white;
+
+  &::placeholder {
+    color: $text-secondary;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.token {
+  position: absolute;
+  top: 34px;
+  right: 0;
+  bottom: 0;
+  max-width: 150px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.balance {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  .option {
+    margin-left: 10px;
+  }
+}
+
+.usd {
+  margin: 12px 0 0;
+  color: $text-secondary;
+}
+
+.tokenButton,
+.select {
+  height: 32px;
+  min-width: 90px;
+  border-radius: 50px;
+  flex-shrink: 0;
+}
+
+.select {
+  padding: 0 8px 0 12px;
+  gap: 2px;
+
+  svg {
+    flex-shrink: 0;
+    transform: rotate(90deg);
   }
 
   p {
@@ -29,104 +138,25 @@
   }
 }
 
-.input {
-  background: $bg-main;
-  border-radius: 12px;
-  height: 62px;
-  position: relative;
-  display: block;
-  transition: background 0.2s;
+.tokenButton {
+  gap: 4px;
+  padding: 0 12px 0 8px;
 
-  &:after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 1px;
-    mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-    background:
-      linear-gradient(transparent, transparent),
-      linear-gradient(136deg, #2a2732 -0.84%, rgba(42, 39, 50, 0) 47.36%);
-    transition: opacity 0.2s;
-  }
+  svg {
+    flex-shrink: 0;
 
-  @include hover {
-    background-color: #1b1823;
-  }
-
-  &:focus-within {
-    background-color: #1b1823;
+    &:nth-of-type(2) {
+      transform: rotate(90deg);
+    }
   }
 }
 
-.max {
-  position: absolute;
-  right: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  padding: 1px 10px 0;
-  font-size: toRem(10px);
-  height: 23px;
-  border-radius: 6px;
-}
-
-.usd {
-  position: absolute;
-  margin: 0;
-  left: 16px;
-  bottom: 15px;
-  color: $text-secondary;
-  opacity: 0;
-  transition: opacity 0.2s;
-}
-
-.element {
-  position: absolute;
-  top: 50%;
-  left: 16px;
-  right: 72px;
-  transform: translateY(-50%);
-  appearance: none;
-  -webkit-appearance: none;
-  box-shadow: none;
-  background: transparent;
-  border: none;
-  font-size: toRem(18px);
-  font-weight: 600;
-  font-family: inherit;
-  color: $text-white;
-  padding: 0;
-  transition: transform 0.2s;
-
-  &:focus {
-    outline: none;
-  }
-
-  &::placeholder {
-    color: $text-secondary;
-  }
-
-  &::-webkit-outer-spin-button,
-  &::-webkit-inner-spin-button {
-    /* display: none; <- Crashes Chrome on hover */
-    -webkit-appearance: none;
-    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
-  }
-}
-
-.input.active {
-  .usd {
-    opacity: 1;
-  }
+.base.error {
   .element {
-    transform: translateY(calc(-50% - 7px));
+    color: #db5c5c;
+  }
+
+  .balance {
+    color: #db5c5c;
   }
 }

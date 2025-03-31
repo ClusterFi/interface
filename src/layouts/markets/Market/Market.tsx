@@ -12,12 +12,12 @@ type TMarket = {
   currency: Currency;
 };
 
-const ethMarkets: TMarket[] = [
+const mockedMarkets: TMarket[] = [
   {
     id: "0",
-    name: "rETH",
-    fullName: "Rocket Pool ETH",
-    currency: "RocketPoolETH",
+    name: "USDT",
+    fullName: "Tether USDt",
+    currency: "USDTether",
   },
   {
     id: "1",
@@ -25,20 +25,17 @@ const ethMarkets: TMarket[] = [
     fullName: "Wrapped eETH",
     currency: "WrappedEETH",
   },
-];
-
-const solMarkets: TMarket[] = [
   {
-    id: "0",
-    name: "JitoSOL",
-    fullName: "Jito Staked SOL",
-    currency: "JITOStakedSOL",
+    id: "2",
+    name: "USDT",
+    fullName: "Tether USDt",
+    currency: "USDTether",
   },
   {
-    id: "1",
-    name: "mSOL",
-    fullName: "Marinade staked SOL",
-    currency: "MarinadeStakedSOL",
+    id: "3",
+    name: "weETH",
+    fullName: "Wrapped eETH",
+    currency: "WrappedEETH",
   },
 ];
 
@@ -71,29 +68,17 @@ export const Market: React.FC<MarketProps> = ({
           </Table.Row>
         </Table.Head>
         <Table.Body className={styles.body}>
-          {currency == "Ethereum"
-            ? ethMarkets.map((market) => {
-                return (
-                  <MarketItem
-                    isLoading={isLoading}
-                    currency={market.currency}
-                    name={market.name}
-                    fullName={market.fullName}
-                    key={market.id}
-                  />
-                );
-              })
-            : solMarkets.map((market) => {
-                return (
-                  <MarketItem
-                    isLoading={isLoading}
-                    currency={market.currency}
-                    name={market.name}
-                    fullName={market.fullName}
-                    key={market.id}
-                  />
-                );
-              })}
+          {mockedMarkets.map((market) => {
+            return (
+              <MarketItem
+                isLoading={isLoading}
+                currency={market.currency}
+                name={market.name}
+                fullName={market.fullName}
+                key={market.id}
+              />
+            );
+          })}
         </Table.Body>
       </Table>
     </Section>

@@ -1,7 +1,3 @@
-export * from "./UnauthorizedState";
-export * from "./EmptyState";
-export * from "./Title";
-export * from "./Info";
 export type ComponentState = "default" | "loading" | "unauthorized" | "empty";
 export const getState = (state: string): ComponentState => {
   switch (state) {

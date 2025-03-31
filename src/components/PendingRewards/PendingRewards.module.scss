@@ -29,6 +29,25 @@
   }
 }
 
+.empty {
+  margin: 32px 0 12px;
+  color: $text-secondary;
+
+  @include breakpoint-max("tablet") {
+    padding: 24px 16px;
+    margin: 0;
+  }
+}
+
+.title {
+  margin: 0;
+
+  @include breakpoint-max("tablet") {
+    padding: 16px;
+    border-bottom: 1px solid $stroke-grey;
+  }
+}
+
 .claim {
   padding: 0 24px;
   min-width: 100px;

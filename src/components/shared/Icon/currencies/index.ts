@@ -11,3 +11,4 @@ export * from "./JITOStakedSOL";
 export * from "./AnkrStakedETH";
 export * from "./Polygon";
 export * from "./Arbitrum";
+export * from "./Hyperliquid";

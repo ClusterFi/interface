@@ -11,12 +11,12 @@ import {
   Text,
 } from "@/components";
 import { formatUSD } from "@/utils";
-import { Head } from "./Head";
+
 import Link from "next/link";
 import styles from "./Tabs.module.scss";
 
 export const Repay = () => {
-  const [value, setValue] = React.useState("");
+  const [value, setValue] = React.useState("1.0");
   const controls = useControls({
     repay: {
       options: ["default", "confirm", "loading", "succeed"],
@@ -30,48 +30,25 @@ export const Repay = () => {
         switch (controls["repay"]) {
           case "default":
             return (
-              <Head
-                title="Repay rETH"
-                text="Enter your desired amount to repay."
-              />
-            );
-          case "confirm":
-            return (
-              <Head
-                title="Repay overview"
-                text="Please review your transaction details to ensure their accuracy before submitting."
-              />
-            );
-          default:
-            return null;
-        }
-      })()}
-      {(() => {
-        switch (controls["repay"]) {
-          case "default":
-            return (
               <React.Fragment>
-                <div className={styles.label}>
-                  <Text size={14} theme={400} className={styles.token}>
-                    <CurrencyIcon
-                      currency={"RocketPoolETH"}
-                      width={20}
-                      height={20}
-                    />{" "}
-                    rETH
-                  </Text>
-                </div>
                 <CustomInput
                   className={styles.input}
                   value={value}
-                  USDValue={formatUSD(Number(value) * 1.2)}
-                  onClickMax={() => setValue("1000.00")}
-                  placeholder={"0.00"}
                   onChange={(e) => setValue(e.target.value)}
+                  values={{
+                    usd: Number(value)
+                      ? formatUSD(Number(value) * 1.2)
+                      : undefined,
+                    balance: 2.5413,
+                  }}
+                  title={"You pay"}
+                  subtitle={<>Wallet balace: 2.65</>}
+                  token={{
+                    icon: "WrappedStakedETH",
+                    name: "wstETH",
+                  }}
+                  state={"error"}
                 />
-                <Text size={12} theme={400} className={styles.note}>
-                  Wallet balace: <span>2.65</span>
-                </Text>
                 <Text size={14} theme={500} className={styles.row}>
                   Health factor
                   <span>1.03</span>
@@ -123,7 +100,7 @@ export const Repay = () => {
                     className={styles.button}
                   >
                     <Text size={16} theme={500}>
-                      Repay
+                      Approve
                     </Text>
                   </Button>
                   <Button
@@ -132,7 +109,7 @@ export const Repay = () => {
                     className={styles.button}
                   >
                     <Text size={16} theme={500}>
-                      Reset <Icon glyph={"Reset"} width={16} height={16} />
+                      Back
                     </Text>
                   </Button>
                 </div>

@@ -1,72 +1,23 @@
 "use client";
 
 import * as React from "react";
-import { useControls } from "leva";
-
-import {
-  Button,
-  Container,
-  CurrencySelection,
-  Heading,
-  Icon,
-  Section,
-  Skeleton,
-  Tabs,
-  Text,
-} from "@/components";
-import { Leverage, Deposit, Borrow, Withdraw, Repay } from "./components";
-
-import styles from "./SingleMarket.module.scss";
 import Link from "next/link";
 
-const tabs = {
-  deposit: "deposit",
-  borrow: "borrow",
-  withdraw: "withdraw",
-  repay: "repay",
-} as const;
+import { Container, Icon, Section, Text } from "@/components";
 
-type Tab = keyof typeof tabs;
+import { Token } from "./components/Token/Token";
+import { Tabs } from "./components/Tabs/Tabs";
+import { Stats } from "./components/Stats/Stats";
+import { Rates } from "./components/Rates/Rates";
+import { RateModel } from "./components/RateModel/RateModel";
+import { Assets } from "./components/Assets/Assets";
+import { Wallet } from "./components/Wallet/Wallet";
+import { Details } from "./components/Details/Details";
 
-const info: {
-  title: string;
-  content: string;
-}[] = [
-  {
-    title: "Asset price",
-    content: "$4.05K",
-  },
-  {
-    title: "Total Supply",
-    content: "$2.12M",
-  },
-  {
-    title: "Total Borrow",
-    content: "$4.05K",
-  },
-  {
-    title: "Supply APY",
-    content: "$2.12M",
-  },
-  {
-    title: "Borrow APY",
-    content: "$4.05K",
-  },
-  {
-    title: "Available Liquidity",
-    content: "$300.43K",
-  },
-];
+import styles from "./SingleMarket.module.scss";
+import { Leverage } from "./components/Tabs/Leverage";
 
 export const SingleMarketPage: React.FC = () => {
-  const [activeTab, setActiveTab] = React.useState<Tab>(tabs.deposit);
-  const controls = useControls({
-    ["single-market-loading"]: {
-      value: false,
-      label: "Is loading?",
-    },
-  });
-
   return (
     <section className={styles.base}>
       <Container className={styles.container}>
@@ -75,57 +26,25 @@ export const SingleMarketPage: React.FC = () => {
             <Icon glyph={"Arrow"} width={24} height={24} /> Markets
           </Text>
         </Link>
-        <div className={styles.row}>
-          <CurrencySelection variant={"gradient"} />
-          <Section containerClassName={styles.box}>
-            {info.map((item, index) => (
-              <div key={index} className={styles.item}>
-                <Text size={12} theme={400}>
-                  {item.title}
-                </Text>
-                <Heading element="h3">
-                  {controls["single-market-loading"] ? (
-                    <Skeleton className={styles.skeleton} />
-                  ) : (
-                    item.content
-                  )}
-                </Heading>
-              </div>
-            ))}
-          </Section>
-        </div>
         <div className={styles.grid}>
-          <Section className={styles.section}>
-            <Tabs className={styles.tabs}>
-              {Object.entries(tabs).map(([key, val]) => (
-                <Tabs.Item
-                  onClick={() => setActiveTab(key as Tab)}
-                  isActive={activeTab === key}
-                  key={key}
-                >
-                  {val}
-                </Tabs.Item>
-              ))}
-            </Tabs>
-            {(() => {
-              switch (activeTab) {
-                case tabs.deposit:
-                  return <Deposit />;
-                case tabs.borrow:
-                  return <Borrow />;
-                case tabs.withdraw:
-                  return <Withdraw />;
-                case tabs.repay:
-                  return <Repay />;
-                default:
-                  console.warn("Unreachable branch:", activeTab);
-                  break;
-              }
-            })()}
-          </Section>
-          <Section className={styles.section}>
-            <Leverage />
-          </Section>
+          <div className={styles.col}>
+            <Token />
+            <Stats />
+            <Rates />
+            <RateModel />
+            <Assets />
+          </div>
+          <div className={styles.col}>
+            <Wallet />
+            <Tabs />
+            <Section
+              className={styles.leverage}
+              containerClassName={styles.leverageContainer}
+            >
+              <Leverage />
+            </Section>
+            <Details />
+          </div>
         </div>
       </Container>
     </section>

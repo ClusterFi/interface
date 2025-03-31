@@ -1,0 +1,34 @@
+@import "@/styles/utils";
+@import "@/styles/variables";
+
+.base {
+  padding: 24px;
+}
+
+.title {
+  margin: 0 0 20px;
+}
+
+.row {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
+
+  span {
+    &:nth-child(1) {
+      white-space: nowrap;
+      color: $text-secondary;
+    }
+
+    &:nth-child(2) {
+      color: $text-white;
+      text-align: right;
+    }
+  }
+
+  + .row {
+    margin: 16px 0 0;
+  }
+}

@@ -15,7 +15,7 @@ import {
 } from "@/components";
 
 import { Deposits, Borrows } from "./components";
-import { getState } from "./common";
+import { getState } from "./components/helpers";
 
 import styles from "./Dashboard.module.scss";
 import Image from "next/image";

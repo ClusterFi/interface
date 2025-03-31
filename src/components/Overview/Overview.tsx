@@ -2,17 +2,22 @@ import * as React from "react";
 import cx from "classnames";
 
 import { Text, Heading, Button, Skeleton } from "@/components";
-import { ComponentState } from "@/layouts/dashboard/common";
+
 import { useResizeObserver } from "usehooks-ts";
 import { Chart } from "./Chart/Chart";
 
 import styles from "./Overview.module.scss";
 
 type OverviewProps = {
-  state: ComponentState;
+  state: "default" | "loading" | "unauthorized" | "empty";
+  content: {
+    title: string;
+    content: React.ReactNode;
+    color: "white" | "purple" | "green";
+  }[];
 };
 
-export const Overview: React.FC<OverviewProps> = ({ state }) => {
+export const Overview: React.FC<OverviewProps> = ({ state, content }) => {
   const chartRowRef = React.useRef<HTMLDivElement>(null);
   const { width = 0 } = useResizeObserver({
     ref: chartRowRef,
@@ -24,50 +29,35 @@ export const Overview: React.FC<OverviewProps> = ({ state }) => {
     <div className={styles.base}>
       <div className={styles.row}>
         <div className={styles.info}>
-          <div className={styles.box}>
-            <Text
-              size={12}
-              theme={500}
-              className={cx(styles.subtitle, !isLoading && styles.purple)}
-            >
-              {isLoading ? (
-                <Skeleton className={styles.skeleton} />
-              ) : (
-                "Total Deposited"
-              )}
-            </Text>
-            <Heading className={styles.infoText} element="h3" as="div">
-              {isLoading ? (
-                <Skeleton className={styles.skeleton} />
-              ) : (
-                <React.Fragment>
-                  $4,699,012<span>.43</span>
-                </React.Fragment>
-              )}
-            </Heading>
-          </div>
-          <div className={styles.box}>
-            <Text
-              size={12}
-              theme={500}
-              className={cx(styles.subtitle, !isLoading && styles.green)}
-            >
-              {isLoading ? (
-                <Skeleton className={styles.skeleton} />
-              ) : (
-                "Total Borrowed"
-              )}
-            </Text>
-            <Heading className={styles.infoText} element="h3" as="div">
-              {isLoading ? (
-                <Skeleton className={styles.skeleton} />
-              ) : (
-                <React.Fragment>
-                  $3,299,012<span>.15</span>
-                </React.Fragment>
-              )}
-            </Heading>
-          </div>
+          {content.map((item, index) => (
+            <div className={cx(styles.box, styles[item.color])} key={index}>
+              <Text
+                size={14}
+                theme={500}
+                className={cx(
+                  styles.subtitle,
+                  !isLoading && styles[item.color],
+                )}
+              >
+                {isLoading ? (
+                  <Skeleton className={styles.skeleton} />
+                ) : (
+                  item.title
+                )}
+              </Text>
+              <Heading
+                className={styles.infoText}
+                element={item.color === "white" ? "h1" : "h3"}
+                as="div"
+              >
+                {isLoading ? (
+                  <Skeleton className={styles.skeleton} />
+                ) : (
+                  <React.Fragment>{item.content}</React.Fragment>
+                )}
+              </Heading>
+            </div>
+          ))}
         </div>
         <div className={styles.filter}>
           {isLoading ? (

@@ -1,12 +1,14 @@
 import * as React from "react";
 
-import { Accordion, Icon, Table, Text } from "@/components";
-import { ComponentState, Info } from "@/layouts/dashboard/common";
+import { Accordion, Heading, Icon, Section, Table, Text } from "@/components";
+import { ComponentState } from "../helpers";
+import { CommonInfo } from "../CommonInfo/CommonInfo";
 import { DepositItem } from "./DepositItem";
 import { DepositItemOverall } from "./DepositItemOverall";
 
 import styles from "./Deposits.module.scss";
 import { Currency } from "@/types";
+import Image from "next/image";
 
 type TAsset = {
   id: string;
@@ -29,28 +31,43 @@ type DepositsProps = {
 export const Deposits: React.FC<DepositsProps> = ({ state }) => {
   return (
     <div className={styles.base}>
-      <Accordion defaultOpen title="Your supplies">
-        <Info />
-        <Table className={styles.table}>
-          <Table.Head>
-            <Table.Row>
-              <Table.Item>Asset</Table.Item>
-              <Table.Item>Balance</Table.Item>
-              <Table.Item>APY</Table.Item>
-              <Table.Item title="some info">
-                Collateral
-                <Icon glyph="Info" width={10} height={10} />
-              </Table.Item>
-              <Table.Item />
-            </Table.Row>
-          </Table.Head>
-          <Table.Body className={styles.body}>
-            {Array.from({ length: 2 }).map((_, index) => (
-              <DepositItem key={index} />
-            ))}
-          </Table.Body>
-        </Table>
-      </Accordion>
+      {state === "empty" ? (
+        <Section containerClassName={styles.empty}>
+          <Image
+            src={"/empty-deposits.png"}
+            alt="empty-deposits"
+            width={62}
+            height={60}
+            quality={100}
+          />
+          <Heading element="h4" className={styles.emptyTitle}>
+            Nothing supplied yet
+          </Heading>
+        </Section>
+      ) : (
+        <Accordion defaultOpen title="Your supplies">
+          <CommonInfo />
+          <Table className={styles.table}>
+            <Table.Head>
+              <Table.Row>
+                <Table.Item>Asset</Table.Item>
+                <Table.Item>Balance</Table.Item>
+                <Table.Item>APY</Table.Item>
+                <Table.Item title="some info">
+                  Collateral
+                  <Icon glyph="Info" width={10} height={10} />
+                </Table.Item>
+                <Table.Item />
+              </Table.Row>
+            </Table.Head>
+            <Table.Body className={styles.body}>
+              {Array.from({ length: 2 }).map((_, index) => (
+                <DepositItem key={index} />
+              ))}
+            </Table.Body>
+          </Table>
+        </Accordion>
+      )}
       <Accordion defaultOpen title="Assets to supply">
         <label className={styles.manage}>
           <input type="checkbox" className={styles.checkbox} />

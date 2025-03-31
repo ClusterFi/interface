@@ -1,0 +1,79 @@
+@import "@/styles/utils";
+@import "@/styles/variables";
+
+.base {
+  padding: 24px 24px 12px;
+  position: relative;
+
+  &:before {
+    content: "";
+    z-index: 3;
+    top: 115px;
+    bottom: 12px;
+    right: 0;
+    width: 50px;
+    position: absolute;
+    background: linear-gradient(270deg, #111116 0%, rgba(17, 17, 22, 0) 91.67%);
+  }
+}
+
+.title {
+  margin: 0 0 16px;
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 16px;
+}
+
+.optionsItem {
+  padding: 0 12px;
+}
+
+.scroller {
+  padding: 0 48px 12px 0;
+  margin: 0 -24px 0 0;
+  overflow: auto hidden;
+
+  &::-webkit-scrollbar {
+    height: 6px;
+
+    &-track {
+      background-color: transparent;
+    }
+
+    &-thumb {
+      background: $bg-ui;
+      border-radius: 18px;
+    }
+  }
+}
+
+.table {
+  min-width: 860px;
+  width: 100%;
+}
+
+.table {
+  min-width: 860px;
+  width: 100%;
+  margin: 0 -12px;
+
+  td {
+    padding: 12px;
+
+    &:not(:first-child):not(:last-child) {
+      text-align: right;
+    }
+
+    &:last-child {
+      text-align: center;
+    }
+
+    &:nth-child(3) {
+      color: $text-secondary;
+    }
+  }
+}

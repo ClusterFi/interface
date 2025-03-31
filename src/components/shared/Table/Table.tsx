@@ -86,7 +86,7 @@ const Item: React.FC<ItemProps> = ({
 type ItemAmountProps = {
   primaryValue: string;
   secondaryValue: string;
-  isReward?: boolean;
+  isSecondaryWrapped?: boolean;
   isLoading?: boolean;
 } & ItemProps;
 
@@ -95,7 +95,7 @@ const ItemAmount: React.FC<ItemAmountProps> = ({
   className,
   primaryValue,
   secondaryValue,
-  isReward,
+  isSecondaryWrapped,
   isLoading,
   ...rest
 }) => {
@@ -120,16 +120,15 @@ const ItemAmount: React.FC<ItemAmountProps> = ({
         >
           {primaryValue}
         </Text>
-        {isReward ? (
+        {isSecondaryWrapped ? (
           <div className={styles.boxRow}>
             <Button
-              className={styles.reward}
+              className={styles.wrapped}
               as={"div"}
               size={"extra-small"}
               variant={"gradient-light"}
             >
               <Text size={12} theme={400}>
-                <Icon glyph={"ClusterFlat"} width={12} height={12} />
                 {secondaryValue}
               </Text>
             </Button>

@@ -1,15 +1,13 @@
 import * as React from "react";
 
-import { Section, Table } from "@/components";
-import {
-  UnauthorizedState,
-  ComponentState,
-  EmptyState,
-  Title,
-} from "@/layouts/dashboard/common";
+import { Accordion, Heading, Icon, Section, Table, Text } from "@/components";
+import { CommonInfo } from "../CommonInfo/CommonInfo";
 import { BorrowItem } from "./BorrowItem";
 import styles from "./Borrows.module.scss";
 import { Currency } from "@/types";
+import { BorrowItemOverall } from "./BorrowItemOverall";
+import Image from "next/image";
+import { ComponentState } from "../helpers";
 
 type TAsset = {
   id: string;
@@ -31,41 +29,102 @@ type BorrowsProps = {
 
 export const Borrows: React.FC<BorrowsProps> = ({ state }) => {
   return (
-    <Section className={styles.base}>
-      <Title text={"Borrows"} />
-      {(() => {
-        switch (state) {
-          case "empty":
-            return <EmptyState text={"There is no borrows yet."} />;
-          case "unauthorized":
-            return <UnauthorizedState />;
-          default:
-            return (
-              <Table className={styles.table}>
-                <Table.Head>
-                  <Table.Row>
-                    <Table.Item>Asset</Table.Item>
-                    <Table.Item>Borrows</Table.Item>
-                    <Table.Item>APY</Table.Item>
-                    <Table.Item></Table.Item>
-                  </Table.Row>
-                </Table.Head>
-                <Table.Body className={styles.body}>
-                  {assets.map((asset) => {
-                    return (
-                      <BorrowItem
-                        isLoading={state === "loading"}
-                        currency={asset.currency}
-                        name={asset.name}
-                        key={asset.id}
-                      />
-                    );
-                  })}
-                </Table.Body>
-              </Table>
-            );
-        }
-      })()}
-    </Section>
+    <div className={styles.base}>
+      {state === "empty" ? (
+        <Section containerClassName={styles.empty}>
+          <Image
+            src={"/empty-borrows.png"}
+            alt="empty-borrows"
+            width={62}
+            height={60}
+            quality={100}
+          />
+          <Heading element="h4" className={styles.emptyTitle}>
+            Nothing borrowed yet
+          </Heading>
+        </Section>
+      ) : (
+        <Accordion defaultOpen title="Your borrows">
+          <CommonInfo />
+          <Table className={styles.table}>
+            <Table.Head>
+              <Table.Row>
+                <Table.Item>Asset</Table.Item>
+                <Table.Item>Borrows</Table.Item>
+                <Table.Item>APY</Table.Item>
+                <Table.Item></Table.Item>
+              </Table.Row>
+            </Table.Head>
+            <Table.Body className={styles.body}>
+              {assets.map((asset) => {
+                return (
+                  <BorrowItem
+                    currency={asset.currency}
+                    name={asset.name}
+                    key={asset.id}
+                  />
+                );
+              })}
+            </Table.Body>
+          </Table>
+        </Accordion>
+      )}
+      <Accordion defaultOpen title="Assets to borrow">
+        <Table className={styles.table}>
+          <Table.Head>
+            <Table.Row>
+              <Table.Item>Asset</Table.Item>
+              <Table.Item title="some info">
+                Avaliable
+                <Icon glyph="Info" width={10} height={10} />
+              </Table.Item>
+              <Table.Item title="some info">
+                APY, borrow rate
+                <Icon glyph="Info" width={10} height={10} />
+              </Table.Item>
+              <Table.Item></Table.Item>
+            </Table.Row>
+          </Table.Head>
+          <Table.Body className={styles.body}>
+            {assets.map((asset) => {
+              return (
+                <BorrowItemOverall
+                  currency={asset.currency}
+                  name={asset.name}
+                  key={asset.id}
+                />
+              );
+            })}
+          </Table.Body>
+        </Table>
+        <Table className={styles.table}>
+          <Table.Head>
+            <Table.Row>
+              <Table.Item>Asset</Table.Item>
+              <Table.Item title="some info">
+                Avaliable
+                <Icon glyph="Info" width={10} height={10} />
+              </Table.Item>
+              <Table.Item title="some info">
+                APY, borrow rate
+                <Icon glyph="Info" width={10} height={10} />
+              </Table.Item>
+              <Table.Item></Table.Item>
+            </Table.Row>
+          </Table.Head>
+          <Table.Body className={styles.body}>
+            {Array.from({ length: 7 }, () => assets[0]).map((asset) => {
+              return (
+                <BorrowItemOverall
+                  currency={asset.currency}
+                  name={asset.name}
+                  key={asset.id}
+                />
+              );
+            })}
+          </Table.Body>
+        </Table>
+      </Accordion>
+    </div>
   );
 };

@@ -12,7 +12,7 @@ import {
 } from "@/components";
 import { formatUSD } from "@/utils";
 import { useControls } from "leva";
-import { Head } from "./Head";
+
 import Link from "next/link";
 import styles from "./Tabs.module.scss";
 
@@ -38,45 +38,22 @@ export const Deposit = () => {
         switch (controls["deposit"]) {
           case "default":
             return (
-              <Head
-                title="Deposit rETH"
-                text="Enter your desired amount to deposit."
-              />
-            );
-          case "confirm":
-          case "confirm-loading":
-            return (
-              <Head
-                title="Deposit overview"
-                text="Please review your transaction details to ensure their accuracy before submitting."
-              />
-            );
-          default:
-            return null;
-        }
-      })()}
-      {(() => {
-        switch (controls["deposit"]) {
-          case "default":
-            return (
               <React.Fragment>
-                <div className={styles.label}>
-                  <Text size={14} theme={400} className={styles.token}>
-                    <CurrencyIcon
-                      currency={"RocketPoolETH"}
-                      width={20}
-                      height={20}
-                    />{" "}
-                    rETH
-                  </Text>
-                </div>
                 <CustomInput
                   className={styles.input}
                   value={value}
-                  USDValue={formatUSD(Number(value) * 1.2)}
-                  onClickMax={() => setValue("1000.00")}
-                  placeholder={"0.00"}
                   onChange={(e) => setValue(e.target.value)}
+                  values={{
+                    usd: Number(value)
+                      ? formatUSD(Number(value) * 1.2)
+                      : undefined,
+                    balance: 2.5413,
+                  }}
+                  title={"You pay"}
+                  token={{
+                    icon: "WrappedStakedETH",
+                    name: "wstETH",
+                  }}
                 />
                 <Text size={14} theme={500} className={styles.row}>
                   Enable collateral
@@ -95,7 +72,7 @@ export const Deposit = () => {
                     className={styles.button}
                   >
                     <Text size={16} theme={500}>
-                      Deposit
+                      Continue
                     </Text>
                   </Button>
                 </div>
@@ -137,7 +114,7 @@ export const Deposit = () => {
                       className={styles.button}
                     >
                       <Text size={16} theme={500}>
-                        Deposit
+                        Approve
                       </Text>
                     </Button>
                     <Button
@@ -146,7 +123,7 @@ export const Deposit = () => {
                       className={styles.button}
                     >
                       <Text size={16} theme={500}>
-                        Reset <Icon glyph={"Reset"} width={16} height={16} />
+                        Back
                       </Text>
                     </Button>
                   </div>
@@ -189,7 +166,7 @@ export const Deposit = () => {
                               element="h3"
                               className={styles.statusTitle}
                             >
-                              Confirm Deposit
+                              Confirm depositing
                             </Heading>
                           </React.Fragment>
                         );
