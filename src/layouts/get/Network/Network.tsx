@@ -1,11 +1,6 @@
 import * as React from "react";
 
-import {
-  Heading,
-  Section,
-  Table,
-  CurrencyIcon,
-} from "@/components";
+import { Heading, Section, Table, CurrencyIcon } from "@/components";
 import { NetworkItem } from "./NetworkItem";
 import styles from "./Network.module.scss";
 import { Currency } from "@/types";
@@ -35,7 +30,7 @@ const ethMarkets: TMarket[] = [
     name: "weETH",
     fullName: "Wrapped eETH",
     currency: "WrappedEETH",
-  }
+  },
 ];
 
 const solMarkets: TMarket[] = [
@@ -50,7 +45,7 @@ const solMarkets: TMarket[] = [
     name: "mSOL",
     fullName: "Marinade staked SOL",
     currency: "MarinadeStakedSOL",
-  }
+  },
 ];
 
 export const Network: React.FC<NetworkProps> = ({
@@ -75,31 +70,29 @@ export const Network: React.FC<NetworkProps> = ({
           </Table.Row>
         </Table.Head>
         <Table.Body className={styles.body}>
-          {
-            currency == "Ethereum" ?
-            ethMarkets.map(market => {
-              return (
-                <NetworkItem
-                  isLoading={isLoading}
-                  currency={market.currency}
-                  name={market.name}
-                  fullName={market.fullName}
-                  key={market.id}
-                />
-              )
-            }) :
-            solMarkets.map(market => {
-              return (
-                <NetworkItem
-                  isLoading={isLoading}
-                  currency={market.currency}
-                  name={market.name}
-                  fullName={market.fullName}
-                  key={market.id}
-                />
-              )
-            })
-          }
+          {currency == "Ethereum"
+            ? ethMarkets.map((market) => {
+                return (
+                  <NetworkItem
+                    isLoading={isLoading}
+                    currency={market.currency}
+                    name={market.name}
+                    fullName={market.fullName}
+                    key={market.id}
+                  />
+                );
+              })
+            : solMarkets.map((market) => {
+                return (
+                  <NetworkItem
+                    isLoading={isLoading}
+                    currency={market.currency}
+                    name={market.name}
+                    fullName={market.fullName}
+                    key={market.id}
+                  />
+                );
+              })}
         </Table.Body>
       </Table>
     </Section>

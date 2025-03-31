@@ -1,11 +1,6 @@
 import * as React from "react";
 
-import {
-  Heading,
-  Section,
-  Table,
-  CurrencyIcon,
-} from "@/components";
+import { Heading, Section, Table, CurrencyIcon } from "@/components";
 import { MarketItem } from "./MarketItem";
 import styles from "./Market.module.scss";
 import { Currency } from "@/types";
@@ -29,7 +24,7 @@ const ethMarkets: TMarket[] = [
     name: "weETH",
     fullName: "Wrapped eETH",
     currency: "WrappedEETH",
-  }
+  },
 ];
 
 const solMarkets: TMarket[] = [
@@ -44,7 +39,7 @@ const solMarkets: TMarket[] = [
     name: "mSOL",
     fullName: "Marinade staked SOL",
     currency: "MarinadeStakedSOL",
-  }
+  },
 ];
 
 type MarketProps = {
@@ -76,9 +71,8 @@ export const Market: React.FC<MarketProps> = ({
           </Table.Row>
         </Table.Head>
         <Table.Body className={styles.body}>
-          {
-            currency == "Ethereum" ?
-              ethMarkets.map(market => {
+          {currency == "Ethereum"
+            ? ethMarkets.map((market) => {
                 return (
                   <MarketItem
                     isLoading={isLoading}
@@ -87,20 +81,19 @@ export const Market: React.FC<MarketProps> = ({
                     fullName={market.fullName}
                     key={market.id}
                   />
-                )
-              }) :
-              solMarkets.map(market => {
-                return (
-                  <MarketItem
-                    isLoading={isLoading}
-                    currency={market.currency}
-                    name={market.name}
-                    fullName={market.fullName}
-                    key={market.id}
-                  />
-                )
+                );
               })
-          }
+            : solMarkets.map((market) => {
+                return (
+                  <MarketItem
+                    isLoading={isLoading}
+                    currency={market.currency}
+                    name={market.name}
+                    fullName={market.fullName}
+                    key={market.id}
+                  />
+                );
+              })}
         </Table.Body>
       </Table>
     </Section>

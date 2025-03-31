@@ -2,236 +2,241 @@
 @import "@/styles/variables";
 
 .base {
-	position: sticky;
-	top: 0;
-	z-index: 1111;
-	padding: 17px 0;
-	background: rgba(#0f0e11, 0.9);
+  position: sticky;
+  top: 0;
+  z-index: 1111;
+  padding: 17px 0;
+  background: rgba(#0f0e11, 0.9);
 
-	@include breakpoint-max("xga") {
-		padding: 16px 0;
-	}
+  @include breakpoint-max("xga") {
+    padding: 16px 0;
+  }
 
-	&:after {
-		content: "";
-		position: absolute;
-		bottom: 0;
-		left: 50%;
-		height: 1px;
-		width: 1440px;
-		max-width: 100%;
-		transform: translateX(-50%);
-		background: linear-gradient(90deg, rgba(37, 32, 48, 0) 0%, #252030 49.98%, rgba(37, 32, 48, 0) 100%);
-		pointer-events: none;
+  &:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    height: 1px;
+    width: 1440px;
+    max-width: 100%;
+    transform: translateX(-50%);
+    background: linear-gradient(
+      90deg,
+      rgba(37, 32, 48, 0) 0%,
+      #252030 49.98%,
+      rgba(37, 32, 48, 0) 100%
+    );
+    pointer-events: none;
 
-		@include breakpoint-max("tablet") {
-			width: 540px;
-		}
-	}
+    @include breakpoint-max("tablet") {
+      width: 540px;
+    }
+  }
 }
 
 .container {
-	display: flex;
-	align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .nav {
-	display: flex;
-	align-items: center;
-	gap: 24px;
-	min-height: 20px;
-	position: relative;
-	border-left: 1px solid $stroke-main;
-	padding-left: 32px;
-	margin-left: 40px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  min-height: 20px;
+  position: relative;
+  border-left: 1px solid $stroke-main;
+  padding-left: 32px;
+  margin-left: 40px;
 
-	@include breakpoint-max("xga") {
-		flex-direction: column;
-		align-items: flex-start;
-		margin: auto 0;
-		padding: 0 12px;
-		gap: 28px;
-		border: none;
-	}
+  @include breakpoint-max("xga") {
+    flex-direction: column;
+    align-items: flex-start;
+    margin: auto 0;
+    padding: 0 12px;
+    gap: 28px;
+    border: none;
+  }
 }
 
 .link {
-	color: $text-secondary;
-	text-decoration: none;
-	display: flex;
-	align-items: center;
-	gap: 6px;
-	transition: color 0.2s;
+  color: $text-secondary;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s;
 
-	> p {
-		margin: 2px 0 0;
+  > p {
+    margin: 2px 0 0;
 
-		@include breakpoint-max("xga") {
-			font-size: toRem(24px);
-			font-weight: 600;
-		}
-	}
+    @include breakpoint-max("xga") {
+      font-size: toRem(24px);
+      font-weight: 600;
+    }
+  }
 
-	&.isActive {
-		color: $text-white;
-	}
+  &.isActive {
+    color: $text-white;
+  }
 
-	@include hover {
-		color: $text-white;
-	}
+  @include hover {
+    color: $text-white;
+  }
 }
 
 .manage {
-	display: flex;
-	gap: 10px;
-	justify-content: flex-end;
-	margin-left: auto;
-	padding-left: 40px;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-left: auto;
+  padding-left: 40px;
 
-	@include breakpoint-max("xga") {
-		padding-left: 12px;
-		gap: 8px;
-	}
+  @include breakpoint-max("xga") {
+    padding-left: 12px;
+    gap: 8px;
+  }
 }
 
 .wallet,
 .balance {
-	position: relative;
+  position: relative;
 
-	.balancePopup,
-	.walletPopup {
-		position: absolute;
-		top: calc(100% + 4px);
-		right: 0;
-		z-index: 1000;
-		opacity: 0;
-		pointer-events: none;
+  .balancePopup,
+  .walletPopup {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
 
-		&:before {
-			content: "";
-			position: absolute;
-			left: 0;
-			right: 0;
-			bottom: 100%;
-			height: 20px;
-		}
-	}
+    &:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 100%;
+      height: 20px;
+    }
+  }
 
-	@include hover {
-		.balancePopup,
-		.walletPopup {
-			pointer-events: all;
-			animation: showPopup 0.3s ease-in-out forwards 1;
-		}
-	}
+  @include hover {
+    .balancePopup,
+    .walletPopup {
+      pointer-events: all;
+      animation: showPopup 0.3s ease-in-out forwards 1;
+    }
+  }
 
-	&:focus-within {
-		.balancePopup,
-		.walletPopup {
-			pointer-events: all;
-			animation: showPopup 0.3s ease-in-out forwards 1;
-		}
-	}
+  &:focus-within {
+    .balancePopup,
+    .walletPopup {
+      pointer-events: all;
+      animation: showPopup 0.3s ease-in-out forwards 1;
+    }
+  }
 }
 
 @keyframes showPopup {
-	from {
-		opacity: 0;
-		transform: translateY(-5%);
-	}
-	to {
-		opacity: 1;
-		transform: translateY(0);
-	}
+  from {
+    opacity: 0;
+    transform: translateY(-5%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .wallet .walletButton {
-	padding: 0 16px;
+  padding: 0 16px;
 }
 
 .balance .balanceButton {
-	padding: 0 12px 0 5px;
+  padding: 0 12px 0 5px;
 }
 
 .menu {
-	position: fixed;
-	inset: 0;
-	z-index: 1110;
-	background: $bg-main;
-	padding: 90px 0;
-	display: flex;
-	flex-direction: column;
-	overflow: hidden auto;
-	display: flex;
-	flex-direction: column;
+  position: fixed;
+  inset: 0;
+  z-index: 1110;
+  background: $bg-main;
+  padding: 90px 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .menuContainer {
-	flex-grow: 1;
-	display: flex;
-	flex-direction: column;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .base .button {
-	width: 34px;
-	border-radius: 50%;
-	flex-shrink: 0;
-	position: relative;
+  width: 34px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  position: relative;
 }
 
 .notification {
-	position: absolute;
-	left: 25px;
-	bottom: 25px;
-	width: 12px;
-	height: 12px;
-	border: 3px solid $bg-main;
-	background: $ui-green;
-	border-radius: 50%;
+  position: absolute;
+  left: 25px;
+  bottom: 25px;
+  width: 12px;
+  height: 12px;
+  border: 3px solid $bg-main;
+  background: $ui-green;
+  border-radius: 50%;
 }
 
 .status {
-	--status-color: #4ff5ff;
-	padding: 0 30px 0 20px;
-	white-space: nowrap;
-	flex-shrink: 0;
-	color: var(--status-color);
-	position: relative;
+  --status-color: #4ff5ff;
+  padding: 0 30px 0 20px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  color: var(--status-color);
+  position: relative;
 
-	&:before,
-	&:after {
-		content: "";
-		pointer-events: none;
-		position: absolute;
-		top: 50%;
-		transform: translateY(-50%);
-		background: var(--status-color);
-		border-radius: 50%;
-	}
+  &:before,
+  &:after {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--status-color);
+    border-radius: 50%;
+  }
 
-	&:before {
-		opacity: 0.2;
-		width: 14px;
-		height: 14px;
-		left: 0;
-		animation: statusPulsing 1s ease-in-out infinite;
-	}
+  &:before {
+    opacity: 0.2;
+    width: 14px;
+    height: 14px;
+    left: 0;
+    animation: statusPulsing 1s ease-in-out infinite;
+  }
 
-	&:after {
-		content: "";
-		width: 6px;
-		height: 6px;
-		left: 4px;
-	}
+  &:after {
+    content: "";
+    width: 6px;
+    height: 6px;
+    left: 4px;
+  }
 }
 
 @keyframes statusPulsing {
-	0% {
-		opacity: 0.5;
-		transform: translate(0, -50%) scale(0);
-	}
-	100% {
-		opacity: 0;
-		transform: translate(0, -50%) scale(1.4);
-	}
+  0% {
+    opacity: 0.5;
+    transform: translate(0, -50%) scale(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(0, -50%) scale(1.4);
+  }
 }

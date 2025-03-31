@@ -27,7 +27,7 @@ export const SolanaWalletProvider = ({ children }: { children: ReactNode }) => {
       new SolflareWalletAdapter(),
       new LedgerWalletAdapter(),
     ],
-    []
+    [],
   );
 
   return (

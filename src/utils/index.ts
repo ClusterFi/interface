@@ -23,10 +23,10 @@ export function formatCoin(value: number): string {
 }
 
 export const shortenAddress = (address: string | undefined) => {
+  if (!address) return "";
 
-  if (!address) return '';
-
-  if (address.startsWith('0x')) return `${address.slice(0, 5)}...${address?.slice(-3)}`;
+  if (address.startsWith("0x"))
+    return `${address.slice(0, 5)}...${address?.slice(-3)}`;
 
   return `${address?.slice(0, 4)}...${address?.slice(-4)}`;
 };

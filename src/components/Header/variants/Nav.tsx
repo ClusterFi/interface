@@ -11,49 +11,54 @@ import { usePathname } from "next/navigation";
 import styles from "./Header.module.scss";
 
 const navigation: {
-	text: string;
-	href: string;
-	icon: Glyph;
+  text: string;
+  href: string;
+  icon: Glyph;
 }[] = [
-	{
-		text: "Dashboard",
-		href: "/",
-		icon: "Dashboard",
-	},
-	{
-		text: "Markets",
-		href: "/markets",
-		icon: "Markets",
-	},
-	{
-		text: "Singularity",
-		href: "/singularity",
-		icon: "Singularity",
-	},
-	{
-		text: "Swap",
-		href: "/swap",
-		icon: "Swap",
-	},
+  {
+    text: "Dashboard",
+    href: "/",
+    icon: "Dashboard",
+  },
+  {
+    text: "Markets",
+    href: "/markets",
+    icon: "Markets",
+  },
+  {
+    text: "Singularity",
+    href: "/singularity",
+    icon: "Singularity",
+  },
+  {
+    text: "Swap",
+    href: "/swap",
+    icon: "Swap",
+  },
 ];
 
 type NavProps = {
-	onPageChange?: () => void;
+  onPageChange?: () => void;
 };
 
 export const Nav: React.FC<NavProps> = ({ onPageChange }) => {
-	const pathname = usePathname();
+  const pathname = usePathname();
 
-	return (
-		<nav className={styles.nav}>
-			{navigation.map((link) => (
-				<Link href={link.href} key={link.href} className={cx(styles.link, pathname === link.href && styles.isActive)} onClick={onPageChange?.() ?? undefined}>
-					<Icon glyph={link.icon} width={16} height={16} />
-					<Text size={14} theme={400}>
-						{link.text}
-					</Text>
-				</Link>
-			))}
-		</nav>
-	);
+  return (
+    <nav className={styles.nav}>
+      {navigation.map((link) => (
+        <Link
+          href={link.href}
+          key={link.href}
+          className={cx(styles.link, pathname === link.href && styles.isActive)}
+          onClick={onPageChange?.() ?? undefined}
+        >
+          <Icon glyph={link.icon} width={16} height={16} />
+          <Text size={14} theme={400}>
+            {link.text}
+          </Text>
+        </Link>
+      ))}
+    </nav>
+  );
 };

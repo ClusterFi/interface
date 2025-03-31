@@ -12,7 +12,11 @@ type BorrowItemProps = {
   name: string;
 };
 
-export const BorrowItem: React.FC<BorrowItemProps> = ({ isLoading, currency, name }) => {
+export const BorrowItem: React.FC<BorrowItemProps> = ({
+  isLoading,
+  currency,
+  name,
+}) => {
   return (
     <Table.Row className={styles.row}>
       <Table.ItemAsset

@@ -2,159 +2,159 @@
 @import "@/styles/variables";
 
 .base {
-	position: relative;
-	display: flex;
-	user-select: none;
+  position: relative;
+  display: flex;
+  user-select: none;
 }
 
 .base .trigger {
-	padding: 0 34px 0 16px;
-	justify-content: flex-start;
-	min-width: 132px;
+  padding: 0 34px 0 16px;
+  justify-content: flex-start;
+  min-width: 132px;
 
-	@include breakpoint-max("xga") {
-		padding: 0 28px 0 10px;
-		min-width: 120px;
-	}
+  @include breakpoint-max("xga") {
+    padding: 0 28px 0 10px;
+    min-width: 120px;
+  }
 }
 
 .icon {
-	flex-shrink: 0;
+  flex-shrink: 0;
 }
 
 .arrow {
-	position: absolute;
-	top: calc(50% - 8px);
-	right: 12px;
-	transform: rotate(90deg);
-	color: $text-secondary;
-	transition: transform 0.2s;
+  position: absolute;
+  top: calc(50% - 8px);
+  right: 12px;
+  transform: rotate(90deg);
+  color: $text-secondary;
+  transition: transform 0.2s;
 
-	@include breakpoint-max("xga") {
-		right: 8px;
-	}
+  @include breakpoint-max("xga") {
+    right: 8px;
+  }
 
-	&.isInverted {
-		transform: rotate(90deg) scale(-1, 1);
-	}
+  &.isInverted {
+    transform: rotate(90deg) scale(-1, 1);
+  }
 }
 
 .text {
-	gap: 6px;
-	color: $text-white;
+  gap: 6px;
+  color: $text-white;
 }
 
 .dropdown {
-	position: absolute;
-	z-index: 1000;
-	left: 0;
-	top: calc(100% + 4px);
-	box-shadow: 4px 6px 24px 0px rgba(16, 15, 21, 0.2);
-	background: $ui-tooltip;
-	border-radius: 12px;
-	padding: 8px;
+  position: absolute;
+  z-index: 1000;
+  left: 0;
+  top: calc(100% + 4px);
+  box-shadow: 4px 6px 24px 0px rgba(16, 15, 21, 0.2);
+  background: $ui-tooltip;
+  border-radius: 12px;
+  padding: 8px;
 
-	&:after {
-		content: "";
-		position: absolute;
-		inset: 0;
-		border-radius: inherit;
-		padding: 1px;
-		background: linear-gradient(136deg, #2a2732 -0%, rgba(42, 39, 50, 0) 47%);
-		mask:
-			linear-gradient(#fff 0 0) content-box,
-			linear-gradient(#fff 0 0);
-		-webkit-mask:
-			linear-gradient(#fff 0 0) content-box,
-			linear-gradient(#fff 0 0);
-		-webkit-mask-composite: xor;
-		mask-composite: exclude;
-		pointer-events: none;
-	}
+  &:after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(136deg, #2a2732 -0%, rgba(42, 39, 50, 0) 47%);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
 }
 
 .item {
-	width: 100%;
-	padding: 8px 28px 8px 8px;
-	border: none;
-	background: transparent;
-	text-align: left;
-	cursor: pointer;
-	border-radius: 8px;
-	position: relative;
-	min-width: 164px;
-	transition: background 0.2s;
+  width: 100%;
+  padding: 8px 28px 8px 8px;
+  border: none;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 8px;
+  position: relative;
+  min-width: 164px;
+  transition: background 0.2s;
 
-	+ .item {
-		margin: 2px 0 0;
-	}
+  + .item {
+    margin: 2px 0 0;
+  }
 
-	&.isActive {
-		background: rgba(61, 55, 79, 0.18);
-	}
+  &.isActive {
+    background: rgba(61, 55, 79, 0.18);
+  }
 
-	@include hover {
-		background: rgba(61, 55, 79, 0.18);
-	}
+  @include hover {
+    background: rgba(61, 55, 79, 0.18);
+  }
 }
 
 .check {
-	position: absolute;
-	top: 50%;
-	right: 8px;
-	transform: translateY(-50%);
-	color: $ui-purpure;
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  color: $ui-purpure;
 }
 
 .text {
-	display: grid;
-	align-items: center;
-	grid-template-columns: 18px 1fr;
-	gap: 8px;
-	margin: 0;
-	color: $text-white;
+  display: grid;
+  align-items: center;
+  grid-template-columns: 18px 1fr;
+  gap: 8px;
+  margin: 0;
+  color: $text-white;
 }
 
 .base.large {
-	> .trigger {
-		height: 36px;
-		padding: 0;
-		background: none;
+  > .trigger {
+    height: 36px;
+    padding: 0;
+    background: none;
 
-		&:after {
-			display: none;
-		}
+    &:after {
+      display: none;
+    }
 
-		.icon {
-			width: 36px;
-			height: 36px;
-		}
+    .icon {
+      width: 36px;
+      height: 36px;
+    }
 
-		.arrow {
-			width: 32px;
-			height: 32px;
-			right: auto;
-			left: calc(100% + 8px);
-			top: 2px;
-		}
+    .arrow {
+      width: 32px;
+      height: 32px;
+      right: auto;
+      left: calc(100% + 8px);
+      top: 2px;
+    }
 
-		> .text {
-			font-size: 32px;
-			font-weight: 600;
-			line-height: 110%;
-			letter-spacing: -0.96px;
-			grid-template-columns: 32px 1fr;
-		}
-	}
-	> .dropdown {
-		> .item > .text {
-			font-size: 18px;
-			grid-template-columns: 24px 1fr;
+    > .text {
+      font-size: 32px;
+      font-weight: 600;
+      line-height: 110%;
+      letter-spacing: -0.96px;
+      grid-template-columns: 32px 1fr;
+    }
+  }
+  > .dropdown {
+    > .item > .text {
+      font-size: 18px;
+      grid-template-columns: 24px 1fr;
 
-			svg {
-				width: 24px;
-				height: 24px;
-			}
-		}
-	}
+      svg {
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
 }

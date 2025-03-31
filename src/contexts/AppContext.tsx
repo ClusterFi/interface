@@ -1,7 +1,13 @@
 import { fetchSolBalance, isSolanaChain } from "@/utils";
 import { useGlobalStore } from "@/utils/stores";
 import { useWallet } from "@solana/wallet-adapter-react";
-import React, { PropsWithChildren, createContext, useEffect, useMemo, useState } from "react";
+import React, {
+  PropsWithChildren,
+  createContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { formatEther, parseEther } from "viem";
 import { useAccount, useBalance, useConnectorClient } from "wagmi";
 
@@ -16,71 +22,56 @@ export const AppContext = createContext<IAppContextProps>({
 });
 
 export const AppContextProvider = (props: PropsWithChildren) => {
-
   const { chainId, setBalance } = useGlobalStore();
   const { publicKey: solAddr } = useWallet();
 
   const { address: ethAddr } = useAccount();
   const { data: ethBalance } = useBalance({
-    address: ethAddr
+    address: ethAddr,
   });
 
   const isSolana = useMemo(() => {
     return isSolanaChain(chainId);
-  }, [
-    chainId
-  ]);
+  }, [chainId]);
 
   const account = React.useMemo(() => {
     if (isSolana) {
       return solAddr?.toBase58();
-    }
-    else {
+    } else {
       return ethAddr;
     }
-  }, [
-    isSolana,
-    solAddr,
-    ethAddr
-  ])
+  }, [isSolana, solAddr, ethAddr]);
 
   useEffect(() => {
     (async () => {
       if (solAddr) {
         const balance = await fetchSolBalance(solAddr);
         setBalance("Solana", balance);
-      }
-      else {
+      } else {
         setBalance("Solana", 0);
       }
     })();
-
-  }, [
-    solAddr,
-    setBalance,
-  ])
+  }, [solAddr, setBalance]);
 
   useEffect(() => {
     if (ethBalance) {
       const balance = parseFloat(formatEther(ethBalance.value));
       setBalance("Ethereum", balance);
-    }
-    else {
+    } else {
       setBalance("Ethereum", 0);
     }
-  }, [
-    ethBalance,
-    setBalance,
-  ])
+  }, [ethBalance, setBalance]);
 
   return (
     <>
-      <AppContext.Provider value={{
-        isSolana,
-        account,
-      }}>
+      <AppContext.Provider
+        value={{
+          isSolana,
+          account,
+        }}
+      >
         {props.children}
       </AppContext.Provider>
     </>
   );
-}
+};

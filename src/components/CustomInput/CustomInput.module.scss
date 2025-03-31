@@ -52,7 +52,8 @@
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     pointer-events: none;
-    background: linear-gradient(transparent, transparent),
+    background:
+      linear-gradient(transparent, transparent),
       linear-gradient(136deg, #2a2732 -0.84%, rgba(42, 39, 50, 0) 47.36%);
     transition: opacity 0.2s;
   }

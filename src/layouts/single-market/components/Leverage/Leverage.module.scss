@@ -168,8 +168,8 @@
   }
 
   &::-webkit-slider-runnable-track {
-    background: linear-gradient(var(--track-color) 0 0) scroll no-repeat center /
-      100% calc(var(--track-height) + 1px);
+    background: linear-gradient(var(--track-color) 0 0) scroll no-repeat
+      center / 100% calc(var(--track-height) + 1px);
   }
 
   &:disabled::-webkit-slider-thumb {

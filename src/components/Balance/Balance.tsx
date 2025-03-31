@@ -10,22 +10,21 @@ const tokens: {
   currency: Currency;
   name: string;
 }[] = [
-    {
-      currency: "Ethereum",
-      name: "Ethereum",
-    },
-    {
-      currency: "Solana",
-      name: "Solana",
-    },
-  ];
+  {
+    currency: "Ethereum",
+    name: "Ethereum",
+  },
+  {
+    currency: "Solana",
+    name: "Solana",
+  },
+];
 
 type BalanceProps = {
   className?: string;
 };
 
 export const Balance: React.FC<BalanceProps> = ({ className }) => {
-
   const { balances } = useGlobalStore();
 
   return (

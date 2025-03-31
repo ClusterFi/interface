@@ -2,60 +2,60 @@
 @import "@/styles/variables";
 
 .unauthorized {
-	margin: 20px -24px 0;
-	padding: 24px 24px 12px;
-	display: flex;
-	justify-content: center;
-	border-top: 1px solid $stroke-grey;
+  margin: 20px -24px 0;
+  padding: 24px 24px 12px;
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid $stroke-grey;
 
-	@include breakpoint-max("tablet") {
-		margin: 0;
-		padding: 24px 0;
-		border: none;
-	}
+  @include breakpoint-max("tablet") {
+    margin: 0;
+    padding: 24px 0;
+    border: none;
+  }
 }
 
 .empty {
-	margin: 32px 0 12px;
-	color: $text-secondary;
+  margin: 32px 0 12px;
+  color: $text-secondary;
 
-	@include breakpoint-max("tablet") {
-		padding: 24px 16px;
-		margin: 0;
-	}
+  @include breakpoint-max("tablet") {
+    padding: 24px 16px;
+    margin: 0;
+  }
 }
 
 .title {
-	margin: 0;
+  margin: 0;
 
-	@include breakpoint-max("tablet") {
-		padding: 16px;
-		border-bottom: 1px solid $stroke-grey;
-	}
+  @include breakpoint-max("tablet") {
+    padding: 16px;
+    border-bottom: 1px solid $stroke-grey;
+  }
 }
 
 .info {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 8px;
-	margin: 16px 0 -8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0 -8px;
 }
 
 .info > .infoItem {
-	padding: 0 10px;
-	border-radius: 6px;
-	cursor: default;
+  padding: 0 10px;
+  border-radius: 6px;
+  cursor: default;
 
-	> p {
-		margin: 0;
+  > p {
+    margin: 0;
 
-		span {
-			color: $text-white;
-			margin-left: 4px;
-		}
+    span {
+      color: $text-white;
+      margin-left: 4px;
+    }
 
-		svg {
-			margin: -2px 0 0 4px;
-		}
-	}
+    svg {
+      margin: -2px 0 0 4px;
+    }
+  }
 }

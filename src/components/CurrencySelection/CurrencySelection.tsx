@@ -2,13 +2,7 @@
 
 import * as React from "react";
 import cx from "classnames";
-import {
-  Button,
-  Section,
-  Text,
-  Icon,
-  CurrencyIcon,
-} from "@/components/shared";
+import { Button, Section, Text, Icon, CurrencyIcon } from "@/components/shared";
 import { motion, AnimatePresence } from "framer-motion";
 import { useOnClickOutside } from "usehooks-ts";
 import styles from "./CurrencySelection.module.scss";
@@ -44,7 +38,7 @@ const currencies: TCurrency[] = [
     fullName: "Wrapped eETH",
     currency: "WrappedEETH",
     amount: 0.0,
-  }
+  },
 ];
 
 type CurrencySelectionProps = {

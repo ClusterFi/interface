@@ -17,7 +17,7 @@ export const MarketItem: React.FC<MarketItemProps> = ({
   isLoading,
   name,
   fullName,
-  currency
+  currency,
 }) => {
   return (
     <Table.Row className={styles.row}>

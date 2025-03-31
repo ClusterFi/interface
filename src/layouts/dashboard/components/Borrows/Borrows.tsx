@@ -22,7 +22,7 @@ const assets: TAsset[] = [
     id: "0",
     name: "weETH",
     currency: "WrappedEETH",
-  }
+  },
 ];
 
 type BorrowsProps = {
@@ -51,18 +51,16 @@ export const Borrows: React.FC<BorrowsProps> = ({ state }) => {
                   </Table.Row>
                 </Table.Head>
                 <Table.Body className={styles.body}>
-                  {
-                    assets.map(asset => {
-                      return (
-                        <BorrowItem
-                          isLoading={state === "loading"}
-                          currency={asset.currency}
-                          name={asset.name}
-                          key={asset.id}
-                        />
-                      )
-                    })
-                  }
+                  {assets.map((asset) => {
+                    return (
+                      <BorrowItem
+                        isLoading={state === "loading"}
+                        currency={asset.currency}
+                        name={asset.name}
+                        key={asset.id}
+                      />
+                    );
+                  })}
                 </Table.Body>
               </Table>
             );

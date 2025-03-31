@@ -2,7 +2,7 @@
 
 import "normalize.css";
 import "react-loading-skeleton/dist/skeleton.css";
-import '@rainbow-me/rainbowkit/styles.css';
+import "@rainbow-me/rainbowkit/styles.css";
 import "@/styles/globals.scss";
 
 import { fonts } from "@/fonts";

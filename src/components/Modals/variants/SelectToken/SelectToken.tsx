@@ -1,13 +1,7 @@
 import * as React from "react";
 import cx from "classnames";
 import { ModalLayout } from "@/components/Modals/ModalLayout/ModalLayout";
-import {
-  ModalProps,
-  Button,
-  Icon,
-  Text,
-  CurrencyIcon,
-} from "@/components";
+import { ModalProps, Button, Icon, Text, CurrencyIcon } from "@/components";
 import { formatCoin } from "@/utils";
 import styles from "./SelectToken.module.scss";
 import { Currency } from "@/types";

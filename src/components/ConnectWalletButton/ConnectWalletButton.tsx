@@ -27,28 +27,21 @@ export const ConnectWalletButton: React.FC<ConnectWalletButtonProps> = ({
 
   const isSolana = React.useMemo(() => {
     return chainId == SOLANA_CHAIN_ID;
-  }, [
-    chainId
-  ]);
+  }, [chainId]);
 
   const btnTitle = React.useMemo(() => {
     if (isSolana) {
       if (publicKey) {
         return shortenAddress(publicKey.toBase58());
       }
-    }
-    else {
+    } else {
       if (address) {
         return shortenAddress(address);
       }
     }
 
     return "Connect Wallet";
-  }, [
-    isSolana,
-    publicKey,
-    address
-  ])
+  }, [isSolana, publicKey, address]);
 
   return (
     <AnimatedButton

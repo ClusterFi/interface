@@ -7,16 +7,19 @@ export type Glyph = keyof typeof Icons;
 export { Icons };
 
 export type IconProps = {
-	glyph: Glyph;
-	title?: string;
+  glyph: Glyph;
+  title?: string;
 } & ComponentPropsWithRef<"svg">;
 
-export const Icon = forwardRef<SVGSVGElement, IconProps>(function Icon({ glyph, ...restProps }, ref) {
-	const Component = Icons[glyph];
-	if (Component) {
-		return <Component {...restProps} ref={ref} />;
-	}
+export const Icon = forwardRef<SVGSVGElement, IconProps>(function Icon(
+  { glyph, ...restProps },
+  ref,
+) {
+  const Component = Icons[glyph];
+  if (Component) {
+    return <Component {...restProps} ref={ref} />;
+  }
 
-	console.warn("Unknown icon glyph to render", glyph);
-	return null;
+  console.warn("Unknown icon glyph to render", glyph);
+  return null;
 });

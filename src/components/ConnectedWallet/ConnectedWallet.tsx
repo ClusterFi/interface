@@ -28,16 +28,15 @@ export const ConnectedWallet: React.FC<ConnectedWalletProps> = ({
 
   const handleToggleWallet = () => {
     openModal("ConnectWallet", null);
-  }
+  };
 
   const handleDisconnect = () => {
     if (isSolana) {
       disconnectSol();
-    }
-    else {
+    } else {
       disconnectEvm();
     }
-  }
+  };
 
   return (
     <Section className={cx(styles.base, className)}>
@@ -48,24 +47,39 @@ export const ConnectedWallet: React.FC<ConnectedWalletProps> = ({
         </Link>
       </Text>
       <Text size={14} theme={400} className={styles.row}>
-        {
-          isSolana ? <Image src={solWallet?.adapter.icon ?? ""} alt={solWallet?.adapter.name ?? ""} className={styles.walletBtn} width={32} height={32} />
-            : <WalletIcon wallet={"MetaMask"} width={16} height={16} />
-        }
+        {isSolana ? (
+          <Image
+            src={solWallet?.adapter.icon ?? ""}
+            alt={solWallet?.adapter.name ?? ""}
+            className={styles.walletBtn}
+            width={32}
+            height={32}
+          />
+        ) : (
+          <WalletIcon wallet={"MetaMask"} width={16} height={16} />
+        )}
         {shortenAddress(account)}
         <Button size={"custom"} variant={"custom"} className={styles.copy}>
           <Icon glyph={"Copy"} width={12} height={12} />
         </Button>
       </Text>
       <div className={cx(styles.buttons, buttonsClassName)}>
-        <Button size={"small"} variant={"stroke"} className={styles.button}
-          onClick={handleToggleWallet}>
+        <Button
+          size={"small"}
+          variant={"stroke"}
+          className={styles.button}
+          onClick={handleToggleWallet}
+        >
           <Text size={12} theme={600}>
             Change Wallet
           </Text>
         </Button>
-        <Button size={"small"} variant={"stroke"} className={styles.button}
-          onClick={handleDisconnect}>
+        <Button
+          size={"small"}
+          variant={"stroke"}
+          className={styles.button}
+          onClick={handleDisconnect}
+        >
           <Text size={12} theme={600}>
             Disconnect Wallet
           </Text>

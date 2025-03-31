@@ -2,166 +2,166 @@
 @import "@/styles/variables";
 
 .info {
-	display: flex;
-	align-items: center;
-	gap: 32px;
+  display: flex;
+  align-items: center;
+  gap: 32px;
 
-	@include breakpoint-max("tablet") {
-		width: 100%;
-		gap: 16px;
-		display: grid;
-		grid-template-columns: repeat(2, 1fr);
-	}
+  @include breakpoint-max("tablet") {
+    width: 100%;
+    gap: 16px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .row {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: flex-end;
-	gap: 80px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 80px;
 
-	@include breakpoint-max("tablet") {
-		gap: 16px;
-	}
+  @include breakpoint-max("tablet") {
+    gap: 16px;
+  }
 }
 
 .filter {
-	margin-left: auto;
-	display: flex;
-	gap: 6px;
+  margin-left: auto;
+  display: flex;
+  gap: 6px;
 
-	@include breakpoint-max("tablet") {
-		margin: 12px 0 0;
-	}
+  @include breakpoint-max("tablet") {
+    margin: 12px 0 0;
+  }
 
-	.skeleton {
-		width: 68px;
-		height: 30px;
-		border-radius: 24px;
-	}
+  .skeleton {
+    width: 68px;
+    height: 30px;
+    border-radius: 24px;
+  }
 }
 
 .filterItem {
-	min-width: 70px;
-	height: 30px;
-	padding: 0 10px;
+  min-width: 70px;
+  height: 30px;
+  padding: 0 10px;
 
-	> p {
-		margin: 0;
-	}
+  > p {
+    margin: 0;
+  }
 }
 
 .subtitle {
-	--color: var(--color-ui-secondary);
-	color: var(--color);
-	margin: 0 0 12px;
+  --color: var(--color-ui-secondary);
+  color: var(--color);
+  margin: 0 0 12px;
 
-	&.green {
-		--color: var(--color-ui-green);
-	}
+  &.green {
+    --color: var(--color-ui-green);
+  }
 
-	&.purple {
-		--color: var(--color-ui-purpure);
-	}
+  &.purple {
+    --color: var(--color-ui-purpure);
+  }
 
-	.skeleton {
-		width: 80px;
-		height: 12px;
-	}
+  .skeleton {
+    width: 80px;
+    height: 12px;
+  }
 }
 
 .primary {
-	@include breakpoint-max("tablet") {
-		width: 100%;
-	}
+  @include breakpoint-max("tablet") {
+    width: 100%;
+  }
 
-	.subtitle {
-		margin: 0 0 16px;
+  .subtitle {
+    margin: 0 0 16px;
 
-		@include breakpoint-max("tablet") {
-			margin-bottom: 13px;
-		}
-	}
+    @include breakpoint-max("tablet") {
+      margin-bottom: 13px;
+    }
+  }
 
-	.primaryText {
-		font-size: toRem(32px);
-	}
+  .primaryText {
+    font-size: toRem(32px);
+  }
 }
 
 .primaryText,
 .infoText {
-	color: $text-white;
+  color: $text-white;
 
-	span {
-		color: $text-inactive;
-	}
+  span {
+    color: $text-inactive;
+  }
 }
 
 .primaryText .skeleton {
-	width: 200px;
-	height: 40px;
+  width: 200px;
+  height: 40px;
 
-	@include breakpoint-max("tablet") {
-		height: 32px;
-	}
+  @include breakpoint-max("tablet") {
+    height: 32px;
+  }
 }
 
 .info .infoText {
-	@include breakpoint-max("tablet") {
-		font-size: toRem(18px);
-	}
+  @include breakpoint-max("tablet") {
+    font-size: toRem(18px);
+  }
 }
 
 .infoText .skeleton {
-	width: 120px;
-	height: 24px;
+  width: 120px;
+  height: 24px;
 }
 
 .box {
-	.subtitle.purple,
-	.subtitle.green {
-		margin: 0 0 12px;
-		position: relative;
-		display: flex;
-		align-items: center;
-		gap: 5px;
+  .subtitle.purple,
+  .subtitle.green {
+    margin: 0 0 12px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 5px;
 
-		&:before {
-			content: "";
-			display: block;
-			width: 7px;
-			height: 7px;
-			border-radius: 50%;
-			background: var(--color);
-		}
-	}
+    &:before {
+      content: "";
+      display: block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--color);
+    }
+  }
 }
 
 .skeleton {
-	border-radius: 4px;
+  border-radius: 4px;
 }
 
 .chart {
-	margin: 32px 0 0;
+  margin: 32px 0 0;
 }
 
 .skeleton.chart {
-	display: block;
-	height: 50px;
-	width: 100%;
+  display: block;
+  height: 50px;
+  width: 100%;
 
-	+ .skeleton.chart {
-		margin: 18px 0 0;
-	}
+  + .skeleton.chart {
+    margin: 18px 0 0;
+  }
 }
 
 .chartRow {
-	display: flex;
-	justify-content: space-between;
-	margin: 12px 0 0;
+  display: flex;
+  justify-content: space-between;
+  margin: 12px 0 0;
 
-	.skeleton {
-		width: 32px;
-		height: 16px;
-	}
+  .skeleton {
+    width: 32px;
+    height: 16px;
+  }
 }

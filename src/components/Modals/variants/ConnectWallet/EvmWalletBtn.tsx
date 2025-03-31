@@ -2,10 +2,7 @@
 
 import * as React from "react";
 import cx from "classnames";
-import {
-  Button,
-  Text,
-} from "@/components";
+import { Button, Text } from "@/components";
 import styles from "./ConnectWallet.module.scss";
 import { WalletVariant } from "./ConnectWallet";
 import { useAccount, useConnect } from "wagmi";
@@ -16,10 +13,13 @@ export type WalletBtnPros = {
   index: number;
 } & WalletVariant;
 
-export const EvmWalletBtn: React.FC<WalletBtnPros> = ({ id, name, icon, index }) => {
-
+export const EvmWalletBtn: React.FC<WalletBtnPros> = ({
+  id,
+  name,
+  icon,
+  index,
+}) => {
   return (
-
     <WalletButton.Custom wallet={id}>
       {({ ready, mounted, connected, loading, connect, connector }) => {
         return (
@@ -29,10 +29,9 @@ export const EvmWalletBtn: React.FC<WalletBtnPros> = ({ id, name, icon, index })
             className={styles.button}
             disabled={!mounted}
             onClick={() => {
-              if(connected) {
+              if (connected) {
                 connector.disconnect();
-              }
-              else {
+              } else {
                 connect();
               }
             }}
@@ -45,16 +44,14 @@ export const EvmWalletBtn: React.FC<WalletBtnPros> = ({ id, name, icon, index })
             >
               {icon}
               {name}
-              <span
-                className={cx(
-                  styles.status,
-                  ready && styles.highlight,
-                )}
-              >
-                {connected ? "Disconnect" : (
-                  loading ? "Connecting..." : (
-                    mounted ? "Connect" : "Not detected"
-                  ))}
+              <span className={cx(styles.status, ready && styles.highlight)}>
+                {connected
+                  ? "Disconnect"
+                  : loading
+                    ? "Connecting..."
+                    : mounted
+                      ? "Connect"
+                      : "Not detected"}
               </span>
             </Text>
           </Button>
