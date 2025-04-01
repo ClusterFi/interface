@@ -57,7 +57,7 @@ export const MarketItem: React.FC<MarketItemProps> = ({
           </Text>
         )}
       </Table.Item>
-      <Table.ItemArrow isLoading={isLoading} />
+      <Table.ItemArrow className={styles.arrow} isLoading={isLoading} />
       <th className={styles.link}>
         <Link href={"/single-market"} className={styles.link} />
       </th>

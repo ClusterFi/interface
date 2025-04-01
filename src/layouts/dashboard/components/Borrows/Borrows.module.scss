@@ -20,6 +20,10 @@
   flex-direction: column;
   gap: 12px;
   padding: 52px 24px 61px;
+
+  @include breakpoint-max("xga") {
+    padding: 40px 16px 50px;
+  }
 }
 
 .emptyTitle {
@@ -49,14 +53,14 @@
   }
 
   @include breakpoint-max("tablet") {
-    margin: 0;
-    width: 100%;
+    margin: 0 -16px -16px;
+    width: calc(100% + 32px);
 
     tr {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 20px 40px;
+      gap: 20px;
       padding: 16px;
 
       &:not(:last-child) {
@@ -74,14 +78,14 @@
       padding: 0;
 
       &:nth-child(1) {
-        width: calc(100% - 40px - 24px);
+        width: calc(100% - 20px - 160px);
         order: -5;
       }
 
       &:nth-child(2),
       &:nth-child(3) {
         min-height: 69px;
-        width: calc((100% / 3) - (40px * 2 / 3));
+        width: calc((100% / 3) - (20px * 2 / 3));
       }
 
       &:nth-child(2) {
@@ -104,9 +108,9 @@
         }
       }
 
-      &:nth-last-child(2) {
+      &:last-child {
         padding: 0;
-        width: 24px;
+        width: 160px;
         order: -4;
       }
     }

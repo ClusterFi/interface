@@ -6,6 +6,12 @@
   flex-wrap: wrap;
   gap: 8px;
   margin: 16px 0 -8px;
+
+  @include breakpoint-max("xga") {
+    margin: 16px -16px 0;
+    padding: 0 16px 16px;
+    border-bottom: 1px solid $stroke-grey;
+  }
 }
 
 .info > .infoItem {

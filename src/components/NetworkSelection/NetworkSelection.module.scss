@@ -147,6 +147,9 @@
     }
   }
   > .dropdown {
+    max-width: 250px;
+    top: calc(100% + 8px);
+
     > .item > .text {
       font-size: 18px;
       grid-template-columns: 24px 1fr;

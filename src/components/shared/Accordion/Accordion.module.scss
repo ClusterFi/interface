@@ -4,12 +4,20 @@
 .base {
   position: relative;
   padding: 24px;
+
+  @include breakpoint-max("xga") {
+    padding: 16px;
+  }
 }
 
 .head {
   display: flex;
   align-items: center;
   gap: 16px;
+
+  @include breakpoint-max("xga") {
+    gap: 12px;
+  }
 }
 
 .title {

@@ -7,6 +7,7 @@ import cx from "classnames";
 import {
   Heading,
   Container,
+  Tabs as CustomTabs,
   NetworkSelection,
   Text,
   Button,
@@ -19,8 +20,18 @@ import { getState } from "./components/helpers";
 
 import styles from "./Dashboard.module.scss";
 import Image from "next/image";
+import { mediaBreaks, useMedia } from "@/utils";
+
+const tabs = {
+  supply: "supply",
+  borrow: "borrow",
+} as const;
+
+type Tab = keyof typeof tabs;
 
 export const DashboardPage: React.FC = () => {
+  const [activeTab, setActiveTab] = React.useState<Tab>(tabs.supply);
+  const isMobile = useMedia(mediaBreaks.max.xga);
   const controls = useControls({
     ["dashboard-state"]: {
       options: ["Default", "Not Authorized", "Empty"],
@@ -37,7 +48,7 @@ export const DashboardPage: React.FC = () => {
     <section className={styles.base}>
       <Container className={styles.container}>
         <div className={styles.network}>
-          <NetworkSelection size="large" />
+          <NetworkSelection className={styles.networkSelect} size="large" />
           <Text size={14} theme={400} className={styles.note}>
             Main Ethereum market with the larges selection of assets and yield
             options
@@ -103,6 +114,17 @@ export const DashboardPage: React.FC = () => {
                 </Heading>
               </div>
             </div>
+            <CustomTabs className={styles.tabs}>
+              {Object.entries(tabs).map(([key, val]) => (
+                <CustomTabs.Item
+                  onClick={() => setActiveTab(key as Tab)}
+                  isActive={activeTab === key}
+                  key={key}
+                >
+                  {val}
+                </CustomTabs.Item>
+              ))}
+            </CustomTabs>
             <div className={styles.inner}>
               <div className={styles.options}>
                 <Button
@@ -134,8 +156,12 @@ export const DashboardPage: React.FC = () => {
                 </Button>
               </div>
               <div className={styles.row}>
-                <Deposits state={componentState} />
-                <Borrows state={componentState} />
+                {Boolean(!isMobile || activeTab === tabs.supply) && (
+                  <Deposits state={componentState} />
+                )}
+                {Boolean(!isMobile || activeTab === tabs.borrow) && (
+                  <Borrows state={componentState} />
+                )}
               </div>
             </div>
           </React.Fragment>

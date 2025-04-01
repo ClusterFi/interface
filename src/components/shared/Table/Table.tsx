@@ -153,7 +153,6 @@ type ItemArrowProps = {
 
 const ItemArrow: React.FC<ItemArrowProps> = ({
   children,
-  className,
   isLoading,
   ...rest
 }) => {

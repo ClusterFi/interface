@@ -16,6 +16,7 @@ import styles from "./Header.module.scss";
 import { AnimatePresence, motion } from "framer-motion";
 import { useModalsStore } from "@/utils/stores";
 import { usePathname } from "next/navigation";
+import { Status } from "./Status";
 
 type MobileProps = {
   className?: string;
@@ -43,7 +44,8 @@ export const Mobile: React.FC<MobileProps> = ({ className }) => {
         <Container className={styles.container}>
           <Logotype className={styles.logotype} />
           <div className={styles.manage}>
-            <NetworkSelection />
+            <Status />
+            <NetworkSelection className={styles.networkSelect} />
             <Button
               className={styles.button}
               onClick={onWalletClick}
