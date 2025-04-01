@@ -2,45 +2,47 @@
 @import "@/styles/variables";
 
 .base {
-  position: relative;
-  padding: 24px;
+	position: relative;
+	padding: 24px;
 
-  @include breakpoint-max("xga") {
-    padding: 16px 16px 0;
-    order: -6;
-  }
+	@include breakpoint-max("xga") {
+		padding: 16px 16px 0;
+		order: -6;
+	}
 }
 
 .container {
-  padding-bottom: 170px;
+	@include breakpoint-max("xga") {
+		padding-bottom: 170px;
+	}
 }
 
 .heading {
-  margin: 0 0 24px;
+	margin: 0 0 24px;
 }
 
 .info {
-  display: grid;
-  grid-template-columns: 100%;
-  gap: 24px;
-  max-width: 180px;
+	display: grid;
+	grid-template-columns: 100%;
+	gap: 24px;
+	max-width: 180px;
 
-  @include breakpoint-max("xga") {
-    max-width: 100%;
-    display: flex;
-  }
+	@include breakpoint-max("xga") {
+		max-width: 100%;
+		display: flex;
+	}
 }
 
 .box {
-  position: relative;
+	position: relative;
 }
 
 .subtitle {
-  margin: 0;
-  color: $text-secondary;
+	margin: 0;
+	color: $text-secondary;
 }
 
 .text {
-  color: $text-white;
-  margin: 12px 0 0;
+	color: $text-white;
+	margin: 12px 0 0;
 }
