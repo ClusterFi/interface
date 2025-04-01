@@ -2,78 +2,166 @@
 @import "@/styles/variables";
 
 .base {
-  padding: 24px 24px 12px;
-  position: relative;
+	padding: 24px 24px 12px;
+	position: relative;
 
-  &:before {
-    content: "";
-    z-index: 3;
-    top: 115px;
-    bottom: 12px;
-    right: 0;
-    width: 50px;
-    position: absolute;
-    background: linear-gradient(270deg, #111116 0%, rgba(17, 17, 22, 0) 91.67%);
-  }
+	@include breakpoint-max("xga") {
+		order: -5;
+		padding: 16px 16px 0;
+	}
+
+	&:before {
+		content: "";
+		z-index: 3;
+		top: 115px;
+		bottom: 12px;
+		right: 0;
+		width: 50px;
+		position: absolute;
+		background: linear-gradient(270deg, #111116 0%, rgba(17, 17, 22, 0) 91.67%);
+
+		@include breakpoint-max("xga") {
+			display: none;
+		}
+	}
 }
 
 .title {
-  margin: 0 0 16px;
+	margin: 0 0 16px;
 }
 
 .options {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin: 0 0 16px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin: 0 0 16px;
 }
 
 .optionsItem {
-  padding: 0 12px;
+	padding: 0 12px;
+}
+
+.head {
+	@include breakpoint-max("xga") {
+		display: none;
+	}
 }
 
 .scroller {
-  padding: 0 48px 12px 0;
-  margin: 0 -24px 0 0;
-  overflow: auto hidden;
+	padding: 0 48px 12px 0;
+	margin: 0 -24px 0 0;
+	overflow: auto hidden;
 
-  &::-webkit-scrollbar {
-    height: 6px;
+	@include breakpoint-max("xga") {
+		overflow: initial;
+		padding: 0;
+		margin: 0;
+	}
 
-    &-track {
-      background-color: transparent;
-    }
+	&::-webkit-scrollbar {
+		height: 6px;
 
-    &-thumb {
-      background: $bg-ui;
-      border-radius: 18px;
-    }
-  }
+		@include breakpoint-max("xga") {
+			display: none;
+		}
+
+		&-track {
+			background-color: transparent;
+		}
+
+		&-thumb {
+			background: $bg-ui;
+			border-radius: 18px;
+		}
+	}
+}
+
+.row {
+	@include breakpoint-max("xga") {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		max-width: calc(100% + 32px);
+		margin: 0 -16px;
+		position: relative;
+		border-bottom: 1px solid $stroke-grey;
+		padding-bottom: 4px;
+
+		&:last-child {
+			border-bottom: none;
+		}
+
+		&:after {
+			content: "";
+			position: absolute;
+			bottom: 16px;
+			right: 0;
+			height: 42px;
+			width: 48px;
+			z-index: 3;
+			background: linear-gradient(270deg, #111116 0%, rgba(17, 17, 22, 0) 91.67%);
+		}
+	}
+}
+
+.wrapper {
+	@include breakpoint-max("xga") {
+		max-width: 100%;
+		overflow: auto hidden;
+		display: flex;
+		padding: 0 4px;
+
+		* {
+			text-align: left !important;
+		}
+
+		&::-webkit-scrollbar {
+			display: none;
+		}
+	}
 }
 
 .table {
-  min-width: 860px;
-  width: 100%;
-}
+	min-width: 860px;
+	width: 100%;
+	margin: 0 -12px;
 
-.table {
-  min-width: 860px;
-  width: 100%;
-  margin: 0 -12px;
+	@include breakpoint-max("xga") {
+		min-width: initial;
+		margin: 0;
+		max-width: 100%;
+		display: block;
 
-  td {
-    padding: 12px;
+		tbody {
+			display: block;
+		}
+	}
 
-    &:not(:first-child):not(:last-child) {
-      text-align: right;
-    }
+	td {
+		padding: 12px;
 
-    &:last-child {
-      text-align: center;
-    }
+		&:not(:first-child):not(:last-child) {
+			text-align: right;
+		}
 
-    &:nth-child(3) {
-      color: $text-secondary;
-    }
-  }
+		&:last-child {
+			text-align: center;
+
+			@include breakpoint-max("xga") {
+				order: -1;
+				margin-left: auto;
+			}
+		}
+
+		&:first-child {
+			@include breakpoint-max("xga") {
+				order: -2;
+				width: calc(100% - 48px);
+			}
+		}
+
+		&:nth-child(3) {
+			color: $text-secondary;
+		}
+	}
 }

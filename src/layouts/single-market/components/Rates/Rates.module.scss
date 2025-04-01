@@ -2,132 +2,149 @@
 @import "@/styles/variables";
 
 .base {
-  padding: 24px 24px 4px;
+	padding: 24px 24px 4px;
+
+	@include breakpoint-max("xga") {
+		order: -7;
+		padding: 16px 16px 3px;
+	}
 }
 
 .row {
-  margin: 0 -20px;
-  display: grid;
-  grid-template-columns: repeat(2, calc(50% - 2px));
-  gap: 4px;
+	margin: 0 -20px;
+	display: grid;
+	grid-template-columns: repeat(2, calc(50% - 2px));
+	gap: 4px;
+
+	@include breakpoint-max("xga") {
+		margin: 0 -13px;
+		grid-template-columns: 100%;
+		gap: 3px;
+	}
 }
 
 .heading {
-  margin: 0 0 20px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
+	margin: 0 0 20px;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+
+	@include breakpoint-max("xga") {
+		margin-bottom: 16px;
+	}
 }
 
 .headingText {
-  margin: 0;
-  color: $text-secondary;
+	margin: 0;
+	color: $text-secondary;
 }
 
 .base .item {
-  background: rgba(61, 55, 79, 0.18);
-  border-radius: 16px;
-  padding: 20px;
+	background: rgba(61, 55, 79, 0.18);
+	border-radius: 16px;
+	padding: 20px;
 
-  &:first-child {
-    padding-right: 48px;
-  }
+	@include breakpoint-max("xga") {
+		padding: 16px 13px;
+	}
+
+	&:first-child {
+		padding-right: 48px;
+
+		@include breakpoint-max("xga") {
+			padding-right: 13px;
+		}
+	}
 }
 
 .subtitle {
-  margin: 0 0 12px;
-  color: $text-secondary;
+	margin: 0 0 12px;
+	color: $text-secondary;
 }
 
 .info {
-  margin: 0 0 20px;
+	margin: 0 0 20px;
 }
 
 .progress {
-  height: 34px;
-  padding: 2px;
-  border-radius: 8px;
-  margin-bottom: 18px;
-  position: relative;
+	height: 34px;
+	padding: 2px;
+	border-radius: 8px;
+	margin-bottom: 18px;
+	position: relative;
 
-  &.single {
-    background: #2b3742;
+	&.single {
+		background: #2b3742;
 
-    .fill {
-      position: absolute;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      color: $text-black;
-      padding-right: 6px;
-      margin: 0;
-      border-radius: 6px;
-      left: 2px;
-      top: 2px;
-      bottom: 2px;
-      max-width: calc(100% - 4px);
-      background: #74dde3
-        url("data:image/svg+xml,%3Csvg width='19' height='30' viewBox='0 0 19 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg clip-path='url(%23clip0_76_21243)'%3E%3Cline x1='-3.95562' y1='29.3484' x2='3.80895' y2='0.370584' stroke='%2369D1D7'/%3E%3Cline x1='-0.191947' y1='29.3484' x2='7.57263' y2='0.370584' stroke='%2369D1D7'/%3E%3Cline x1='3.5727' y1='29.3484' x2='11.3373' y2='0.370584' stroke='%2369D1D7'/%3E%3Cline x1='7.33735' y1='29.3484' x2='15.1019' y2='0.370584' stroke='%2369D1D7'/%3E%3Cline x1='11.102' y1='29.3484' x2='18.8666' y2='0.370584' stroke='%2369D1D7'/%3E%3Cline x1='14.8666' y1='29.3484' x2='22.6312' y2='0.370584' stroke='%2369D1D7'/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='clip0_76_21243'%3E%3Crect width='19' height='29.5' fill='white' transform='matrix(1 0 0 -1 0 29.5)'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E%0A") -4px
-        center / auto 100% repeat-x;
-    }
+		.fill {
+			position: absolute;
+			display: flex;
+			align-items: center;
+			justify-content: flex-end;
+			color: $text-black;
+			padding-right: 6px;
+			margin: 0;
+			border-radius: 6px;
+			left: 2px;
+			top: 2px;
+			bottom: 2px;
+			max-width: calc(100% - 4px);
+			background: #74dde3 url("data:image/svg+xml,%3Csvg width='19' height='30' viewBox='0 0 19 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg clip-path='url(%23clip0_76_21243)'%3E%3Cline x1='-3.95562' y1='29.3484' x2='3.80895' y2='0.370584' stroke='%2369D1D7'/%3E%3Cline x1='-0.191947' y1='29.3484' x2='7.57263' y2='0.370584' stroke='%2369D1D7'/%3E%3Cline x1='3.5727' y1='29.3484' x2='11.3373' y2='0.370584' stroke='%2369D1D7'/%3E%3Cline x1='7.33735' y1='29.3484' x2='15.1019' y2='0.370584' stroke='%2369D1D7'/%3E%3Cline x1='11.102' y1='29.3484' x2='18.8666' y2='0.370584' stroke='%2369D1D7'/%3E%3Cline x1='14.8666' y1='29.3484' x2='22.6312' y2='0.370584' stroke='%2369D1D7'/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='clip0_76_21243'%3E%3Crect width='19' height='29.5' fill='white' transform='matrix(1 0 0 -1 0 29.5)'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E%0A") -4px center / auto 100% repeat-x;
+		}
 
-    .note {
-      position: absolute;
-      top: calc(100% + 10px);
-      left: 0;
-    }
-  }
+		.note {
+			position: absolute;
+			top: calc(100% + 10px);
+			left: 0;
+		}
+	}
 
-  &.multi {
-    display: flex;
-    gap: 6px;
+	&.multi {
+		display: flex;
+		gap: 6px;
 
-    .fill {
-      position: absolute;
-      border-radius: 6px;
-      top: 2px;
-      bottom: 2px;
+		.fill {
+			position: absolute;
+			border-radius: 6px;
+			top: 2px;
+			bottom: 2px;
 
-      &:nth-child(1) {
-        left: 0;
-        background: #9969ff
-          url("data:image/svg+xml,%3Csvg width='19' height='30' viewBox='0 0 19 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg clip-path='url(%23clip0_76_21243)'%3E%3Cline x1='-3.95562' y1='29.3484' x2='3.80895' y2='0.370584' stroke='%238D5DF4'/%3E%3Cline x1='-0.191947' y1='29.3484' x2='7.57263' y2='0.370584' stroke='%238D5DF4'/%3E%3Cline x1='3.5727' y1='29.3484' x2='11.3373' y2='0.370584' stroke='%238D5DF4'/%3E%3Cline x1='7.33735' y1='29.3484' x2='15.1019' y2='0.370584' stroke='%238D5DF4'/%3E%3Cline x1='11.102' y1='29.3484' x2='18.8666' y2='0.370584' stroke='%238D5DF4'/%3E%3Cline x1='14.8666' y1='29.3484' x2='22.6312' y2='0.370584' stroke='%238D5DF4'/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='clip0_76_21243'%3E%3Crect width='19' height='29.5' fill='white' transform='matrix(1 0 0 -1 0 29.5)'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E%0A") -4px
-          center / auto 100% repeat-x;
-      }
+			&:nth-child(1) {
+				left: 0;
+				background: #9969ff url("data:image/svg+xml,%3Csvg width='19' height='30' viewBox='0 0 19 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg clip-path='url(%23clip0_76_21243)'%3E%3Cline x1='-3.95562' y1='29.3484' x2='3.80895' y2='0.370584' stroke='%238D5DF4'/%3E%3Cline x1='-0.191947' y1='29.3484' x2='7.57263' y2='0.370584' stroke='%238D5DF4'/%3E%3Cline x1='3.5727' y1='29.3484' x2='11.3373' y2='0.370584' stroke='%238D5DF4'/%3E%3Cline x1='7.33735' y1='29.3484' x2='15.1019' y2='0.370584' stroke='%238D5DF4'/%3E%3Cline x1='11.102' y1='29.3484' x2='18.8666' y2='0.370584' stroke='%238D5DF4'/%3E%3Cline x1='14.8666' y1='29.3484' x2='22.6312' y2='0.370584' stroke='%238D5DF4'/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='clip0_76_21243'%3E%3Crect width='19' height='29.5' fill='white' transform='matrix(1 0 0 -1 0 29.5)'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E%0A") -4px center / auto 100% repeat-x;
+			}
 
-      &:nth-child(2) {
-        right: 0;
-        background: #69a0ff
-          url("data:image/svg+xml,%3Csvg width='19' height='30' viewBox='0 0 19 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg clip-path='url(%23clip0_76_21243)'%3E%3Cline x1='-3.95562' y1='29.3484' x2='3.80895' y2='0.370584' stroke='%235C91ED'/%3E%3Cline x1='-0.191947' y1='29.3484' x2='7.57263' y2='0.370584' stroke='%235C91ED'/%3E%3Cline x1='3.5727' y1='29.3484' x2='11.3373' y2='0.370584' stroke='%235C91ED'/%3E%3Cline x1='7.33735' y1='29.3484' x2='15.1019' y2='0.370584' stroke='%235C91ED'/%3E%3Cline x1='11.102' y1='29.3484' x2='18.8666' y2='0.370584' stroke='%235C91ED'/%3E%3Cline x1='14.8666' y1='29.3484' x2='22.6312' y2='0.370584' stroke='%235C91ED'/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='clip0_76_21243'%3E%3Crect width='19' height='29.5' fill='white' transform='matrix(1 0 0 -1 0 29.5)'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E%0A") -4px
-          center / auto 100% repeat-x;
+			&:nth-child(2) {
+				right: 0;
+				background: #69a0ff url("data:image/svg+xml,%3Csvg width='19' height='30' viewBox='0 0 19 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg clip-path='url(%23clip0_76_21243)'%3E%3Cline x1='-3.95562' y1='29.3484' x2='3.80895' y2='0.370584' stroke='%235C91ED'/%3E%3Cline x1='-0.191947' y1='29.3484' x2='7.57263' y2='0.370584' stroke='%235C91ED'/%3E%3Cline x1='3.5727' y1='29.3484' x2='11.3373' y2='0.370584' stroke='%235C91ED'/%3E%3Cline x1='7.33735' y1='29.3484' x2='15.1019' y2='0.370584' stroke='%235C91ED'/%3E%3Cline x1='11.102' y1='29.3484' x2='18.8666' y2='0.370584' stroke='%235C91ED'/%3E%3Cline x1='14.8666' y1='29.3484' x2='22.6312' y2='0.370584' stroke='%235C91ED'/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='clip0_76_21243'%3E%3Crect width='19' height='29.5' fill='white' transform='matrix(1 0 0 -1 0 29.5)'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E%0A") -4px center / auto 100% repeat-x;
 
-        &:before {
-          content: "";
-          position: absolute;
-          top: 50%;
-          left: -4px;
-          transform: translateY(-50%);
-          background-color: #343142;
-          width: 2px;
-          height: 22px;
-          border-radius: 4px;
-        }
-      }
-    }
+				&:before {
+					content: "";
+					position: absolute;
+					top: 50%;
+					left: -4px;
+					transform: translateY(-50%);
+					background-color: #343142;
+					width: 2px;
+					height: 22px;
+					border-radius: 4px;
+				}
+			}
+		}
 
-    .note {
-      position: absolute;
-      top: calc(100% + 13px);
-      left: 0;
-    }
-  }
+		.note {
+			position: absolute;
+			top: calc(100% + 13px);
+			left: 0;
+		}
+	}
 }
 
 .note {
-  color: $text-secondary;
-  margin: 0;
+	color: $text-secondary;
+	margin: 0;
 
-  span {
-    color: $text-white;
-  }
+	span {
+		color: $text-white;
+	}
 }

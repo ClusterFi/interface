@@ -2,30 +2,43 @@
 @import "@/styles/variables";
 
 .base {
-  padding: 24px;
+	padding: 24px;
+
+	@include breakpoint-max("xga") {
+		order: -8;
+		padding: 16px;
+	}
 }
 
 .heading {
-  margin: 0 0 24px;
+	margin: 0 0 24px;
+
+	@include breakpoint-max("xga") {
+		margin-bottom: 20px;
+	}
 }
 
 .list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 24px 70px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 24px 70px;
+
+	@include breakpoint-max("xga") {
+		gap: 20px 45px;
+	}
 }
 
 .item {
-  white-space: nowrap;
-  flex-shrink: 0;
+	white-space: nowrap;
+	flex-shrink: 0;
 }
 
 .subtitle {
-  margin: 0;
-  color: $text-secondary;
+	margin: 0;
+	color: $text-secondary;
 }
 
 .text {
-  margin: 12px 0 0;
-  color: $text-white;
+	margin: 12px 0 0;
+	color: $text-white;
 }

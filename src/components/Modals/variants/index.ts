@@ -7,3 +7,5 @@ export * from "./SelectToken/SelectToken";
 export * from "./Swap/Swap";
 export * from "./SwitchWallet/SwitchWallet";
 export * from "./Wallet/Wallet";
+export * from "./TabsModal/TabsModal";
+export * from "./Loans/Loans";
