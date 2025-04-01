@@ -2,42 +2,42 @@
 @import "@/styles/variables";
 
 .base {
-	padding: 24px;
+  padding: 24px;
 
-	@include breakpoint-max("xga") {
-		padding: 16px;
-	}
+  @include breakpoint-max("xga") {
+    padding: 16px;
+  }
 }
 
 .title {
-	margin: 0 0 20px;
+  margin: 0 0 20px;
 }
 
 .row {
-	display: flex;
-	gap: 20px;
-	align-items: center;
-	justify-content: space-between;
-	margin: 0;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
 
-	@include breakpoint-max("xga") {
-		align-items: flex-start;
-		gap: 40px;
-	}
+  @include breakpoint-max("xga") {
+    align-items: flex-start;
+    gap: 40px;
+  }
 
-	span {
-		&:nth-child(1) {
-			white-space: nowrap;
-			color: $text-secondary;
-		}
+  span {
+    &:nth-child(1) {
+      white-space: nowrap;
+      color: $text-secondary;
+    }
 
-		&:nth-child(2) {
-			color: $text-white;
-			text-align: right;
-		}
-	}
+    &:nth-child(2) {
+      color: $text-white;
+      text-align: right;
+    }
+  }
 
-	+ .row {
-		margin: 16px 0 0;
-	}
+  + .row {
+    margin: 16px 0 0;
+  }
 }

@@ -2,52 +2,52 @@
 @import "@/styles/variables";
 
 .base {
-	position: absolute;
-	right: 0;
-	bottom: 0;
-	width: calc(100% - 200px);
-	height: 150px;
-	overflow: hidden;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: calc(100% - 200px);
+  height: 150px;
+  overflow: hidden;
 
-	@include breakpoint-max("xga") {
-		left: 0;
-		right: 0;
-		bottom: 16px;
-		width: 100%;
-		height: 130px;
-	}
+  @include breakpoint-max("xga") {
+    left: 0;
+    right: 0;
+    bottom: 16px;
+    width: 100%;
+    height: 130px;
+  }
 }
 
 .container {
-	position: absolute;
-	inset: 0;
+  position: absolute;
+  inset: 0;
 }
 
 .tooltip {
-	padding: 8px 12px;
-	width: 85px;
-	background: $ui-tooltip;
-	border-radius: 6px;
+  padding: 8px 12px;
+  width: 85px;
+  background: $ui-tooltip;
+  border-radius: 6px;
 }
 
 .head {
-	color: $text-secondary;
-	margin: 0;
+  color: $text-secondary;
+  margin: 0;
 }
 
 .row {
-	margin: 8px 0 0;
-	color: $text-white;
+  margin: 8px 0 0;
+  color: $text-white;
 }
 
 .ticks {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	position: absolute;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	color: $text-secondary;
-	margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  color: $text-secondary;
+  margin: 0;
 }

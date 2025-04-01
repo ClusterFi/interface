@@ -2,63 +2,63 @@
 @import "@/styles/variables";
 
 .base {
-	padding: 24px;
+  padding: 24px;
 
-	@include breakpoint-max("xga") {
-		padding: 16px;
-		order: -10;
-	}
+  @include breakpoint-max("xga") {
+    padding: 16px;
+    order: -10;
+  }
 }
 
 .base .heading {
-	padding-left: 54px;
-	position: relative;
-	min-height: 36px;
-	margin: 0 0 24px;
-	display: flex;
-	align-items: center;
+  padding-left: 54px;
+  position: relative;
+  min-height: 36px;
+  margin: 0 0 24px;
+  display: flex;
+  align-items: center;
 
-	@include breakpoint-max("xga") {
-		font-size: 24px;
-	}
+  @include breakpoint-max("xga") {
+    font-size: 24px;
+  }
 
-	span {
-		color: $text-secondary;
-		margin-left: 20px;
-		position: relative;
+  span {
+    color: $text-secondary;
+    margin-left: 20px;
+    position: relative;
 
-		&:before {
-			content: "";
-			position: absolute;
-			top: 50%;
-			left: -14px;
-			width: 8px;
-			height: 8px;
-			border-radius: 50%;
-			transform: translateY(-50%);
-			background: $text-secondary;
-		}
-	}
+    &:before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: -14px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      transform: translateY(-50%);
+      background: $text-secondary;
+    }
+  }
 }
 
 .icon {
-	position: absolute;
-	left: 0;
-	top: 0;
-	width: 36px;
-	height: 36px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 36px;
+  height: 36px;
 
-	svg {
-		position: absolute;
+  svg {
+    position: absolute;
 
-		&:nth-child(1) {
-			left: -2px;
-			top: -2px;
-		}
+    &:nth-child(1) {
+      left: -2px;
+      top: -2px;
+    }
 
-		&:nth-child(2) {
-			left: 24px;
-			top: 18px;
-		}
-	}
+    &:nth-child(2) {
+      left: 24px;
+      top: 18px;
+    }
+  }
 }

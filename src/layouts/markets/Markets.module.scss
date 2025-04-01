@@ -2,241 +2,242 @@
 @import "@/styles/variables";
 
 .base {
-	padding: 80px 0;
+  padding: 80px 0;
 
-	@include breakpoint-max("xga") {
-		padding: 32px 0 60px;
-	}
+  @include breakpoint-max("xga") {
+    padding: 32px 0 60px;
+  }
 }
 
 .sort {
-	margin-bottom: 12px;
-	display: flex;
-	align-items: center;
-	gap: 8px;
-	flex-wrap: wrap;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .sort .sortItem {
-	display: flex;
-	align-items: center;
-	padding: 8px 10px;
-	color: $text-secondary;
-	margin: 0;
+  display: flex;
+  align-items: center;
+  padding: 8px 10px;
+  color: $text-secondary;
+  margin: 0;
 
-	@include breakpoint-max("xga") {
-		padding: 0;
-		font-size: 12px;
-	}
+  @include breakpoint-max("xga") {
+    padding: 0;
+    font-size: 12px;
+  }
 }
 
 .sortSelect {
-	margin-left: 6px;
-	color: $text-white;
-	height: 18px;
-	appearance: none;
-	font-weight: inherit;
-	-webkit-appearance: none;
-	border: none;
-	padding-right: 20px;
-	background: url("data:image/svg+xml,%3Csvg width='18' height='18' viewBox='0 0 18 18' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4.41699 7.28137L9.00033 11.8647L13.5837 7.28137' stroke='%239086A7' stroke-width='1.14583' stroke-linecap='round'/%3E%3C/svg%3E%0A") right center / 18px auto no-repeat;
+  margin-left: 6px;
+  color: $text-white;
+  height: 18px;
+  appearance: none;
+  font-weight: inherit;
+  -webkit-appearance: none;
+  border: none;
+  padding-right: 20px;
+  background: url("data:image/svg+xml,%3Csvg width='18' height='18' viewBox='0 0 18 18' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4.41699 7.28137L9.00033 11.8647L13.5837 7.28137' stroke='%239086A7' stroke-width='1.14583' stroke-linecap='round'/%3E%3C/svg%3E%0A")
+    right center / 18px auto no-repeat;
 
-	@include breakpoint-max("xga") {
-		font-size: 12px;
-	}
+  @include breakpoint-max("xga") {
+    font-size: 12px;
+  }
 
-	option {
-		color: $text-black;
-	}
+  option {
+    color: $text-black;
+  }
 }
 
 .grid {
-	display: grid;
-	grid-template-columns: 100%;
-	gap: 20px;
-	align-content: flex-start;
+  display: grid;
+  grid-template-columns: 100%;
+  gap: 20px;
+  align-content: flex-start;
 }
 
 .overview {
-	padding: 32px 24px 24px;
-	margin: 0 0 80px;
+  padding: 32px 24px 24px;
+  margin: 0 0 80px;
 
-	@include breakpoint-max("xga") {
-		margin-bottom: 48px;
-	}
+  @include breakpoint-max("xga") {
+    margin-bottom: 48px;
+  }
 
-	@include breakpoint-max("tablet") {
-		padding: 20px 16px 16px;
-	}
+  @include breakpoint-max("tablet") {
+    padding: 20px 16px 16px;
+  }
 }
 
 .swiper {
-	padding-bottom: 32px;
+  padding-bottom: 32px;
 
-	@include breakpoint-max("xga") {
-		margin: 0 -20px;
-		padding: 0 20px 32px;
-	}
+  @include breakpoint-max("xga") {
+    margin: 0 -20px;
+    padding: 0 20px 32px;
+  }
 
-	:global(.swiper-pagination) {
-		position: absolute;
-		left: 50%;
-		bottom: 0;
-		transform: translateX(-50%);
-		display: flex;
-		gap: 6px;
-		justify-content: center;
+  :global(.swiper-pagination) {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+    justify-content: center;
 
-		@include breakpoint-max("xga") {
-			width: 100% !important;
-			gap: 0;
-		}
+    @include breakpoint-max("xga") {
+      width: 100% !important;
+      gap: 0;
+    }
 
-		:global(.swiper-pagination-bullet) {
-			cursor: pointer;
-			width: 8px;
-			height: 8px;
-			border-radius: 10px;
-			background: $text-bright;
-			opacity: 0.3;
-			transition:
-				opacity 0.2s,
-				width 0.2s,
-				margin 0.2s;
+    :global(.swiper-pagination-bullet) {
+      cursor: pointer;
+      width: 8px;
+      height: 8px;
+      border-radius: 10px;
+      background: $text-bright;
+      opacity: 0.3;
+      transition:
+        opacity 0.2s,
+        width 0.2s,
+        margin 0.2s;
 
-			@include breakpoint-max("xga") {
-				width: 0;
-				margin: 0;
-			}
+      @include breakpoint-max("xga") {
+        width: 0;
+        margin: 0;
+      }
 
-			@include hover {
-				opacity: 0.6;
-			}
+      @include hover {
+        opacity: 0.6;
+      }
 
-			&:global(.swiper-pagination-bullet-active) {
-				opacity: 1;
-				width: 22px;
-			}
+      &:global(.swiper-pagination-bullet-active) {
+        opacity: 1;
+        width: 22px;
+      }
 
-			&:global(.swiper-pagination-bullet-active-main),
-			&:global(.swiper-pagination-bullet-active-prev),
-			&:global(.swiper-pagination-bullet-active-next) {
-				@include breakpoint-max("xga") {
-					width: 8px;
-					margin: 0 3px;
+      &:global(.swiper-pagination-bullet-active-main),
+      &:global(.swiper-pagination-bullet-active-prev),
+      &:global(.swiper-pagination-bullet-active-next) {
+        @include breakpoint-max("xga") {
+          width: 8px;
+          margin: 0 3px;
 
-					&:global(.swiper-pagination-bullet-active) {
-						width: 22px;
-					}
-				}
-			}
-		}
-	}
+          &:global(.swiper-pagination-bullet-active) {
+            width: 22px;
+          }
+        }
+      }
+    }
+  }
 }
 .slider {
-	position: relative;
-	margin-bottom: 48px;
+  position: relative;
+  margin-bottom: 48px;
 }
 
 .title {
-	margin: 0 0 32px;
+  margin: 0 0 32px;
 
-	@include breakpoint-max("xga") {
-		margin-bottom: 20px;
-	}
+  @include breakpoint-max("xga") {
+    margin-bottom: 20px;
+  }
 }
 
 .prev,
 .next {
-	width: 32px;
-	height: 32px;
-	position: absolute;
-	top: 50%;
-	border-radius: 50%;
-	transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  top: 50%;
+  border-radius: 50%;
+  transform: translateY(-50%);
 
-	@include breakpoint-max("xga") {
-		display: none;
-	}
+  @include breakpoint-max("xga") {
+    display: none;
+  }
 }
 
 .prev {
-	left: -52px;
+  left: -52px;
 
-	svg {
-		transform: scale(-1, 1);
-	}
+  svg {
+    transform: scale(-1, 1);
+  }
 }
 
 .next {
-	right: -52px;
+  right: -52px;
 }
 
 .slide {
-	padding: 24px;
-	background: url("/markets-bg.png") center / 100% 100% no-repeat;
-	border-radius: 18px;
+  padding: 24px;
+  background: url("/markets-bg.png") center / 100% 100% no-repeat;
+  border-radius: 18px;
 
-	@include breakpoint-max("xga") {
-		width: 295px;
-	}
+  @include breakpoint-max("xga") {
+    width: 295px;
+  }
 }
 
 .token {
-	padding-left: 54px;
-	position: relative;
-	min-height: 36px;
+  padding-left: 54px;
+  position: relative;
+  min-height: 36px;
 }
 
 .tokenIcon {
-	position: absolute;
-	left: 0;
-	top: 0;
-	width: 36px;
-	height: 36px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 36px;
+  height: 36px;
 
-	svg {
-		position: absolute;
+  svg {
+    position: absolute;
 
-		&:nth-child(1) {
-			left: -2px;
-			top: -2px;
-		}
+    &:nth-child(1) {
+      left: -2px;
+      top: -2px;
+    }
 
-		&:nth-child(2) {
-			left: 24px;
-			top: 18px;
-		}
-	}
+    &:nth-child(2) {
+      left: 24px;
+      top: 18px;
+    }
+  }
 }
 
 .tokenName {
-	margin: 0;
-	color: $text-white;
+  margin: 0;
+  color: $text-white;
 }
 
 .tokenShortname {
-	margin: 5px 0 0;
-	color: $text-secondary;
+  margin: 5px 0 0;
+  color: $text-secondary;
 }
 
 .tokenRow {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 16px 24px;
-	margin: 24px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 24px;
+  margin: 24px 0 0;
 }
 
 .tokenBox {
-	white-space: nowrap;
+  white-space: nowrap;
 }
 
 .tokenTitle {
-	margin: 0;
-	color: $text-secondary;
+  margin: 0;
+  color: $text-secondary;
 }
 
 .tokenInfo {
-	color: $text-white;
-	margin: 5px 0 0;
+  color: $text-white;
+  margin: 5px 0 0;
 }

@@ -9,15 +9,20 @@ import { Leverage } from "@/layouts/single-market/components/Tabs/Leverage";
 export type LoansProps = null;
 
 type Loans = ModalProps & {
-	props: null;
+  props: null;
 };
 
 export const Loans: React.FC<Loans> = ({ props, ...rest }) => {
-	return (
-		<ModalLayout contentClassName={styles.content} title={"Cross-Chain Loans"} isSwipeable {...rest}>
-			<div className={styles.container}>
-				<Leverage />
-			</div>
-		</ModalLayout>
-	);
+  return (
+    <ModalLayout
+      contentClassName={styles.content}
+      title={"Cross-Chain Loans"}
+      isSwipeable
+      {...rest}
+    >
+      <div className={styles.container}>
+        <Leverage />
+      </div>
+    </ModalLayout>
+  );
 };

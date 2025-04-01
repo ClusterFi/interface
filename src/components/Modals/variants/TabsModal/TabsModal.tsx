@@ -7,19 +7,24 @@ import { Tabs } from "@/layouts/single-market/components/Tabs/Tabs";
 import styles from "./TabsModal.module.scss";
 
 export type TabsModalProps = {
-	activeTab: number;
+  activeTab: number;
 };
 
 type TabsModal = ModalProps & {
-	props: TabsModalProps;
+  props: TabsModalProps;
 };
 
 export const TabsModal: React.FC<TabsModal> = ({ props, ...rest }) => {
-	return (
-		<ModalLayout contentClassName={styles.content} title={""} isSwipeable {...rest}>
-			<div className={styles.container}>
-				<Tabs isModal defaultTab={props.activeTab} />
-			</div>
-		</ModalLayout>
-	);
+  return (
+    <ModalLayout
+      contentClassName={styles.content}
+      title={""}
+      isSwipeable
+      {...rest}
+    >
+      <div className={styles.container}>
+        <Tabs isModal defaultTab={props.activeTab} />
+      </div>
+    </ModalLayout>
+  );
 };
