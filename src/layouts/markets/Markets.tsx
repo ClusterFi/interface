@@ -234,18 +234,6 @@ export const MarketsPage: React.FC = () => {
                 value: "Ascending",
                 name: "Ascending",
               },
-              {
-                value: "",
-                name: "",
-              },
-              {
-                value: "",
-                name: "",
-              },
-              {
-                value: "",
-                name: "",
-              },
             ]}
             onSelect={() => {}}
           />
