@@ -60,7 +60,7 @@ export const Status: React.FC = () => {
           ],
         )}
       >
-        {selectedOption.name} <Icon glyph="Arrow" width={18} height={18} />
+        {selectedOption.name}
       </Text>
       <AnimatePresence>
         {isVisible && (

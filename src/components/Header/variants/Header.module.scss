@@ -205,7 +205,7 @@
 }
 
 .base .status {
-  padding: 0 25px 0 20px;
+  padding: 0 30px 0 20px;
   white-space: nowrap;
   flex-shrink: 0;
   color: var(--status-color);
@@ -214,7 +214,6 @@
   align-self: center;
   display: flex;
   align-items: center;
-  min-width: 125px;
   gap: 4px;
   cursor: pointer;
 
@@ -230,27 +229,9 @@
     --status-color: rgba(131, 255, 180, 1);
   }
 
-  svg {
-    transform: translateY(-1px) rotate(90deg);
-    margin-left: auto;
-    transition: transform 0.2s;
-  }
-
-  &.open {
-    svg {
-      transform: translateY(-1px) rotate(90deg) scale(-1, 1);
-    }
-  }
-
   @include breakpoint-max("xga") {
     padding: 0 8px 0 16px;
     font-size: 12px;
-    min-width: 90px;
-
-    svg {
-      width: 14px;
-      height: 14px;
-    }
   }
 
   &:before,
@@ -319,8 +300,8 @@
 .statusDropdown {
   position: absolute;
   z-index: 1000;
-  left: 0;
   top: calc(100% + 8px);
+  left: calc(50% - 80px);
   box-shadow: 4px 6px 24px 0px rgba(16, 15, 21, 0.2);
   background: $ui-tooltip;
   border-radius: 12px;
