@@ -1,43 +1,34 @@
 import React from "react";
 import cx from "classnames";
-import styles from "./Header.module.scss";
-import { Icon, Text } from "@/components/shared";
-import { mediaBreaks, useMedia } from "@/utils";
+import styles from "./Select.module.scss";
+import { Button, Icon, Text } from "@/components/shared";
 import { useOnClickOutside } from "usehooks-ts";
 import { AnimatePresence, motion } from "framer-motion";
 
-const options: {
-  name: string;
-  value: number;
-  color: "blue" | "green" | "purple";
-}[] = [
-  {
-    name: "General",
-    value: 0,
-    color: "blue",
-  },
-  {
-    name: "LSDs",
-    value: 1,
-    color: "purple",
-  },
-  {
-    name: "Stable",
-    value: 2,
-    color: "green",
-  },
-];
+type SelectProps = {
+  pre?: string;
+  className?: string;
+  options: { name: string; value: string }[];
+  onSelect: (option: SelectProps["options"][0]) => void;
+};
 
-export const Status: React.FC = () => {
+export const Select: React.FC<SelectProps> = ({
+  className,
+  pre,
+  options,
+  onSelect,
+}) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
-  const isMobile = useMedia(mediaBreaks.max.xga);
   const [isVisible, setIsVisible] = React.useState(false);
-  const [selectedOption, setSelectedOption] = React.useState(options[0]);
+  const [selectedOption, setSelectedOption] = React.useState<
+    SelectProps["options"][0]
+  >(options[0]);
 
   const onOpen = () => setIsVisible(true);
 
-  const onSelect = (option: (typeof options)[0]) => {
+  const onChange = (option: SelectProps["options"][0]) => {
     setSelectedOption(option);
+    onSelect(option);
     onClose();
   };
 
@@ -46,26 +37,23 @@ export const Status: React.FC = () => {
   useOnClickOutside(containerRef, onClose);
 
   return (
-    <div ref={containerRef} className={styles.statusContainer}>
-      <Text
+    <div ref={containerRef} className={cx(styles.base, className)}>
+      <Button
         onClick={isVisible ? onClose : onOpen}
-        size={14}
-        theme={500}
-        className={cx(
-          styles.status,
-          isVisible && styles.open,
-          styles[
-            options.find((opt) => opt.value === selectedOption.value)?.color ||
-              ""
-          ],
-        )}
+        size={"custom"}
+        variant={"custom"}
+        className={cx(styles.trigger, isVisible && styles.open)}
       >
-        {selectedOption.name} <Icon glyph="Arrow" width={18} height={18} />
-      </Text>
+        <Text size={14} theme={600}>
+          <span>{pre}</span>
+          {selectedOption.name}
+          <Icon glyph="Arrow" width={18} height={18} />
+        </Text>
+      </Button>
       <AnimatePresence>
         {isVisible && (
           <motion.div
-            className={styles.statusDropdown}
+            className={styles.dropdown}
             initial={{ opacity: 0, y: -15 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 0 }}
@@ -75,8 +63,8 @@ export const Status: React.FC = () => {
               return (
                 <button
                   key={option.value}
-                  className={cx(styles.statusItem, isActive && styles.isActive)}
-                  onClick={() => onSelect(option)}
+                  className={cx(styles.item, isActive && styles.isActive)}
+                  onClick={() => onChange(option)}
                 >
                   <Text size={12} theme={400} className={styles.text}>
                     {option.name}

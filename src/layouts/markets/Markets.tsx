@@ -1,8 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useControls } from "leva";
-import { useIsMounted, useWindowSize } from "usehooks-ts";
+import { useIsMounted } from "usehooks-ts";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Controller, Pagination, A11y } from "swiper/modules";
@@ -18,6 +17,7 @@ import {
   CurrencyIcon,
   Button,
   Icon,
+  Select,
 } from "@/components";
 import { Market } from "./Market/Market";
 
@@ -26,13 +26,6 @@ import { Currency } from "@/types";
 import styles from "./Markets.module.scss";
 
 export const MarketsPage: React.FC = () => {
-  const controls = useControls({
-    ["markets-loading"]: {
-      value: false,
-      label: "Is loading?",
-    },
-  });
-
   const isMounted = useIsMounted();
   const [mounted, setMounted] = React.useState(false);
 
@@ -200,38 +193,68 @@ export const MarketsPage: React.FC = () => {
           </div>
         )}
         <div className={styles.sort}>
-          <Text size={14} theme={600} className={styles.sortItem}>
-            Sort By
-            <select className={styles.sortSelect}>
-              <option value="Net Borrow APR">Net Borrow APR</option>
-              <option value="Utilization">Utilization</option>
-              <option value="Net Earn APR">Net Earn APR</option>
-              <option value="Total Earning">Total Earning</option>
-              <option value="Total Borrowing">Total Borrowing</option>
-              <option value="Total Collateral">Total Collateral</option>
-            </select>
-          </Text>
-          <Text size={14} theme={600} className={styles.sortItem}>
-            Order
-            <select className={styles.sortSelect}>
-              <option value="Descending">Descending</option>
-              <option value="Ascending">Ascending</option>
-            </select>
-          </Text>
+          <Select
+            pre="Sort By"
+            options={[
+              {
+                value: "Net Borrow APR",
+                name: "Net Borrow APR",
+              },
+              {
+                value: "Utilization",
+                name: "Utilization",
+              },
+              {
+                value: "Net Earn APR",
+                name: "Net Earn APR",
+              },
+              {
+                value: "Total Earning",
+                name: "Total Earning",
+              },
+              {
+                value: "Total Borrowing",
+                name: "Total Borrowing",
+              },
+              {
+                value: "Total Collateral",
+                name: "Total Collateral",
+              },
+            ]}
+            onSelect={() => {}}
+          />
+          <Select
+            pre="Order"
+            options={[
+              {
+                value: "Descending",
+                name: "Descending",
+              },
+              {
+                value: "Ascending",
+                name: "Ascending",
+              },
+              {
+                value: "",
+                name: "",
+              },
+              {
+                value: "",
+                name: "",
+              },
+              {
+                value: "",
+                name: "",
+              },
+            ]}
+            onSelect={() => {}}
+          />
         </div>
         <div className={styles.grid}>
+          <Market isLoading={false} currency={"Ethereum"} name={"Ethereum"} />
+          <Market isLoading={false} currency={"Solana"} name={"Solana"} />
           <Market
-            isLoading={controls["markets-loading"]}
-            currency={"Ethereum"}
-            name={"Ethereum"}
-          />
-          <Market
-            isLoading={controls["markets-loading"]}
-            currency={"Solana"}
-            name={"Solana"}
-          />
-          <Market
-            isLoading={controls["markets-loading"]}
+            isLoading={false}
             currency={"Hyperliquid"}
             name={"Hyperliquid"}
           />
