@@ -3,270 +3,291 @@
 
 // @Button component styles.
 .button {
-  cursor: pointer;
-  text-decoration: none;
-  padding: 0;
-  border: none;
-  background: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: inherit;
+	cursor: pointer;
+	text-decoration: none;
+	padding: 0;
+	border: none;
+	background: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	color: inherit;
 
-  &:disabled {
-    cursor: not-allowed;
-  }
+	&:disabled {
+		cursor: not-allowed;
+	}
 
-  > p {
-    display: flex;
-    align-items: center;
-  }
+	> p {
+		display: flex;
+		align-items: center;
+		margin-top: 0 !important;
+		margin-bottom: 0 !important;
+	}
 }
 
 .extra-small {
-  height: 23px;
+	height: 23px;
+
+	@include breakpoint-max("tablet") {
+		padding-top: 1px !important;
+	}
 }
 
 .small {
-  height: 34px;
-  border-radius: 50px;
+	height: 34px;
+	border-radius: 50px;
+
+	@include breakpoint-max("tablet") {
+		padding-top: 2px !important;
+	}
 }
 
 .medium {
-  height: 38px;
-  border-radius: 50px;
+	height: 38px;
+	border-radius: 50px;
+
+	@include breakpoint-max("tablet") {
+		padding-top: 2px !important;
+	}
 }
 
 .large {
-  height: 48px;
-  border-radius: 56px;
+	height: 48px;
+	border-radius: 56px;
+
+	@include breakpoint-max("tablet") {
+		padding-top: 2px !important;
+	}
 }
 
 .gradient-dark,
 .gradient-light {
-  position: relative;
+	position: relative;
 
-  &:after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 1px;
-    mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-    transition: opacity 0.2s;
-  }
+	&:after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		border-radius: inherit;
+		padding: 1px;
+		mask:
+			linear-gradient(#fff 0 0) content-box,
+			linear-gradient(#fff 0 0);
+		-webkit-mask:
+			linear-gradient(#fff 0 0) content-box,
+			linear-gradient(#fff 0 0);
+		-webkit-mask-composite: xor;
+		mask-composite: exclude;
+		pointer-events: none;
+		transition: opacity 0.2s;
+	}
 }
 
 .gradient-dark {
-  background: $bg-secondary;
-  color: $text-bright;
-  transition: 0.2s;
-  transition-property: color, border, background;
+	background: $bg-secondary;
+	color: $text-bright;
+	transition: 0.2s;
+	transition-property: color, border, background;
 
-  &:after {
-    background:
-      linear-gradient(transparent, transparent),
-      linear-gradient(136deg, #2a2732 -0.84%, rgba(42, 39, 50, 0) 47.36%);
-  }
+	&:after {
+		background: linear-gradient(transparent, transparent), linear-gradient(136deg, #2a2732 -0.84%, rgba(42, 39, 50, 0) 47.36%);
+	}
 
-  @include hover {
-    background:
-      linear-gradient(
-        0deg,
-        rgba(61, 55, 79, 0.18) 0%,
-        rgba(61, 55, 79, 0.18) 100%
-      ),
-      linear-gradient(98deg, #1a1725 0.3%, #101014 101.16%);
-  }
+	@include hover {
+		background: linear-gradient(0deg, rgba(61, 55, 79, 0.18) 0%, rgba(61, 55, 79, 0.18) 100%), linear-gradient(98deg, #1a1725 0.3%, #101014 101.16%);
+	}
 
-  &.isActive {
-    background:
-      linear-gradient(
-        0deg,
-        rgba(61, 55, 79, 0.18) 0%,
-        rgba(61, 55, 79, 0.18) 100%
-      ),
-      linear-gradient(98deg, #1a1725 0.3%, #101014 101.16%);
-  }
+	&.isActive {
+		background: linear-gradient(0deg, rgba(61, 55, 79, 0.18) 0%, rgba(61, 55, 79, 0.18) 100%), linear-gradient(98deg, #1a1725 0.3%, #101014 101.16%);
+	}
 
-  &:active {
-    background: $bg-secondary;
-  }
+	&:active {
+		background: $bg-secondary;
+	}
 
-  &:disabled {
-    border: 1px solid $stroke-main;
-    background: $bg-secondary;
-    color: $text-inactive;
+	&:disabled {
+		border: 1px solid $stroke-main;
+		background: $bg-secondary;
+		color: $text-inactive;
 
-    &:after {
-      opacity: 0;
-    }
-  }
+		&:after {
+			opacity: 0;
+		}
+	}
 }
 
 .status-active {
-  --status-color: #4ff5ff;
-  color: var(--status-color);
-  background: #03303b;
+	color: var(--status-color);
+	border: 1px solid;
 
-  .status {
-    flex-shrink: 0;
-    position: relative;
-    width: 14px;
-    height: 14px;
-    margin-right: 6px;
+	&.color-blue {
+		background: #03303b;
+		border-color: rgba(79, 245, 255, 0.2);
+		--status-color: #4ff5ff;
+	}
 
-    &:before,
-    &:after {
-      content: "";
-      pointer-events: none;
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: var(--status-color);
-      border-radius: 50%;
-    }
+	&.color-purple {
+		background: #2b2041;
+		border-color: rgba(180, 144, 255, 0.2);
+		--status-color: rgba(180, 144, 255, 1);
+	}
 
-    &:before {
-      opacity: 0.2;
-      width: 14px;
-      height: 14px;
-      left: 0;
-      animation: statusPulsing 1s ease-in-out infinite;
-    }
+	&.color-green {
+		border-color: rgba(129, 252, 177, 0.2);
+		background: rgba(129, 252, 177, 0.2);
+		--status-color: rgba(131, 255, 180, 1);
+	}
 
-    &:after {
-      content: "";
-      width: 6px;
-      height: 6px;
-      left: 4px;
-    }
-  }
+	.status {
+		flex-shrink: 0;
+		position: relative;
+		width: 14px;
+		height: 14px;
+		margin-right: 6px;
 
-  @keyframes statusPulsing {
-    0% {
-      opacity: 0.5;
-      transform: translate(0, -50%) scale(0);
-    }
-    100% {
-      opacity: 0;
-      transform: translate(0, -50%) scale(1.4);
-    }
-  }
+		&:before,
+		&:after {
+			content: "";
+			pointer-events: none;
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			background: var(--status-color);
+			border-radius: 50%;
+		}
+
+		&:before {
+			opacity: 0.2;
+			width: 14px;
+			height: 14px;
+			left: 0;
+			animation: statusPulsing 1s ease-in-out infinite;
+		}
+
+		&:after {
+			content: "";
+			width: 6px;
+			height: 6px;
+			left: 4px;
+		}
+	}
+
+	@keyframes statusPulsing {
+		0% {
+			opacity: 0.5;
+			transform: translate(0, -50%) scale(0);
+		}
+		100% {
+			opacity: 0;
+			transform: translate(0, -50%) scale(1.4);
+		}
+	}
 }
 
 .gradient-light {
-  background: $bg-ui;
-  color: $text-secondary;
-  transition: 0.2s;
-  transition-property: color, border-color, background;
+	background: $bg-ui;
+	color: $text-secondary;
+	transition: 0.2s;
+	transition-property: color, border-color, background;
 
-  &:after {
-    background: linear-gradient(transparent, transparent), $stroke-gradient;
-  }
+	&:after {
+		background: linear-gradient(transparent, transparent), $stroke-gradient;
+	}
 
-  @include hover {
-    background: #363146;
-  }
+	@include hover {
+		background: #363146;
+	}
 
-  &:active {
-    background: $bg-ui;
-  }
+	&:active {
+		background: $bg-ui;
+	}
 
-  &:disabled {
-    background: $bg-ui;
-    color: $text-inactive;
-  }
+	&:disabled {
+		background: $bg-ui;
+		color: $text-inactive;
+	}
 }
 
 .stroke {
-  background: transparent;
-  border: 1px solid $stroke-grey;
-  color: $text-white;
-  transition: 0.2s;
-  transition-property: color, border-color;
+	background: transparent;
+	border: 1px solid $stroke-grey;
+	color: $text-white;
+	transition: 0.2s;
+	transition-property: color, border-color;
 
-  @include hover {
-    border-color: rgba(#fff, 0.5);
-  }
+	@include hover {
+		border-color: rgba(#fff, 0.5);
+	}
 
-  &:active {
-    border-color: $stroke-grey;
-  }
+	&:active {
+		border-color: $stroke-grey;
+	}
 
-  &:disabled {
-    color: $text-inactive;
-    border-color: $stroke-grey;
-  }
+	&:disabled {
+		color: $text-inactive;
+		border-color: $stroke-grey;
+	}
 }
 
 .stroke-purple {
-  background: transparent;
-  border: 1px solid $ui-purpure;
-  color: $ui-purpure;
-  transition: 0.2s;
-  transition-property: color, border-color, background;
+	background: transparent;
+	border: 1px solid $ui-purpure;
+	color: $ui-purpure;
+	transition: 0.2s;
+	transition-property: color, border-color, background;
 
-  @include hover {
-    background: $ui-purpure;
-    color: $text-white;
-  }
+	@include hover {
+		background: $ui-purpure;
+		color: $text-white;
+	}
 
-  &:active {
-    background: transparent;
-    color: $ui-purpure;
-  }
+	&:active {
+		background: transparent;
+		color: $ui-purpure;
+	}
 
-  &:disabled {
-    color: $text-inactive;
-    border-color: $stroke-grey;
-  }
+	&:disabled {
+		color: $text-inactive;
+		border-color: $stroke-grey;
+	}
 }
 
 .white {
-  background: $text-white;
-  color: $text-black;
-  transition: 0.2s;
-  transition-property: background, color;
+	background: $text-white;
+	color: $text-black;
+	transition: 0.2s;
+	transition-property: background, color;
 
-  @include hover {
-    background: #ded3f6;
-  }
+	@include hover {
+		background: #ded3f6;
+	}
 
-  &:active {
-    background: $text-white;
-  }
+	&:active {
+		background: $text-white;
+	}
 
-  &:disabled {
-    background: $text-white;
-    color: $text-inactive;
-  }
+	&:disabled {
+		background: $text-white;
+		color: $text-inactive;
+	}
 }
 
 .purple {
-  background: $ui-purpure;
-  color: $text-white;
-  transition: 0.2s;
-  transition-property: background, color;
+	background: $ui-purpure;
+	color: $text-white;
+	transition: 0.2s;
+	transition-property: background, color;
 
-  @include hover {
-    background: #7d4ee0;
-  }
+	@include hover {
+		background: #7d4ee0;
+	}
 
-  &:active {
-    background: $ui-purpure;
-  }
+	&:active {
+		background: $ui-purpure;
+	}
 
-  &:disabled {
-    background: $bg-ui;
-    color: $text-inactive;
-  }
+	&:disabled {
+		background: $bg-ui;
+		color: $text-inactive;
+	}
 }

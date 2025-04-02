@@ -22,6 +22,7 @@ type Tab = keyof typeof tabs;
 
 export const DashboardPage: React.FC = () => {
 	const [activeTab, setActiveTab] = React.useState<Tab>(tabs.supply);
+	const [activeNav, setActiveNav] = React.useState(0);
 	const isMobile = useMedia(mediaBreaks.max.xga);
 	const controls = useControls({
 		["dashboard-state"]: {
@@ -98,17 +99,17 @@ export const DashboardPage: React.FC = () => {
 						)}
 						<div className={styles.inner}>
 							<div className={styles.options}>
-								<Button size={"small"} variant={"status-active"} className={styles.optionsItem}>
+								<Button onClick={() => setActiveNav(0)} size={"small"} variant={activeNav === 0 ? "status-active" : "gradient-light"} color="blue" className={styles.optionsItem}>
 									<Text size={14} theme={600}>
 										General
 									</Text>
 								</Button>
-								<Button size={"small"} variant={"gradient-light"} className={styles.optionsItem}>
+								<Button onClick={() => setActiveNav(1)} size={"small"} variant={activeNav === 1 ? "status-active" : "gradient-light"} color="purple" className={styles.optionsItem}>
 									<Text size={14} theme={600}>
 										LSDs
 									</Text>
 								</Button>
-								<Button size={"small"} variant={"gradient-light"} className={styles.optionsItem}>
+								<Button onClick={() => setActiveNav(2)} size={"small"} variant={activeNav === 2 ? "status-active" : "gradient-light"} color="green" className={styles.optionsItem}>
 									<Text size={14} theme={600}>
 										Stables
 									</Text>

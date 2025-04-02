@@ -25,3 +25,4 @@ export * from "./Singularity";
 export * from "./Swap";
 export * from "./Minus";
 export * from "./Plus";
+export * from "./Loan";

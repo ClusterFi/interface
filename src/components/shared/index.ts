@@ -12,3 +12,4 @@ export * from "./Switcher/Switcher";
 export * from "./Loader/Loader";
 export * from "./Tabs/Tabs";
 export * from "./Accordion/Accordion";
+export * from "./CircularProgress/CircularProgress";
