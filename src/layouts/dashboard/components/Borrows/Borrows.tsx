@@ -1,13 +1,14 @@
-import * as React from "react";
+import * as React from 'react';
 
-import { Accordion, Heading, Icon, Section, Table, Text } from "@/components";
-import { CommonInfo } from "../CommonInfo/CommonInfo";
-import { BorrowItem } from "./BorrowItem";
-import styles from "./Borrows.module.scss";
-import { Currency } from "@/types";
-import { BorrowItemOverall } from "./BorrowItemOverall";
-import Image from "next/image";
-import { ComponentState } from "../helpers";
+import { Accordion, Heading, Icon, Section, Table, Text } from '@/components';
+import { CommonInfo } from '../CommonInfo/CommonInfo';
+import { BorrowItem } from './BorrowItem';
+import styles from './Borrows.module.scss';
+import { Currency } from '@/types';
+import { BorrowItemOverall } from './BorrowItemOverall';
+import Image from 'next/image';
+import { ComponentState } from '../helpers';
+import { useGetAllMarkets } from '@/utils/evm/hooks/useGetAllMarkets';
 
 type TAsset = {
   id: string;
@@ -17,9 +18,9 @@ type TAsset = {
 
 const assets: TAsset[] = [
   {
-    id: "0",
-    name: "weETH",
-    currency: "WrappedEETH",
+    id: '0',
+    name: 'weETH',
+    currency: 'WrappedEETH',
   },
 ];
 
@@ -28,9 +29,14 @@ type BorrowsProps = {
 };
 
 export const Borrows: React.FC<BorrowsProps> = ({ state }) => {
+  type Address = `0x${string}`;
+
+  const { data, isPending, error } = useGetAllMarkets();
+
+  const addresses = (data ?? []) as Address[];
   return (
     <div className={styles.base}>
-      {state === "empty" ? (
+      {/* {state === "empty" ? (
         <Section containerClassName={styles.empty}>
           <Image
             src={"/empty-borrows.png"}
@@ -68,25 +74,52 @@ export const Borrows: React.FC<BorrowsProps> = ({ state }) => {
             </Table.Body>
           </Table>
         </Accordion>
-      )}
-      <Accordion defaultOpen title="Assets to borrow">
+      )} */}
+      <Accordion defaultOpen title='Assets to borrow'>
         <Table className={styles.table}>
           <Table.Head>
             <Table.Row>
               <Table.Item>Asset</Table.Item>
-              <Table.Item title="some info">
+              <Table.Item title='some info'>
                 Avaliable
-                <Icon glyph="Info" width={10} height={10} />
+                <Icon glyph='Info' width={10} height={10} />
               </Table.Item>
-              <Table.Item title="some info">
+              <Table.Item title='some info'>
                 APY, borrow rate
-                <Icon glyph="Info" width={10} height={10} />
+                <Icon glyph='Info' width={10} height={10} />
               </Table.Item>
               <Table.Item></Table.Item>
             </Table.Row>
           </Table.Head>
           <Table.Body className={styles.body}>
-            {assets.map((asset) => {
+            {addresses.map((address) => {
+              return (
+                <BorrowItemOverall
+                  currency={'Ethereum'}
+                  key={address}
+                  address={address}
+                />
+              );
+            })}
+          </Table.Body>
+        </Table>
+        {/*   <Table className={styles.table}>
+          <Table.Head>
+            <Table.Row>
+              <Table.Item>Asset</Table.Item>
+              <Table.Item title='some info'>
+                Avaliable
+                <Icon glyph='Info' width={10} height={10} />
+              </Table.Item>
+              <Table.Item title='some info'>
+                APY, borrow rate
+                <Icon glyph='Info' width={10} height={10} />
+              </Table.Item>
+              <Table.Item></Table.Item>
+            </Table.Row>
+          </Table.Head>
+          <Table.Body className={styles.body}> */}
+        {/*  {Array.from({ length: 7 }, () => assets[0]).map((asset) => {
               return (
                 <BorrowItemOverall
                   currency={asset.currency}
@@ -94,36 +127,18 @@ export const Borrows: React.FC<BorrowsProps> = ({ state }) => {
                   key={asset.id}
                 />
               );
-            })}
-          </Table.Body>
-        </Table>
-        <Table className={styles.table}>
-          <Table.Head>
-            <Table.Row>
-              <Table.Item>Asset</Table.Item>
-              <Table.Item title="some info">
-                Avaliable
-                <Icon glyph="Info" width={10} height={10} />
-              </Table.Item>
-              <Table.Item title="some info">
-                APY, borrow rate
-                <Icon glyph="Info" width={10} height={10} />
-              </Table.Item>
-              <Table.Item></Table.Item>
-            </Table.Row>
-          </Table.Head>
-          <Table.Body className={styles.body}>
-            {Array.from({ length: 7 }, () => assets[0]).map((asset) => {
+            })} */}
+        {/*  {addresses.map((asset) => {
               return (
                 <BorrowItemOverall
-                  currency={asset.currency}
-                  name={asset.name}
-                  key={asset.id}
+                  currency={'Ethereum'}
+                  name={asset}
+                  key={asset}
                 />
               );
-            })}
-          </Table.Body>
-        </Table>
+            })} */}
+        {/*    </Table.Body>
+        </Table> */}
       </Accordion>
     </div>
   );

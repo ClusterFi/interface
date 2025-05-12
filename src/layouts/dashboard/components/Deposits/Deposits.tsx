@@ -1,14 +1,14 @@
-import * as React from "react";
+import * as React from 'react';
 
-import { Accordion, Heading, Icon, Section, Table, Text } from "@/components";
-import { ComponentState } from "../helpers";
-import { CommonInfo } from "../CommonInfo/CommonInfo";
-import { DepositItem } from "./DepositItem";
-import { DepositItemOverall } from "./DepositItemOverall";
+import { Accordion, Heading, Icon, Section, Table, Text } from '@/components';
+import { ComponentState } from '../helpers';
+import { CommonInfo } from '../CommonInfo/CommonInfo';
+import { DepositItem } from './DepositItem';
+import { DepositItemOverall } from './DepositItemOverall';
 
-import styles from "./Deposits.module.scss";
-import { Currency } from "@/types";
-import Image from "next/image";
+import styles from './Deposits.module.scss';
+import { Currency } from '@/types';
+import Image from 'next/image';
 
 type TAsset = {
   id: string;
@@ -18,9 +18,9 @@ type TAsset = {
 
 const assets: TAsset[] = [
   {
-    id: "0",
-    name: "rETH",
-    currency: "RocketPoolETH",
+    id: '0',
+    name: 'rETH',
+    currency: 'RocketPoolETH',
   },
 ];
 
@@ -31,7 +31,7 @@ type DepositsProps = {
 export const Deposits: React.FC<DepositsProps> = ({ state }) => {
   return (
     <div className={styles.base}>
-      {state === "empty" ? (
+      {/* {state === "empty" ? (
         <Section containerClassName={styles.empty}>
           <Image
             src={"/empty-deposits.png"}
@@ -67,10 +67,10 @@ export const Deposits: React.FC<DepositsProps> = ({ state }) => {
             </Table.Body>
           </Table>
         </Accordion>
-      )}
-      <Accordion defaultOpen title="Assets to supply">
+      )} */}
+      <Accordion defaultOpen title='Assets to supply'>
         <label className={styles.manage}>
-          <input type="checkbox" className={styles.checkbox} />
+          <input type='checkbox' className={styles.checkbox} />
           <Text size={12} theme={400}>
             Show assets with 0 balance
           </Text>
