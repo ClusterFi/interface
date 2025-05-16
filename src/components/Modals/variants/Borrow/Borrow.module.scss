@@ -1,0 +1,79 @@
+@import '@/styles/utils';
+@import '@/styles/variables';
+
+.content {
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.title {
+  text-align: center;
+  color: $text-white;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  color: $text-secondary;
+  font-weight: 500;
+}
+
+.arrow {
+  text-align: center;
+  font-size: 24px;
+  line-height: 24px;
+  color: $text-white;
+}
+
+.inputWrapper {
+  margin-top: 8px;
+
+  .head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin: 0 0 16px;
+  }
+
+  .title {
+    color: $text-secondary;
+  }
+
+  .input {
+    width: 100%;
+  }
+
+  .element {
+    background: none;
+    border: none;
+    font-size: 24px;
+    font-weight: 600;
+    color: $text-white;
+    width: 100%;
+
+    &::placeholder {
+      color: $text-secondary;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.select {
+  margin-top: 4px;
+}
+
+.button {
+  margin-top: 16px;
+  align-self: center;
+  width: 180px;
+}

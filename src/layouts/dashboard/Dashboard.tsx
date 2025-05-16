@@ -165,9 +165,9 @@ export const DashboardPage: React.FC = () => {
                 </Button>
               </div>
               <div className={styles.row}>
-                {/*  {Boolean(!isMobile || activeTab === tabs.supply) && (
+                {Boolean(!isMobile || activeTab === tabs.supply) && (
                   <Deposits state={componentState} />
-                )} */}
+                )}
                 {Boolean(!isMobile || activeTab === tabs.borrow) && (
                   <Borrows state={componentState} />
                 )}

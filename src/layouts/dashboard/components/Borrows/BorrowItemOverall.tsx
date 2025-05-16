@@ -6,21 +6,24 @@ import styles from './Borrows.module.scss';
 import { formatCoin, formatUSD } from '@/utils';
 import { Currency } from '@/types';
 import { useMarketInfo } from '@/utils/evm/hooks/useMarketInfo';
+import { useModalsStore } from '@/utils/stores';
 
 type BorrowItemOverallProps = {
-  currency: Currency;
   address: `0x${string}`;
 };
 
 export const BorrowItemOverall: React.FC<BorrowItemOverallProps> = ({
-  currency,
   address,
 }) => {
   const { data: marketInfo, isPending, error } = useMarketInfo(address);
+  const { openModal } = useModalsStore();
+
+  const openBorrowModal = () => openModal('Borrow', null);
+
   return (
     <Table.Row className={styles.row} onClick={() => console.log(marketInfo)}>
       <Table.ItemAsset
-        currency={currency}
+        currency={marketInfo?.name as Currency}
         primaryText={marketInfo && marketInfo.name}
         isLoading={isPending}
       />
@@ -36,16 +39,21 @@ export const BorrowItemOverall: React.FC<BorrowItemOverallProps> = ({
       <Table.Item mobileTitle='APY, borrow rate'>5.83 - 8.33%</Table.Item>
       <Table.Item>
         <div className={styles.buttons}>
-          <Button className={styles.button} size={'small'} variant={'purple'}>
+          <Button
+            className={styles.button}
+            size={'small'}
+            variant={'purple'}
+            onClick={openBorrowModal}
+          >
             <Text size={12} theme={500}>
               Borrow
             </Text>
           </Button>
-          <Button className={styles.button} size={'small'} variant={'stroke'}>
+          {/* <Button className={styles.button} size={'small'} variant={'stroke'}>
             <Text size={12} theme={500}>
               Details
             </Text>
-          </Button>
+          </Button> */}
         </div>
       </Table.Item>
     </Table.Row>

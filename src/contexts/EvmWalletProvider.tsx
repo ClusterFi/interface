@@ -59,7 +59,7 @@ export const sepoliaConfig = createConfig({
   chains: [sepolia],
   connectors,
   transports: {
-    [sepolia.id]: http('https://endpoints.omniatech.io/v1/eth/sepolia/public'),
+    [sepolia.id]: http('https://1rpc.io/sepolia'),
   },
 });
 

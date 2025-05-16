@@ -9,6 +9,7 @@ import { DepositItemOverall } from './DepositItemOverall';
 import styles from './Deposits.module.scss';
 import { Currency } from '@/types';
 import Image from 'next/image';
+import { useGetAllMarkets } from '@/utils/evm/hooks/useGetAllMarkets';
 
 type TAsset = {
   id: string;
@@ -29,6 +30,9 @@ type DepositsProps = {
 };
 
 export const Deposits: React.FC<DepositsProps> = ({ state }) => {
+  type Address = `0x${string}`;
+  const { data, isPending, error } = useGetAllMarkets();
+  const addresses = (data ?? []) as Address[];
   return (
     <div className={styles.base}>
       {/* {state === "empty" ? (
@@ -86,8 +90,8 @@ export const Deposits: React.FC<DepositsProps> = ({ state }) => {
             </Table.Row>
           </Table.Head>
           <Table.Body className={styles.body}>
-            {Array.from({ length: 2 }).map((_, index) => (
-              <DepositItemOverall key={index} />
+            {addresses.map((address, index) => (
+              <DepositItemOverall key={index} address={address} />
             ))}
           </Table.Body>
         </Table>

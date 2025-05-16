@@ -4,20 +4,20 @@ export enum Network {
 }
 
 export type Currency =
-  | "Ethereum"
-  | "Solana"
-  | "RocketPoolETH"
-  | "WrappedEETH"
-  | "WrappedStakedETH"
-  | "USDCoin"
-  | "USDTether"
-  | "Cluster"
-  | "MarinadeStakedSOL"
-  | "JITOStakedSOL"
-  | "AnkrStakedETH"
-  | "Polygon"
-  | "Arbitrum"
-  | "Hyperliquid";
+  | 'Ethereum'
+  | 'Solana'
+  | 'RocketPoolETH'
+  | 'WrappedEETH'
+  | 'WrappedStakedETH'
+  | 'USDC'
+  | 'USDTether'
+  | 'Cluster'
+  | 'MarinadeStakedSOL'
+  | 'JITOStakedSOL'
+  | 'AnkrStakedETH'
+  | 'Polygon'
+  | 'Arbitrum'
+  | 'Hyperliquid';
 
 export type CurrencyList = Partial<Record<Currency, number>>;
 

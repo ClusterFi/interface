@@ -16,13 +16,13 @@ type TAsset = {
   currency: Currency;
 };
 
-const assets: TAsset[] = [
+/* const assets: TAsset[] = [
   {
     id: '0',
     name: 'weETH',
     currency: 'WrappedEETH',
   },
-];
+]; */
 
 type BorrowsProps = {
   state: ComponentState;
@@ -93,13 +93,7 @@ export const Borrows: React.FC<BorrowsProps> = ({ state }) => {
           </Table.Head>
           <Table.Body className={styles.body}>
             {addresses.map((address) => {
-              return (
-                <BorrowItemOverall
-                  currency={'Ethereum'}
-                  key={address}
-                  address={address}
-                />
-              );
+              return <BorrowItemOverall key={address} address={address} />;
             })}
           </Table.Body>
         </Table>
