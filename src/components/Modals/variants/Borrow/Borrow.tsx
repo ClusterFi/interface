@@ -10,11 +10,9 @@ import {
 } from '@/components';
 import styles from './Borrow.module.scss';
 import cx from 'classnames';
-import {
-  ChainSelection,
-  TChain,
-} from '@/components/ChainSelection/ChainSelection';
+import { ChainSelection } from '@/components/ChainSelection/ChainSelection';
 import { AmountInput } from '@/components/AmountInput/AmountInput';
+import { CHAINS } from '@/constants';
 
 export type BorrowProps = null;
 
@@ -22,21 +20,10 @@ type Borrow = ModalProps & {
   props: BorrowProps;
 };
 
-const CHAINS: TChain[] = [
-  {
-    id: 'eth',
-    name: 'Ethereum',
-    fullName: 'Ethereum Mainnet',
-    icon: 'Ethereum',
-  },
-  { id: 'arb', name: 'Arbitrum', fullName: 'Arbitrum One', icon: 'Arbitrum' },
-  { id: 'matic', name: 'Polygon', fullName: 'Polygon PoS', icon: 'Polygon' },
-];
-
 export const Borrow: React.FC<Borrow> = ({ props, ...rest }) => {
   const [source, setSource] = React.useState(CHAINS[0]);
   const [destination, setDestination] = React.useState(CHAINS[1]);
-  const [selectedChain, setSelectedChain] = React.useState<TChain>(CHAINS[0]);
+  const [selectedChain, setSelectedChain] = React.useState(CHAINS[0]);
   const [amount, setAmount] = React.useState('');
 
   const [openSource, setOpenSource] = React.useState(false);

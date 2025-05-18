@@ -6,19 +6,12 @@ import { Button, Text, Icon, CurrencyIcon } from '@/components/shared';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useOnClickOutside } from 'usehooks-ts';
 import styles from './ChainSelection.module.scss';
-import { Currency } from '@/types';
-
-export type TChain = {
-  id: string;
-  name: string;
-  fullName: string;
-  icon: string; // For CurrencyIcon
-};
+import { ChainProps, Currency } from '@/types';
 
 type ChainSelectionProps = {
-  value: TChain;
-  onChange: (c: TChain) => void;
-  options: TChain[];
+  value: ChainProps;
+  onChange: (c: ChainProps) => void;
+  options: ChainProps[];
   variant?: 'default' | 'gradient';
   className?: string;
 };
@@ -35,7 +28,7 @@ export const ChainSelection: React.FC<ChainSelectionProps> = ({
 
   const toggle = () => setIsVisible((v) => !v);
   const close = () => setIsVisible(false);
-  const select = (chain: TChain) => {
+  const select = (chain: ChainProps) => {
     onChange(chain);
     close();
   };
@@ -57,7 +50,7 @@ export const ChainSelection: React.FC<ChainSelectionProps> = ({
         <CurrencyIcon
           width={variant === 'default' ? 33 : 40}
           height={variant === 'default' ? 33 : 40}
-          currency={value.icon as Currency}
+          currency={value.currency as Currency}
           className={styles.icon}
         />
         <span className={styles.block}>
@@ -65,7 +58,7 @@ export const ChainSelection: React.FC<ChainSelectionProps> = ({
             {value.name}
           </Text>
           <Text size={12} theme={400}>
-            {value.fullName}
+            {value.name}
           </Text>
         </span>
         <Icon
@@ -85,24 +78,24 @@ export const ChainSelection: React.FC<ChainSelectionProps> = ({
             exit={{ opacity: 0, y: 0 }}
           >
             {options.map((chain) => {
-              const isActive = chain.id === value.id;
+              const isActive = chain.chainId === value.chainId;
               return (
                 <button
-                  key={chain.id}
+                  key={chain.chainId}
                   className={cx(styles.item, isActive && styles.isActive)}
                   onClick={() => select(chain)}
                 >
                   <CurrencyIcon
                     width={33}
                     height={33}
-                    currency={chain.icon as Currency}
+                    currency={chain.currency as Currency}
                   />
                   <span className={styles.block}>
                     <Text size={14} theme={500}>
                       {chain.name}
                     </Text>
                     <Text size={12} theme={400}>
-                      {chain.fullName}
+                      {chain.name}
                     </Text>
                   </span>
                 </button>

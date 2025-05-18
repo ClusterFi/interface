@@ -1,6 +1,8 @@
 export enum Network {
   Ethereum,
-  Solana,
+  Arbitrum,
+  Base,
+  Linea,
 }
 
 export type Currency =
@@ -17,7 +19,9 @@ export type Currency =
   | 'AnkrStakedETH'
   | 'Polygon'
   | 'Arbitrum'
-  | 'Hyperliquid';
+  | 'Hyperliquid'
+  | 'Base'
+  | 'Linea';
 
 export type CurrencyList = Partial<Record<Currency, number>>;
 
@@ -26,4 +30,5 @@ export type ChainProps = {
   chainId: number;
   currency: Currency;
   network: Network;
+  eid: number;
 };
