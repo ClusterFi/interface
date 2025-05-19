@@ -59,7 +59,7 @@ export const sepoliaConfig = createConfig({
   chains: [sepolia],
   connectors,
   transports: {
-    [sepolia.id]: http('https://1rpc.io/sepolia'),
+    [sepolia.id]: http('https://ethereum-sepolia-rpc.publicnode.com'),
   },
 });
 
