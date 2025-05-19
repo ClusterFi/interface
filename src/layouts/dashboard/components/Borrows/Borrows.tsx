@@ -19,8 +19,8 @@ type TAsset = {
 const assets: TAsset[] = [
   {
     id: '0',
-    name: 'weETH',
-    currency: 'WrappedEETH',
+    name: 'USDC',
+    currency: 'USDC',
   },
 ];
 

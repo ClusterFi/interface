@@ -24,55 +24,45 @@
   font-weight: 500;
 }
 
-.arrow {
-  text-align: center;
-  font-size: 24px;
-  line-height: 24px;
-  color: $text-white;
+.staticBox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  background: none;
+  border-radius: 0;
+
+  p {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: $text-white;
+  }
 }
 
 .inputWrapper {
-  margin-top: 8px;
-
   .head {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 8px;
-    margin: 0 0 16px;
+    margin: 0 0 12px;
   }
 
   .title {
     color: $text-secondary;
   }
 
-  .input {
-    width: 100%;
-  }
-
-  .element {
-    background: none;
-    border: none;
-    font-size: 20px;
-    font-weight: 500;
-    height: 32px;
-    line-height: 100%;
-    padding: 4px 0;
-    color: $text-white;
-    width: 100%;
-
-    &::placeholder {
-      color: $text-secondary;
-    }
-
-    &:focus {
-      outline: none;
-    }
+  input {
+    font-size: 20px !important;
+    height: 32px !important;
+    padding: 4px 0 !important;
   }
 }
 
-.select {
-  margin-top: 4px;
+.balanceText {
+  margin-top: 6px;
+  color: $text-secondary;
 }
 
 .button {

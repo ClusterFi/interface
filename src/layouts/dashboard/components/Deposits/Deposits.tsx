@@ -35,21 +35,21 @@ export const Deposits: React.FC<DepositsProps> = ({ state }) => {
   const addresses = (data ?? []) as Address[];
   return (
     <div className={styles.base}>
-      {/* {state === "empty" ? (
+      {state === 'empty' ? (
         <Section containerClassName={styles.empty}>
           <Image
-            src={"/empty-deposits.png"}
-            alt="empty-deposits"
+            src={'/empty-deposits.png'}
+            alt='empty-deposits'
             width={62}
             height={60}
             quality={100}
           />
-          <Heading element="h4" className={styles.emptyTitle}>
+          <Heading element='h4' className={styles.emptyTitle}>
             Nothing supplied yet
           </Heading>
         </Section>
       ) : (
-        <Accordion defaultOpen title="Your supplies">
+        <Accordion defaultOpen title='Your supplies'>
           <CommonInfo />
           <Table className={styles.table}>
             <Table.Head>
@@ -57,21 +57,21 @@ export const Deposits: React.FC<DepositsProps> = ({ state }) => {
                 <Table.Item>Asset</Table.Item>
                 <Table.Item>Balance</Table.Item>
                 <Table.Item>APY</Table.Item>
-                <Table.Item title="some info">
+                <Table.Item title='some info'>
                   Collateral
-                  <Icon glyph="Info" width={10} height={10} />
+                  <Icon glyph='Info' width={10} height={10} />
                 </Table.Item>
                 <Table.Item />
               </Table.Row>
             </Table.Head>
             <Table.Body className={styles.body}>
-              {Array.from({ length: 2 }).map((_, index) => (
+              {Array.from({ length: 1 }).map((_, index) => (
                 <DepositItem key={index} />
               ))}
             </Table.Body>
           </Table>
         </Accordion>
-      )} */}
+      )}
       <Accordion defaultOpen title='Assets to supply'>
         <label className={styles.manage}>
           <input type='checkbox' className={styles.checkbox} />

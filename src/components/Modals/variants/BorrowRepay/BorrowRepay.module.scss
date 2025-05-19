@@ -31,7 +31,6 @@
   padding: 0;
   background: none;
   border-radius: 0;
-  line-height: 1;
 
   p {
     margin: 0;
@@ -41,28 +40,8 @@
   }
 }
 
-.inputWrapper {
-  .head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    margin: 0 0 12px;
-  }
-
-  .title {
-    color: $text-secondary;
-  }
-
-  // Modyfikujemy input
-  input {
-    font-size: 20px !important;
-    height: 32px !important;
-    padding: 4px 0 !important;
-  }
-}
-
-.balanceText {
-  margin-top: 12px;
-  color: $text-secondary;
+.button {
+  margin-top: 16px;
+  align-self: center;
+  width: 180px;
 }

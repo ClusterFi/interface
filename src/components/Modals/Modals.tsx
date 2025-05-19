@@ -27,6 +27,10 @@ import {
   Loans,
   Supply,
   SupplyProps,
+  BorrowRepay,
+  BorrowRepayProps,
+  Withdraw,
+  WithdrawProps,
 } from '@/components/Modals/variants';
 import { BorrowProps } from './variants/Borrow/Borrow';
 
@@ -44,6 +48,8 @@ export type ModalPropsMap = {
   Loans: LoansProps;
   Borrow: BorrowProps;
   Supply: SupplyProps;
+  BorrowRepay: BorrowRepayProps;
+  Withdraw: WithdrawProps;
 };
 export type ModalProps = {
   open: boolean;
@@ -69,6 +75,8 @@ const modalsByName: TModals = {
   TabsModal,
   Loans,
   Supply,
+  BorrowRepay,
+  Withdraw,
 } as const;
 
 export const Modals: React.FC = () => {

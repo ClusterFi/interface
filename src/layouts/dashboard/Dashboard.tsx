@@ -50,10 +50,10 @@ export const DashboardPage: React.FC = () => {
       <Container className={styles.container}>
         <div className={styles.network}>
           <NetworkSelection className={styles.networkSelect} size='large' />
-          <Text size={14} theme={400} className={styles.note}>
+          {/*   <Text size={14} theme={400} className={styles.note}>
             Main Ethereum market with the larges selection of assets and yield
             options
-          </Text>
+          </Text> */}
         </div>
         {componentState === 'unauthorized' ? (
           <Section className={styles.auth}>
@@ -77,7 +77,7 @@ export const DashboardPage: React.FC = () => {
           </Section>
         ) : (
           <React.Fragment>
-            <div className={styles.info}>
+            {/*  <div className={styles.info}>
               <div className={styles.box}>
                 <Text className={styles.boxTitle} size={14} theme={500}>
                   Net worth
@@ -114,7 +114,7 @@ export const DashboardPage: React.FC = () => {
                   </Button>
                 </Heading>
               </div>
-            </div>
+            </div> */}
             {isMobile && (
               <CustomTabs className={styles.tabs}>
                 {Object.entries(tabs).map(([key, val]) => (

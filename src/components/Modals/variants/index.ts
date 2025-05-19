@@ -11,3 +11,5 @@ export * from './TabsModal/TabsModal';
 export * from './Loans/Loans';
 export * from './Borrow/Borrow';
 export * from './Supply/Supply';
+export * from './BorrowRepay/BorrowRepay';
+export * from './Withdraw/Withdraw';

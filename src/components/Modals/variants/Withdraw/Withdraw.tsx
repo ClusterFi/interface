@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { ModalLayout } from '@/components/Modals/ModalLayout/ModalLayout';
 import { Button, ModalProps, Text, CurrencyIcon } from '@/components';
-import styles from './Supply.module.scss';
+import styles from './Withdraw.module.scss';
 import cx from 'classnames';
 import { AmountInput } from '@/components/AmountInput/AmountInput';
 import { Currency } from '@/types';
 
-export type SupplyProps = {
+export type WithdrawProps = {
   chain: {
     name: string;
     icon: Currency;
@@ -15,29 +15,28 @@ export type SupplyProps = {
     name: string;
     icon: Currency;
   };
+  supply: number;
 };
 
-type Supply = ModalProps & {
-  props: SupplyProps;
+type Withdraw = ModalProps & {
+  props: WithdrawProps;
 };
 
-export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
-  const { chain, asset } = props;
+export const Withdraw: React.FC<Withdraw> = ({ props, ...rest }) => {
+  const { chain, asset, supply } = props;
   const [amount, setAmount] = React.useState('');
-  const fixedBalance = 123.45;
 
   const parsedAmount = parseFloat(amount);
-  const isDisabled =
-    !amount || isNaN(parsedAmount) || parsedAmount > fixedBalance;
+  const isDisabled = !amount || isNaN(parsedAmount) || parsedAmount > supply;
 
   return (
-    <ModalLayout title='Supply Asset' isSwipeable {...rest}>
+    <ModalLayout title='Withdraw Asset' isSwipeable {...rest}>
       <div className={styles.content}>
         <Text size={16} theme={600} className={styles.title}>
-          Supply Asset
+          Withdraw Asset
         </Text>
 
-        {/* Chain info */}
+        {/* Chain */}
         <div className={styles.field}>
           <Text size={14} theme={400} className={styles.label}>
             Chain
@@ -50,7 +49,7 @@ export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
           </div>
         </div>
 
-        {/* Asset info */}
+        {/* Asset */}
         <div className={styles.field}>
           <Text size={14} theme={400} className={styles.label}>
             Asset
@@ -76,7 +75,7 @@ export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
             label='Enter amount'
           />
           <Text size={12} theme={400} className={styles.balanceText}>
-            Your balance: {fixedBalance.toFixed(2)} {asset.name}
+            Your supplies: {supply.toFixed(2)} {asset.name}
           </Text>
         </div>
 
@@ -86,7 +85,7 @@ export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
           className={styles.button}
           disabled={isDisabled}
         >
-          Supply
+          Withdraw
         </Button>
       </div>
     </ModalLayout>
