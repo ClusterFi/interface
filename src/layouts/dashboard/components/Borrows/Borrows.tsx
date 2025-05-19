@@ -16,13 +16,13 @@ type TAsset = {
   currency: Currency;
 };
 
-/* const assets: TAsset[] = [
+const assets: TAsset[] = [
   {
     id: '0',
     name: 'weETH',
     currency: 'WrappedEETH',
   },
-]; */
+];
 
 type BorrowsProps = {
   state: ComponentState;
@@ -36,21 +36,21 @@ export const Borrows: React.FC<BorrowsProps> = ({ state }) => {
   const addresses = (data ?? []) as Address[];
   return (
     <div className={styles.base}>
-      {/* {state === "empty" ? (
+      {state === 'empty' ? (
         <Section containerClassName={styles.empty}>
           <Image
-            src={"/empty-borrows.png"}
-            alt="empty-borrows"
+            src={'/empty-borrows.png'}
+            alt='empty-borrows'
             width={62}
             height={60}
             quality={100}
           />
-          <Heading element="h4" className={styles.emptyTitle}>
+          <Heading element='h4' className={styles.emptyTitle}>
             Nothing borrowed yet
           </Heading>
         </Section>
       ) : (
-        <Accordion defaultOpen title="Your borrows">
+        <Accordion defaultOpen title='Your borrows'>
           <CommonInfo />
           <Table className={styles.table}>
             <Table.Head>
@@ -74,7 +74,7 @@ export const Borrows: React.FC<BorrowsProps> = ({ state }) => {
             </Table.Body>
           </Table>
         </Accordion>
-      )} */}
+      )}
       <Accordion defaultOpen title='Assets to borrow'>
         <Table className={styles.table}>
           <Table.Head>

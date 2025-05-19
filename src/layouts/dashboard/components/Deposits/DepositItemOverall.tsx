@@ -3,6 +3,7 @@ import { Table, Button, Text, Icon } from '@/components';
 import styles from './Deposits.module.scss';
 import { useMarketInfo } from '@/utils/evm/hooks/useMarketInfo';
 import { Currency } from '@/types';
+import { useModalsStore } from '@/utils/stores';
 
 type DepositItemOverallProps = {
   address: `0x${string}`;
@@ -12,6 +13,8 @@ export const DepositItemOverall: React.FC<DepositItemOverallProps> = ({
   address,
 }) => {
   const { data: marketInfo, isPending, error } = useMarketInfo(address);
+  const { openModal } = useModalsStore();
+
   return (
     <Table.Row className={styles.row}>
       <Table.ItemAsset
@@ -24,11 +27,26 @@ export const DepositItemOverall: React.FC<DepositItemOverallProps> = ({
         <Icon glyph={'Check'} width={16} height={16} className={styles.check} />
       </Table.Item>
       <Table.Item>
-        <Button className={styles.button} size={'small'} variant={'purple'}>
-          <Text size={12} theme={500}>
-            Supply
-          </Text>
-        </Button>
+        {marketInfo && (
+          <Button
+            className={styles.button}
+            size={'small'}
+            variant={'purple'}
+            onClick={() =>
+              openModal('Supply', {
+                chain: { name: 'Arbitrum', icon: 'Arbitrum' },
+                asset: {
+                  name: marketInfo.name,
+                  icon: marketInfo.symbol as Currency,
+                },
+              })
+            }
+          >
+            <Text size={12} theme={500}>
+              Supply
+            </Text>
+          </Button>
+        )}
       </Table.Item>
     </Table.Row>
   );

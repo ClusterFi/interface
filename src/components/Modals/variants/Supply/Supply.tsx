@@ -1,0 +1,89 @@
+import * as React from 'react';
+import { ModalLayout } from '@/components/Modals/ModalLayout/ModalLayout';
+import { Button, ModalProps, Text, CurrencyIcon } from '@/components';
+import styles from './Supply.module.scss';
+import cx from 'classnames';
+import { AmountInput } from '@/components/AmountInput/AmountInput';
+import { Currency } from '@/types';
+
+export type SupplyProps = {
+  chain: {
+    name: string;
+    icon: Currency;
+  };
+  asset: {
+    name: string;
+    icon: Currency;
+  };
+};
+
+type Supply = ModalProps & {
+  props: SupplyProps;
+};
+
+export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
+  const { chain, asset } = props;
+  const [amount, setAmount] = React.useState('');
+
+  return (
+    <ModalLayout title='Supply Asset' isSwipeable {...rest}>
+      <div className={styles.content}>
+        <Text size={16} theme={600} className={styles.title}>
+          Supply Asset
+        </Text>
+
+        {/* Chain info */}
+        <div className={styles.field}>
+          <Text size={14} theme={400} className={styles.label}>
+            Chain
+          </Text>
+          <div className={styles.staticBox}>
+            <CurrencyIcon
+              currency={chain.icon as Currency}
+              width={24}
+              height={24}
+            />
+            <Text size={14} theme={500}>
+              {chain.name}
+            </Text>
+          </div>
+        </div>
+
+        {/* Asset info */}
+        <div className={styles.field}>
+          <Text size={14} theme={400} className={styles.label}>
+            Asset
+          </Text>
+          <div className={styles.staticBox}>
+            <CurrencyIcon
+              currency={asset.icon as Currency}
+              width={24}
+              height={24}
+            />
+            <Text size={14} theme={500}>
+              {asset.name}
+            </Text>
+          </div>
+        </div>
+
+        {/* Amount input */}
+        <div className={cx('base', styles.inputWrapper)}>
+          <div className='head'>
+            <Text size={14} theme={400} className='title'>
+              Amount
+            </Text>
+          </div>
+          <AmountInput
+            value={amount}
+            onChange={setAmount}
+            label='Enter amount'
+          />
+        </div>
+
+        <Button size='large' variant='purple' className={styles.button}>
+          Supply
+        </Button>
+      </div>
+    </ModalLayout>
+  );
+};

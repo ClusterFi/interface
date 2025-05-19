@@ -10,3 +10,4 @@ export * from './Wallet/Wallet';
 export * from './TabsModal/TabsModal';
 export * from './Loans/Loans';
 export * from './Borrow/Borrow';
+export * from './Supply/Supply';
