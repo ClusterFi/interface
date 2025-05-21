@@ -5,8 +5,13 @@ import styles from './Supply.module.scss';
 import cx from 'classnames';
 import { AmountInput } from '@/components/AmountInput/AmountInput';
 import { Currency } from '@/types';
+import { useAccount } from 'wagmi';
+import { useAllowance } from '@/utils/evm/hooks/useAllowance';
+import { useApproveToken } from '@/utils/evm/hooks/useApproveToken'; // <== dodaj ten hook
 
 export type SupplyProps = {
+  underlyingAddress: `0x${string}`;
+  spenderAddress: `0x${string}`;
   chain: {
     name: string;
     icon: Currency;
@@ -25,10 +30,27 @@ export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
   const { chain, asset } = props;
   const [amount, setAmount] = React.useState('');
   const fixedBalance = 123.45;
+  const account = useAccount();
 
   const parsedAmount = parseFloat(amount);
   const isDisabled =
     !amount || isNaN(parsedAmount) || parsedAmount > fixedBalance;
+
+  const { allowance, isLoading: isAllowanceLoading } = useAllowance({
+    token: props.underlyingAddress,
+    owner: account.address,
+    spender: props.spenderAddress,
+  });
+
+  const needsApproval = allowance === BigInt(0);
+  const {
+    approve,
+    isPending: isApproving,
+    isConfirming: isApprovingConfirming,
+  } = useApproveToken({
+    token: props.underlyingAddress,
+    spender: props.spenderAddress,
+  });
 
   return (
     <ModalLayout title='Supply Asset' isSwipeable {...rest}>
@@ -80,14 +102,30 @@ export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
           </Text>
         </div>
 
-        <Button
-          size='large'
-          variant='purple'
-          className={styles.button}
-          disabled={isDisabled}
-        >
-          Supply
-        </Button>
+        {needsApproval ? (
+          <Button
+            size='large'
+            variant='purple'
+            className={styles.button}
+            onClick={approve}
+            disabled={isApproving || isApprovingConfirming}
+          >
+            {isApproving
+              ? 'Waiting for Wallet...'
+              : isApprovingConfirming
+                ? 'Confirming...'
+                : 'Approve'}
+          </Button>
+        ) : (
+          <Button
+            size='large'
+            variant='purple'
+            className={styles.button}
+            disabled={isDisabled}
+          >
+            Supply
+          </Button>
+        )}
       </div>
     </ModalLayout>
   );

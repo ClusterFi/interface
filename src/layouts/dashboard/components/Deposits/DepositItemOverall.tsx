@@ -4,6 +4,7 @@ import styles from './Deposits.module.scss';
 import { useMarketInfo } from '@/utils/evm/hooks/useMarketInfo';
 import { Currency } from '@/types';
 import { useModalsStore } from '@/utils/stores';
+import { useAccount } from 'wagmi';
 
 type DepositItemOverallProps = {
   address: `0x${string}`;
@@ -14,6 +15,7 @@ export const DepositItemOverall: React.FC<DepositItemOverallProps> = ({
 }) => {
   const { data: marketInfo, isPending, error } = useMarketInfo(address);
   const { openModal } = useModalsStore();
+  const account = useAccount();
 
   return (
     <Table.Row className={styles.row}>
@@ -34,6 +36,8 @@ export const DepositItemOverall: React.FC<DepositItemOverallProps> = ({
             variant={'purple'}
             onClick={() =>
               openModal('Supply', {
+                underlyingAddress: marketInfo.underlying,
+                spenderAddress: address,
                 chain: { name: 'Arbitrum', icon: 'Arbitrum' },
                 asset: {
                   name: marketInfo.name,
@@ -43,7 +47,7 @@ export const DepositItemOverall: React.FC<DepositItemOverallProps> = ({
             }
           >
             <Text size={12} theme={500}>
-              Supply
+              {account.isConnected ? 'Supply' : 'Connect'}
             </Text>
           </Button>
         )}
