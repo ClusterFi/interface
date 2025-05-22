@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 import { ModalLayout } from '@/components/Modals/ModalLayout/ModalLayout';
 import { Button, ModalProps, Text, CurrencyIcon } from '@/components';
 import styles from './Supply.module.scss';
@@ -7,9 +8,12 @@ import { AmountInput } from '@/components/AmountInput/AmountInput';
 import { Currency } from '@/types';
 import { useAccount } from 'wagmi';
 import { useAllowance } from '@/utils/evm/hooks/useAllowance';
-import { useApproveToken } from '@/utils/evm/hooks/useApproveToken'; // <== dodaj ten hook
+import { useApproveToken } from '@/utils/evm/hooks/useApproveToken';
+import { useSupply } from '@/utils/evm/hooks/useSupply';
 
 export type SupplyProps = {
+  underlyingDecimals: number;
+  underlyingBalance: string | undefined;
   underlyingAddress: `0x${string}`;
   spenderAddress: `0x${string}`;
   chain: {
@@ -27,14 +31,31 @@ type Supply = ModalProps & {
 };
 
 export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
+  const {
+    supply,
+    isPending: isSupplying,
+    isConfirming: isSupplyingConfirming,
+    hash,
+  } = useSupply(props.spenderAddress);
+
+  const handleSupply = () => {
+    const parsed = parseFloat(amount);
+    if (!isNaN(parsed)) {
+      const multiplier = 10 ** props.underlyingDecimals;
+      const value = BigInt(Math.floor(parsed * multiplier));
+      supply(value);
+    }
+  };
+
   const { chain, asset } = props;
-  const [amount, setAmount] = React.useState('');
-  const fixedBalance = 123.45;
+  const [amount, setAmount] = useState('');
+
   const account = useAccount();
 
+  const parsedBalance = parseFloat(props.underlyingBalance || '0');
   const parsedAmount = parseFloat(amount);
   const isDisabled =
-    !amount || isNaN(parsedAmount) || parsedAmount > fixedBalance;
+    !amount || isNaN(parsedAmount) || parsedAmount > parsedBalance;
 
   const { allowance, isLoading: isAllowanceLoading } = useAllowance({
     token: props.underlyingAddress,
@@ -51,6 +72,12 @@ export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
     token: props.underlyingAddress,
     spender: props.spenderAddress,
   });
+
+  useEffect(() => {
+    if (!isSupplyingConfirming && hash) {
+      rest.onOpenChange(false);
+    }
+  }, [isSupplyingConfirming, hash, rest]);
 
   return (
     <ModalLayout title='Supply Asset' isSwipeable {...rest}>
@@ -98,7 +125,7 @@ export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
             label='Enter amount'
           />
           <Text size={12} theme={400} className={styles.balanceText}>
-            Your balance: {fixedBalance.toFixed(2)} {asset.name}
+            Your balance: {parsedBalance.toFixed(2)} {asset.name}
           </Text>
         </div>
 
@@ -121,9 +148,14 @@ export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
             size='large'
             variant='purple'
             className={styles.button}
-            disabled={isDisabled}
+            disabled={isDisabled || isSupplying || isSupplyingConfirming}
+            onClick={handleSupply}
           >
-            Supply
+            {isSupplying
+              ? 'Waiting for Wallet...'
+              : isSupplyingConfirming
+                ? 'Confirming...'
+                : 'Supply'}
           </Button>
         )}
       </div>

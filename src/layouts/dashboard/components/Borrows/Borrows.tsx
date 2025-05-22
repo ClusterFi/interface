@@ -50,7 +50,7 @@ export const Borrows: React.FC<BorrowsProps> = ({ state }) => {
           </Heading>
         </Section>
       ) : (
-        <Accordion defaultOpen title='Your borrows'>
+        <Accordion title='Your borrows'>
           <CommonInfo />
           <Table className={styles.table}>
             <Table.Head>

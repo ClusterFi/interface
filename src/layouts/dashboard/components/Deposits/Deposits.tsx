@@ -49,7 +49,7 @@ export const Deposits: React.FC<DepositsProps> = ({ state }) => {
           </Heading>
         </Section>
       ) : (
-        <Accordion defaultOpen title='Your supplies'>
+        <Accordion title='Your supplies'>
           <CommonInfo />
           <Table className={styles.table}>
             <Table.Head>
@@ -73,12 +73,12 @@ export const Deposits: React.FC<DepositsProps> = ({ state }) => {
         </Accordion>
       )}
       <Accordion defaultOpen title='Assets to supply'>
-        <label className={styles.manage}>
+        {/* <label className={styles.manage}>
           <input type='checkbox' className={styles.checkbox} />
           <Text size={12} theme={400}>
             Show assets with 0 balance
           </Text>
-        </label>
+        </label> */}
         <Table className={styles.table}>
           <Table.Head>
             <Table.Row>

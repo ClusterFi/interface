@@ -1,12 +1,12 @@
 import * as React from 'react';
 import Link from 'next/link';
 import { Button, Table, Text } from '@/components';
-
 import styles from './Borrows.module.scss';
 import { formatCoin, formatUSD } from '@/utils';
 import { Currency } from '@/types';
 import { useMarketInfo } from '@/utils/evm/hooks/useMarketInfo';
 import { useModalsStore } from '@/utils/stores';
+import { useAccount } from 'wagmi'; // 👈 dodany import
 
 type BorrowItemOverallProps = {
   address: `0x${string}`;
@@ -17,8 +17,15 @@ export const BorrowItemOverall: React.FC<BorrowItemOverallProps> = ({
 }) => {
   const { data: marketInfo, isPending, error } = useMarketInfo(address);
   const { openModal } = useModalsStore();
+  const { isConnected } = useAccount(); // 👈 sprawdzanie połączenia
 
-  const openBorrowModal = () => openModal('Borrow', null);
+  const handleClick = () => {
+    if (isConnected) {
+      openModal('Borrow', null);
+    } else {
+      openModal('ConnectWallet', null);
+    }
+  };
 
   return (
     <Table.Row className={styles.row} onClick={() => console.log(marketInfo)}>
@@ -43,17 +50,12 @@ export const BorrowItemOverall: React.FC<BorrowItemOverallProps> = ({
             className={styles.button}
             size={'small'}
             variant={'purple'}
-            onClick={openBorrowModal}
+            onClick={handleClick}
           >
             <Text size={12} theme={500}>
-              Borrow
+              {isConnected ? 'Borrow' : 'Connect'}
             </Text>
           </Button>
-          {/* <Button className={styles.button} size={'small'} variant={'stroke'}>
-            <Text size={12} theme={500}>
-              Details
-            </Text>
-          </Button> */}
         </div>
       </Table.Item>
     </Table.Row>

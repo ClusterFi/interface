@@ -48,13 +48,13 @@ export const DashboardPage: React.FC = () => {
   return (
     <section className={styles.base}>
       <Container className={styles.container}>
-        <div className={styles.network}>
-          <NetworkSelection className={styles.networkSelect} size='large' />
-          {/*   <Text size={14} theme={400} className={styles.note}>
+        {/*   <div className={styles.network}> */}
+        {/*    <NetworkSelection className={styles.networkSelect} size='large' /> */}
+        {/*   <Text size={14} theme={400} className={styles.note}>
             Main Ethereum market with the larges selection of assets and yield
             options
           </Text> */}
-        </div>
+        {/*   </div> */}
         {componentState === 'unauthorized' ? (
           <Section className={styles.auth}>
             <Image
