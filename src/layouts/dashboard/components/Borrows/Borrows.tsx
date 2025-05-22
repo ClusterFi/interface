@@ -31,7 +31,7 @@ type BorrowsProps = {
 export const Borrows: React.FC<BorrowsProps> = ({ state }) => {
   type Address = `0x${string}`;
 
-  const { data, isPending, error } = useGetAllMarkets();
+  const { data, isPending, error, chainId } = useGetAllMarkets(11155111);
 
   const addresses = (data ?? []) as Address[];
   return (
@@ -93,7 +93,13 @@ export const Borrows: React.FC<BorrowsProps> = ({ state }) => {
           </Table.Head>
           <Table.Body className={styles.body}>
             {addresses.map((address) => {
-              return <BorrowItemOverall key={address} address={address} />;
+              return (
+                <BorrowItemOverall
+                  key={address}
+                  address={address}
+                  chainId={chainId}
+                />
+              );
             })}
           </Table.Body>
         </Table>

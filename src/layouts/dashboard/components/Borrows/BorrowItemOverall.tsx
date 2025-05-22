@@ -6,22 +6,32 @@ import { formatCoin, formatUSD } from '@/utils';
 import { Currency } from '@/types';
 import { useMarketInfo } from '@/utils/evm/hooks/useMarketInfo';
 import { useModalsStore } from '@/utils/stores';
-import { useAccount } from 'wagmi'; // 👈 dodany import
+import { useAccount } from 'wagmi';
+import { getChainById } from '@/constants';
 
 type BorrowItemOverallProps = {
   address: `0x${string}`;
+  chainId: number;
 };
 
 export const BorrowItemOverall: React.FC<BorrowItemOverallProps> = ({
   address,
+  chainId,
 }) => {
   const { data: marketInfo, isPending, error } = useMarketInfo(address);
   const { openModal } = useModalsStore();
-  const { isConnected } = useAccount(); // 👈 sprawdzanie połączenia
+  const { isConnected } = useAccount();
+
+  const chainInfo = getChainById(chainId);
 
   const handleClick = () => {
     if (isConnected) {
-      openModal('Borrow', null);
+      openModal('Borrow', {
+        chain: {
+          name: chainInfo?.name!,
+          icon: chainInfo?.currency!,
+        },
+      });
     } else {
       openModal('ConnectWallet', null);
     }

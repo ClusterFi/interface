@@ -31,10 +31,11 @@ type DepositsProps = {
 
 export const Deposits: React.FC<DepositsProps> = ({ state }) => {
   type Address = `0x${string}`;
-  const { data, isPending, error } = useGetAllMarkets();
+  const { data, isPending, error, chainId } = useGetAllMarkets(11155111);
   const addresses = (data ?? []) as Address[];
+
   return (
-    <div className={styles.base}>
+    <div className={styles.base} onClick={() => console.log(data)}>
       {state === 'empty' ? (
         <Section containerClassName={styles.empty}>
           <Image
@@ -91,7 +92,11 @@ export const Deposits: React.FC<DepositsProps> = ({ state }) => {
           </Table.Head>
           <Table.Body className={styles.body}>
             {addresses.map((address, index) => (
-              <DepositItemOverall key={index} address={address} />
+              <DepositItemOverall
+                key={index}
+                address={address}
+                chainId={chainId}
+              />
             ))}
           </Table.Body>
         </Table>

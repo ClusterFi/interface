@@ -13,8 +13,15 @@ import cx from 'classnames';
 import { ChainSelection } from '@/components/ChainSelection/ChainSelection';
 import { AmountInput } from '@/components/AmountInput/AmountInput';
 import { CHAINS } from '@/constants';
+import { Currency } from '@/types';
+import { prop } from '@/utils/media/helpers';
 
-export type BorrowProps = null;
+export type BorrowProps = {
+  chain: {
+    name: string;
+    icon: Currency;
+  };
+};
 
 type Borrow = ModalProps & {
   props: BorrowProps;
@@ -39,15 +46,16 @@ export const Borrow: React.FC<Borrow> = ({ props, ...rest }) => {
           Cross-Chain Borrow
         </Text>
 
-        <div className={styles.field}>
+        <div className={styles.staticField}>
           <Text size={14} theme={400} className={styles.label}>
-            Source Chain
+            Chain
           </Text>
-          <ChainSelection
-            value={source}
-            onChange={setSource}
-            options={CHAINS}
-          />
+          <div className={styles.staticBox}>
+            <CurrencyIcon currency={props.chain.icon} width={24} height={24} />
+            <Text size={14} theme={500}>
+              {props.chain.name}
+            </Text>
+          </div>
         </div>
 
         {/* Destination Chain */}

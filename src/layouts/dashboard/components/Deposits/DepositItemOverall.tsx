@@ -5,13 +5,16 @@ import { useMarketInfo } from '@/utils/evm/hooks/useMarketInfo';
 import { Currency } from '@/types';
 import { useModalsStore } from '@/utils/stores';
 import { useAccount, useBalance } from 'wagmi';
+import { getChainById } from '@/constants';
 
 type DepositItemOverallProps = {
   address: `0x${string}`;
+  chainId: number;
 };
 
 export const DepositItemOverall: React.FC<DepositItemOverallProps> = ({
   address,
+  chainId,
 }) => {
   const { data: marketInfo, isPending, error } = useMarketInfo(address);
   const { openModal } = useModalsStore();
@@ -21,6 +24,8 @@ export const DepositItemOverall: React.FC<DepositItemOverallProps> = ({
     address: user.address,
     token: marketInfo?.underlying,
   });
+
+  const chainInfo = getChainById(chainId);
 
   return (
     <Table.Row className={styles.row}>
@@ -50,7 +55,10 @@ export const DepositItemOverall: React.FC<DepositItemOverallProps> = ({
                     underlyingBalance: result.data?.formatted,
                     underlyingAddress: marketInfo.underlying,
                     spenderAddress: address,
-                    chain: { name: 'Arbitrum', icon: 'Arbitrum' },
+                    chain: {
+                      name: chainInfo?.name!,
+                      icon: chainInfo?.currency!,
+                    },
                     asset: {
                       name: marketInfo.name,
                       icon: marketInfo.symbol as Currency,
