@@ -14,6 +14,8 @@ export type MarketInfo = {
   isComped: boolean;
   collateralFactorMantissa: bigint;
   cash: bigint;
+  supplyAPY: number;
+  borrowAPY: number;
 };
 
 export const useMarketInfo = (marketAddress: Address) => {
@@ -43,23 +45,48 @@ export const useMarketInfo = (marketAddress: Address) => {
     functionName: 'getCash',
   });
 
+  const supplyRateCall = useReadContract({
+    address: marketAddress,
+    abi: ABIS.CTokenABI,
+    functionName: 'supplyRatePerBlock',
+  });
+
+  const borrowRateCall = useReadContract({
+    address: marketAddress,
+    abi: ABIS.CTokenABI,
+    functionName: 'borrowRatePerBlock',
+  });
+
   const isPending =
     marketsDetails.isPending ||
     underlyingCall.isPending ||
     tokenInfo.isPending ||
-    cashCall.isPending;
+    cashCall.isPending ||
+    supplyRateCall.isPending ||
+    borrowRateCall.isPending;
 
   const error =
     marketsDetails.error ||
     underlyingCall.error ||
     tokenInfo.error ||
-    cashCall.error;
+    cashCall.error ||
+    supplyRateCall.error ||
+    borrowRateCall.error;
 
   const hasAllData =
     marketsDetails.data !== undefined &&
     underlyingCall.data !== undefined &&
     tokenInfo.data !== undefined &&
-    cashCall.data !== undefined;
+    cashCall.data !== undefined &&
+    supplyRateCall.data !== undefined &&
+    borrowRateCall.data !== undefined;
+
+  const blocksPerYear = 2102400;
+  const supplyRate = hasAllData ? Number(supplyRateCall.data) / 1e18 : 0;
+  const borrowRate = hasAllData ? Number(borrowRateCall.data) / 1e18 : 0;
+
+  const supplyAPY = (Math.pow(supplyRate * blocksPerYear + 1, 1) - 1) * 100;
+  const borrowAPY = (Math.pow(borrowRate * blocksPerYear + 1, 1) - 1) * 100;
 
   const data: MarketInfo | undefined = hasAllData
     ? {
@@ -74,6 +101,8 @@ export const useMarketInfo = (marketAddress: Address) => {
         symbol: tokenInfo.data?.symbol ?? '',
         decimals: tokenInfo.data?.decimals ?? 18,
         cash: cashCall.data as bigint,
+        supplyAPY,
+        borrowAPY,
       }
     : undefined;
 

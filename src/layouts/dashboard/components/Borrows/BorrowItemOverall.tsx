@@ -43,7 +43,9 @@ export const BorrowItemOverall: React.FC<BorrowItemOverallProps> = ({
         )}
         mobileTitle={'Available'}
       />
-      <Table.Item mobileTitle='APY, borrow rate'>5.83 - 8.33%</Table.Item>
+      <Table.Item mobileTitle='APY, borrow rate'>
+        {marketInfo?.borrowAPY.toFixed(2)}%
+      </Table.Item>
       <Table.Item>
         <div className={styles.buttons}>
           <Button
