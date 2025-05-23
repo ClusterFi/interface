@@ -18,6 +18,17 @@
   flex-grow: 4;
 }
 
+.chart {
+  position: relative;
+  margin: 20px 0 0;
+  height: 180px;
+  overflow: hidden;
+}
+.chartContainer {
+  position: absolute;
+  inset: 0;
+}
+
 .info {
   display: flex;
   justify-content: space-between;
