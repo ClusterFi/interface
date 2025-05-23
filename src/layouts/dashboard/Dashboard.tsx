@@ -82,12 +82,12 @@ export const DashboardPage: React.FC = () => {
     });
 
 
-    const renderValue = (value: string | number | undefined, suffix = '') =>
+    const renderValue = (value: string | number | undefined, suffix = '', prefix = '') =>
         isMarketsPending || isStatsPending
             ? 'Loading...'
             : value === undefined || value === null || !userAddress || !asset || !stats
                 ? '-'
-                : `${value}${suffix}`;
+                : `${prefix}${value}${suffix}`;
 
     return (
         <section className={styles.base}>
@@ -121,7 +121,7 @@ export const DashboardPage: React.FC = () => {
                     </Section>
                 ) : (
                     <React.Fragment>
-                        {isMobile && (
+                        {isConnected && (
                             <div className={styles.info}>
                                 <div className={styles.box}>
                                     <Text className={styles.boxTitle} size={14} theme={500}>
@@ -135,7 +135,7 @@ export const DashboardPage: React.FC = () => {
                                         Net APY
                                     </Text>
                                     <Heading className={styles.boxText} element='h3'>
-                                        {renderValue(stats?.netApy !== undefined ? (stats.netApy * 100).toFixed(2) : undefined, '%')}
+                                        {renderValue(stats?.netWorth !== undefined ? formatNumberCompact(stats.netWorth, 2) : undefined, '', '$')}
                                     </Heading>
                                 </div>
                                 <div className={styles.box}>
