@@ -8,7 +8,6 @@ import {
   Heading,
   Container,
   Tabs as CustomTabs,
-  NetworkSelection,
   Text,
   Button,
   Section,
@@ -77,7 +76,7 @@ export const DashboardPage: React.FC = () => {
           </Section>
         ) : (
           <React.Fragment>
-            {/*  <div className={styles.info}>
+            <div className={styles.info}>
               <div className={styles.box}>
                 <Text className={styles.boxTitle} size={14} theme={500}>
                   Net worth
@@ -114,7 +113,7 @@ export const DashboardPage: React.FC = () => {
                   </Button>
                 </Heading>
               </div>
-            </div> */}
+            </div>
             {isMobile && (
               <CustomTabs className={styles.tabs}>
                 {Object.entries(tabs).map(([key, val]) => (

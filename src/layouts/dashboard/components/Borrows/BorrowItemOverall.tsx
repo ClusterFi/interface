@@ -68,6 +68,13 @@ export const BorrowItemOverall: React.FC<BorrowItemOverallProps> = ({
               {isConnected ? 'Borrow' : 'Connect'}
             </Text>
           </Button>
+            {isConnected && (
+                <Button className={styles.button} size="small" variant="stroke">
+                    <Text size={12} theme={500}>
+                        Details
+                    </Text>
+                </Button>
+            )}
         </div>
       </Table.Item>
     </Table.Row>
