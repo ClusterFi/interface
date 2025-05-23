@@ -1,13 +1,13 @@
-import * as React from 'react';
-import Link from 'next/link';
-import { Button, Table, Text } from '@/components';
-import styles from './Borrows.module.scss';
-import { formatCoin, formatUSD } from '@/utils';
-import { Currency } from '@/types';
-import { useMarketInfo } from '@/utils/evm/hooks/useMarketInfo';
-import { useModalsStore } from '@/utils/stores';
-import { useAccount } from 'wagmi';
-import { getChainById } from '@/constants';
+import * as React from "react";
+import Link from "next/link";
+import { Button, Table, Text } from "@/components";
+import styles from "./Borrows.module.scss";
+import { formatCoin, formatUSD } from "@/utils";
+import { Currency } from "@/types";
+import { useMarketInfo } from "@/utils/evm/hooks/useMarketInfo";
+import { useModalsStore } from "@/utils/stores";
+import { useAccount } from "wagmi";
+import { getChainById } from "@/constants";
 
 type BorrowItemOverallProps = {
   address: `0x${string}`;
@@ -26,15 +26,19 @@ export const BorrowItemOverall: React.FC<BorrowItemOverallProps> = ({
 
   const handleClick = () => {
     if (isConnected) {
-      openModal('Borrow', {
+      openModal("Borrow", {
         chain: {
           name: chainInfo?.name!,
           icon: chainInfo?.currency!,
         },
       });
     } else {
-      openModal('ConnectWallet', null);
+      openModal("ConnectWallet", null);
     }
+  };
+
+  const handleDetails = () => {
+    openModal("Details", {});
   };
 
   return (
@@ -46,35 +50,40 @@ export const BorrowItemOverall: React.FC<BorrowItemOverallProps> = ({
       />
       <Table.ItemAmount
         primaryValue={formatCoin(
-          marketInfo ? Number(marketInfo.cash) / 10 ** marketInfo.decimals : 0
+          marketInfo ? Number(marketInfo.cash) / 10 ** marketInfo.decimals : 0,
         )}
         secondaryValue={formatCoin(
-          marketInfo ? Number(marketInfo.cash) / 10 ** marketInfo.decimals : 0
+          marketInfo ? Number(marketInfo.cash) / 10 ** marketInfo.decimals : 0,
         )}
-        mobileTitle={'Available'}
+        mobileTitle={"Available"}
       />
-      <Table.Item mobileTitle='APY, borrow rate'>
+      <Table.Item mobileTitle="APY, borrow rate">
         {marketInfo?.borrowAPY.toFixed(2)}%
       </Table.Item>
       <Table.Item>
         <div className={styles.buttons}>
           <Button
             className={styles.button}
-            size={'small'}
-            variant={'purple'}
+            size={"small"}
+            variant={"purple"}
             onClick={handleClick}
           >
             <Text size={12} theme={500}>
-              {isConnected ? 'Borrow' : 'Connect'}
+              {isConnected ? "Borrow" : "Connect"}
             </Text>
           </Button>
-            {isConnected && (
-                <Button className={styles.button} size="small" variant="stroke">
-                    <Text size={12} theme={500}>
-                        Details
-                    </Text>
-                </Button>
-            )}
+          {isConnected && (
+            <Button
+              className={styles.button}
+              size="small"
+              variant="stroke"
+              onClick={handleDetails}
+            >
+              <Text size={12} theme={500}>
+                Details
+              </Text>
+            </Button>
+          )}
         </div>
       </Table.Item>
     </Table.Row>

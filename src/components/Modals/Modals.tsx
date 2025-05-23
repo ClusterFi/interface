@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { useModalsStore } from '@/utils/stores';
+import * as React from "react";
+import { useModalsStore } from "@/utils/stores";
 
 import {
   Borrow,
@@ -31,10 +31,12 @@ import {
   BorrowRepayProps,
   Withdraw,
   WithdrawProps,
-} from '@/components/Modals/variants';
-import { BorrowProps } from './variants/Borrow/Borrow';
+  Details,
+} from "@/components/Modals/variants";
+import { BorrowProps } from "./variants/Borrow/Borrow";
 
 export type ModalPropsMap = {
+  Details: Details;
   ReadMore: ReadMoreProps;
   StakingDeposit: StakingDepositProps;
   StakingWithdraw: StakingWithdrawProps;
@@ -62,6 +64,7 @@ export type TModals = Record<
 >;
 
 const modalsByName: TModals = {
+  Details,
   Borrow,
   ReadMore,
   StakingDeposit,
