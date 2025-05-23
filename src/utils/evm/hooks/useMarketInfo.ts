@@ -10,6 +10,7 @@ export type MarketInfo = {
   name: string;
   symbol: string;
   decimals: number;
+  cTokenDecimals: number;
   isListed: boolean;
   isComped: boolean;
   collateralFactorMantissa: bigint;
@@ -39,6 +40,12 @@ export const useMarketInfo = (marketAddress: Address) => {
     },
   });
 
+  const cTokenDecimalsCall = useReadContract({
+    address: marketAddress,
+    abi: ABIS.CTokenABI,
+    functionName: 'decimals',
+  });
+
   const cashCall = useReadContract({
     address: marketAddress,
     abi: ABIS.CTokenABI,
@@ -61,6 +68,7 @@ export const useMarketInfo = (marketAddress: Address) => {
     marketsDetails.isPending ||
     underlyingCall.isPending ||
     tokenInfo.isPending ||
+    cTokenDecimalsCall.isPending ||
     cashCall.isPending ||
     supplyRateCall.isPending ||
     borrowRateCall.isPending;
@@ -69,6 +77,7 @@ export const useMarketInfo = (marketAddress: Address) => {
     marketsDetails.error ||
     underlyingCall.error ||
     tokenInfo.error ||
+    cTokenDecimalsCall.error ||
     cashCall.error ||
     supplyRateCall.error ||
     borrowRateCall.error;
@@ -77,6 +86,7 @@ export const useMarketInfo = (marketAddress: Address) => {
     marketsDetails.data !== undefined &&
     underlyingCall.data !== undefined &&
     tokenInfo.data !== undefined &&
+    cTokenDecimalsCall.data !== undefined &&
     cashCall.data !== undefined &&
     supplyRateCall.data !== undefined &&
     borrowRateCall.data !== undefined;
@@ -100,6 +110,7 @@ export const useMarketInfo = (marketAddress: Address) => {
         name: tokenInfo.data?.name ?? '',
         symbol: tokenInfo.data?.symbol ?? '',
         decimals: tokenInfo.data?.decimals ?? 18,
+        cTokenDecimals: Number(cTokenDecimalsCall.data),
         cash: cashCall.data as bigint,
         supplyAPY,
         borrowAPY,

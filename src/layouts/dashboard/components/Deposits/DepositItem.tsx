@@ -1,29 +1,59 @@
 import * as React from 'react';
 import { formatCoin, formatUSD } from '@/utils';
-import { Table, Switcher, Button, Text } from '@/components';
+import { Table, Switcher, Button, Text, Icon } from '@/components';
 import styles from './Deposits.module.scss';
 import { useModalsStore } from '@/utils/stores';
+import { useMarketInfo } from '@/utils/evm/hooks/useMarketInfo';
+import { Currency } from '@/types';
+import { getChainById } from '@/constants';
+import { formatUnits } from 'viem';
 
-export const DepositItem: React.FC = () => {
+type DepositItemProps = {
+  address: `0x${string}`;
+  amount: bigint;
+};
+
+
+
+export const DepositItem: React.FC<DepositItemProps> = ({ address, amount }) => {
   const { openModal } = useModalsStore();
+  const { data: marketInfo, isPending } = useMarketInfo(address);
+  const chainInfo = getChainById(11155111);
 
   const handleWithdrawClick = () => {
-    openModal('Withdraw', {
-      chain: { name: 'Arbitrum', icon: 'Arbitrum' },
-      asset: { name: 'USDC', icon: 'USDC' },
-      supply: 0.159,
-    });
+    if (marketInfo) {
+      openModal('Withdraw', {
+        chain: {
+          name: chainInfo?.name!,
+          icon: chainInfo?.currency!,
+        },
+        asset: {
+          name: marketInfo.name,
+          icon: marketInfo.symbol as Currency,
+        },
+        supply: Number(amount) / Math.pow(10, marketInfo.decimals),
+      });
+    }
   };
 
+  if (isPending || !marketInfo) {
+    return null;
+  }
+
+  const formatted = formatUnits(amount, marketInfo.cTokenDecimals);
+
   return (
-    <Table.Row className={styles.row}>
-      <Table.ItemAsset currency={'USDC'} primaryText={'USDC'} />
+    <Table.Row className={styles.row} onClick={() => console.log(marketInfo.cTokenDecimals, amount)}>
+      <Table.ItemAsset
+        currency={marketInfo.symbol as Currency}
+        primaryText={marketInfo.name}
+      />
       <Table.ItemAmount
-        primaryValue={formatCoin(0.159)}
-        secondaryValue={'$' + formatUSD(303.0)}
+        primaryValue={formatted}
+        secondaryValue={`${marketInfo.symbol}`}
         mobileTitle={'Deposits'}
       />
-      <Table.Item mobileTitle={'APY'}>1.97%</Table.Item>
+      <Table.Item mobileTitle={'APY'}>{marketInfo.supplyAPY.toFixed(2)}%</Table.Item>
       <Table.Item mobileTitle={'Collateral'}>
         <Switcher
           className={styles.switcher}

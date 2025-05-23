@@ -10,6 +10,8 @@ import styles from './Deposits.module.scss';
 import { Currency } from '@/types';
 import Image from 'next/image';
 import { useGetAllMarkets } from '@/utils/evm/hooks/useGetAllMarkets';
+import { useAccount } from 'wagmi';
+import { useUserData } from '@/utils/evm/hooks/useUserData';
 
 type TAsset = {
   id: string;
@@ -33,10 +35,14 @@ export const Deposits: React.FC<DepositsProps> = ({ state }) => {
   type Address = `0x${string}`;
   const { data, isPending, error, chainId } = useGetAllMarkets(11155111);
   const addresses = (data ?? []) as Address[];
+  const {address : userAddress} = useAccount()
+  const {supplies, isPending: isUserDataPending} = useUserData(11155111, userAddress)
+
+  const hasSupplies = supplies && supplies.length > 0 && supplies.some(supply => supply.balance > BigInt(0));
 
   return (
-    <div className={styles.base} onClick={() => console.log(data)}>
-      {state === 'empty' ? (
+    <div className={styles.base}>
+      {!hasSupplies ? (
         <Section containerClassName={styles.empty}>
           <Image
             src={'/empty-deposits.png'}
@@ -50,7 +56,7 @@ export const Deposits: React.FC<DepositsProps> = ({ state }) => {
           </Heading>
         </Section>
       ) : (
-        <Accordion title='Your supplies'>
+        <Accordion title='Your supplies' defaultOpen>
           <CommonInfo />
           <Table className={styles.table}>
             <Table.Head>
@@ -66,9 +72,15 @@ export const Deposits: React.FC<DepositsProps> = ({ state }) => {
               </Table.Row>
             </Table.Head>
             <Table.Body className={styles.body}>
-              {Array.from({ length: 1 }).map((_, index) => (
-                <DepositItem key={index} />
-              ))}
+              {supplies
+                .filter(supply => supply.balance > BigInt(0))
+                .map((supply, index) => (
+                  <DepositItem 
+                    key={index} 
+                    address={supply.cToken}
+                    amount={supply.balance}
+                  />
+                ))}
             </Table.Body>
           </Table>
         </Accordion>
