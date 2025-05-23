@@ -25,16 +25,6 @@ const navigation: {
     href: "/markets",
     icon: "Markets",
   },
-  {
-    text: "Singularity",
-    href: "/singularity",
-    icon: "Singularity",
-  },
-  {
-    text: "Swap",
-    href: "/swap",
-    icon: "Swap",
-  },
 ];
 
 type NavProps = {
