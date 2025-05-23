@@ -1,3 +1,5 @@
+import {Address, PublicClient} from "viem";
+
 export enum Network {
   Ethereum,
   Arbitrum,
@@ -31,4 +33,33 @@ export type ChainProps = {
   currency: Currency;
   network: Network;
   eid: number;
+};
+
+export type AssetInfo = {
+  cTokenAddress: Address;
+  underlyingDecimals: number;
+};
+
+export type NetworkStats = {
+  networkName: string;
+  netWorth: number;
+  netApy: number;
+  healthFactor: number;
+  collateralValue: number;
+  borrowValue: number;
+  ltv: number;
+  currentApyBase: number;
+};
+
+export type HookParams = {
+  userAddress: Address;
+  comptrollerAddress: Address;
+  asset: AssetInfo;
+  client: PublicClient;
+};
+
+export type MarketData = {
+  isListed: boolean;
+  collateralFactorMantissa: bigint;
+  isComped: boolean;
 };

@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { useControls } from 'leva';
 import cx from 'classnames';
+import { formatNumberCompact } from '@/utils';
 
 import {
   Heading,
@@ -20,6 +21,9 @@ import { getState } from './components/helpers';
 import styles from './Dashboard.module.scss';
 import Image from 'next/image';
 import { mediaBreaks, useMedia } from '@/utils';
+
+import {useGlobalStats} from '@/utils/evm/hooks/useGlobalStats';
+import {NetworkStats} from "@/types";
 
 const tabs = {
   supply: 'supply',
