@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import { Accordion, Heading, Icon, Section, Table } from '@/components';
+import { Accordion, Heading, Icon, Section, Table, Text } from '@/components';
 import { CommonInfo } from '../CommonInfo/CommonInfo';
 import { BorrowItem } from './BorrowItem';
 import styles from './Borrows.module.scss';
-import {Borrow, Currency} from '@/types';
+import { Currency } from '@/types';
 import { BorrowItemOverall } from './BorrowItemOverall';
 import Image from 'next/image';
 import { ComponentState } from '../helpers';
@@ -17,17 +17,6 @@ type BorrowsProps = {
   state: ComponentState;
 };
 
-const BorrowItemWrapper: React.FC<{ borrow: Borrow }> = ({ borrow }) => {
-  const { data: marketInfo } = useMarketInfo(borrow.cToken as `0x${string}`);
-
-  return (
-      <BorrowItem
-          currency={marketInfo?.name as Currency}
-          name={marketInfo?.name || ''}
-      />
-  );
-};
-
 export const Borrows: React.FC<BorrowsProps> = ({ state }) => {
   type Address = `0x${string}`;
 
@@ -37,13 +26,9 @@ export const Borrows: React.FC<BorrowsProps> = ({ state }) => {
 
   const addresses = (data ?? []) as Address[];
 
-  const hasBorrows =
-    borrows &&
-    borrows.length > 0 &&
-    borrows.some(
-      (borrow) =>
-        borrow.currentBalance > BigInt(0) || borrow.storedBalance > BigInt(0)
-    );
+  const hasBorrows = borrows && borrows.length > 0 && borrows.some(borrow => 
+    borrow.currentBalance > BigInt(0) || borrow.storedBalance > BigInt(0)
+  );
 
   return (
     <div className={styles.base}>
@@ -74,14 +59,17 @@ export const Borrows: React.FC<BorrowsProps> = ({ state }) => {
             </Table.Head>
             <Table.Body className={styles.body}>
               {borrows
-                .filter(
-                  (borrow) =>
-                    borrow.currentBalance > BigInt(0) ||
-                    borrow.storedBalance > BigInt(0)
-                )
-                .map((borrow, index) => (
-                  <BorrowItemWrapper key={index} borrow={borrow} />
-                ))}
+                .filter(borrow => borrow.currentBalance > BigInt(0) || borrow.storedBalance > BigInt(0))
+                .map((borrow, index) => {
+                  const { data: marketInfo } = useMarketInfo(borrow.cToken);
+                  return (
+                    <BorrowItem
+                      key={index}
+                      currency={marketInfo?.name as Currency}
+                      name={marketInfo?.name || ''}
+                    />
+                  );
+                })}
             </Table.Body>
           </Table>
         </Accordion>
@@ -103,13 +91,15 @@ export const Borrows: React.FC<BorrowsProps> = ({ state }) => {
             </Table.Row>
           </Table.Head>
           <Table.Body className={styles.body}>
-            {addresses.map((address) => (
-              <BorrowItemOverall
-                key={address}
-                address={address}
-                chainId={chainId}
-              />
-            ))}
+            {addresses.map((address) => {
+              return (
+                <BorrowItemOverall
+                  key={address}
+                  address={address}
+                  chainId={chainId}
+                />
+              );
+            })}
           </Table.Body>
         </Table>
       </Accordion>
