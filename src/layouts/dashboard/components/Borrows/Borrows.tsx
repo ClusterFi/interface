@@ -9,20 +9,9 @@ import { BorrowItemOverall } from './BorrowItemOverall';
 import Image from 'next/image';
 import { ComponentState } from '../helpers';
 import { useGetAllMarkets } from '@/utils/evm/hooks/useGetAllMarkets';
-
-type TAsset = {
-  id: string;
-  name: string;
-  currency: Currency;
-};
-
-const assets: TAsset[] = [
-  {
-    id: '0',
-    name: 'USDC',
-    currency: 'USDC',
-  },
-];
+import { useAccount } from 'wagmi';
+import { useUserData } from '@/utils/evm/hooks/useUserData';
+import { useMarketInfo } from '@/utils/evm/hooks/useMarketInfo';
 
 type BorrowsProps = {
   state: ComponentState;
@@ -32,11 +21,18 @@ export const Borrows: React.FC<BorrowsProps> = ({ state }) => {
   type Address = `0x${string}`;
 
   const { data, isPending, error, chainId } = useGetAllMarkets(11155111);
+  const { address: userAddress } = useAccount();
+  const { borrows, isPending: isUserDataPending } = useUserData(11155111, userAddress);
 
   const addresses = (data ?? []) as Address[];
+
+  const hasBorrows = borrows && borrows.length > 0 && borrows.some(borrow => 
+    borrow.currentBalance > BigInt(0) || borrow.storedBalance > BigInt(0)
+  );
+
   return (
     <div className={styles.base}>
-      {state === 'empty' ? (
+      {!hasBorrows ? (
         <Section containerClassName={styles.empty}>
           <Image
             src={'/empty-borrows.png'}
@@ -50,7 +46,7 @@ export const Borrows: React.FC<BorrowsProps> = ({ state }) => {
           </Heading>
         </Section>
       ) : (
-        <Accordion title='Your borrows'>
+        <Accordion title='Your borrows' defaultOpen>
           <CommonInfo />
           <Table className={styles.table}>
             <Table.Head>
@@ -62,15 +58,18 @@ export const Borrows: React.FC<BorrowsProps> = ({ state }) => {
               </Table.Row>
             </Table.Head>
             <Table.Body className={styles.body}>
-              {assets.map((asset) => {
-                return (
-                  <BorrowItem
-                    currency={asset.currency}
-                    name={asset.name}
-                    key={asset.id}
-                  />
-                );
-              })}
+              {borrows
+                .filter(borrow => borrow.currentBalance > BigInt(0) || borrow.storedBalance > BigInt(0))
+                .map((borrow, index) => {
+                  const { data: marketInfo } = useMarketInfo(borrow.cToken);
+                  return (
+                    <BorrowItem
+                      key={index}
+                      currency={marketInfo?.name as Currency}
+                      name={marketInfo?.name || ''}
+                    />
+                  );
+                })}
             </Table.Body>
           </Table>
         </Accordion>
@@ -103,42 +102,6 @@ export const Borrows: React.FC<BorrowsProps> = ({ state }) => {
             })}
           </Table.Body>
         </Table>
-        {/*   <Table className={styles.table}>
-          <Table.Head>
-            <Table.Row>
-              <Table.Item>Asset</Table.Item>
-              <Table.Item title='some info'>
-                Avaliable
-                <Icon glyph='Info' width={10} height={10} />
-              </Table.Item>
-              <Table.Item title='some info'>
-                APY, borrow rate
-                <Icon glyph='Info' width={10} height={10} />
-              </Table.Item>
-              <Table.Item></Table.Item>
-            </Table.Row>
-          </Table.Head>
-          <Table.Body className={styles.body}> */}
-        {/*  {Array.from({ length: 7 }, () => assets[0]).map((asset) => {
-              return (
-                <BorrowItemOverall
-                  currency={asset.currency}
-                  name={asset.name}
-                  key={asset.id}
-                />
-              );
-            })} */}
-        {/*  {addresses.map((asset) => {
-              return (
-                <BorrowItemOverall
-                  currency={'Ethereum'}
-                  name={asset}
-                  key={asset}
-                />
-              );
-            })} */}
-        {/*    </Table.Body>
-        </Table> */}
       </Accordion>
     </div>
   );

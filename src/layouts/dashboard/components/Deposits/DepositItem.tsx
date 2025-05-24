@@ -31,7 +31,9 @@ export const DepositItem: React.FC<DepositItemProps> = ({ address, amount }) => 
           name: marketInfo.name,
           icon: marketInfo.symbol as Currency,
         },
-        supply: Number(amount) / Math.pow(10, marketInfo.decimals),
+        amount,
+        marketInfo,
+        cTokenAddress: address,
       });
     }
   };
@@ -43,7 +45,7 @@ export const DepositItem: React.FC<DepositItemProps> = ({ address, amount }) => 
   const formatted = formatUnits(amount, marketInfo.cTokenDecimals);
 
   return (
-    <Table.Row className={styles.row} onClick={() => console.log(marketInfo.cTokenDecimals, amount)}>
+    <Table.Row className={styles.row}>
       <Table.ItemAsset
         currency={marketInfo.symbol as Currency}
         primaryText={marketInfo.name}

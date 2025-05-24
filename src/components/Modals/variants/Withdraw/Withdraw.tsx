@@ -5,6 +5,9 @@ import styles from './Withdraw.module.scss';
 import cx from 'classnames';
 import { AmountInput } from '@/components/AmountInput/AmountInput';
 import { Currency } from '@/types';
+import { formatUnits } from 'viem';
+import { useRedeem } from '@/utils/evm/hooks/useRedeem';
+import { useModalsStore } from '@/utils/stores';
 
 export type WithdrawProps = {
   chain: {
@@ -15,7 +18,12 @@ export type WithdrawProps = {
     name: string;
     icon: Currency;
   };
-  supply: number;
+  amount: bigint;
+  marketInfo: {
+    cTokenDecimals: number;
+    name: string;
+  };
+  cTokenAddress: `0x${string}`;
 };
 
 type Withdraw = ModalProps & {
@@ -23,11 +31,29 @@ type Withdraw = ModalProps & {
 };
 
 export const Withdraw: React.FC<Withdraw> = ({ props, ...rest }) => {
-  const { chain, asset, supply } = props;
-  const [amount, setAmount] = React.useState('');
+  const { chain, asset, amount, marketInfo, cTokenAddress } = props;
+  const [inputAmount, setInputAmount] = React.useState('');
+  const { redeem, isPending, isConfirming, hash } = useRedeem(cTokenAddress);
+  const { closeModal } = useModalsStore();
 
-  const parsedAmount = parseFloat(amount);
-  const isDisabled = !amount || isNaN(parsedAmount) || parsedAmount > supply;
+  const supply = Number(formatUnits(amount, marketInfo.cTokenDecimals));
+  const parsedAmount = parseFloat(inputAmount);
+  const isDisabled = !inputAmount || isNaN(parsedAmount) || parsedAmount > supply || isPending || isConfirming;
+
+  React.useEffect(() => {
+    if (hash) {
+      closeModal();
+    }
+  }, [hash, closeModal]);
+
+  const handleWithdraw = async () => {
+    if (isDisabled) return;
+    await redeem(inputAmount, marketInfo.cTokenDecimals);
+  };
+
+  const handleMaxClick = () => {
+    setInputAmount(supply.toFixed(marketInfo.cTokenDecimals));
+  };
 
   return (
     <ModalLayout title='Withdraw Asset' isSwipeable {...rest}>
@@ -69,11 +95,24 @@ export const Withdraw: React.FC<Withdraw> = ({ props, ...rest }) => {
               Amount
             </Text>
           </div>
-          <AmountInput
-            value={amount}
-            onChange={setAmount}
-            label='Enter amount'
-          />
+          <div className={styles.inputContainer}>
+            <AmountInput
+              value={inputAmount}
+              onChange={setInputAmount}
+              label='Enter amount'
+            />
+            <Button
+              size='small'
+              variant='stroke'
+              onClick={handleMaxClick}
+              disabled={isPending || isConfirming}
+              className={styles.maxButton}
+            >
+              <Text size={12} theme={500}>
+                MAX
+              </Text>
+            </Button>
+          </div>
           <Text size={12} theme={400} className={styles.balanceText}>
             Your supplies: {supply.toFixed(2)} {asset.name}
           </Text>
@@ -84,8 +123,9 @@ export const Withdraw: React.FC<Withdraw> = ({ props, ...rest }) => {
           variant='purple'
           className={styles.button}
           disabled={isDisabled}
+          onClick={handleWithdraw}
         >
-          Withdraw
+          {isPending ? 'Processing...' : isConfirming ? 'Confirming...' : 'Withdraw'}
         </Button>
       </div>
     </ModalLayout>
