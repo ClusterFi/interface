@@ -9,7 +9,7 @@ import {Address} from 'viem';
 import {formatNumberCompact} from '@/utils';
 import {CONTRACT_ADDRESSES} from '@/utils/evm/contracts';
 import {useGetAllMarkets} from '@/utils/evm/hooks/useGetAllMarkets';
-import {useNetworkStats} from '@/utils/evm/hooks/useNetworkStats';
+import {useMultiNetworkStats} from '@/utils/evm/hooks/useMultiNetworkStats';
 
 import {
     Heading,
@@ -28,6 +28,7 @@ import styles from './Dashboard.module.scss';
 import Image from 'next/image';
 import {mediaBreaks, useMedia} from '@/utils';
 import {AssetInfo} from "@/types";
+import {ARBITRUM_CHAIN_ID, SEPOLIA_CHAIN_ID} from "@/constants";
 
 const tabs = {
     supply: 'supply',
@@ -72,20 +73,23 @@ export const DashboardPage: React.FC = () => {
     }, [markets]);
 
     const {
-        stats,
-        isPending: isStatsPending,
-        error: statsError,
-    } = useNetworkStats({
+        stats: statsAcrossChains,
+        aggregate,
+        isPending,
+        error,
+    } = useMultiNetworkStats({
         userAddress,
-        comptrollerAddress: CONTRACT_ADDRESSES.sepolia.comptroller as Address,
-        asset: asset,
+        asset,
+        comptrollerAddresses: {
+            [SEPOLIA_CHAIN_ID]: CONTRACT_ADDRESSES.sepolia.comptroller as Address,
+            [ARBITRUM_CHAIN_ID]: CONTRACT_ADDRESSES.arbitrum_sepolia.comptroller as Address,
+        },
     });
 
-
     const renderValue = (value: string | number | undefined, suffix = '', prefix = '') =>
-        isMarketsPending || isStatsPending
+        isMarketsPending || isPending
             ? 'Loading...'
-            : value === undefined || value === null || !userAddress || !asset || !stats
+            : value === undefined || value === null || !userAddress || !asset || !aggregate
                 ? '-'
                 : `${prefix}${value}${suffix}`;
 
@@ -128,14 +132,14 @@ export const DashboardPage: React.FC = () => {
                                         Net worth
                                     </Text>
                                     <Heading className={styles.boxText} element='h3'>
-                                        {renderValue(stats?.netWorth !== undefined ? formatNumberCompact(stats.netWorth, 2) : undefined, '$')}                                </Heading>
+                                        {renderValue(aggregate?.netWorth !== undefined ? formatNumberCompact(aggregate.netWorth, 2) : undefined, '', '$')}                                </Heading>
                                 </div>
                                 <div className={styles.box}>
                                     <Text className={styles.boxTitle} size={14} theme={500}>
                                         Net APY
                                     </Text>
                                     <Heading className={styles.boxText} element='h3'>
-                                        {renderValue(stats?.netWorth !== undefined ? formatNumberCompact(stats.netWorth, 2) : undefined, '', '$')}
+                                        <span>{renderValue(aggregate?.netApy, '%')}</span>
                                     </Heading>
                                 </div>
                                 <div className={styles.box}>
@@ -146,7 +150,7 @@ export const DashboardPage: React.FC = () => {
                                         className={cx(styles.boxText, styles.green)}
                                         element='h3'
                                     >
-                                        {renderValue(stats?.healthFactor?.toFixed(2))}
+                                        {renderValue(aggregate?.healthFactor?.toFixed(2))}
                                         <Button
                                             className={styles.boxButton}
                                             size={'extra-small'}

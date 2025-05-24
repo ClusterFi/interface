@@ -67,7 +67,6 @@ export const ModalLayout: React.FC<ModalLayoutProps> = ({
       animatedSpring.set(value);
     } else {
       const value = Math.max(offset, INITIAL_HEIGHT);
-      console.log(value, height, Math.min(1, value / height));
       animatedSpring.set(value);
       overlayOpacity.set(Math.min(1, value / height));
     }

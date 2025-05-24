@@ -1,7 +1,6 @@
 import * as React from "react";
 
 export const CustomXAxisTick = ({ x, y, payload }: any) => {
-  console.log(payload);
   return (
     <text
       x={x - 10}

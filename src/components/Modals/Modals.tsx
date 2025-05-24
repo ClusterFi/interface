@@ -32,11 +32,12 @@ import {
   Withdraw,
   WithdrawProps,
   Details,
+  DetailsProps,
 } from "@/components/Modals/variants";
 import { BorrowProps } from "./variants/Borrow/Borrow";
 
 export type ModalPropsMap = {
-  Details: Details;
+  Details: DetailsProps;
   ReadMore: ReadMoreProps;
   StakingDeposit: StakingDepositProps;
   StakingWithdraw: StakingWithdrawProps;

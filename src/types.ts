@@ -40,16 +40,18 @@ export type AssetInfo = {
   underlyingDecimals: number;
 };
 
-export type NetworkStats = {
-  networkName: string;
-  netWorth: number;
-  netApy: number;
+export interface NetworkStats {
   healthFactor: number;
+  netWorth: number;
+  currentApyBase: number;
+  netApy: number;
   collateralValue: number;
   borrowValue: number;
   ltv: number;
-  currentApyBase: number;
-};
+  networkName: string;
+  supplyApy: number;
+  borrowApy: number;
+}
 
 export type HookParams = {
   userAddress: Address;
