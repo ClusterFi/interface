@@ -4,22 +4,29 @@ import {
   Button,
   ModalProps,
   Text,
-  Icon,
   CurrencyIcon,
-  CurrencySelection,
 } from '@/components';
 import styles from './Borrow.module.scss';
 import cx from 'classnames';
 import { ChainSelection } from '@/components/ChainSelection/ChainSelection';
 import { AmountInput } from '@/components/AmountInput/AmountInput';
-import { CHAINS } from '@/constants';
+import { CHAINS, getChainById } from '@/constants';
 import { Currency } from '@/types';
-import { prop } from '@/utils/media/helpers';
+import { useAccount } from 'wagmi';
+import { useBorrow } from '@/utils/evm/hooks/useBorrow';
+import { useModalsStore } from '@/utils/stores';
 
 export type BorrowProps = {
-  chain: {
+  sourceChain: {
     name: string;
     icon: Currency;
+    chainId: number;
+    cTokenAddress: `0x${string}`;
+  };
+  destinationChain: {
+    name: string;
+    icon: Currency;
+    chainId: number;
   };
 };
 
@@ -28,66 +35,103 @@ type Borrow = ModalProps & {
 };
 
 export const Borrow: React.FC<Borrow> = ({ props, ...rest }) => {
-  const [source, setSource] = React.useState(CHAINS[0]);
-  const [destination, setDestination] = React.useState(CHAINS[1]);
-  const [selectedChain, setSelectedChain] = React.useState(CHAINS[0]);
+  const [source, setSource] = React.useState(
+      getChainById(props.sourceChain.chainId) ?? CHAINS[0]
+  );
+  const [destination, setDestination] = React.useState(
+      getChainById(props.destinationChain.chainId) ?? CHAINS[1]
+  );
   const [amount, setAmount] = React.useState('');
 
-  const [openSource, setOpenSource] = React.useState(false);
-  const [openDestination, setOpenDestination] = React.useState(false);
+  const account = useAccount();
+  const { borrow, borrowCrossChain, isPending, isConfirming, hash } = useBorrow(props.sourceChain.cTokenAddress);
+  const { closeModal } = useModalsStore();
 
-  const toggleSource = () => setOpenSource((prev) => !prev);
-  const toggleDestination = () => setOpenDestination((prev) => !prev);
+  React.useEffect(() => {
+    if (hash) {
+      closeModal();
+    }
+  }, [hash, closeModal]);
+
+  const openPosition = async () => {
+    if (!amount) return;
+
+    const parsedAmount = BigInt(amount);
+
+    try {
+      if (destination.chainId === source.chainId) {
+        await borrow(parsedAmount);
+      } else {
+        await borrowCrossChain(
+            parsedAmount,
+            destination.chainId,
+            account.address as `0x${string}`,
+            '0x',
+            BigInt(0)
+        );
+      }
+    } catch (err) {
+      console.error('Borrow failed:', err);
+    }
+  };
 
   return (
-    <ModalLayout title='Cross-Chain Borrow' isSwipeable {...rest}>
-      <div className={styles.content}>
-        <Text size={16} theme={600} className={styles.title}>
-          Cross-Chain Borrow
-        </Text>
-
-        <div className={styles.staticField}>
-          <Text size={14} theme={400} className={styles.label}>
-            Chain
+      <ModalLayout title='Cross-Chain Borrow' isSwipeable {...rest}>
+        <div className={styles.content}>
+          <Text size={16} theme={600} className={styles.title}>
+            Cross-Chain Borrow
           </Text>
-          <div className={styles.staticBox}>
-            <CurrencyIcon currency={props.chain.icon} width={24} height={24} />
-            <Text size={14} theme={500}>
-              {props.chain.name}
+
+          <div className={styles.staticField}>
+            <Text size={14} theme={400} className={styles.label}>
+              Chain
             </Text>
+            <div className={styles.staticBox}>
+              <CurrencyIcon
+                  currency={props.sourceChain.icon}
+                  width={24}
+                  height={24}
+              />
+              <Text size={14} theme={500}>
+                {props.sourceChain.name}
+              </Text>
+            </div>
           </div>
-        </div>
 
-        {/* Destination Chain */}
-        <div className={styles.field}>
-          <Text size={14} theme={400} className={styles.label}>
-            Destination Chain
-          </Text>
-          <ChainSelection
-            value={destination}
-            onChange={setDestination}
-            options={CHAINS}
-          />
-        </div>
-
-        {/* Amount */}
-        <div className={cx('base', styles.inputWrapper)}>
-          <div className='head'>
-            <Text size={14} theme={400} className='title'>
-              Amount
+          <div className={styles.field}>
+            <Text size={14} theme={400} className={styles.label}>
+              Destination Chain
             </Text>
+            <ChainSelection
+                value={destination}
+                onChange={setDestination}
+                options={CHAINS}
+            />
           </div>
-          <AmountInput
-            value={amount}
-            onChange={setAmount}
-            label='Enter amount'
-          />
-        </div>
 
-        <Button size='large' variant='purple' className={styles.button}>
-          Open Position
-        </Button>
-      </div>
-    </ModalLayout>
+          <div className={cx('base', styles.inputWrapper)}>
+            <div className='head'>
+              <Text size={14} theme={400} className='title'>
+                Amount
+              </Text>
+            </div>
+            <AmountInput
+                value={amount}
+                onChange={setAmount}
+                label='Enter amount'
+            />
+          </div>
+
+          <Button
+              size='large'
+              variant='purple'
+              className={styles.button}
+              onClick={openPosition}
+              disabled={isPending || isConfirming}
+          >
+            {isPending ? 'Processing...' : isConfirming ? 'Confirming...' : 'Open Position'}
+          </Button>
+        </div>
+      </ModalLayout>
   );
 };

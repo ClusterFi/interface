@@ -38,7 +38,7 @@ export const DepositItemOverall: React.FC<DepositItemOverallProps> = ({
           ? `${result.data.formatted} ${marketInfo?.symbol}`
           : '—'}
       </Table.Item>
-      <Table.Item mobileTitle={'APY'}>{marketInfo?.supplyAPY}%</Table.Item>
+      <Table.Item mobileTitle={'APY'}>{marketInfo?.supplyAPY.toFixed(2)}%</Table.Item>
       <Table.Item mobileTitle={'Can be collateral'}>
         <Icon glyph={'Check'} width={16} height={16} className={styles.check} />
       </Table.Item>

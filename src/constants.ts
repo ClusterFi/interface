@@ -5,7 +5,7 @@ export const SOLANA_RPC = `https://mainnet.helius-rpc.com/?api-key=3698325c-bdb4
 export const MAIN_CHAIN_ID = 1;
 export const SEPOLIA_CHAIN_ID = 11155111;
 export const SOLANA_CHAIN_ID = 99999;
-export const ARBITRUM_CHAIN_ID = 42161;
+export const ARBITRUM_CHAIN_ID = 421614;
 
 export const getChainById = (chainId: number): ChainProps | undefined => {
   return CHAINS.find((chain) => chain.chainId === chainId);

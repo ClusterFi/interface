@@ -61,8 +61,6 @@ export const Withdraw: React.FC<Withdraw> = ({ props, ...rest }) => {
         <Text size={16} theme={600} className={styles.title}>
           Withdraw Asset
         </Text>
-
-        {/* Chain */}
         <div className={styles.field}>
           <Text size={14} theme={400} className={styles.label}>
             Chain
@@ -74,8 +72,6 @@ export const Withdraw: React.FC<Withdraw> = ({ props, ...rest }) => {
             </Text>
           </div>
         </div>
-
-        {/* Asset */}
         <div className={styles.field}>
           <Text size={14} theme={400} className={styles.label}>
             Asset
@@ -87,8 +83,6 @@ export const Withdraw: React.FC<Withdraw> = ({ props, ...rest }) => {
             </Text>
           </div>
         </div>
-
-        {/* Amount input */}
         <div className={cx('base', styles.inputWrapper)}>
           <div className='head'>
             <Text size={14} theme={400} className='title'>

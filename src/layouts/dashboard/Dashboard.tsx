@@ -139,7 +139,14 @@ export const DashboardPage: React.FC = () => {
                                         Net APY
                                     </Text>
                                     <Heading className={styles.boxText} element='h3'>
-                                        <span>{renderValue(aggregate?.netApy, '%')}</span>
+                                        <span>
+                                          {renderValue(
+                                              aggregate?.netApy !== undefined
+                                                  ? Number(aggregate.netApy).toFixed(2)
+                                                  : undefined,
+                                              '%'
+                                          )}
+                                        </span>
                                     </Heading>
                                 </div>
                                 <div className={styles.box}>

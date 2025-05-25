@@ -33,7 +33,6 @@ export const BorrowRepay: React.FC<BorrowRepay> = ({ props, ...rest }) => {
           Cross Chain Repayment
         </Text>
 
-        {/* Source Chain (select) */}
         <div className={styles.field}>
           <Text size={14} theme={400} className={styles.label}>
             Source Chain
@@ -45,7 +44,6 @@ export const BorrowRepay: React.FC<BorrowRepay> = ({ props, ...rest }) => {
           />
         </div>
 
-        {/* Destination Chain (info) */}
         <div className={styles.field}>
           <Text size={14} theme={400} className={styles.label}>
             Destination Chain
@@ -61,8 +59,6 @@ export const BorrowRepay: React.FC<BorrowRepay> = ({ props, ...rest }) => {
             </Text>
           </div>
         </div>
-
-        {/* Asset */}
         <div className={styles.field}>
           <Text size={14} theme={400} className={styles.label}>
             Asset
@@ -74,8 +70,6 @@ export const BorrowRepay: React.FC<BorrowRepay> = ({ props, ...rest }) => {
             </Text>
           </div>
         </div>
-
-        {/* Amount (info) */}
         <div className={styles.field}>
           <Text size={14} theme={400} className={styles.label}>
             Amount to repay

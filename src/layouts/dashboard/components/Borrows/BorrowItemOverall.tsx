@@ -1,36 +1,49 @@
 import * as React from "react";
-import Link from "next/link";
 import { Button, Table, Text } from "@/components";
 import styles from "./Borrows.module.scss";
-import { formatCoin, formatUSD } from "@/utils";
+import { formatCoin } from "@/utils";
 import { Currency } from "@/types";
 import { useMarketInfo } from "@/utils/evm/hooks/useMarketInfo";
 import { useModalsStore } from "@/utils/stores";
 import { useAccount } from "wagmi";
-import { getChainById } from "@/constants";
+import {CHAINS, getChainById} from "@/constants";
 
 type BorrowItemOverallProps = {
-  address: `0x${string}`;
-  chainId: number;
+  sourceAddress: `0x${string}`;
+  sourceChainId: number;
+  destinationChainId: number;
 };
 
 export const BorrowItemOverall: React.FC<BorrowItemOverallProps> = ({
-  address,
-  chainId,
+  sourceAddress,
+  sourceChainId,
+  destinationChainId,
 }) => {
-  const { data: marketInfo, isPending, error } = useMarketInfo(address);
+  const { data: marketInfo, isPending, error } = useMarketInfo(sourceAddress);
   const { openModal } = useModalsStore();
   const { isConnected } = useAccount();
 
-  const chainInfo = getChainById(chainId);
+  if (!marketInfo || error || !marketInfo.isListed) {
+    return null;
+  }
+
+  const sourceChainInfo = getChainById(sourceChainId);
+  const destinationChainInfo = getChainById(destinationChainId);
 
   const handleClick = () => {
     if (isConnected) {
       openModal("Borrow", {
-        chain: {
-          name: chainInfo?.name!,
-          icon: chainInfo?.currency!,
+        sourceChain: {
+          name: sourceChainInfo?.name!,
+          icon: sourceChainInfo?.currency!,
+          chainId: sourceChainInfo?.chainId ?? CHAINS[0].chainId,
+          cTokenAddress: sourceAddress,
         },
+        destinationChain: {
+          name: destinationChainInfo?.name!,
+          icon: destinationChainInfo?.currency!,
+          chainId: destinationChainInfo?.chainId ?? CHAINS[1].chainId,
+        }
       });
     } else {
       openModal("ConnectWallet", null);
@@ -42,50 +55,53 @@ export const BorrowItemOverall: React.FC<BorrowItemOverallProps> = ({
   };
 
   return (
-    <Table.Row className={styles.row} onClick={() => console.log(marketInfo)}>
-      <Table.ItemAsset
-        currency={marketInfo?.name as Currency}
-        primaryText={marketInfo && marketInfo.name}
-        isLoading={isPending}
-      />
-      <Table.ItemAmount
-        primaryValue={formatCoin(
-          marketInfo ? Number(marketInfo.cash) / 10 ** marketInfo.decimals : 0,
-        )}
-        secondaryValue={formatCoin(
-          marketInfo ? Number(marketInfo.cash) / 10 ** marketInfo.decimals : 0,
-        )}
-        mobileTitle={"Available"}
-      />
-      <Table.Item mobileTitle="APY, borrow rate">
-        {marketInfo?.borrowAPY.toFixed(2)}%
-      </Table.Item>
-      <Table.Item>
-        <div className={styles.buttons}>
-          <Button
-            className={styles.button}
-            size={"small"}
-            variant={"purple"}
-            onClick={handleClick}
-          >
-            <Text size={12} theme={500}>
-              {isConnected ? "Borrow" : "Connect"}
-            </Text>
-          </Button>
-          {isConnected && (
+      <Table.Row className={styles.row} onClick={() => console.log(marketInfo)}>
+        <Table.ItemAsset
+            currency={(marketInfo?.name ?? 'Unknown') as Currency}
+            primaryText={marketInfo?.name ?? 'Unknown'}
+            isLoading={isPending}
+        />
+
+        <Table.ItemAmount
+            primaryValue={marketInfo
+                ? formatCoin(Number(marketInfo.cash) / 10 ** marketInfo.decimals)
+                : '0'}
+            secondaryValue={marketInfo
+                ? formatCoin(Number(marketInfo.cash) / 10 ** marketInfo.decimals)
+                : '0'}
+            mobileTitle="Available"
+        />
+
+        <Table.Item mobileTitle="APY, borrow rate">
+          {marketInfo ? `${marketInfo.borrowAPY.toFixed(2)}%` : '0%'}
+        </Table.Item>
+
+        <Table.Item>
+          <div className={styles.buttons}>
             <Button
-              className={styles.button}
-              size="small"
-              variant="stroke"
-              onClick={handleDetails}
+                className={styles.button}
+                size="small"
+                variant="purple"
+                onClick={handleClick}
             >
               <Text size={12} theme={500}>
-                Details
+                {isConnected ? 'Borrow' : 'Connect'}
               </Text>
             </Button>
-          )}
-        </div>
-      </Table.Item>
-    </Table.Row>
+            {isConnected && (
+                <Button
+                    className={styles.button}
+                    size="small"
+                    variant="stroke"
+                    onClick={handleDetails}
+                >
+                  <Text size={12} theme={500}>
+                    Details
+                  </Text>
+                </Button>
+            )}
+          </div>
+        </Table.Item>
+      </Table.Row>
   );
 };

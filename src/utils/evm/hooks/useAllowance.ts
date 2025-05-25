@@ -18,7 +18,7 @@ export function useAllowance({
     functionName: 'allowance',
     args: shouldFetch ? [owner!, spender] : undefined,
     query: {
-      enabled: shouldFetch, // <-- nowa forma warunkowego fetchu
+      enabled: shouldFetch,
     },
   });
 

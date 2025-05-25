@@ -85,8 +85,6 @@ export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
         <Text size={16} theme={600} className={styles.title}>
           Supply Asset
         </Text>
-
-        {/* Chain info */}
         <div className={styles.field}>
           <Text size={14} theme={400} className={styles.label}>
             Chain
@@ -98,8 +96,6 @@ export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
             </Text>
           </div>
         </div>
-
-        {/* Asset info */}
         <div className={styles.field}>
           <Text size={14} theme={400} className={styles.label}>
             Asset
@@ -111,8 +107,6 @@ export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
             </Text>
           </div>
         </div>
-
-        {/* Amount input */}
         <div className={cx('base', styles.inputWrapper)}>
           <div className='head'>
             <Text size={14} theme={400} className='title'>
