@@ -3,7 +3,6 @@
 import * as React from 'react';
 import styles from './AmountInput.module.scss';
 import cx from 'classnames';
-import { Text } from '@/components/shared';
 import { NumericFormat } from 'react-number-format';
 
 type AmountInputProps = {
