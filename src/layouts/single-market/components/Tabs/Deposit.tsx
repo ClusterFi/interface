@@ -58,7 +58,7 @@ export const Deposit = () => {
                 <Text size={14} theme={500} className={styles.row}>
                   Enable collateral
                   <span>
-                    <Switcher onSwitch={() => {}} />
+                    <Switcher targetValue={false} onSwitch={() => {}} />
                   </span>
                 </Text>
                 <Text size={14} theme={500} className={styles.row}>

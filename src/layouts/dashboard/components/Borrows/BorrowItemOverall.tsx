@@ -55,7 +55,7 @@ export const BorrowItemOverall: React.FC<BorrowItemOverallProps> = ({
   };
 
   return (
-      <Table.Row className={styles.row} onClick={() => console.log(marketInfo)}>
+      <Table.Row className={styles.row} onClick={() => {}}>
         <Table.ItemAsset
             currency={(marketInfo?.name ?? 'Unknown') as Currency}
             primaryText={marketInfo?.name ?? 'Unknown'}
