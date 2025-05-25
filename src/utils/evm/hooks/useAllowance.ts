@@ -2,10 +2,10 @@ import { useReadContract } from 'wagmi';
 import { erc20Abi } from 'viem';
 
 export function useAllowance({
-  token,
-  owner,
-  spender,
-}: {
+                               token,
+                               owner,
+                               spender,
+                             }: {
   token: `0x${string}`;
   owner?: `0x${string}`;
   spender: `0x${string}`;
@@ -26,5 +26,6 @@ export function useAllowance({
     allowance: result.data ?? BigInt(0),
     isLoading: result.status === 'pending',
     isError: result.status === 'error',
+    refetch: result.refetch,
   };
 }

@@ -66,15 +66,10 @@ export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
   let value = BigInt('0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
   if (!isNaN(parsedAmount)) {
     const multiplier = 10 ** props.underlyingDecimals;
-
-    console.log("props: ", props);
     value = BigInt(Math.floor(parsedAmount * multiplier));
   }
 
-
   const needsApproval = allowance === BigInt(0);
-  console.log("needsApproval: ", needsApproval);
-  console.log("allowance: ", allowance);
 
   const {
     approve,

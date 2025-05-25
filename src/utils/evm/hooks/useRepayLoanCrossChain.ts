@@ -19,7 +19,7 @@ export const useRepayLoanCrossChain = (
                 address: clgAddress,
                 functionName: 'repayLoanCrossChain',
                 args: [dstChainId, token, borrower, amount],
-                value: BigInt(1e17), // 0.1 ether (adjust if needed)
+                value: BigInt(0),
             });
             setHash(txHash);
         } catch (err) {

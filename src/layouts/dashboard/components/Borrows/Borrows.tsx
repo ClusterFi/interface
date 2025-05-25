@@ -25,6 +25,7 @@ const BorrowItemWrapper: React.FC<{ borrow: Borrow }> = ({ borrow }) => {
           currency={marketInfo?.name as Currency}
           name={marketInfo?.name || ''}
           amount={borrow.currentBalance}
+          address={marketInfo?.underlying}
       />
   );
 };

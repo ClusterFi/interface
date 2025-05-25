@@ -43,7 +43,7 @@ export const BorrowRepay: React.FC<BorrowRepay> = ({ props, ...rest }) => {
   const formattedAmount = parseFloat(formatUnits(amount, asset.decimals)).toFixed(3);
   const parsedAmount = amount;
 
-  const { allowance, isLoading: isAllowanceLoading } = useAllowance({
+  const { allowance, isLoading: isAllowanceLoading, refetch: refetchAllowance } = useAllowance({
     token: asset.address,
     owner: userAddress,
     spender: clgAddress,
@@ -58,6 +58,7 @@ export const BorrowRepay: React.FC<BorrowRepay> = ({ props, ...rest }) => {
   } = useApproveToken({
     token: asset.address,
     spender: clgAddress,
+    amount: amount,
   });
 
   const {
@@ -68,10 +69,10 @@ export const BorrowRepay: React.FC<BorrowRepay> = ({ props, ...rest }) => {
   } = useRepayLoanCrossChain(clgAddress, destinationChain.chainId, asset.address, borrower);
 
   useEffect(() => {
-    if (hash && !isConfirmingRepay) {
-      rest.onOpenChange(false);
+    if (!isConfirmingApprove && !isApproving) {
+      refetchAllowance?.();
     }
-  }, [hash, isConfirmingRepay, rest]);
+  }, [isConfirmingApprove, isApproving, refetchAllowance]);
 
   return (
       <ModalLayout title="Repay Loan" isSwipeable {...rest}>

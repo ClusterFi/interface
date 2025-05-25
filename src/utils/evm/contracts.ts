@@ -5,5 +5,6 @@ export const CONTRACT_ADDRESSES = {
   },
   arbitrum_sepolia: {
     comptroller: '0xE26980c240c16EA0C62952f521302e8E46D0f7B7',
+    clgAddress: '0xe7d1c97340787a3e67D206dC45f6aA62EadaC505',
   },
 };
