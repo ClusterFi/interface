@@ -15,6 +15,7 @@ import { Currency } from '@/types';
 import { useAccount } from 'wagmi';
 import { useBorrow } from '@/utils/evm/hooks/useBorrow';
 import { useModalsStore } from '@/utils/stores';
+import {parseUnits} from "viem";
 
 export type BorrowProps = {
   sourceChain: {
@@ -56,14 +57,12 @@ export const Borrow: React.FC<Borrow> = ({ props, ...rest }) => {
   const openPosition = async () => {
     if (!amount) return;
 
-    const parsedAmount = BigInt(amount);
-
     try {
       if (destination.chainId === source.chainId) {
-        await borrow(parsedAmount);
+        await borrow(amount);
       } else {
         await borrowCrossChain(
-            parsedAmount,
+            amount,
             destination.chainId,
             account.address as `0x${string}`,
             '0x',

@@ -4,6 +4,7 @@ import {
     useWaitForTransactionReceipt,
 } from 'wagmi';
 import { useState } from 'react';
+import { parseUnits } from 'viem';
 import { ABIS } from '../abi/abis';
 
 export const useBorrow = (cTokenAddress: `0x${string}`) => {
@@ -17,16 +18,29 @@ export const useBorrow = (cTokenAddress: `0x${string}`) => {
         functionName: 'clgContract',
     });
 
-    /**
-     * Standard borrow
-     */
-    const borrow = async (amount: bigint) => {
+    const { data: decimals } = useReadContract({
+        abi: ABIS.CTokenABI,
+        address: cTokenAddress,
+        functionName: 'decimals',
+    });
+
+    console.log("CIUPASEK: ", decimals)
+
+    const { isLoading: isConfirming } = useWaitForTransactionReceipt({ hash });
+
+    const borrow = async (amount: string) => {
+        if (decimals == null) {
+            console.error('Decimals not loaded yet');
+            return;
+        }
+
+        const parsedAmount = parseUnits(amount, Number(decimals));
         try {
             const txHash = await writeContractAsync({
                 abi: ABIS.CTokenABI,
                 address: cTokenAddress,
                 functionName: 'borrow',
-                args: [amount],
+                args: [parsedAmount],
             });
             setHash(txHash);
         } catch (err) {
@@ -34,27 +48,25 @@ export const useBorrow = (cTokenAddress: `0x${string}`) => {
         }
     };
 
-    /**
-     * Cross-chain borrow
-     */
     const borrowCrossChain = async (
-        amount: bigint,
+        amount: string,
         dstEid: number,
         recipient: `0x${string}`,
         options: string,
-        value: bigint
+        value: bigint,
     ) => {
-        if (!clgContractAddress) {
-            console.error('No CLG address provided!');
+        if (!clgContractAddress || !decimals) {
+            console.error('Missing CLG address or decimals');
             return;
         }
 
         try {
+            const parsedAmount = parseUnits(amount, Number(decimals));
             const txHash = await writeContractAsync({
                 abi: ABIS.CLG,
                 address: clgContractAddress as `0x${string}`,
                 functionName: 'borrowCrossChain',
-                args: [dstEid, cTokenAddress, amount, recipient, options],
+                args: [dstEid, cTokenAddress, parsedAmount, recipient, options],
                 value,
             });
             setHash(txHash);
@@ -62,8 +74,6 @@ export const useBorrow = (cTokenAddress: `0x${string}`) => {
             console.error('Cross-chain borrow failed:', err);
         }
     };
-
-    const { isLoading: isConfirming } = useWaitForTransactionReceipt({ hash });
 
     return {
         borrow,
