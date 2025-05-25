@@ -65,3 +65,9 @@ export type MarketData = {
   collateralFactorMantissa: bigint;
   isComped: boolean;
 };
+
+export type Borrow = {
+  currentBalance: bigint;
+  storedBalance: bigint;
+  cToken: `0x${string}`;
+};

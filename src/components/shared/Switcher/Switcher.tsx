@@ -21,7 +21,7 @@ export const Switcher: React.FC<SwitcherProps> = ({
   React.useEffect(() => {
     if (!targetValue || checked === targetValue) return;
     setChecked(targetValue);
-  }, [targetValue]);
+  }, [targetValue, checked]);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.checked;
