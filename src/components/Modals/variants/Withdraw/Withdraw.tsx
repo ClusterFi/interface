@@ -21,6 +21,7 @@ export type WithdrawProps = {
   amount: bigint;
   marketInfo: {
     cTokenDecimals: number;
+    underlyingDecimals: number;
     name: string;
   };
   cTokenAddress: `0x${string}`;
@@ -48,7 +49,7 @@ export const Withdraw: React.FC<Withdraw> = ({ props, ...rest }) => {
 
   const handleWithdraw = async () => {
     if (isDisabled) return;
-    await redeem(inputAmount, marketInfo.cTokenDecimals);
+    await redeem(inputAmount, marketInfo.underlyingDecimals);
   };
 
   const handleMaxClick = () => {

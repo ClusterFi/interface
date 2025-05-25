@@ -14,7 +14,7 @@ export const useRedeem = (cTokenAddress: `0x${string}`) => {
       const txHash = await writeContractAsync({
         abi: ABIS.CTokenABI,
         address: cTokenAddress,
-        functionName: 'redeem',
+        functionName: 'redeemUnderlying',
         args: [parsedAmount],
       });
       setHash(txHash);

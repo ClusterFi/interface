@@ -38,6 +38,8 @@ export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
     hash,
   } = useSupply(props.spenderAddress);
 
+  const [amount, setAmount] = useState('');
+
   const handleSupply = () => {
     const parsed = parseFloat(amount);
     if (!isNaN(parsed)) {
@@ -48,8 +50,6 @@ export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
   };
 
   const { chain, asset } = props;
-  const [amount, setAmount] = useState('');
-
   const account = useAccount();
 
   const parsedBalance = parseFloat(props.underlyingBalance || '0');
@@ -63,7 +63,19 @@ export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
     spender: props.spenderAddress,
   });
 
+  let value = BigInt('0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
+  if (!isNaN(parsedAmount)) {
+    const multiplier = 10 ** props.underlyingDecimals;
+
+    console.log("props: ", props);
+    value = BigInt(Math.floor(parsedAmount * multiplier));
+  }
+
+
   const needsApproval = allowance === BigInt(0);
+  console.log("needsApproval: ", needsApproval);
+  console.log("allowance: ", allowance);
+
   const {
     approve,
     isPending: isApproving,
@@ -71,6 +83,7 @@ export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
   } = useApproveToken({
     token: props.underlyingAddress,
     spender: props.spenderAddress,
+    amount: value,
   });
 
   useEffect(() => {

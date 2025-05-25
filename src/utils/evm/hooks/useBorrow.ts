@@ -24,8 +24,6 @@ export const useBorrow = (cTokenAddress: `0x${string}`) => {
         functionName: 'decimals',
     });
 
-    console.log("CIUPASEK: ", decimals)
-
     const { isLoading: isConfirming } = useWaitForTransactionReceipt({ hash });
 
     const borrow = async (amount: string) => {

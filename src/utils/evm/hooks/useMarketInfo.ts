@@ -11,6 +11,7 @@ export type MarketInfo = {
   symbol: string;
   decimals: number;
   cTokenDecimals: number;
+  underlyingDecimals: number;
   isListed: boolean;
   isComped: boolean;
   collateralFactorMantissa: bigint;
@@ -39,6 +40,14 @@ export const useMarketInfo = (marketAddress: Address) => {
       enabled: !!underlyingCall.data,
     },
   });
+
+  const underlyingCallDecimals = useReadContract({
+    address: underlyingCall.data as `0x${string}` | undefined,
+    abi: ABIS.ERC20ABI,
+    functionName: 'decimals',
+  });
+
+  const underlyingDecimals = underlyingCallDecimals.data ?? 6;
 
   const cTokenDecimalsCall = useReadContract({
     address: marketAddress,
@@ -75,7 +84,6 @@ export const useMarketInfo = (marketAddress: Address) => {
 
   const error =
     marketsDetails.error ||
-    underlyingCall.error ||
     tokenInfo.error ||
     cTokenDecimalsCall.error ||
     cashCall.error ||
@@ -111,6 +119,7 @@ export const useMarketInfo = (marketAddress: Address) => {
         symbol: tokenInfo.data?.symbol ?? '',
         decimals: tokenInfo.data?.decimals ?? 18,
         cTokenDecimals: Number(cTokenDecimalsCall.data),
+        underlyingDecimals: Number(underlyingDecimals),
         cash: cashCall.data as bigint,
         supplyAPY,
         borrowAPY,
