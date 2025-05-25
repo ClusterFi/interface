@@ -6,6 +6,9 @@ import { Currency } from '@/types';
 import { useModalsStore } from '@/utils/stores';
 import { useAccount, useBalance } from 'wagmi';
 import { getChainById } from '@/constants';
+import {CONTRACT_ADDRESSES} from "@/utils/evm/contracts";
+import {useCheckCollateralMembership} from "@/utils/evm/hooks/useCheckCollateralMembership";
+import Skeleton from 'react-loading-skeleton';
 
 type DepositItemOverallProps = {
   address: `0x${string}`;
@@ -27,6 +30,12 @@ export const DepositItemOverall: React.FC<DepositItemOverallProps> = ({
 
   const chainInfo = getChainById(chainId);
 
+  const { isMember, isLoading } = useCheckCollateralMembership(
+      CONTRACT_ADDRESSES.sepolia.comptroller as `0x${string}`,
+      account.address as `0x${string}`,
+      address
+  );
+
   return (
     <Table.Row className={styles.row}>
       <Table.ItemAsset
@@ -39,8 +48,14 @@ export const DepositItemOverall: React.FC<DepositItemOverallProps> = ({
           : '—'}
       </Table.Item>
       <Table.Item mobileTitle={'APY'}>{marketInfo?.supplyAPY.toFixed(2)}%</Table.Item>
-      <Table.Item mobileTitle={'Can be collateral'}>
-        <Icon glyph={'Check'} width={16} height={16} className={styles.check} />
+      <Table.Item mobileTitle="Can be collateral">
+          {isLoading ? (
+              <Skeleton width={16} height={16} />
+          ) : isMember ? (
+              <Icon glyph="Check" width={16} height={16} className={styles.check} />
+          ) : (
+              <Icon glyph="Cross" width={16} height={16} className={styles.cross} />
+          )}
       </Table.Item>
       <Table.Item>
         {marketInfo && (
