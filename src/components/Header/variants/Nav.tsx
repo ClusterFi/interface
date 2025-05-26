@@ -25,6 +25,21 @@ const navigation: {
     href: "/markets",
     icon: "Markets",
   },
+  {
+    text: "Singularity",
+    href: "/singularity",
+    icon: "Singularity",
+  },
+  {
+    text: "Swap",
+    href: "/swap",
+    icon: "Swap",
+  },
+  {
+    text: "Docs",
+    href: "https://cluster.gitbook.io/docs/overview/introducing-cluster",
+    icon: "Search",
+  },
 ];
 
 type NavProps = {
