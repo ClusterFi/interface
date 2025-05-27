@@ -2,6 +2,7 @@ import * as React from "react";
 import { useModalsStore } from "@/utils/stores";
 
 import {
+  Borrow,
   ReadMore,
   ReadMoreProps,
   StakingDeposit,
@@ -24,9 +25,19 @@ import {
   TabsModal,
   LoansProps,
   Loans,
+  Supply,
+  SupplyProps,
+  BorrowRepay,
+  BorrowRepayProps,
+  Withdraw,
+  WithdrawProps,
+  Details,
+  DetailsProps,
 } from "@/components/Modals/variants";
+import { BorrowProps } from "./variants/Borrow/Borrow";
 
 export type ModalPropsMap = {
+  Details: DetailsProps;
   ReadMore: ReadMoreProps;
   StakingDeposit: StakingDepositProps;
   StakingWithdraw: StakingWithdrawProps;
@@ -38,6 +49,10 @@ export type ModalPropsMap = {
   Wallet: WalletProps;
   TabsModal: TabsModalProps;
   Loans: LoansProps;
+  Borrow: BorrowProps;
+  Supply: SupplyProps;
+  BorrowRepay: BorrowRepayProps;
+  Withdraw: WithdrawProps;
 };
 export type ModalProps = {
   open: boolean;
@@ -50,6 +65,8 @@ export type TModals = Record<
 >;
 
 const modalsByName: TModals = {
+  Details,
+  Borrow,
   ReadMore,
   StakingDeposit,
   StakingWithdraw,
@@ -61,6 +78,9 @@ const modalsByName: TModals = {
   Wallet,
   TabsModal,
   Loans,
+  Supply,
+  BorrowRepay,
+  Withdraw,
 } as const;
 
 export const Modals: React.FC = () => {

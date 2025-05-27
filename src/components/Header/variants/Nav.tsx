@@ -35,6 +35,11 @@ const navigation: {
     href: "/swap",
     icon: "Swap",
   },
+  {
+    text: "Docs",
+    href: "https://cluster.gitbook.io/docs/overview/introducing-cluster",
+    icon: "Search",
+  },
 ];
 
 type NavProps = {

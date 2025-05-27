@@ -32,6 +32,7 @@
     "react-circular-progressbar": "^2.2.0",
     "react-dom": "^18",
     "react-loading-skeleton": "^3.4.0",
+    "react-number-format": "^5.4.4",
     "react-swipeable": "^7.0.1",
     "recharts": "^2.12.7",
     "sass": "^1.77.2",

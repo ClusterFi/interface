@@ -1,5 +1,5 @@
-import * as React from "react";
-import cx from "classnames";
+import * as React from 'react';
+import cx from 'classnames';
 
 import {
   Container,
@@ -11,20 +11,20 @@ import {
   Balance,
   ConnectedWallet,
   Logotype,
-} from "@/components";
-import { formatCoin } from "@/utils";
-import { Nav } from "./Nav";
-import { Status } from "./Status";
+} from '@/components';
+import { formatCoin } from '@/utils';
+import { Nav } from './Nav';
+import { Status } from './Status';
 
-import styles from "./Header.module.scss";
-import { useOnClickOutside } from "usehooks-ts";
+import styles from './Header.module.scss';
+import { useOnClickOutside } from 'usehooks-ts';
 
 type DesktopProps = {
   className?: string;
 };
 
 export const Desktop: React.FC<DesktopProps> = ({ className }) => {
-  const isAuthed = true;
+  const isAuthed = false;
   const balanceRef = React.useRef<HTMLDivElement>(null);
   const profileRef = React.useRef<HTMLDivElement>(null);
   const [balanceOpened, setBalanceOpened] = React.useState(false);
@@ -53,27 +53,27 @@ export const Desktop: React.FC<DesktopProps> = ({ className }) => {
               <div ref={balanceRef} className={styles.balance}>
                 <Button
                   className={styles.balanceButton}
-                  size={"medium"}
-                  variant={"gradient-dark"}
+                  size={'medium'}
+                  variant={'gradient-dark'}
                   onClick={() => setBalanceOpened((prev) => !prev)}
                 >
                   <Text size={12} theme={500}>
-                    <CurrencyIcon currency={"Cluster"} width={30} height={30} />
+                    <CurrencyIcon currency={'Cluster'} width={30} height={30} />
                     {formatCoin(134.3478)}
                   </Text>
                 </Button>
                 <Balance
                   className={cx(
                     styles.balancePopup,
-                    balanceOpened && styles.open,
+                    balanceOpened && styles.open
                   )}
                 />
               </div>
               <div ref={profileRef} className={styles.wallet}>
                 <Button
                   className={styles.walletButton}
-                  size={"medium"}
-                  variant={"stroke"}
+                  size={'medium'}
+                  variant={'stroke'}
                   onClick={() => setProfileOpened((prev) => !prev)}
                 >
                   <Text size={14} theme={600}>
@@ -83,7 +83,7 @@ export const Desktop: React.FC<DesktopProps> = ({ className }) => {
                 <ConnectedWallet
                   className={cx(
                     styles.walletPopup,
-                    profileOpened && styles.open,
+                    profileOpened && styles.open
                   )}
                 />
               </div>

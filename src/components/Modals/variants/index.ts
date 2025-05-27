@@ -1,3 +1,4 @@
+export * from "./Details/Details";
 export * from "./ReadMore/ReadMore";
 export * from "./StakingDeposit/StakingDeposit";
 export * from "./StakingWithdraw/StakingWithdraw";
@@ -9,3 +10,7 @@ export * from "./SwitchWallet/SwitchWallet";
 export * from "./Wallet/Wallet";
 export * from "./TabsModal/TabsModal";
 export * from "./Loans/Loans";
+export * from "./Borrow/Borrow";
+export * from "./Supply/Supply";
+export * from "./BorrowRepay/BorrowRepay";
+export * from "./Withdraw/Withdraw";
