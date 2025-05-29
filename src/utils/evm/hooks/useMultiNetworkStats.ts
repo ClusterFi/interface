@@ -4,54 +4,61 @@ import { CHAINS } from '@/constants';
 import { ABIS } from '@/utils/evm/abi/abis';
 import { type Address, type Abi } from 'viem';
 import { type AssetInfo, type NetworkStats } from '@/types';
+import { useGetAllMarketsForSupportedNetworks } from './useGetAllMarkets';
 
 type Params = {
     userAddress?: Address;
-    asset?: AssetInfo;
     comptrollerAddresses: Record<number, Address>; // chainId → comptrollerAddress
 };
 
-export const useMultiNetworkStats = ({ userAddress, asset, comptrollerAddresses }: Params) => {
+export const useMultiNetworkStats = ({ userAddress, comptrollerAddresses }: Params) => {
     const blocksPerYear = 2102400;
+    const markets = useGetAllMarketsForSupportedNetworks();
 
     const baseContracts = useMemo(() => {
-        if (!userAddress || !asset) return [];
+        if (!userAddress || markets.length === 0) return [];
 
-        return CHAINS.flatMap((chain) => {
-            const comptrollerAddress = comptrollerAddresses[chain.chainId];
+        return markets.flatMap((marketInfo) => {
+            const { market: cTokenAddress, chainId } = marketInfo;
+            const comptrollerAddress = comptrollerAddresses[chainId];
             if (!comptrollerAddress) return [];
 
             return [
                 {
-                    address: asset.cTokenAddress,
+                    address: cTokenAddress,
                     abi: ABIS.CTokenABI as Abi,
                     functionName: 'getAccountSnapshot',
                     args: [userAddress],
+                    chainId,
                 },
                 {
-                    address: asset.cTokenAddress,
+                    address: cTokenAddress,
                     abi: ABIS.CTokenABI as Abi,
                     functionName: 'borrowRatePerBlock',
+                    chainId,
                 },
                 {
-                    address: asset.cTokenAddress,
+                    address: cTokenAddress,
                     abi: ABIS.CTokenABI as Abi,
                     functionName: 'supplyRatePerBlock',
+                    chainId,
                 },
                 {
                     address: comptrollerAddress,
                     abi: ABIS.ComptrollerABI as Abi,
                     functionName: 'markets',
-                    args: [asset.cTokenAddress],
+                    args: [cTokenAddress],
+                    chainId,
                 },
                 {
                     address: comptrollerAddress,
                     abi: ABIS.ComptrollerABI as Abi,
                     functionName: 'oracle',
+                    chainId,
                 },
             ];
         });
-    }, [userAddress, asset, comptrollerAddresses]);
+    }, [userAddress, markets, comptrollerAddresses]);
 
     const {
         data: baseResults,
@@ -63,9 +70,10 @@ export const useMultiNetworkStats = ({ userAddress, asset, comptrollerAddresses 
     });
 
     const oracleContracts = useMemo(() => {
-        if (!baseResults || baseResults.length === 0 || !asset) return [];
+        if (!baseResults || baseResults.length === 0 || markets.length === 0) return [];
 
-        return CHAINS.flatMap((_, i) => {
+        return markets.flatMap((marketInfo, i) => {
+            const { market: cTokenAddress, chainId } = marketInfo;
             const offset = i * 5;
             const oracleResult = baseResults[offset + 4];
             if (oracleResult?.status !== 'success') return [];
@@ -77,11 +85,12 @@ export const useMultiNetworkStats = ({ userAddress, asset, comptrollerAddresses 
                     address: oracleAddress,
                     abi: ABIS.OracleABI as Abi,
                     functionName: 'getUnderlyingPrice',
-                    args: [asset.cTokenAddress],
+                    args: [cTokenAddress],
+                    chainId,
                 },
             ];
         });
-    }, [baseResults, asset]);
+    }, [baseResults, markets]);
 
     const {
         data: oracleResults,
@@ -93,12 +102,15 @@ export const useMultiNetworkStats = ({ userAddress, asset, comptrollerAddresses 
     });
 
     const statsPerChain: NetworkStats[] = useMemo(() => {
-        if (!baseResults || !oracleResults) return [];
+        if (!baseResults || !oracleResults || markets.length === 0) return [];
 
         const stats: NetworkStats[] = [];
 
-        for (let i = 0; i < CHAINS.length; i++) {
-            const chain = CHAINS[i];
+        for (let i = 0; i < markets.length; i++) {
+            const marketInfo = markets[i];
+            const chain = CHAINS.find(c => c.chainId === marketInfo.chainId);
+            if (!chain) continue;
+
             const offset = i * 5;
             const results = baseResults.slice(offset, offset + 5);
             const oracle = oracleResults[i];
@@ -160,7 +172,7 @@ export const useMultiNetworkStats = ({ userAddress, asset, comptrollerAddresses 
         }
 
         return stats;
-    }, [baseResults, oracleResults]);
+    }, [baseResults, oracleResults, markets]);
 
     const aggregateStats = useMemo(() => {
         if (statsPerChain.length === 0) return null;

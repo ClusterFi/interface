@@ -79,7 +79,6 @@ export const DashboardPage: React.FC = () => {
         error,
     } = useMultiNetworkStats({
         userAddress,
-        asset,
         comptrollerAddresses: {
             [SEPOLIA_CHAIN_ID]: CONTRACT_ADDRESSES.sepolia.comptroller as Address,
             [ARBITRUM_CHAIN_ID]: CONTRACT_ADDRESSES.arbitrum_sepolia.comptroller as Address,
@@ -87,9 +86,9 @@ export const DashboardPage: React.FC = () => {
     });
 
     const renderValue = (value: string | number | undefined, suffix = '', prefix = '') =>
-        isMarketsPending || isPending
+        isPending
             ? 'Loading...'
-            : value === undefined || value === null || !userAddress || !asset || !aggregate
+            : value === undefined || value === null || !userAddress || !aggregate
                 ? '-'
                 : `${prefix}${value}${suffix}`;
 

@@ -17,6 +17,17 @@ import { useBorrow } from '@/utils/evm/hooks/useBorrow';
 import { useModalsStore } from '@/utils/stores';
 import {parseUnits} from "viem";
 
+const getLayerZeroEid = (chainId: number): number => {
+  switch (chainId) {
+    case 11155111: 
+      return 40161;
+    case 421614: 
+      return 40231;
+    default:
+      throw new Error(`Unsupported chain ID: ${chainId}`);
+  }
+};
+
 export type BorrowProps = {
   sourceChain: {
     name: string;
@@ -61,12 +72,13 @@ export const Borrow: React.FC<Borrow> = ({ props, ...rest }) => {
       if (destination.chainId === source.chainId) {
         await borrow(amount);
       } else {
+        const dstEid = getLayerZeroEid(destination.chainId);
         await borrowCrossChain(
             amount,
-            destination.chainId,
+            dstEid,
             account.address as `0x${string}`,
-            '0x',
-            BigInt(0)
+            '',
+            parseUnits('0.1', 18) // 0.1 ETH for gas fees, matching the test script
         );
       }
     } catch (err) {

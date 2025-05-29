@@ -1,10 +1,10 @@
 export const CONTRACT_ADDRESSES = {
   sepolia: {
-    comptroller: '0x4dE3B56ca816A33Df502B57BB3215C46644bfCC3',
-
+    comptroller: '0x4095995257B9045BF9eb84A761657b2a7323c3c8',
+    clgAddress: '0x143Ded3a94a53f983457f11c24e2A74f761740BF',
   },
   arbitrum_sepolia: {
-    comptroller: '0xE26980c240c16EA0C62952f521302e8E46D0f7B7',
-    clgAddress: '0xe7d1c97340787a3e67D206dC45f6aA62EadaC505',
+    comptroller: '0x0cA71BA0CC0eDCf25322445Bc8d3d1fbF5665323',
+    clgAddress: '0x31dE259B61AdE18EAb2681e9E4E66A40b526C790',
   },
 };
