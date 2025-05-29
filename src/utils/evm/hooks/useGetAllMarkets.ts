@@ -10,11 +10,25 @@ export type MarketWithChainId = {
 };
 
 export const useGetAllMarkets = (chainId: number) => {
+  const getComptrollerAddress = (chainId: number): Address | undefined => {
+    if (chainId === 11155111) { 
+      return CONTRACT_ADDRESSES.sepolia.comptroller as Address;
+    } else if (chainId === 421614) {
+      return CONTRACT_ADDRESSES.arbitrum_sepolia.comptroller as Address;
+    }
+    return undefined;
+  };
+
+  const comptrollerAddress = getComptrollerAddress(chainId);
+
   const result = useReadContract({
-    address: CONTRACT_ADDRESSES.sepolia.comptroller as `0x${string}`,
+    address: comptrollerAddress,
     abi: ABIS.ComptrollerABI,
     functionName: 'getAllMarkets',
     chainId: chainId,
+    query: {
+      enabled: !!comptrollerAddress,
+    },
   });
 
   return {
