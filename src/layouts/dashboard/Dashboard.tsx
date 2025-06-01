@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { useControls } from "leva";
 import cx from "classnames";
 import { useAccount, useChainId } from "wagmi";
 import { useMemo } from "react";
@@ -41,13 +40,6 @@ export const DashboardPage: React.FC = () => {
   const [activeTab, setActiveTab] = React.useState<Tab>(tabs.supply);
   const [activeNav, setActiveNav] = React.useState(0);
   const isMobile = useMedia(mediaBreaks.max.xga);
-  const controls = useControls({
-    ["dashboard-state"]: {
-      options: ["Default", "Not Authorized", "Empty"],
-      value: "Default",
-      label: "Page state",
-    },
-  });
   const componentState = "default" as any;
   const { address: userAddress } = useAccount();
   const isConnected = !!userAddress;
