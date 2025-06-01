@@ -5,57 +5,28 @@ import { MarketItem } from "./MarketItem";
 import styles from "./Market.module.scss";
 import { Currency } from "@/types";
 import { mediaBreaks, useMedia } from "@/utils";
-
-type TMarket = {
-  id: string;
-  name: string;
-  fullName: string;
-  currency: Currency;
-};
-
-const mockedMarkets: TMarket[] = [
-  {
-    id: "0",
-    name: "USDT",
-    fullName: "Tether USDt",
-    currency: "USDTether",
-  },
-  {
-    id: "1",
-    name: "weETH",
-    fullName: "Wrapped eETH",
-    currency: "WrappedEETH",
-  },
-  {
-    id: "2",
-    name: "USDT",
-    fullName: "Tether USDt",
-    currency: "USDTether",
-  },
-  {
-    id: "3",
-    name: "weETH",
-    fullName: "Wrapped eETH",
-    currency: "WrappedEETH",
-  },
-];
+import { useAllMarketsData } from "@/utils/evm/hooks/useAllMarketsData";
+import { getChainById } from "@/constants";
 
 type MarketProps = {
-  currency: Currency;
-  name: string;
-  isLoading: boolean;
+  chainId: number;
+  isLoading?: boolean;
 };
 
 export const Market: React.FC<MarketProps> = ({
-  currency,
-  name,
-  isLoading,
+  chainId,
+  isLoading = false,
 }) => {
+  const { markets, isPending } = useAllMarketsData(chainId);
+  const chainInfo = getChainById(chainId);
+  
+  const isDataLoading = isLoading || isPending;
+
   return (
     <Section className={styles.base}>
       <Heading element="h4" as={"h2"} className={styles.title}>
-        <CurrencyIcon currency={currency} width={20} height={20} />
-        {name}
+        <CurrencyIcon currency={chainInfo?.currency || "Ethereum"} width={20} height={20} />
+        {chainInfo?.name || `Chain ${chainId}`}
       </Heading>
       <Table className={styles.table}>
         <Table.Head>
@@ -71,17 +42,31 @@ export const Market: React.FC<MarketProps> = ({
           </Table.Row>
         </Table.Head>
         <Table.Body className={styles.body}>
-          {mockedMarkets.map((market) => {
-            return (
+          {isDataLoading ? (
+
+            Array.from({ length: 2 }, (_, index) => (
               <MarketItem
-                isLoading={isLoading}
-                currency={market.currency}
-                name={market.name}
-                fullName={market.fullName}
-                key={market.id}
+                key={`loading-${index}`}
+                isLoading={true}
+                currency="USDTether"
               />
-            );
-          })}
+            ))
+          ) : markets.length > 0 ? (
+            markets.map((market) => (
+              <MarketItem
+                key={market.address}
+                isLoading={false}
+                marketData={market}
+                currency="USDTether" 
+              />
+            ))
+          ) : ( 
+            <tr>
+              <td colSpan={8} style={{ textAlign: 'center', padding: '2rem' }}>
+                No markets available on this network
+              </td>
+            </tr>
+          )}
         </Table.Body>
       </Table>
     </Section>

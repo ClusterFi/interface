@@ -3,6 +3,7 @@ export * from "./BaseLayout/BaseLayout";
 export * from "./Footer/Footer";
 export * from "./Header/Header";
 export * from "./NetworkSelection/NetworkSelection";
+export * from "./NetworkMismatchWarning";
 export * from "./ConnectWalletButton/ConnectWalletButton";
 export * from "./CurrencySelection/CurrencySelection";
 export * from "./CustomInput/CustomInput";

@@ -73,12 +73,22 @@ export const Borrow: React.FC<Borrow> = ({ props, ...rest }) => {
         await borrow(amount);
       } else {
         const dstEid = getLayerZeroEid(destination.chainId);
+        const gasValue = parseUnits('0.1', 18); // 0.1 ETH for gas fees
+        
+        console.log('=== Cross-chain Borrow Parameters ===');
+        console.log('Amount:', amount);
+        console.log('Destination EID:', dstEid);
+        console.log('Recipient:', account.address);
+        console.log('Options:', '""');
+        console.log('Gas Value (wei):', gasValue.toString());
+        console.log('Gas Value (ETH):', '0.1');
+        
         await borrowCrossChain(
             amount,
             dstEid,
             account.address as `0x${string}`,
             '',
-            parseUnits('0.1', 18) // 0.1 ETH for gas fees, matching the test script
+            gasValue
         );
       }
     } catch (err) {

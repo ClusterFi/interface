@@ -139,6 +139,7 @@ export const useMultiNetworkStats = ({ userAddress, comptrollerAddresses }: Para
                 (Math.pow((Number(borrowRatePerBlock) / 1e18) * blocksPerYear + 1, 1) - 1);
 
             const collateralUnderlying = (cTokenBalance * exchangeRate) / BigInt(1e18);
+            const totalCollateralValue = (collateralUnderlying * price) / BigInt(1e18);
             const collateralValue =
                 (collateralUnderlying * price * collateralFactorMantissa) / BigInt(1e36);
             const borrowValue = (borrowBalance * price) / BigInt(1e18);
@@ -147,14 +148,15 @@ export const useMultiNetworkStats = ({ userAddress, comptrollerAddresses }: Para
             const currentApyBase =
                 Number(collateralValue) * supplyApy - Number(borrowValue) * borrowApy;
             const collateral = Number(collateralValue);
+            const totalCollateral = Number(totalCollateralValue);
             const borrow = Number(borrowValue);
             const netApy = netWorth === 0 ? 0 : currentApyBase / netWorth;
 
             let healthFactor = Infinity;
             let ltv = 0;
-            if (borrow > 0) {
-                healthFactor = collateral / borrow;
-                ltv = collateral / borrow;
+            if (borrow > 0 && totalCollateral > 0) {
+                healthFactor = totalCollateral / borrow;
+                ltv = borrow / totalCollateral;
             }
 
             stats.push({
@@ -168,6 +170,7 @@ export const useMultiNetworkStats = ({ userAddress, comptrollerAddresses }: Para
                 networkName: chain.name,
                 supplyApy,
                 borrowApy,
+                totalCollateralValue: totalCollateral,
             });
         }
 
@@ -178,6 +181,7 @@ export const useMultiNetworkStats = ({ userAddress, comptrollerAddresses }: Para
         if (statsPerChain.length === 0) return null;
 
         const totalCollateral = statsPerChain.reduce((sum, s) => sum + s.collateralValue, 0);
+        const totalCollateralForHealthFactor = statsPerChain.reduce((sum, s) => sum + s.totalCollateralValue, 0);
         const totalBorrow = statsPerChain.reduce((sum, s) => sum + s.borrowValue, 0);
         const netWorth = totalCollateral - totalBorrow;
 
@@ -191,9 +195,9 @@ export const useMultiNetworkStats = ({ userAddress, comptrollerAddresses }: Para
 
         let healthFactor = Infinity;
         let ltv = 0;
-        if (totalBorrow > 0) {
-            healthFactor = totalCollateral / totalBorrow;
-            ltv = totalCollateral / totalBorrow;
+        if (totalBorrow > 0 && totalCollateralForHealthFactor > 0) {
+            healthFactor = totalCollateralForHealthFactor / totalBorrow;
+            ltv = totalBorrow / totalCollateralForHealthFactor;
         }
 
         return {

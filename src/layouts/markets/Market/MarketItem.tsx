@@ -2,19 +2,24 @@ import * as React from "react";
 import Link from "next/link";
 import { CircularProgress, Skeleton, Table, Text } from "@/components";
 import { formatCoin, formatUSD, mediaBreaks, useMedia } from "@/utils";
+import { formatCurrency, formatPercentage } from "@/utils/formatters";
 
 import styles from "./Market.module.scss";
 import { Currency } from "@/types";
+import { MarketData } from "@/utils/evm/hooks/useAllMarketsData";
 
 type MarketItemProps = {
   isLoading: boolean;
-  name: string;
-  fullName: string;
-  currency: Currency;
+  marketData?: MarketData;
+  // Fallback props for when no market data
+  name?: string;
+  fullName?: string;
+  currency?: Currency;
 };
 
 export const MarketItem: React.FC<MarketItemProps> = ({
   isLoading,
+  marketData,
   name,
   fullName,
   currency,
@@ -24,27 +29,84 @@ export const MarketItem: React.FC<MarketItemProps> = ({
   const Row = isMobile ? "a" : Table.Row;
   const rowProps = isMobile ? { href: "/single-market" } : undefined;
 
+  // Use market data if available, otherwise fallback to props
+  const displayName = marketData?.symbol || name || "Unknown";
+  const displayFullName = marketData?.name || fullName || "Unknown Token";
+  const displayCurrency = currency || "USDTether" as Currency; // Fallback currency
+
+  if (isLoading) {
+    return (
+      <Row {...rowProps} className={styles.row}>
+        <Table.ItemAsset
+          currency={displayCurrency}
+          primaryText={<Skeleton width={100} height={16} />}
+          secondaryText={<Skeleton width={60} height={14} />}
+          isLoading={true}
+        />
+        <Wrapper className={styles.wrapper}>
+          <Table.Item mobileTitle="Utilization">
+            <Skeleton width={80} height={16} />
+          </Table.Item>
+          <Table.Item mobileTitle="Net Earn APR">
+            <Skeleton width={60} height={16} />
+          </Table.Item>
+          <Table.Item mobileTitle="Net Borrow APR">
+            <Skeleton width={60} height={16} />
+          </Table.Item>
+          <Table.Item mobileTitle="Total Earning">
+            <Skeleton width={80} height={16} />
+          </Table.Item>
+          <Table.Item mobileTitle="Total Borrowing">
+            <Skeleton width={80} height={16} />
+          </Table.Item>
+          <Table.Item mobileTitle="Total Collateral">
+            <Skeleton width={80} height={16} />
+          </Table.Item>
+        </Wrapper>
+        <Table.ItemArrow className={styles.arrow} isLoading={true} />
+        {!isMobile && (
+          <th className={styles.link}>
+            <Link href={"/single-market"} className={styles.link} />
+          </th>
+        )}
+      </Row>
+    );
+  }
+
   return (
     <Row {...rowProps} className={styles.row}>
       <Table.ItemAsset
-        currency={currency}
-        primaryText={fullName}
-        secondaryText={name}
-        isLoading={isLoading}
+        currency={displayCurrency}
+        primaryText={displayFullName}
+        secondaryText={displayName}
+        isLoading={false}
       />
       <Wrapper className={styles.wrapper}>
         <Table.Item mobileTitle="Utilization">
           <span className={styles.progress}>
-            57.95% <CircularProgress percentage={Math.random() * 50 + 50} />
+            {marketData ? formatPercentage(marketData.utilization) : "—"}
+            {marketData && (
+              <CircularProgress percentage={marketData.utilization} />
+            )}
           </span>
         </Table.Item>
-        <Table.Item mobileTitle="Net Earn APR">0.91%</Table.Item>
-        <Table.Item mobileTitle="Net Borrow APR">1.74%</Table.Item>
-        <Table.Item mobileTitle="Total Earning">$16.21M</Table.Item>
-        <Table.Item mobileTitle="Total Borrowing">$9.32M</Table.Item>
-        <Table.Item mobileTitle="Total Collateral">$11.24M</Table.Item>
+        <Table.Item mobileTitle="Net Earn APR">
+          {marketData ? formatPercentage(marketData.supplyAPY) : "—"}
+        </Table.Item>
+        <Table.Item mobileTitle="Net Borrow APR">
+          {marketData ? formatPercentage(marketData.borrowAPY) : "—"}
+        </Table.Item>
+        <Table.Item mobileTitle="Total Earning">
+          {marketData ? formatCurrency(marketData.totalSupplyUSD) : "—"}
+        </Table.Item>
+        <Table.Item mobileTitle="Total Borrowing">
+          {marketData ? formatCurrency(marketData.totalBorrowUSD) : "—"}
+        </Table.Item>
+        <Table.Item mobileTitle="Total Collateral">
+          {marketData ? formatCurrency(marketData.totalCollateralUSD) : "—"}
+        </Table.Item>
       </Wrapper>
-      <Table.ItemArrow className={styles.arrow} isLoading={isLoading} />
+      <Table.ItemArrow className={styles.arrow} isLoading={false} />
       {!isMobile && (
         <th className={styles.link}>
           <Link href={"/single-market"} className={styles.link} />
