@@ -53,18 +53,18 @@ export const useBorrow = (cTokenAddress: `0x${string}`) => {
         options: string,
         value: bigint,
     ) => {
-        if (!clgContractAddress || !decimals) {
-            console.error('Missing CLG address or decimals');
+        if (!decimals) {
+            console.error('Decimals not loaded yet');
             return;
         }
 
         try {
             const parsedAmount = parseUnits(amount, Number(decimals));
             const txHash = await writeContractAsync({
-                abi: ABIS.CLG,
-                address: clgContractAddress as `0x${string}`,
+                abi: ABIS.CTokenABI,
+                address: cTokenAddress,
                 functionName: 'borrowCrossChain',
-                args: [dstEid, cTokenAddress, parsedAmount, recipient, options],
+                args: [parsedAmount, dstEid, recipient, options],
                 value,
             });
             setHash(txHash);

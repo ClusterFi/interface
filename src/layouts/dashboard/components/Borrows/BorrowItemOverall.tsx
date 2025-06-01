@@ -19,7 +19,7 @@ export const BorrowItemOverall: React.FC<BorrowItemOverallProps> = ({
   sourceChainId,
   destinationChainId,
 }) => {
-  const { data: marketInfo, isPending, error } = useMarketInfo(sourceAddress);
+  const { data: marketInfo, isPending, error } = useMarketInfo(sourceAddress, sourceChainId);
   const { openModal } = useModalsStore();
   const { isConnected } = useAccount();
 

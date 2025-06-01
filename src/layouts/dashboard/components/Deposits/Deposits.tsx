@@ -12,6 +12,7 @@ import Image from 'next/image';
 import { useGetAllMarkets } from '@/utils/evm/hooks/useGetAllMarkets';
 import { useAccount } from 'wagmi';
 import { useUserData } from '@/utils/evm/hooks/useUserData';
+import { useGlobalStore } from '@/utils/stores';
 
 type TAsset = {
   id: string;
@@ -33,10 +34,11 @@ type DepositsProps = {
 
 export const Deposits: React.FC<DepositsProps> = ({ state }) => {
   type Address = `0x${string}`;
-  const { data, isPending, error, chainId } = useGetAllMarkets(11155111);
+  const { chainId } = useGlobalStore();
+  const { data, isPending, error } = useGetAllMarkets(chainId);
   const addresses = (data ?? []) as Address[];
   const {address : userAddress} = useAccount()
-  const {supplies, isPending: isUserDataPending} = useUserData(11155111, userAddress)
+  const {supplies, isPending: isUserDataPending} = useUserData(chainId, userAddress)
 
   const hasSupplies = supplies && supplies.length > 0 && supplies.some(supply => supply.balance > BigInt(0));
 
