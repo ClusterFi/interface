@@ -1,298 +1,488 @@
 export const CLG_ABI = [
-    {
-        "inputs": [{ "internalType": "address", "name": "_stargateRouter", "type": "address" }],
-        "stateMutability": "nonpayable",
-        "type": "constructor"
-    },
-    { "inputs": [], "name": "AccessControlBadConfirmation", "type": "error" },
-    {
-        "inputs": [
-            { "internalType": "address", "name": "account", "type": "address" },
-            { "internalType": "bytes32", "name": "neededRole", "type": "bytes32" }
-        ],
-        "name": "AccessControlUnauthorizedAccount",
-        "type": "error"
-    },
-    {
-        "inputs": [{ "internalType": "address", "name": "token", "type": "address" }],
-        "name": "CLG_CTokenNotConfigured",
-        "type": "error"
-    },
-    {
-        "inputs": [
-            { "internalType": "address", "name": "user", "type": "address" },
-            { "internalType": "address", "name": "token", "type": "address" },
-            { "internalType": "uint256", "name": "requested", "type": "uint256" },
-            { "internalType": "uint256", "name": "available", "type": "uint256" }
-        ],
-        "name": "CLG_InsufficientExcessBalance",
-        "type": "error"
-    },
-    { "inputs": [], "name": "CLG_InsufficientFee", "type": "error" },
-    {
-        "inputs": [
-            { "internalType": "address", "name": "sender", "type": "address" },
-            { "internalType": "address", "name": "expected", "type": "address" }
-        ],
-        "name": "CLG_InvalidStargateRouter",
-        "type": "error"
-    },
-    {
-        "inputs": [{ "internalType": "uint32", "name": "chainId", "type": "uint32" }],
-        "name": "CLG_NoTrustedOriginatorSet",
-        "type": "error"
-    },
-    {
-        "inputs": [{ "internalType": "uint256", "name": "errorCode", "type": "uint256" }],
-        "name": "CLG_RepaymentFailed",
-        "type": "error"
-    },
-    { "inputs": [], "name": "CLG_USDCNotConfigured", "type": "error" },
-    {
-        "inputs": [
-            { "internalType": "address", "name": "originator", "type": "address" },
-            { "internalType": "uint32", "name": "sourceChain", "type": "uint32" }
-        ],
-        "name": "CLG_UntrustedOriginator",
-        "type": "error"
-    },
-    {
-        "inputs": [{ "internalType": "address", "name": "token", "type": "address" }],
-        "name": "SafeERC20FailedOperation",
-        "type": "error"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            { "indexed": true, "internalType": "address", "name": "borrower", "type": "address" },
-            { "indexed": true, "internalType": "address", "name": "token", "type": "address" },
-            { "indexed": false, "internalType": "uint256", "name": "borrowAmount", "type": "uint256" },
-            { "indexed": false, "internalType": "uint32", "name": "destinationChain", "type": "uint32" },
-            { "indexed": false, "internalType": "address", "name": "recipient", "type": "address" }
-        ],
-        "name": "CrossChainBorrowInitiated",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            { "indexed": true, "internalType": "address", "name": "repayer", "type": "address" },
-            { "indexed": true, "internalType": "address", "name": "borrower", "type": "address" },
-            { "indexed": true, "internalType": "address", "name": "token", "type": "address" },
-            { "indexed": false, "internalType": "uint256", "name": "repayAmount", "type": "uint256" },
-            { "indexed": false, "internalType": "uint32", "name": "destinationChain", "type": "uint32" }
-        ],
-        "name": "CrossChainRepayInitiated",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            { "indexed": true, "internalType": "address", "name": "borrower", "type": "address" },
-            { "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" },
-            { "indexed": false, "internalType": "uint32", "name": "sourceChain", "type": "uint32" }
-        ],
-        "name": "CrossChainRepayReceived",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            { "indexed": true, "internalType": "address", "name": "borrower", "type": "address" },
-            { "indexed": true, "internalType": "address", "name": "token", "type": "address" },
-            { "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" }
-        ],
-        "name": "ExcessTokensWithdrawn",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            { "indexed": true, "internalType": "bytes32", "name": "role", "type": "bytes32" },
-            { "indexed": true, "internalType": "bytes32", "name": "previousAdminRole", "type": "bytes32" },
-            { "indexed": true, "internalType": "bytes32", "name": "newAdminRole", "type": "bytes32" }
-        ],
-        "name": "RoleAdminChanged",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            { "indexed": true, "internalType": "bytes32", "name": "role", "type": "bytes32" },
-            { "indexed": true, "internalType": "address", "name": "account", "type": "address" },
-            { "indexed": true, "internalType": "address", "name": "sender", "type": "address" }
-        ],
-        "name": "RoleGranted",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            { "indexed": true, "internalType": "bytes32", "name": "role", "type": "bytes32" },
-            { "indexed": true, "internalType": "address", "name": "account", "type": "address" },
-            { "indexed": true, "internalType": "address", "name": "sender", "type": "address" }
-        ],
-        "name": "RoleRevoked",
-        "type": "event"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            { "indexed": true, "internalType": "address", "name": "token", "type": "address" },
-            { "indexed": true, "internalType": "address", "name": "cToken", "type": "address" }
-        ],
-        "name": "TokenMappingUpdated",
-        "type": "event"
-    },
-    { "inputs": [], "name": "CLUSTER_PROTOCOL_ROLE", "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }], "stateMutability": "view", "type": "function" },
-    { "inputs": [], "name": "DEFAULT_ADMIN_ROLE", "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }], "stateMutability": "view", "type": "function" },
-    { "inputs": [], "name": "SLIPPAGE_BP", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" },
-    {
-        "inputs": [
-            { "internalType": "uint32", "name": "_dstEid", "type": "uint32" },
-            { "internalType": "address", "name": "_token", "type": "address" },
-            { "internalType": "uint256", "name": "_borrowAmount", "type": "uint256" },
-            { "internalType": "address", "name": "_recipient", "type": "address" },
-            { "internalType": "bytes", "name": "_composeMsg", "type": "bytes" }
-        ],
-        "name": "borrowCrossChain",
-        "outputs": [],
-        "stateMutability": "payable",
-        "type": "function"
-    },
-    { "inputs": [], "name": "comptroller", "outputs": [{ "internalType": "contract IComptroller", "name": "", "type": "address" }], "stateMutability": "view", "type": "function" },
-    {
-        "inputs": [
-            { "internalType": "address", "name": "", "type": "address" },
-            { "internalType": "address", "name": "", "type": "address" }
-        ],
-        "name": "excessRepayments",
-        "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            { "internalType": "address", "name": "_user", "type": "address" },
-            { "internalType": "address", "name": "_token", "type": "address" }
-        ],
-        "name": "getExcessBalance",
-        "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    { "inputs": [{ "internalType": "bytes32", "name": "role", "type": "bytes32" }], "name": "getRoleAdmin", "outputs": [{ "internalType": "bytes32", "name": "", "type": "bytes32" }], "stateMutability": "view", "type": "function" },
-    {
-        "inputs": [
-            { "internalType": "bytes32", "name": "role", "type": "bytes32" },
-            { "internalType": "address", "name": "account", "type": "address" }
-        ],
-        "name": "grantRole",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            { "internalType": "bytes32", "name": "role", "type": "bytes32" },
-            { "internalType": "address", "name": "account", "type": "address" }
-        ],
-        "name": "hasRole",
-        "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            { "internalType": "bytes32", "name": "role", "type": "bytes32" },
-            { "internalType": "address", "name": "callerConfirmation", "type": "address" }
-        ],
-        "name": "renounceRole",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            { "internalType": "uint32", "name": "_dstEid", "type": "uint32" },
-            { "internalType": "address", "name": "_token", "type": "address" },
-            { "internalType": "address", "name": "_borrower", "type": "address" },
-            { "internalType": "uint256", "name": "_repayAmount", "type": "uint256" }
-        ],
-        "name": "repayLoanCrossChain",
-        "outputs": [],
-        "stateMutability": "payable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            { "internalType": "bytes32", "name": "role", "type": "bytes32" },
-            { "internalType": "address", "name": "account", "type": "address" }
-        ],
-        "name": "revokeRole",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    { "inputs": [{ "internalType": "address", "name": "_comptroller", "type": "address" }], "name": "setComptroller", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
-    {
-        "inputs": [
-            { "internalType": "address", "name": "_token", "type": "address" },
-            { "internalType": "address", "name": "_cToken", "type": "address" }
-        ],
-        "name": "setTokenMapping",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            { "internalType": "uint32", "name": "_chainId", "type": "uint32" },
-            { "internalType": "address", "name": "_originator", "type": "address" }
-        ],
-        "name": "setTrustedOriginator",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    { "inputs": [{ "internalType": "address", "name": "_usdcToken", "type": "address" }], "name": "setUsdcToken", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
-    {
-        "inputs": [
-            { "internalType": "uint32", "name": "_srcEid", "type": "uint32" },
-            { "internalType": "bytes32", "name": "_sender", "type": "bytes32" },
-            { "internalType": "uint256", "name": "_amount", "type": "uint256" },
-            { "internalType": "bytes", "name": "_payload", "type": "bytes" }
-        ],
-        "name": "sgReceive",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    { "inputs": [], "name": "stargateRouter", "outputs": [{ "internalType": "contract IStargateRouter", "name": "", "type": "address" }], "stateMutability": "view", "type": "function" },
-    { "inputs": [{ "internalType": "bytes4", "name": "interfaceId", "type": "bytes4" }], "name": "supportsInterface", "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }], "stateMutability": "view", "type": "function" },
-    {
-        "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
-        "name": "tokenToCToken",
-        "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [{ "internalType": "uint32", "name": "chainId", "type": "uint32" }],
-        "name": "trustedOriginators",
-        "outputs": [{ "internalType": "address", "name": "originatorContract", "type": "address" }],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    { "inputs": [], "name": "usdcToken", "outputs": [{ "internalType": "address", "name": "", "type": "address" }], "stateMutability": "view", "type": "function" },
-    {
-        "inputs": [
-            { "internalType": "address", "name": "_token", "type": "address" },
-            { "internalType": "uint256", "name": "_amount", "type": "uint256" }
-        ],
-        "name": "withdrawExcessTokens",
-        "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    }
+  {
+    inputs: [
+      { internalType: "address", name: "_stargateRouter", type: "address" },
+    ],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  { inputs: [], name: "AccessControlBadConfirmation", type: "error" },
+  {
+    inputs: [
+      { internalType: "address", name: "account", type: "address" },
+      { internalType: "bytes32", name: "neededRole", type: "bytes32" },
+    ],
+    name: "AccessControlUnauthorizedAccount",
+    type: "error",
+  },
+  {
+    inputs: [{ internalType: "address", name: "token", type: "address" }],
+    name: "CLG_CTokenNotConfigured",
+    type: "error",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "user", type: "address" },
+      { internalType: "address", name: "token", type: "address" },
+      { internalType: "uint256", name: "requested", type: "uint256" },
+      { internalType: "uint256", name: "available", type: "uint256" },
+    ],
+    name: "CLG_InsufficientExcessBalance",
+    type: "error",
+  },
+  { inputs: [], name: "CLG_InsufficientFee", type: "error" },
+  {
+    inputs: [
+      { internalType: "address", name: "sender", type: "address" },
+      { internalType: "address", name: "expected", type: "address" },
+    ],
+    name: "CLG_InvalidStargateRouter",
+    type: "error",
+  },
+  {
+    inputs: [{ internalType: "uint32", name: "chainId", type: "uint32" }],
+    name: "CLG_NoTrustedOriginatorSet",
+    type: "error",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "errorCode", type: "uint256" }],
+    name: "CLG_RepaymentFailed",
+    type: "error",
+  },
+  { inputs: [], name: "CLG_USDCNotConfigured", type: "error" },
+  {
+    inputs: [
+      { internalType: "address", name: "originator", type: "address" },
+      { internalType: "uint32", name: "sourceChain", type: "uint32" },
+    ],
+    name: "CLG_UntrustedOriginator",
+    type: "error",
+  },
+  {
+    inputs: [{ internalType: "address", name: "token", type: "address" }],
+    name: "SafeERC20FailedOperation",
+    type: "error",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "borrower",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "token",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "borrowAmount",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint32",
+        name: "destinationChain",
+        type: "uint32",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "recipient",
+        type: "address",
+      },
+    ],
+    name: "CrossChainBorrowInitiated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "repayer",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "borrower",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "token",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "repayAmount",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint32",
+        name: "destinationChain",
+        type: "uint32",
+      },
+    ],
+    name: "CrossChainRepayInitiated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "borrower",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint32",
+        name: "sourceChain",
+        type: "uint32",
+      },
+    ],
+    name: "CrossChainRepayReceived",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "borrower",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "token",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "ExcessTokensWithdrawn",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: "bytes32", name: "role", type: "bytes32" },
+      {
+        indexed: true,
+        internalType: "bytes32",
+        name: "previousAdminRole",
+        type: "bytes32",
+      },
+      {
+        indexed: true,
+        internalType: "bytes32",
+        name: "newAdminRole",
+        type: "bytes32",
+      },
+    ],
+    name: "RoleAdminChanged",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: "bytes32", name: "role", type: "bytes32" },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "sender",
+        type: "address",
+      },
+    ],
+    name: "RoleGranted",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: "bytes32", name: "role", type: "bytes32" },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "sender",
+        type: "address",
+      },
+    ],
+    name: "RoleRevoked",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "token",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "cToken",
+        type: "address",
+      },
+    ],
+    name: "TokenMappingUpdated",
+    type: "event",
+  },
+  {
+    inputs: [],
+    name: "CLUSTER_PROTOCOL_ROLE",
+    outputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "DEFAULT_ADMIN_ROLE",
+    outputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "SLIPPAGE_BP",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint32", name: "_dstEid", type: "uint32" },
+      { internalType: "address", name: "_token", type: "address" },
+      { internalType: "uint256", name: "_borrowAmount", type: "uint256" },
+      { internalType: "address", name: "_recipient", type: "address" },
+      { internalType: "bytes", name: "_composeMsg", type: "bytes" },
+    ],
+    name: "borrowCrossChain",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "comptroller",
+    outputs: [
+      { internalType: "contract IComptroller", name: "", type: "address" },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "", type: "address" },
+      { internalType: "address", name: "", type: "address" },
+    ],
+    name: "excessRepayments",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "_user", type: "address" },
+      { internalType: "address", name: "_token", type: "address" },
+    ],
+    name: "getExcessBalance",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "bytes32", name: "role", type: "bytes32" }],
+    name: "getRoleAdmin",
+    outputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "bytes32", name: "role", type: "bytes32" },
+      { internalType: "address", name: "account", type: "address" },
+    ],
+    name: "grantRole",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "bytes32", name: "role", type: "bytes32" },
+      { internalType: "address", name: "account", type: "address" },
+    ],
+    name: "hasRole",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "bytes32", name: "role", type: "bytes32" },
+      { internalType: "address", name: "callerConfirmation", type: "address" },
+    ],
+    name: "renounceRole",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint32", name: "_dstEid", type: "uint32" },
+      { internalType: "address", name: "_token", type: "address" },
+      { internalType: "address", name: "_borrower", type: "address" },
+      { internalType: "uint256", name: "_repayAmount", type: "uint256" },
+    ],
+    name: "repayLoanCrossChain",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "bytes32", name: "role", type: "bytes32" },
+      { internalType: "address", name: "account", type: "address" },
+    ],
+    name: "revokeRole",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "_comptroller", type: "address" },
+    ],
+    name: "setComptroller",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "_token", type: "address" },
+      { internalType: "address", name: "_cToken", type: "address" },
+    ],
+    name: "setTokenMapping",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint32", name: "_chainId", type: "uint32" },
+      { internalType: "address", name: "_originator", type: "address" },
+    ],
+    name: "setTrustedOriginator",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "_usdcToken", type: "address" }],
+    name: "setUsdcToken",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint32", name: "_srcEid", type: "uint32" },
+      { internalType: "bytes32", name: "_sender", type: "bytes32" },
+      { internalType: "uint256", name: "_amount", type: "uint256" },
+      { internalType: "bytes", name: "_payload", type: "bytes" },
+    ],
+    name: "sgReceive",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "stargateRouter",
+    outputs: [
+      { internalType: "contract IStargateRouter", name: "", type: "address" },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "bytes4", name: "interfaceId", type: "bytes4" }],
+    name: "supportsInterface",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "", type: "address" }],
+    name: "tokenToCToken",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint32", name: "chainId", type: "uint32" }],
+    name: "trustedOriginators",
+    outputs: [
+      { internalType: "address", name: "originatorContract", type: "address" },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "usdcToken",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "_token", type: "address" },
+      { internalType: "uint256", name: "_amount", type: "uint256" },
+    ],
+    name: "withdrawExcessTokens",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
 ];

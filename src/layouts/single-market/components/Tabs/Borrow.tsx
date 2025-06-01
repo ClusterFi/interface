@@ -1,6 +1,5 @@
 import * as React from "react";
 import cx from "classnames";
-import { useControls } from "leva";
 import {
   Heading,
   CurrencyIcon,
@@ -17,19 +16,7 @@ import styles from "./Tabs.module.scss";
 
 export const Borrow = () => {
   const [value, setValue] = React.useState("");
-  const controls = useControls({
-    borrow: {
-      options: [
-        "default",
-        "confirm",
-        "confirm-loading",
-        "confirmed",
-        "loading",
-        "succeed",
-      ],
-      label: "Borrow state:",
-    },
-  });
+  const controls = "default" as any;
 
   return (
     <React.Fragment>

@@ -11,26 +11,13 @@ import {
   Text,
 } from "@/components";
 import { formatUSD } from "@/utils";
-import { useControls } from "leva";
 
 import Link from "next/link";
 import styles from "./Tabs.module.scss";
 
 export const Deposit = () => {
   const [value, setValue] = React.useState("");
-  const controls = useControls({
-    deposit: {
-      options: [
-        "default",
-        "confirm",
-        "confirm-loading",
-        "loading",
-        "succeed",
-        "error",
-      ],
-      label: "Deposit state:",
-    },
-  });
+  const controls = "default" as any;
 
   return (
     <React.Fragment>

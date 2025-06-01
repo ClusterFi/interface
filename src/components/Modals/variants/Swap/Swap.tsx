@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { useControls } from "leva";
 
 import { ModalLayout } from "@/components/Modals/ModalLayout/ModalLayout";
 import { ModalProps } from "@/components";
@@ -19,19 +18,7 @@ type Swap = ModalProps & {
 };
 
 export const Swap: React.FC<Swap> = ({ props, ...rest }) => {
-  const controls = useControls({
-    ["swap-state"]: {
-      options: [
-        "Form",
-        "Confirm-Swap",
-        "Confirm-Loading",
-        "Status-Loading",
-        "Status-Succeed",
-        "Status-Error",
-      ],
-      label: "Get LSDs Modal state",
-    },
-  });
+  const controls = "Form" as any;
 
   const isTitleVisible =
     controls["swap-state"] === "Form" ||

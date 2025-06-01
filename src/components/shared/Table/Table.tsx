@@ -1,7 +1,7 @@
-import * as React from 'react';
-import cx from 'classnames';
+import * as React from "react";
+import cx from "classnames";
 
-import styles from './Table.module.scss';
+import styles from "./Table.module.scss";
 import {
   Button,
   CurrencyIcon,
@@ -9,9 +9,9 @@ import {
   Icon,
   Skeleton,
   Text,
-} from '@/components';
-import { mediaBreaks, useMedia } from '@/utils';
-import { Currency } from '@/types';
+} from "@/components";
+import { mediaBreaks, useMedia } from "@/utils";
+import { Currency } from "@/types";
 
 export type TableProps = {} & React.HTMLAttributes<HTMLElement>;
 
@@ -124,9 +124,9 @@ const ItemAmount: React.FC<ItemAmountProps> = ({
           <div className={styles.boxRow}>
             <Button
               className={styles.wrapped}
-              as={'div'}
-              size={'extra-small'}
-              variant={'gradient-light'}
+              as={"div"}
+              size={"extra-small"}
+              variant={"gradient-light"}
             >
               <Text size={12} theme={400}>
                 {secondaryValue}
@@ -167,7 +167,7 @@ const ItemArrow: React.FC<ItemArrowProps> = ({
   return (
     <Item {...rest}>
       <div className={styles.next}>
-        <Icon glyph={'Arrow'} width={24} height={24} />
+        <Icon glyph={"Arrow"} width={24} height={24} />
       </div>
     </Item>
   );
@@ -175,7 +175,7 @@ const ItemArrow: React.FC<ItemArrowProps> = ({
 
 type ItemAssetProps = {
   currency: Currency | [Currency, Currency];
-  variant?: 'default' | 'small';
+  variant?: "default" | "small";
   primaryText: string | undefined;
   secondaryText?: string;
   isLoading?: boolean;
@@ -184,7 +184,7 @@ type ItemAssetProps = {
 const ItemAsset: React.FC<ItemAssetProps> = ({
   children,
   className,
-  variant = 'default',
+  variant = "default",
   currency,
   primaryText,
   secondaryText,

@@ -1,4 +1,4 @@
-import { ChainProps, Network } from './types';
+import { ChainProps, Network } from "./types";
 
 export const SOLANA_RPC = `https://mainnet.helius-rpc.com/?api-key=3698325c-bdb4-4436-a094-366bd1e18cc7`;
 
@@ -13,15 +13,15 @@ export const getChainById = (chainId: number): ChainProps | undefined => {
 
 export const CHAINS: ChainProps[] = [
   {
-    name: 'Ethereum',
-    currency: 'Ethereum',
+    name: "Ethereum",
+    currency: "Ethereum",
     network: Network.Ethereum,
     chainId: SEPOLIA_CHAIN_ID,
     eid: 30101,
   },
   {
-    name: 'Arbitrum',
-    currency: 'Arbitrum',
+    name: "Arbitrum",
+    currency: "Arbitrum",
     network: Network.Arbitrum,
     chainId: ARBITRUM_CHAIN_ID,
     eid: 30110,

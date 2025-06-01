@@ -1,6 +1,6 @@
-import { useReadContract, useToken } from 'wagmi';
-import { CONTRACT_ADDRESSES } from '../contracts';
-import { ABIS } from '../abi/abis';
+import { useReadContract, useToken } from "wagmi";
+import { CONTRACT_ADDRESSES } from "../contracts";
+import { ABIS } from "../abi/abis";
 
 type Address = `0x${string}`;
 
@@ -24,14 +24,14 @@ export const useMarketInfo = (marketAddress: Address) => {
   const marketsDetails = useReadContract({
     address: CONTRACT_ADDRESSES.sepolia.comptroller as Address,
     abi: ABIS.ComptrollerABI,
-    functionName: 'markets',
+    functionName: "markets",
     args: [marketAddress],
   });
 
   const underlyingCall = useReadContract({
     address: marketAddress,
     abi: ABIS.CTokenABI,
-    functionName: 'underlying',
+    functionName: "underlying",
   });
 
   const tokenInfo = useToken({
@@ -44,7 +44,7 @@ export const useMarketInfo = (marketAddress: Address) => {
   const underlyingCallDecimals = useReadContract({
     address: underlyingCall.data as `0x${string}` | undefined,
     abi: ABIS.ERC20ABI,
-    functionName: 'decimals',
+    functionName: "decimals",
   });
 
   const underlyingDecimals = underlyingCallDecimals.data ?? 6;
@@ -52,25 +52,25 @@ export const useMarketInfo = (marketAddress: Address) => {
   const cTokenDecimalsCall = useReadContract({
     address: marketAddress,
     abi: ABIS.CTokenABI,
-    functionName: 'decimals',
+    functionName: "decimals",
   });
 
   const cashCall = useReadContract({
     address: marketAddress,
     abi: ABIS.CTokenABI,
-    functionName: 'getCash',
+    functionName: "getCash",
   });
 
   const supplyRateCall = useReadContract({
     address: marketAddress,
     abi: ABIS.CTokenABI,
-    functionName: 'supplyRatePerBlock',
+    functionName: "supplyRatePerBlock",
   });
 
   const borrowRateCall = useReadContract({
     address: marketAddress,
     abi: ABIS.CTokenABI,
-    functionName: 'borrowRatePerBlock',
+    functionName: "borrowRatePerBlock",
   });
 
   const isPending =
@@ -115,8 +115,8 @@ export const useMarketInfo = (marketAddress: Address) => {
           marketsDetails.data as [boolean, bigint, boolean]
         )[1],
         isComped: (marketsDetails.data as [boolean, bigint, boolean])[2],
-        name: tokenInfo.data?.name ?? '',
-        symbol: tokenInfo.data?.symbol ?? '',
+        name: tokenInfo.data?.name ?? "",
+        symbol: tokenInfo.data?.symbol ?? "",
         decimals: tokenInfo.data?.decimals ?? 18,
         cTokenDecimals: Number(cTokenDecimalsCall.data),
         underlyingDecimals: Number(underlyingDecimals),

@@ -1,4 +1,4 @@
-import {Address, PublicClient} from "viem";
+import { Address, PublicClient } from "viem";
 
 export enum Network {
   Ethereum,
@@ -8,22 +8,22 @@ export enum Network {
 }
 
 export type Currency =
-  | 'Ethereum'
-  | 'Solana'
-  | 'RocketPoolETH'
-  | 'WrappedEETH'
-  | 'WrappedStakedETH'
-  | 'USDC'
-  | 'USDTether'
-  | 'Cluster'
-  | 'MarinadeStakedSOL'
-  | 'JITOStakedSOL'
-  | 'AnkrStakedETH'
-  | 'Polygon'
-  | 'Arbitrum'
-  | 'Hyperliquid'
-  | 'Base'
-  | 'Linea';
+  | "Ethereum"
+  | "Solana"
+  | "RocketPoolETH"
+  | "WrappedEETH"
+  | "WrappedStakedETH"
+  | "USDC"
+  | "USDTether"
+  | "Cluster"
+  | "MarinadeStakedSOL"
+  | "JITOStakedSOL"
+  | "AnkrStakedETH"
+  | "Polygon"
+  | "Arbitrum"
+  | "Hyperliquid"
+  | "Base"
+  | "Linea";
 
 export type CurrencyList = Partial<Record<Currency, number>>;
 

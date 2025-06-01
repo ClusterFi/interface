@@ -1,6 +1,5 @@
 import * as React from "react";
 import cx from "classnames";
-import { useControls } from "leva";
 import {
   CurrencyIcon,
   CustomInput,
@@ -17,12 +16,7 @@ import styles from "./Tabs.module.scss";
 
 export const Repay = () => {
   const [value, setValue] = React.useState("1.0");
-  const controls = useControls({
-    repay: {
-      options: ["default", "confirm", "loading", "succeed"],
-      label: "Repay state:",
-    },
-  });
+  const controls = "default" as any;
 
   return (
     <React.Fragment>

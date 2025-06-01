@@ -1,7 +1,7 @@
-import { useReadContracts } from 'wagmi';
-import { type Abi } from 'viem';
-import { ABIS } from '../abi/abis';
-import { useGetAllMarkets } from './useGetAllMarkets';
+import { useReadContracts } from "wagmi";
+import { type Abi } from "viem";
+import { ABIS } from "../abi/abis";
+import { useGetAllMarkets } from "./useGetAllMarkets";
 
 type Address = `0x${string}`;
 
@@ -17,7 +17,8 @@ type BorrowInfo = {
 };
 
 export const useUserData = (chainId: number, userAddress?: Address) => {
-  const { data: markets, isPending: isMarketsPending } = useGetAllMarkets(chainId);
+  const { data: markets, isPending: isMarketsPending } =
+    useGetAllMarkets(chainId);
 
   const cTokenAddresses = (markets ?? []) as Address[];
   const enabled = !!userAddress && cTokenAddresses.length > 0;
@@ -26,7 +27,7 @@ export const useUserData = (chainId: number, userAddress?: Address) => {
     ? cTokenAddresses.map((cToken) => ({
         address: cToken,
         abi: ABIS.CTokenABI as Abi,
-        functionName: 'balanceOf' as const,
+        functionName: "balanceOf" as const,
         args: [userAddress!],
       }))
     : [];
@@ -35,7 +36,7 @@ export const useUserData = (chainId: number, userAddress?: Address) => {
     ? cTokenAddresses.map((cToken) => ({
         address: cToken,
         abi: ABIS.CTokenABI as Abi,
-        functionName: 'borrowBalanceCurrent' as const,
+        functionName: "borrowBalanceCurrent" as const,
         args: [userAddress!],
       }))
     : [];
@@ -44,7 +45,7 @@ export const useUserData = (chainId: number, userAddress?: Address) => {
     ? cTokenAddresses.map((cToken) => ({
         address: cToken,
         abi: ABIS.CTokenABI as Abi,
-        functionName: 'borrowBalanceStored' as const,
+        functionName: "borrowBalanceStored" as const,
         args: [userAddress!],
       }))
     : [];
@@ -74,7 +75,8 @@ export const useUserData = (chainId: number, userAddress?: Address) => {
     enabled && supplyResult.data
       ? supplyResult.data.map((res, idx) => ({
           cToken: cTokenAddresses[idx],
-          balance: res.status === 'success' ? (res.result as bigint) : BigInt(0),
+          balance:
+            res.status === "success" ? (res.result as bigint) : BigInt(0),
         }))
       : [];
 
@@ -82,9 +84,15 @@ export const useUserData = (chainId: number, userAddress?: Address) => {
     enabled && borrowCurrentResult.data && borrowStoredResult.data
       ? borrowCurrentResult.data.map((currentRes, idx) => {
           const storedRes = borrowStoredResult.data[idx];
-          const currentBalance = currentRes.status === 'success' ? (currentRes.result as bigint) : BigInt(0);
-          const storedBalance = storedRes.status === 'success' ? (storedRes.result as bigint) : BigInt(0);
-          
+          const currentBalance =
+            currentRes.status === "success"
+              ? (currentRes.result as bigint)
+              : BigInt(0);
+          const storedBalance =
+            storedRes.status === "success"
+              ? (storedRes.result as bigint)
+              : BigInt(0);
+
           return {
             cToken: cTokenAddresses[idx],
             currentBalance,
@@ -96,7 +104,14 @@ export const useUserData = (chainId: number, userAddress?: Address) => {
   return {
     supplies,
     borrows,
-    isPending: isMarketsPending || supplyResult.isPending || borrowCurrentResult.isPending || borrowStoredResult.isPending,
-    error: supplyResult.error || borrowCurrentResult.error || borrowStoredResult.error,
+    isPending:
+      isMarketsPending ||
+      supplyResult.isPending ||
+      borrowCurrentResult.isPending ||
+      borrowStoredResult.isPending,
+    error:
+      supplyResult.error ||
+      borrowCurrentResult.error ||
+      borrowStoredResult.error,
   };
 };

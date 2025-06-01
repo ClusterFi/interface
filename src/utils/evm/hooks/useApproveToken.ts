@@ -1,11 +1,11 @@
-import { useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
-import { erc20Abi } from 'viem';
+import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
+import { erc20Abi } from "viem";
 
 export function useApproveToken({
   token,
   spender,
   amount = BigInt(
-    '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'
+    "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
   ), // max uint256
 }: {
   token: `0x${string}`;
@@ -22,7 +22,7 @@ export function useApproveToken({
     writeContract({
       abi: erc20Abi,
       address: token,
-      functionName: 'approve',
+      functionName: "approve",
       args: [spender, amount],
     });
   };

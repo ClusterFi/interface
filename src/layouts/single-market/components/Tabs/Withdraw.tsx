@@ -1,6 +1,5 @@
 import * as React from "react";
 import cx from "classnames";
-import { useControls } from "leva";
 import {
   CurrencyIcon,
   CustomInput,
@@ -17,19 +16,7 @@ import styles from "./Tabs.module.scss";
 
 export const Withdraw = () => {
   const [value, setValue] = React.useState("");
-  const controls = useControls({
-    withdraw: {
-      options: [
-        "default",
-        "confirm",
-        "confirm-loading",
-        "confirmed",
-        "loading",
-        "succeed",
-      ],
-      label: "Withdraw state:",
-    },
-  });
+  const controls = "default" as any;
 
   return (
     <React.Fragment>

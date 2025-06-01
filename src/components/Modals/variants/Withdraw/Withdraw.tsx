@@ -1,13 +1,13 @@
-import * as React from 'react';
-import { ModalLayout } from '@/components/Modals/ModalLayout/ModalLayout';
-import { Button, ModalProps, Text, CurrencyIcon } from '@/components';
-import styles from './Withdraw.module.scss';
-import cx from 'classnames';
-import { AmountInput } from '@/components/AmountInput/AmountInput';
-import { Currency } from '@/types';
-import { formatUnits } from 'viem';
-import { useRedeem } from '@/utils/evm/hooks/useRedeem';
-import { useModalsStore } from '@/utils/stores';
+import * as React from "react";
+import { ModalLayout } from "@/components/Modals/ModalLayout/ModalLayout";
+import { Button, ModalProps, Text, CurrencyIcon } from "@/components";
+import styles from "./Withdraw.module.scss";
+import cx from "classnames";
+import { AmountInput } from "@/components/AmountInput/AmountInput";
+import { Currency } from "@/types";
+import { formatUnits } from "viem";
+import { useRedeem } from "@/utils/evm/hooks/useRedeem";
+import { useModalsStore } from "@/utils/stores";
 
 export type WithdrawProps = {
   chain: {
@@ -33,13 +33,18 @@ type Withdraw = ModalProps & {
 
 export const Withdraw: React.FC<Withdraw> = ({ props, ...rest }) => {
   const { chain, asset, amount, marketInfo, cTokenAddress } = props;
-  const [inputAmount, setInputAmount] = React.useState('');
+  const [inputAmount, setInputAmount] = React.useState("");
   const { redeem, isPending, isConfirming, hash } = useRedeem(cTokenAddress);
   const { closeModal } = useModalsStore();
 
   const supply = Number(formatUnits(amount, marketInfo.cTokenDecimals));
   const parsedAmount = parseFloat(inputAmount);
-  const isDisabled = !inputAmount || isNaN(parsedAmount) || parsedAmount > supply || isPending || isConfirming;
+  const isDisabled =
+    !inputAmount ||
+    isNaN(parsedAmount) ||
+    parsedAmount > supply ||
+    isPending ||
+    isConfirming;
 
   React.useEffect(() => {
     if (hash) {
@@ -57,7 +62,7 @@ export const Withdraw: React.FC<Withdraw> = ({ props, ...rest }) => {
   };
 
   return (
-    <ModalLayout title='Withdraw Asset' isSwipeable {...rest}>
+    <ModalLayout title="Withdraw Asset" isSwipeable {...rest}>
       <div className={styles.content}>
         <Text size={16} theme={600} className={styles.title}>
           Withdraw Asset
@@ -84,9 +89,9 @@ export const Withdraw: React.FC<Withdraw> = ({ props, ...rest }) => {
             </Text>
           </div>
         </div>
-        <div className={cx('base', styles.inputWrapper)}>
-          <div className='head'>
-            <Text size={14} theme={400} className='title'>
+        <div className={cx("base", styles.inputWrapper)}>
+          <div className="head">
+            <Text size={14} theme={400} className="title">
               Amount
             </Text>
           </div>
@@ -94,11 +99,11 @@ export const Withdraw: React.FC<Withdraw> = ({ props, ...rest }) => {
             <AmountInput
               value={inputAmount}
               onChange={setInputAmount}
-              label='Enter amount'
+              label="Enter amount"
             />
             <Button
-              size='small'
-              variant='stroke'
+              size="small"
+              variant="stroke"
               onClick={handleMaxClick}
               disabled={isPending || isConfirming}
               className={styles.maxButton}
@@ -114,13 +119,17 @@ export const Withdraw: React.FC<Withdraw> = ({ props, ...rest }) => {
         </div>
 
         <Button
-          size='large'
-          variant='purple'
+          size="large"
+          variant="purple"
           className={styles.button}
           disabled={isDisabled}
           onClick={handleWithdraw}
         >
-          {isPending ? 'Processing...' : isConfirming ? 'Confirming...' : 'Withdraw'}
+          {isPending
+            ? "Processing..."
+            : isConfirming
+              ? "Confirming..."
+              : "Withdraw"}
         </Button>
       </div>
     </ModalLayout>

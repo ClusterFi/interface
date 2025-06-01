@@ -1,18 +1,18 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import cx from 'classnames';
-import { Button, Text, Icon, CurrencyIcon } from '@/components/shared';
-import { AnimatePresence, motion } from 'framer-motion';
-import { useOnClickOutside } from 'usehooks-ts';
-import styles from './ChainSelection.module.scss';
-import { ChainProps, Currency } from '@/types';
+import * as React from "react";
+import cx from "classnames";
+import { Button, Text, Icon, CurrencyIcon } from "@/components/shared";
+import { AnimatePresence, motion } from "framer-motion";
+import { useOnClickOutside } from "usehooks-ts";
+import styles from "./ChainSelection.module.scss";
+import { ChainProps, Currency } from "@/types";
 
 type ChainSelectionProps = {
   value: ChainProps;
   onChange: (c: ChainProps) => void;
   options: ChainProps[];
-  variant?: 'default' | 'gradient';
+  variant?: "default" | "gradient";
   className?: string;
 };
 
@@ -20,7 +20,7 @@ export const ChainSelection: React.FC<ChainSelectionProps> = ({
   value,
   onChange,
   options,
-  variant = 'default',
+  variant = "default",
   className,
 }) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
@@ -42,14 +42,14 @@ export const ChainSelection: React.FC<ChainSelectionProps> = ({
     >
       <Button
         onClick={toggle}
-        size='custom'
-        variant='gradient-dark'
+        size="custom"
+        variant="gradient-dark"
         isActive={isVisible}
         className={styles.trigger}
       >
         <CurrencyIcon
-          width={variant === 'default' ? 33 : 40}
-          height={variant === 'default' ? 33 : 40}
+          width={variant === "default" ? 33 : 40}
+          height={variant === "default" ? 33 : 40}
           currency={value.currency as Currency}
           className={styles.icon}
         />
@@ -64,7 +64,7 @@ export const ChainSelection: React.FC<ChainSelectionProps> = ({
         <Icon
           width={24}
           height={24}
-          glyph='Arrow'
+          glyph="Arrow"
           className={cx(styles.arrow, isVisible && styles.isInverted)}
         />
       </Button>

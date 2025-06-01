@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import cx from "classnames";
-import { useControls } from "leva";
 
 import {
   Heading,
@@ -29,12 +28,7 @@ type Tabs = keyof typeof tabs;
 export const SingularityPage: React.FC = () => {
   const [activeTab, setActiveTab] = React.useState<Tabs>(tabs.deposit);
   const { openModal } = useModalsStore();
-  const controls = useControls({
-    ["singularity-loading"]: {
-      value: false,
-      label: "Is loading?",
-    },
-  });
+  const controls = false;
 
   const onClickReadMore = () =>
     openModal("ReadMore", {

@@ -1,8 +1,8 @@
-import {useReadContract} from 'wagmi';
-import {CONTRACT_ADDRESSES} from '../contracts';
-import {ABIS} from '../abi/abis';
-import {CHAINS} from "@/constants";
-import {Address} from "viem";
+import { useReadContract } from "wagmi";
+import { CONTRACT_ADDRESSES } from "../contracts";
+import { ABIS } from "../abi/abis";
+import { CHAINS } from "@/constants";
+import { Address } from "viem";
 
 export type MarketWithChainId = {
   market: Address;
@@ -11,7 +11,7 @@ export type MarketWithChainId = {
 
 export const useGetAllMarkets = (chainId: number) => {
   const getComptrollerAddress = (chainId: number): Address | undefined => {
-    if (chainId === 11155111) { 
+    if (chainId === 11155111) {
       return CONTRACT_ADDRESSES.sepolia.comptroller as Address;
     } else if (chainId === 421614) {
       return CONTRACT_ADDRESSES.arbitrum_sepolia.comptroller as Address;
@@ -24,7 +24,7 @@ export const useGetAllMarkets = (chainId: number) => {
   const result = useReadContract({
     address: comptrollerAddress,
     abi: ABIS.ComptrollerABI,
-    functionName: 'getAllMarkets',
+    functionName: "getAllMarkets",
     chainId: chainId,
     query: {
       enabled: !!comptrollerAddress,
@@ -46,14 +46,14 @@ export const useGetAllMarketsForSupportedNetworks = () => {
   const ethereumResult = useReadContract({
     address: CONTRACT_ADDRESSES.sepolia.comptroller as `0x${string}`,
     abi: ABIS.ComptrollerABI,
-    functionName: 'getAllMarkets',
+    functionName: "getAllMarkets",
     chainId: ethereumChainId,
   });
 
   const arbitrumResult = useReadContract({
     address: CONTRACT_ADDRESSES.arbitrum_sepolia.comptroller as `0x${string}`,
     abi: ABIS.ComptrollerABI,
-    functionName: 'getAllMarkets',
+    functionName: "getAllMarkets",
     chainId: arbitrumChainId,
   });
 
