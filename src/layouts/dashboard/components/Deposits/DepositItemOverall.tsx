@@ -4,11 +4,12 @@ import styles from './Deposits.module.scss';
 import { useMarketInfo } from '@/utils/evm/hooks/useMarketInfo';
 import { Currency } from '@/types';
 import { useModalsStore } from '@/utils/stores';
-import { useAccount, useBalance } from 'wagmi';
+import { useAccount } from 'wagmi';
 import { getChainById } from '@/constants';
 import {CONTRACT_ADDRESSES} from "@/utils/evm/contracts";
 import {useCheckCollateralMembership} from "@/utils/evm/hooks/useCheckCollateralMembership";
 import Skeleton from 'react-loading-skeleton';
+import { useCrossChainBalance } from '@/utils/evm/hooks/useCrossChainBalance';
 
 type DepositItemOverallProps = {
   address: `0x${string}`;
@@ -23,19 +24,12 @@ export const DepositItemOverall: React.FC<DepositItemOverallProps> = ({
   const { openModal } = useModalsStore();
   const user = useAccount();
   const account = useAccount();
-  const result = useBalance({
-    address: user.address,
-    token: marketInfo?.underlying,
-    chainId: chainId,
-  });
-
-  const directUSDCBalance = useBalance({
-    address: user.address,
-    token: chainId === 11155111 
-      ? CONTRACT_ADDRESSES.sepolia.USDC as `0x${string}`
-      : CONTRACT_ADDRESSES.arbitrum_sepolia.USDC as `0x${string}`,
-    chainId: chainId,
-  });
+  
+  const result = useCrossChainBalance(
+    user.address,
+    marketInfo?.underlying,
+    chainId
+  );
 
   const chainInfo = getChainById(chainId);
 
@@ -44,7 +38,7 @@ export const DepositItemOverall: React.FC<DepositItemOverallProps> = ({
       ? CONTRACT_ADDRESSES.sepolia.USDC 
       : CONTRACT_ADDRESSES.arbitrum_sepolia.USDC;
     
-    console.log('DepositItemOverall Debug:', {
+    console.log('DepositItemOverall Debug (Updated):', {
       chainId,
       cTokenAddress: address,
       underlyingToken: marketInfo?.underlying,
@@ -52,10 +46,13 @@ export const DepositItemOverall: React.FC<DepositItemOverallProps> = ({
       isCorrectUSDC: marketInfo?.underlying === expectedUSDC,
       marketInfo,
       balanceResult: result.data,
-      directUSDCBalance: directUSDCBalance.data,
       userAddress: user.address,
+      requestedChainId: chainId,
+      isLoading: result.isLoading,
+      error: result.error,
+      note: 'balance fetching',
     });
-  }, [chainId, address, marketInfo, result.data, directUSDCBalance.data, user.address]);
+  }, [chainId, address, marketInfo, result, user.address]);
 
   const getComptrollerAddress = (chainId: number): `0x${string}` => {
     if (chainId === 11155111) { 

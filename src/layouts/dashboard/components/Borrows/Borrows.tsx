@@ -8,10 +8,10 @@ import {Borrow, Currency} from '@/types';
 import {BorrowItemOverall} from './BorrowItemOverall';
 import Image from 'next/image';
 import {ComponentState} from '../helpers';
-import {useGetAllMarketsForSupportedNetworks} from '@/utils/evm/hooks/useGetAllMarkets';
+import {useGetAllMarkets} from '@/utils/evm/hooks/useGetAllMarkets';
 import { useAccount } from 'wagmi';
 import { useUserData } from '@/utils/evm/hooks/useUserData';
-import { useMarketInfo } from '@/utils/evm/hooks/useMarketInfo';
+import { useGlobalStore } from '@/utils/stores';
 
 type BorrowsProps = {
   state: ComponentState;
@@ -31,8 +31,13 @@ const BorrowItemWrapper: React.FC<{ borrow: Borrow }> = ({ borrow }) => {
 };
 
 export const Borrows: React.FC<BorrowsProps> = ({state}) => {
+  type Address = `0x${string}`;
+  const { chainId } = useGlobalStore();
+  const { data, isPending, error } = useGetAllMarkets(chainId);
+  const addresses = (data ?? []) as Address[];
   const {address : userAddress} = useAccount();
-  const { borrows, isPending: isUserDataPending } = useUserData(11155111, userAddress);
+  const {borrows, isPending: isUserDataPending} = useUserData(chainId, userAddress);
+
   const hasBorrows =
       borrows &&
       borrows.length > 0 &&
@@ -40,8 +45,6 @@ export const Borrows: React.FC<BorrowsProps> = ({state}) => {
           (borrow) =>
               borrow.currentBalance > BigInt(0) || borrow.storedBalance > BigInt(0)
       );
-
-  const markets = useGetAllMarketsForSupportedNetworks();
 
   return (
     <div className={styles.base}>
@@ -101,10 +104,10 @@ export const Borrows: React.FC<BorrowsProps> = ({state}) => {
             </Table.Row>
           </Table.Head>
           <Table.Body className={styles.body}>
-            {markets.map(({ market, chainId }) => (
+            {addresses.map((address) => (
                 <BorrowItemOverall
-                    key={`${market}-${chainId}`}
-                    sourceAddress={market}
+                    key={address}
+                    sourceAddress={address}
                     sourceChainId={chainId}
                     destinationChainId={chainId}
                 />

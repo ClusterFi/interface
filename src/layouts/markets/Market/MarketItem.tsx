@@ -39,28 +39,28 @@ export const MarketItem: React.FC<MarketItemProps> = ({
       <Row {...rowProps} className={styles.row}>
         <Table.ItemAsset
           currency={displayCurrency}
-          primaryText={<Skeleton width={100} height={16} />}
-          secondaryText={<Skeleton width={60} height={14} />}
+          primaryText="Loading..."
+          secondaryText="—"
           isLoading={true}
         />
         <Wrapper className={styles.wrapper}>
           <Table.Item mobileTitle="Utilization">
-            <Skeleton width={80} height={16} />
+            <Skeleton />
           </Table.Item>
           <Table.Item mobileTitle="Net Earn APR">
-            <Skeleton width={60} height={16} />
+            <Skeleton />
           </Table.Item>
           <Table.Item mobileTitle="Net Borrow APR">
-            <Skeleton width={60} height={16} />
+            <Skeleton />
           </Table.Item>
           <Table.Item mobileTitle="Total Earning">
-            <Skeleton width={80} height={16} />
+            <Skeleton />
           </Table.Item>
           <Table.Item mobileTitle="Total Borrowing">
-            <Skeleton width={80} height={16} />
+            <Skeleton />
           </Table.Item>
           <Table.Item mobileTitle="Total Collateral">
-            <Skeleton width={80} height={16} />
+            <Skeleton />
           </Table.Item>
         </Wrapper>
         <Table.ItemArrow className={styles.arrow} isLoading={true} />

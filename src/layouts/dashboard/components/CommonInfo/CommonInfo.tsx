@@ -2,12 +2,13 @@ import React from "react";
 import styles from "./CommonInfo.module.scss";
 import { Button, Icon, Text } from "@/components";
 import { useAccountSummaryWithOracle } from "@/utils/evm/hooks/useAccountSummaryWithOracle";
-import { useAccount, useChainId } from "wagmi";
+import { useAccount } from "wagmi";
 import { formatCurrency, formatPercentage } from "@/utils/formatters";
+import { useGlobalStore } from "@/utils/stores";
 
 export const CommonInfo: React.FC = () => {
   const { address: userAddress } = useAccount();
-  const chainId = useChainId();
+  const { chainId } = useGlobalStore();
   const { 
     totalSupplyBalanceUSD, 
     totalCollateralValueUSD, 
