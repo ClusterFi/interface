@@ -28,7 +28,6 @@ type Tabs = keyof typeof tabs;
 export const SingularityPage: React.FC = () => {
   const [activeTab, setActiveTab] = React.useState<Tabs>(tabs.deposit);
   const { openModal } = useModalsStore();
-  const controls = false;
 
   const onClickReadMore = () =>
     openModal("ReadMore", {
@@ -83,11 +82,11 @@ export const SingularityPage: React.FC = () => {
               switch (activeTab) {
                 case tabs.deposit:
                   return (
-                    <Deposit isLoading={controls["singularity-loading"]} />
+                    <Deposit isLoading={false} />
                   );
                 case tabs.withdraw:
                   return (
-                    <Withdraw isLoading={controls["singularity-loading"]} />
+                    <Withdraw isLoading={true} />
                   );
                 default:
                   return null;
@@ -98,7 +97,7 @@ export const SingularityPage: React.FC = () => {
         </div>
         <Heading element="h2" as="h2" className={styles.title}>
           My Rewards
-          {controls["singularity-loading"] ? (
+          {true ? (
             <Skeleton className={cx(styles.epochs, styles.skeleton)} />
           ) : (
             <div className={styles.epochWrapper}>
@@ -117,7 +116,7 @@ export const SingularityPage: React.FC = () => {
           )}
         </Heading>
         <PendingRewards
-          state={controls["singularity-loading"] ? "loading" : "default"}
+          state={true ? "loading" : "default"}
         />
       </Container>
     </section>
