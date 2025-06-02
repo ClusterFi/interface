@@ -258,10 +258,11 @@ export const MarketsPage: React.FC = () => {
                 ))
               )}
             </Swiper>
-            */}
+            
+          </div>
+          */}
 
         
-          </div>
         )}
         <div className={styles.sort}>
           <Select
