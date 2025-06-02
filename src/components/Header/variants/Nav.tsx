@@ -58,8 +58,18 @@ export const Nav: React.FC<NavProps> = ({ onPageChange }) => {
         <Link
           href={link.href}
           key={link.href}
-          className={cx(styles.link, pathname === link.href && styles.isActive)}
-          onClick={onPageChange?.() ?? undefined}
+          className={cx(
+            styles.link,
+            pathname === link.href && styles.isActive,
+            link.disabled && styles.disabled
+          )}
+          onClick={(e) => {
+            if (link.disabled) {
+              e.preventDefault();
+              return;
+            }
+            onPageChange?.();
+          }}
         >
           <Icon glyph={link.icon} width={16} height={16} />
           <Text size={14} theme={400}>
