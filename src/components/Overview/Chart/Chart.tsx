@@ -77,6 +77,7 @@ export const Chart: React.FC = () => {
                   </linearGradient>
                 </defs>
                 <Recharts.Line
+                  type="monotone"
                   dataKey={line.dataKey}
                   stroke={line.accentColor}
                   strokeWidth={2}
