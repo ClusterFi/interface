@@ -91,6 +91,7 @@ export const Chart: React.FC = () => {
                   }}
                 />
                 <Recharts.Area
+                  type="monotone"
                   dataKey={line.dataKey}
                   stroke={"none"}
                   strokeWidth={2}
