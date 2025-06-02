@@ -16,7 +16,7 @@ import styles from "./Tabs.module.scss";
 
 export const Borrow = () => {
   const [value, setValue] = React.useState("");
-  const controls = "default" as any;
+  const controls = {"borrow": "default"} as any;
 
   return (
     <React.Fragment>
