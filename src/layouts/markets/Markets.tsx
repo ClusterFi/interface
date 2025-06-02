@@ -127,6 +127,7 @@ export const MarketsPage: React.FC = () => {
             >
               <Icon glyph={"Arrow"} width={24} height={24} />
             </Button>
+            {/*
             <Swiper
               className={styles.swiper}
               pagination={{
@@ -254,6 +255,7 @@ export const MarketsPage: React.FC = () => {
                 ))
               )}
             </Swiper>
+            */}
           </div>
         )}
         <div className={styles.sort}>
