@@ -86,6 +86,16 @@
     }
   }
 
+  .link.disabled {
+  color: rgba(255, 255, 255, 0.3); // lighter, grayed-out color
+  pointer-events: none; // disables clicking
+  cursor: not-allowed;
+
+  @include hover {
+    color: rgba(255, 255, 255, 0.3); // prevent hover from changing color
+  }
+}
+
   &.isActive {
     color: $text-white;
   }
