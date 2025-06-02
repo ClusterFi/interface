@@ -48,7 +48,7 @@ export const Market: React.FC<MarketProps> = ({
               <MarketItem
                 key={`loading-${index}`}
                 isLoading={true}
-                currency="USDTether"
+                currency="USDC"
               />
             ))
           ) : markets.length > 0 ? (
@@ -57,7 +57,7 @@ export const Market: React.FC<MarketProps> = ({
                 key={market.address}
                 isLoading={false}
                 marketData={market}
-                currency="USDTether" 
+                currency="USDC" 
               />
             ))
           ) : ( 
