@@ -32,7 +32,7 @@ export const MarketItem: React.FC<MarketItemProps> = ({
   // Use market data if available, otherwise fallback to props
   const displayName = marketData?.symbol || name || "Unknown";
   const displayFullName = marketData?.name || fullName || "Unknown Token";
-  const displayCurrency = currency || "USDTether" as Currency; // Fallback currency
+  const displayCurrency = currency || "USDC" as Currency; // Fallback currency
 
   if (isLoading) {
     return (
