@@ -260,10 +260,9 @@ export const MarketsPage: React.FC = () => {
             </Swiper>
             
           </div>
-          */}
-
+         )*/}
         
-        )}
+        }
         <div className={styles.sort}>
           <Select
             pre="Sort By"
