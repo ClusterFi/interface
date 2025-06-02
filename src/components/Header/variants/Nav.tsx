@@ -26,13 +26,13 @@ const navigation: {
     icon: "Markets",
   },
   {
-    text: "Singularity",
-    href: "/singularity",
+    text: "Singularity(soon)",
+    href: "/",
     icon: "Singularity",
   },
   {
-    text: "Swap",
-    href: "/swap",
+    text: "Swap(soon)",
+    href: "/",
     icon: "Swap",
   },
   {
