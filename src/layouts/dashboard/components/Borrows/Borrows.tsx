@@ -36,7 +36,7 @@ export const Borrows: React.FC<BorrowsProps> = ({ state }) => {
     userAddress,
   );
 
-  const { data: markets } = useGetAllMarketsForSupportedNetworks();
+  const markets = useGetAllMarketsForSupportedNetworks();
 
   const hasBorrows =
     borrows &&
