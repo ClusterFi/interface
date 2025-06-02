@@ -20,22 +20,36 @@ export type MarketInfo = {
   borrowAPY: number;
 };
 
-export const useMarketInfo = (marketAddress: Address) => {
+export const useMarketInfo = (marketAddress: Address, chainId?: number) => {
+  const getComptrollerAddress = (chainId?: number): Address | undefined => {
+    if (chainId === 11155111) {
+      return CONTRACT_ADDRESSES.sepolia.comptroller as Address;
+    } else if (chainId === 421614) {
+      return CONTRACT_ADDRESSES.arbitrum_sepolia.comptroller as Address;
+    }
+    return CONTRACT_ADDRESSES.sepolia.comptroller as Address;
+  };
+
+  const comptrollerAddress = getComptrollerAddress(chainId);
+
   const marketsDetails = useReadContract({
-    address: CONTRACT_ADDRESSES.sepolia.comptroller as Address,
+    address: comptrollerAddress,
     abi: ABIS.ComptrollerABI,
     functionName: "markets",
     args: [marketAddress],
+    chainId: chainId,
   });
 
   const underlyingCall = useReadContract({
     address: marketAddress,
     abi: ABIS.CTokenABI,
     functionName: "underlying",
+    chainId: chainId,
   });
 
   const tokenInfo = useToken({
     address: underlyingCall.data as Address | undefined,
+    chainId: chainId,
     query: {
       enabled: !!underlyingCall.data,
     },
@@ -45,6 +59,7 @@ export const useMarketInfo = (marketAddress: Address) => {
     address: underlyingCall.data as `0x${string}` | undefined,
     abi: ABIS.ERC20ABI,
     functionName: "decimals",
+    chainId: chainId,
   });
 
   const underlyingDecimals = underlyingCallDecimals.data ?? 6;
@@ -53,24 +68,28 @@ export const useMarketInfo = (marketAddress: Address) => {
     address: marketAddress,
     abi: ABIS.CTokenABI,
     functionName: "decimals",
+    chainId: chainId,
   });
 
   const cashCall = useReadContract({
     address: marketAddress,
     abi: ABIS.CTokenABI,
     functionName: "getCash",
+    chainId: chainId,
   });
 
   const supplyRateCall = useReadContract({
     address: marketAddress,
     abi: ABIS.CTokenABI,
     functionName: "supplyRatePerBlock",
+    chainId: chainId,
   });
 
   const borrowRateCall = useReadContract({
     address: marketAddress,
     abi: ABIS.CTokenABI,
     functionName: "borrowRatePerBlock",
+    chainId: chainId,
   });
 
   const isPending =

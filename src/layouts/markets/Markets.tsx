@@ -22,6 +22,10 @@ import {
 import { Market } from "./Market/Market";
 
 import { Currency } from "@/types";
+import { useProtocolStats } from "@/utils/evm/hooks/useProtocolStats";
+import { useAllMarketsData } from "@/utils/evm/hooks/useAllMarketsData";
+import { formatCurrency, formatPercentage } from "@/utils/formatters";
+import { CHAINS } from "@/constants";
 
 import styles from "./Markets.module.scss";
 
@@ -36,6 +40,17 @@ export const MarketsPage: React.FC = () => {
   const [isBeginning, setIsBeginning] = React.useState(true);
   const [isEnd, setIsEnd] = React.useState(false);
   const [swiper, setSwiper] = React.useState<any>(null);
+
+  const protocolStats = useProtocolStats();
+  const sepoliaMarkets = useAllMarketsData(11155111);
+  const arbitrumMarkets = useAllMarketsData(421614);
+
+  const allMarkets = React.useMemo(() => {
+    return [
+      ...sepoliaMarkets.markets,
+      ...arbitrumMarkets.markets,
+    ];
+  }, [sepoliaMarkets.markets, arbitrumMarkets.markets]);
 
   const onSlidePrev = React.useCallback(() => {
     swiper?.slidePrev?.();
@@ -59,25 +74,31 @@ export const MarketsPage: React.FC = () => {
             content={[
               {
                 title: "Total Value Locked",
-                content: "$4,699,012.43",
+                content: protocolStats.isLoading 
+                  ? "Loading..." 
+                  : formatCurrency(protocolStats.totalValueLocked),
                 color: "white",
               },
               {
                 title: "Total Deposits",
-                content: (
-                  <>
-                    $4,699,012.<span>43</span>
-                  </>
-                ),
+                content: protocolStats.isLoading 
+                  ? "Loading..." 
+                  : (
+                    <>
+                      {formatCurrency(protocolStats.totalDeposits, { compact: true })}
+                    </>
+                  ),
                 color: "purple",
               },
               {
                 title: "Total Borrowed",
-                content: (
-                  <>
-                    $3,299,012.<span>15</span>
-                  </>
-                ),
+                content: protocolStats.isLoading 
+                  ? "Loading..." 
+                  : (
+                    <>
+                      {formatCurrency(protocolStats.totalBorrowed, { compact: true })}
+                    </>
+                  ),
                 color: "green",
               },
             ]}
@@ -136,59 +157,102 @@ export const MarketsPage: React.FC = () => {
                 },
               }}
             >
-              {Array.from({ length: 23 }, () => ({
-                name: "Tether USDt",
-                shortName: "USDT",
-                token: "USDTether" as Currency,
-                network: "Ethereum" as Currency,
-                supply: "0.91%",
-                borrow: "1.74%",
-              })).map((item, index) => (
-                <SwiperSlide className={styles.slide} key={index}>
-                  <div className={styles.token}>
-                    <div className={styles.tokenIcon}>
-                      <CurrencyIcon
-                        width={40}
-                        height={40}
-                        currency={item.token}
-                      />
-                      <CurrencyIcon
-                        width={18}
-                        height={18}
-                        currency={item.network}
-                      />
-                    </div>
-                    <Heading element="h4" className={styles.tokenName}>
-                      {item.name}
-                    </Heading>
-                    <Text
-                      size={14}
-                      theme={400}
-                      className={styles.tokenShortname}
-                    >
-                      {item.shortName}
-                    </Text>
-                  </div>
-                  <div className={styles.tokenRow}>
-                    <div className={styles.tokenBox}>
-                      <Text size={14} theme={500} className={styles.tokenTitle}>
-                        Supply APR
-                      </Text>
-                      <Heading element="h3" className={styles.tokenInfo}>
-                        {item.supply}
+              {allMarkets.length > 0 ? (
+                allMarkets.map((market, index) => (
+                  <SwiperSlide className={styles.slide} key={`${market.address}-${index}`}>
+                    <div className={styles.token}>
+                      <div className={styles.tokenIcon}>
+                        <CurrencyIcon
+                          width={40}
+                          height={40}
+                          currency="USDTether" 
+                        />
+                        <CurrencyIcon
+                          width={18}
+                          height={18}
+                          currency="Ethereum" 
+                        />
+                      </div>
+                      <Heading element="h4" className={styles.tokenName}>
+                        {market.name}
                       </Heading>
-                    </div>
-                    <div className={styles.tokenBox}>
-                      <Text size={14} theme={500} className={styles.tokenTitle}>
-                        Borrow APR
+                      <Text
+                        size={14}
+                        theme={400}
+                        className={styles.tokenShortname}
+                      >
+                        {market.symbol}
                       </Text>
-                      <Heading element="h3" className={styles.tokenInfo}>
-                        {item.borrow}
-                      </Heading>
                     </div>
-                  </div>
-                </SwiperSlide>
-              ))}
+                    <div className={styles.tokenRow}>
+                      <div className={styles.tokenBox}>
+                        <Text size={14} theme={500} className={styles.tokenTitle}>
+                          Supply APR
+                        </Text>
+                        <Heading element="h3" className={styles.tokenInfo}>
+                          {formatPercentage(market.supplyAPY)}
+                        </Heading>
+                      </div>
+                      <div className={styles.tokenBox}>
+                        <Text size={14} theme={500} className={styles.tokenTitle}>
+                          Borrow APR
+                        </Text>
+                        <Heading element="h3" className={styles.tokenInfo}>
+                          {formatPercentage(market.borrowAPY)}
+                        </Heading>
+                      </div>
+                    </div>
+                  </SwiperSlide>
+                ))
+              ) : (
+                // Show loading slides
+                Array.from({ length: 4 }, (_, index) => (
+                  <SwiperSlide className={styles.slide} key={`loading-${index}`}>
+                    <div className={styles.token}>
+                      <div className={styles.tokenIcon}>
+                        <CurrencyIcon
+                          width={40}
+                          height={40}
+                          currency="USDTether"
+                        />
+                        <CurrencyIcon
+                          width={18}
+                          height={18}
+                          currency="Ethereum"
+                        />
+                      </div>
+                      <Heading element="h4" className={styles.tokenName}>
+                        Loading...
+                      </Heading>
+                      <Text
+                        size={14}
+                        theme={400}
+                        className={styles.tokenShortname}
+                      >
+                        —
+                      </Text>
+                    </div>
+                    <div className={styles.tokenRow}>
+                      <div className={styles.tokenBox}>
+                        <Text size={14} theme={500} className={styles.tokenTitle}>
+                          Supply APR
+                        </Text>
+                        <Heading element="h3" className={styles.tokenInfo}>
+                          —
+                        </Heading>
+                      </div>
+                      <div className={styles.tokenBox}>
+                        <Text size={14} theme={500} className={styles.tokenTitle}>
+                          Borrow APR
+                        </Text>
+                        <Heading element="h3" className={styles.tokenInfo}>
+                          —
+                        </Heading>
+                      </div>
+                    </div>
+                  </SwiperSlide>
+                ))
+              )}
             </Swiper>
           </div>
         )}
@@ -239,13 +303,13 @@ export const MarketsPage: React.FC = () => {
           />
         </div>
         <div className={styles.grid}>
-          <Market isLoading={false} currency={"Ethereum"} name={"Ethereum"} />
-          <Market isLoading={false} currency={"Solana"} name={"Solana"} />
-          <Market
-            isLoading={false}
-            currency={"Hyperliquid"}
-            name={"Hyperliquid"}
-          />
+          {CHAINS.map((chain) => (
+            <Market 
+              key={chain.chainId}
+              chainId={chain.chainId}
+              isLoading={protocolStats.isLoading}
+            />
+          ))}
         </div>
       </Container>
     </section>

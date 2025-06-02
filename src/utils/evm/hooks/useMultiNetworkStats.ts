@@ -3,7 +3,7 @@ import { useReadContracts } from "wagmi";
 import { CHAINS } from "@/constants";
 import { ABIS } from "@/utils/evm/abi/abis";
 import { type Address, type Abi } from "viem";
-import { type AssetInfo, type NetworkStats } from "@/types";
+import { type NetworkStats } from "@/types";
 import { useGetAllMarketsForSupportedNetworks } from "./useGetAllMarkets";
 
 type Params = {
@@ -137,7 +137,7 @@ export const useMultiNetworkStats = ({
       const [, collateralFactorMantissa] = marketRes.result as [
         boolean,
         bigint,
-        boolean,
+        boolean
       ];
       const price = oracle.result as bigint;
 
@@ -150,6 +150,7 @@ export const useMultiNetworkStats = ({
 
       const collateralUnderlying =
         (cTokenBalance * exchangeRate) / BigInt(1e18);
+      const totalCollateralValue = (collateralUnderlying * price) / BigInt(1e18);
       const collateralValue =
         (collateralUnderlying * price * collateralFactorMantissa) /
         BigInt(1e36);
@@ -159,14 +160,15 @@ export const useMultiNetworkStats = ({
       const currentApyBase =
         Number(collateralValue) * supplyApy - Number(borrowValue) * borrowApy;
       const collateral = Number(collateralValue);
+      const totalCollateral = Number(totalCollateralValue);
       const borrow = Number(borrowValue);
       const netApy = netWorth === 0 ? 0 : currentApyBase / netWorth;
 
       let healthFactor = Infinity;
       let ltv = 0;
-      if (borrow > 0) {
-        healthFactor = collateral / borrow;
-        ltv = collateral / borrow;
+      if (borrow > 0 && totalCollateral > 0) {
+        healthFactor = totalCollateral / borrow;
+        ltv = borrow / totalCollateral;
       }
 
       stats.push({
@@ -180,6 +182,7 @@ export const useMultiNetworkStats = ({
         networkName: chain.name,
         supplyApy,
         borrowApy,
+        totalCollateralValue: totalCollateral,
       });
     }
 
@@ -191,27 +194,28 @@ export const useMultiNetworkStats = ({
 
     const totalCollateral = statsPerChain.reduce(
       (sum, s) => sum + s.collateralValue,
-      0,
+      0
     );
-    const totalBorrow = statsPerChain.reduce(
-      (sum, s) => sum + s.borrowValue,
-      0,
+    const totalCollateralForHealthFactor = statsPerChain.reduce(
+      (sum, s) => sum + s.totalCollateralValue,
+      0
     );
+    const totalBorrow = statsPerChain.reduce((sum, s) => sum + s.borrowValue, 0);
     const netWorth = totalCollateral - totalBorrow;
 
     const currentApyBase = statsPerChain.reduce(
       (sum, s) =>
         sum + s.collateralValue * s.supplyApy - s.borrowValue * s.borrowApy,
-      0,
+      0
     );
 
     const netApy = netWorth === 0 ? 0 : currentApyBase / netWorth;
 
     let healthFactor = Infinity;
     let ltv = 0;
-    if (totalBorrow > 0) {
-      healthFactor = totalCollateral / totalBorrow;
-      ltv = totalCollateral / totalBorrow;
+    if (totalBorrow > 0 && totalCollateralForHealthFactor > 0) {
+      healthFactor = totalCollateralForHealthFactor / totalBorrow;
+      ltv = totalBorrow / totalCollateralForHealthFactor;
     }
 
     return {

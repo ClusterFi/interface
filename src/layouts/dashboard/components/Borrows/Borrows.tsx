@@ -1,5 +1,4 @@
 import * as React from "react";
-
 import { Accordion, Heading, Icon, Section, Table } from "@/components";
 import { CommonInfo } from "../CommonInfo/CommonInfo";
 import { BorrowItem } from "./BorrowItem";
@@ -36,6 +35,9 @@ export const Borrows: React.FC<BorrowsProps> = ({ state }) => {
     11155111,
     userAddress,
   );
+
+  const { data: markets } = useGetAllMarketsForSupportedNetworks();
+
   const hasBorrows =
     borrows &&
     borrows.length > 0 &&
@@ -43,8 +45,6 @@ export const Borrows: React.FC<BorrowsProps> = ({ state }) => {
       (borrow) =>
         borrow.currentBalance > BigInt(0) || borrow.storedBalance > BigInt(0),
     );
-
-  const markets = useGetAllMarketsForSupportedNetworks();
 
   return (
     <div className={styles.base}>
@@ -104,7 +104,7 @@ export const Borrows: React.FC<BorrowsProps> = ({ state }) => {
             </Table.Row>
           </Table.Head>
           <Table.Body className={styles.body}>
-            {markets.map(({ market, chainId }) => (
+            {markets?.map(({ market, chainId }) => (
               <BorrowItemOverall
                 key={`${market}-${chainId}`}
                 sourceAddress={market}

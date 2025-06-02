@@ -51,6 +51,7 @@ export interface NetworkStats {
   networkName: string;
   supplyApy: number;
   borrowApy: number;
+  totalCollateralValue: number;
 }
 
 export type HookParams = {
