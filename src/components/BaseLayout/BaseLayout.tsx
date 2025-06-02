@@ -4,7 +4,6 @@ import * as React from "react";
 
 import { Footer, Header, Modals, NetworkMismatchWarning } from "@/components";
 import { useWindowSize } from "usehooks-ts";
-import { Leva, useControls } from "leva";
 
 import styles from "./BaseLayout.module.scss";
 import { isReady, mediaBreaks, useMedia } from "@/utils";
@@ -31,14 +30,6 @@ const BaseLayout = ({ children }: BaseLayoutProps) => {
       <main className={styles.content}>{children}</main>
       <Footer className={styles.footer} />
       <Modals />
-      <Leva
-        titleBar={{
-          position: {
-            y: height - 250,
-            x: 0,
-          },
-        }}
-      />
     </div>
   );
 };

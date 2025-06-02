@@ -1,15 +1,15 @@
-import * as React from 'react';
-import { useEffect, useState } from 'react';
-import { ModalLayout } from '@/components/Modals/ModalLayout/ModalLayout';
-import { Button, ModalProps, Text, CurrencyIcon } from '@/components';
-import styles from './Supply.module.scss';
-import cx from 'classnames';
-import { AmountInput } from '@/components/AmountInput/AmountInput';
-import { Currency } from '@/types';
-import { useAccount } from 'wagmi';
-import { useAllowance } from '@/utils/evm/hooks/useAllowance';
-import { useApproveToken } from '@/utils/evm/hooks/useApproveToken';
-import { useSupply } from '@/utils/evm/hooks/useSupply';
+import * as React from "react";
+import { useEffect, useState } from "react";
+import { ModalLayout } from "@/components/Modals/ModalLayout/ModalLayout";
+import { Button, ModalProps, Text, CurrencyIcon } from "@/components";
+import styles from "./Supply.module.scss";
+import cx from "classnames";
+import { AmountInput } from "@/components/AmountInput/AmountInput";
+import { Currency } from "@/types";
+import { useAccount } from "wagmi";
+import { useAllowance } from "@/utils/evm/hooks/useAllowance";
+import { useApproveToken } from "@/utils/evm/hooks/useApproveToken";
+import { useSupply } from "@/utils/evm/hooks/useSupply";
 
 export type SupplyProps = {
   underlyingDecimals: number;
@@ -38,7 +38,7 @@ export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
     hash,
   } = useSupply(props.spenderAddress);
 
-  const [amount, setAmount] = useState('');
+  const [amount, setAmount] = useState("");
 
   const handleSupply = () => {
     const parsed = parseFloat(amount);
@@ -52,7 +52,7 @@ export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
   const { chain, asset } = props;
   const account = useAccount();
 
-  const parsedBalance = parseFloat(props.underlyingBalance || '0');
+  const parsedBalance = parseFloat(props.underlyingBalance || "0");
   const parsedAmount = parseFloat(amount);
   const isDisabled =
     !amount || isNaN(parsedAmount) || parsedAmount > parsedBalance;
@@ -63,7 +63,9 @@ export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
     spender: props.spenderAddress,
   });
 
-  let value = BigInt('0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
+  let value = BigInt(
+    "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+  );
   if (!isNaN(parsedAmount)) {
     const multiplier = 10 ** props.underlyingDecimals;
     value = BigInt(Math.floor(parsedAmount * multiplier));
@@ -88,7 +90,7 @@ export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
   }, [isSupplyingConfirming, hash, rest]);
 
   return (
-    <ModalLayout title='Supply Asset' isSwipeable {...rest}>
+    <ModalLayout title="Supply Asset" isSwipeable {...rest}>
       <div className={styles.content}>
         <Text size={16} theme={600} className={styles.title}>
           Supply Asset
@@ -115,16 +117,16 @@ export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
             </Text>
           </div>
         </div>
-        <div className={cx('base', styles.inputWrapper)}>
-          <div className='head'>
-            <Text size={14} theme={400} className='title'>
+        <div className={cx("base", styles.inputWrapper)}>
+          <div className="head">
+            <Text size={14} theme={400} className="title">
               Amount
             </Text>
           </div>
           <AmountInput
             value={amount}
             onChange={setAmount}
-            label='Enter amount'
+            label="Enter amount"
           />
           <Text size={12} theme={400} className={styles.balanceText}>
             Your balance: {parsedBalance.toFixed(2)} {asset.name}
@@ -133,31 +135,31 @@ export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
 
         {needsApproval ? (
           <Button
-            size='large'
-            variant='purple'
+            size="large"
+            variant="purple"
             className={styles.button}
             onClick={approve}
             disabled={isApproving || isApprovingConfirming}
           >
             {isApproving
-              ? 'Waiting for Wallet...'
+              ? "Waiting for Wallet..."
               : isApprovingConfirming
-                ? 'Confirming...'
-                : 'Approve'}
+                ? "Confirming..."
+                : "Approve"}
           </Button>
         ) : (
           <Button
-            size='large'
-            variant='purple'
+            size="large"
+            variant="purple"
             className={styles.button}
             disabled={isDisabled || isSupplying || isSupplyingConfirming}
             onClick={handleSupply}
           >
             {isSupplying
-              ? 'Waiting for Wallet...'
+              ? "Waiting for Wallet..."
               : isSupplyingConfirming
-                ? 'Confirming...'
-                : 'Supply'}
+                ? "Confirming..."
+                : "Supply"}
           </Button>
         )}
       </div>

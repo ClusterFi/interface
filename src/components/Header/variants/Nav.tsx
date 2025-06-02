@@ -14,6 +14,7 @@ const navigation: {
   text: string;
   href: string;
   icon: Glyph;
+  disabled?: boolean;
 }[] = [
   {
     text: "Dashboard",
@@ -26,14 +27,16 @@ const navigation: {
     icon: "Markets",
   },
   {
-    text: "Singularity",
+    text: "Singularity (soon)",
     href: "/singularity",
     icon: "Singularity",
+    disabled: true,
   },
   {
-    text: "Swap",
+    text: "Swap (soon)",
     href: "/swap",
     icon: "Swap",
+    disabled: true,
   },
   {
     text: "Docs",

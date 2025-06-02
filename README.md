@@ -2,8 +2,8 @@
 
 ## Overview
 
-This repository contains the frontend for Cluster Protocol – Cross-Chain Lending. 
-It integrates directly with smart contracts and provides core components of a Web3 dashboard, including wallet connection, display of underlying token and cToken balances, borrow data, and protocol statistics. 
+This repository contains the frontend for Cluster Protocol – Cross-Chain Lending.
+It integrates directly with smart contracts and provides core components of a Web3 dashboard, including wallet connection, display of underlying token and cToken balances, borrow data, and protocol statistics.
 This frontend serves as the user interface for interacting with the Cluster Protocol ecosystem.
 
 ## Getting Started

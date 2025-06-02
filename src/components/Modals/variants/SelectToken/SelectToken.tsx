@@ -1,10 +1,10 @@
-import * as React from 'react';
-import cx from 'classnames';
-import { ModalLayout } from '@/components/Modals/ModalLayout/ModalLayout';
-import { ModalProps, Button, Icon, Text, CurrencyIcon } from '@/components';
-import { formatCoin } from '@/utils';
-import styles from './SelectToken.module.scss';
-import { Currency } from '@/types';
+import * as React from "react";
+import cx from "classnames";
+import { ModalLayout } from "@/components/Modals/ModalLayout/ModalLayout";
+import { ModalProps, Button, Icon, Text, CurrencyIcon } from "@/components";
+import { formatCoin } from "@/utils";
+import styles from "./SelectToken.module.scss";
+import { Currency } from "@/types";
 
 export type SelectTokenProps = null;
 
@@ -19,45 +19,45 @@ const tokens: {
   amount: number;
 }[] = [
   {
-    currency: 'Ethereum',
-    name: 'Ethereum',
-    shortName: 'ETH',
+    currency: "Ethereum",
+    name: "Ethereum",
+    shortName: "ETH",
     amount: 0,
   },
   {
-    currency: 'USDC',
-    name: 'USD Coin',
-    shortName: 'USDC',
+    currency: "USDC",
+    name: "USD Coin",
+    shortName: "USDC",
     amount: 400.12,
   },
   {
-    currency: 'WrappedEETH',
-    name: 'Wrapped eETH',
-    shortName: 'weETH',
+    currency: "WrappedEETH",
+    name: "Wrapped eETH",
+    shortName: "weETH",
     amount: 0,
   },
   {
-    currency: 'AnkrStakedETH',
-    name: 'Wrapped Staked ETH',
-    shortName: 'wstETH',
+    currency: "AnkrStakedETH",
+    name: "Wrapped Staked ETH",
+    shortName: "wstETH",
     amount: 0,
   },
   {
-    currency: 'RocketPoolETH',
-    name: 'Wrapped eETH',
-    shortName: 'eETH',
+    currency: "RocketPoolETH",
+    name: "Wrapped eETH",
+    shortName: "eETH",
     amount: 0,
   },
   {
-    currency: 'USDTether',
-    name: 'Tether USD',
-    shortName: 'USDT',
+    currency: "USDTether",
+    name: "Tether USD",
+    shortName: "USDT",
     amount: 0,
   },
   {
-    currency: 'Polygon',
-    name: 'Polygon',
-    shortName: 'Matic',
+    currency: "Polygon",
+    name: "Polygon",
+    shortName: "Matic",
     amount: 0,
   },
 ];
@@ -67,20 +67,20 @@ const popularTokens: {
   name: string;
 }[] = [
   {
-    currency: 'Ethereum',
-    name: 'ETH',
+    currency: "Ethereum",
+    name: "ETH",
   },
   {
-    currency: 'USDTether',
-    name: 'USDT',
+    currency: "USDTether",
+    name: "USDT",
   },
   {
-    currency: 'USDC',
-    name: 'USDC',
+    currency: "USDC",
+    name: "USDC",
   },
   {
-    currency: 'AnkrStakedETH',
-    name: 'weWTH',
+    currency: "AnkrStakedETH",
+    name: "weWTH",
   },
 ];
 
@@ -88,21 +88,21 @@ export const SelectToken: React.FC<SelectToken> = ({ props, ...rest }) => {
   return (
     <ModalLayout
       modalClassName={styles.modal}
-      title={'Select a token'}
+      title={"Select a token"}
       isTitleVisible
       {...rest}
     >
       <div className={styles.box}>
         <div className={styles.wrapper}>
           <Icon
-            glyph={'Search'}
+            glyph={"Search"}
             width={16}
             height={17}
             className={styles.icon}
           />
           <input
-            type='text'
-            placeholder='Token name or address'
+            type="text"
+            placeholder="Token name or address"
             className={styles.input}
           />
         </div>
@@ -110,8 +110,8 @@ export const SelectToken: React.FC<SelectToken> = ({ props, ...rest }) => {
           {popularTokens.map((token) => (
             <Button
               key={token.name}
-              size={'small'}
-              variant={'gradient-dark'}
+              size={"small"}
+              variant={"gradient-dark"}
               className={styles.option}
             >
               <CurrencyIcon currency={token.currency} width={18} height={18} />
@@ -130,8 +130,8 @@ export const SelectToken: React.FC<SelectToken> = ({ props, ...rest }) => {
           {tokens.map((token) => (
             <Button
               key={token.currency}
-              size={'custom'}
-              variant={'custom'}
+              size={"custom"}
+              variant={"custom"}
               className={styles.token}
             >
               <CurrencyIcon currency={token.currency} width={33} height={33} />

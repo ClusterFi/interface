@@ -16,15 +16,15 @@ const links: {
 }[] = [
   {
     text: "Privacy policy",
-    href: "/",
+    href: "https://cluster.gitbook.io/docs/library/legal-disclaimer",
   },
   {
     text: "Term of Use",
-    href: "/",
+    href: "https://cluster.gitbook.io/docs/library/legal-disclaimer",
   },
   {
     text: "Contact",
-    href: "/",
+    href: "mailto:Clust3rlabs@gmail.com",
   },
 ];
 

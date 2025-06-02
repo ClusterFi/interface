@@ -31,10 +31,13 @@ export const shortenAddress = (address: string | undefined) => {
   return `${address?.slice(0, 4)}...${address?.slice(-4)}`;
 };
 
-export function formatNumberCompact(value: number, maximumFractionDigits: number): string {
-  const formatter = new Intl.NumberFormat('en-US', {
-    notation: 'compact',
-    compactDisplay: 'short',
+export function formatNumberCompact(
+  value: number,
+  maximumFractionDigits: number,
+): string {
+  const formatter = new Intl.NumberFormat("en-US", {
+    notation: "compact",
+    compactDisplay: "short",
     maximumFractionDigits: maximumFractionDigits,
   });
 

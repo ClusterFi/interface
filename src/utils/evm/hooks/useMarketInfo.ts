@@ -1,6 +1,6 @@
-import { useReadContract, useToken } from 'wagmi';
-import { CONTRACT_ADDRESSES } from '../contracts';
-import { ABIS } from '../abi/abis';
+import { useReadContract, useToken } from "wagmi";
+import { CONTRACT_ADDRESSES } from "../contracts";
+import { ABIS } from "../abi/abis";
 
 type Address = `0x${string}`;
 
@@ -22,7 +22,7 @@ export type MarketInfo = {
 
 export const useMarketInfo = (marketAddress: Address, chainId?: number) => {
   const getComptrollerAddress = (chainId?: number): Address | undefined => {
-    if (chainId === 11155111) { 
+    if (chainId === 11155111) {
       return CONTRACT_ADDRESSES.sepolia.comptroller as Address;
     } else if (chainId === 421614) {
       return CONTRACT_ADDRESSES.arbitrum_sepolia.comptroller as Address;
@@ -35,7 +35,7 @@ export const useMarketInfo = (marketAddress: Address, chainId?: number) => {
   const marketsDetails = useReadContract({
     address: comptrollerAddress,
     abi: ABIS.ComptrollerABI,
-    functionName: 'markets',
+    functionName: "markets",
     args: [marketAddress],
     chainId: chainId,
   });
@@ -43,7 +43,7 @@ export const useMarketInfo = (marketAddress: Address, chainId?: number) => {
   const underlyingCall = useReadContract({
     address: marketAddress,
     abi: ABIS.CTokenABI,
-    functionName: 'underlying',
+    functionName: "underlying",
     chainId: chainId,
   });
 
@@ -58,7 +58,7 @@ export const useMarketInfo = (marketAddress: Address, chainId?: number) => {
   const underlyingCallDecimals = useReadContract({
     address: underlyingCall.data as `0x${string}` | undefined,
     abi: ABIS.ERC20ABI,
-    functionName: 'decimals',
+    functionName: "decimals",
     chainId: chainId,
   });
 
@@ -67,28 +67,28 @@ export const useMarketInfo = (marketAddress: Address, chainId?: number) => {
   const cTokenDecimalsCall = useReadContract({
     address: marketAddress,
     abi: ABIS.CTokenABI,
-    functionName: 'decimals',
+    functionName: "decimals",
     chainId: chainId,
   });
 
   const cashCall = useReadContract({
     address: marketAddress,
     abi: ABIS.CTokenABI,
-    functionName: 'getCash',
+    functionName: "getCash",
     chainId: chainId,
   });
 
   const supplyRateCall = useReadContract({
     address: marketAddress,
     abi: ABIS.CTokenABI,
-    functionName: 'supplyRatePerBlock',
+    functionName: "supplyRatePerBlock",
     chainId: chainId,
   });
 
   const borrowRateCall = useReadContract({
     address: marketAddress,
     abi: ABIS.CTokenABI,
-    functionName: 'borrowRatePerBlock',
+    functionName: "borrowRatePerBlock",
     chainId: chainId,
   });
 
@@ -134,8 +134,8 @@ export const useMarketInfo = (marketAddress: Address, chainId?: number) => {
           marketsDetails.data as [boolean, bigint, boolean]
         )[1],
         isComped: (marketsDetails.data as [boolean, bigint, boolean])[2],
-        name: tokenInfo.data?.name ?? '',
-        symbol: tokenInfo.data?.symbol ?? '',
+        name: tokenInfo.data?.name ?? "",
+        symbol: tokenInfo.data?.symbol ?? "",
         decimals: tokenInfo.data?.decimals ?? 18,
         cTokenDecimals: Number(cTokenDecimalsCall.data),
         underlyingDecimals: Number(underlyingDecimals),

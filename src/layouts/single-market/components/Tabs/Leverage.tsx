@@ -1,6 +1,5 @@
 import * as React from "react";
 import cx from "classnames";
-import { useControls } from "leva";
 import {
   CurrencyIcon,
   CustomInput,
@@ -19,20 +18,7 @@ import styles from "./Tabs.module.scss";
 
 export const Leverage = () => {
   const [value, setValue] = React.useState("1.0");
-  const controls = useControls({
-    leverage: {
-      options: [
-        "default",
-        "step 1",
-        "step 2 - 1",
-        "step 2 - 2",
-        "step 3 - 1",
-        "step 3 - 2",
-        "success",
-      ],
-      label: "Leverage state:",
-    },
-  });
+  const controls = "default" as any;
 
   const getStepStatus = (option: string, index: number) => {
     if (option === "default" || option === "step 1") {

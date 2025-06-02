@@ -1,15 +1,15 @@
-import * as React from 'react';
-import { Table, Button, Text, Icon } from '@/components';
-import styles from './Deposits.module.scss';
-import { useMarketInfo } from '@/utils/evm/hooks/useMarketInfo';
-import { Currency } from '@/types';
-import { useModalsStore } from '@/utils/stores';
-import { useAccount } from 'wagmi';
-import { getChainById } from '@/constants';
-import {CONTRACT_ADDRESSES} from "@/utils/evm/contracts";
-import {useCheckCollateralMembership} from "@/utils/evm/hooks/useCheckCollateralMembership";
-import Skeleton from 'react-loading-skeleton';
-import { useCrossChainBalance } from '@/utils/evm/hooks/useCrossChainBalance';
+import * as React from "react";
+import { Table, Button, Text, Icon } from "@/components";
+import styles from "./Deposits.module.scss";
+import { useMarketInfo } from "@/utils/evm/hooks/useMarketInfo";
+import { Currency } from "@/types";
+import { useModalsStore } from "@/utils/stores";
+import { useAccount } from "wagmi";
+import { getChainById } from "@/constants";
+import { CONTRACT_ADDRESSES } from "@/utils/evm/contracts";
+import { useCheckCollateralMembership } from "@/utils/evm/hooks/useCheckCollateralMembership";
+import Skeleton from "react-loading-skeleton";
+import { useCrossChainBalance } from "@/utils/evm/hooks/useCrossChainBalance";
 
 type DepositItemOverallProps = {
   address: `0x${string}`;
@@ -22,11 +22,10 @@ export const DepositItemOverall: React.FC<DepositItemOverallProps> = ({
 }) => {
   const { data: marketInfo, isPending, error } = useMarketInfo(address, chainId);
   const { openModal } = useModalsStore();
-  const user = useAccount();
   const account = useAccount();
-  
+
   const result = useCrossChainBalance(
-    user.address,
+    account.address,
     marketInfo?.underlying,
     chainId
   );
@@ -34,11 +33,12 @@ export const DepositItemOverall: React.FC<DepositItemOverallProps> = ({
   const chainInfo = getChainById(chainId);
 
   React.useEffect(() => {
-    const expectedUSDC = chainId === 11155111 
-      ? CONTRACT_ADDRESSES.sepolia.USDC 
-      : CONTRACT_ADDRESSES.arbitrum_sepolia.USDC;
-    
-    console.log('DepositItemOverall Debug (Updated):', {
+    const expectedUSDC =
+      chainId === 11155111
+        ? CONTRACT_ADDRESSES.sepolia.USDC
+        : CONTRACT_ADDRESSES.arbitrum_sepolia.USDC;
+
+    console.log("DepositItemOverall Debug (Updated):", {
       chainId,
       cTokenAddress: address,
       underlyingToken: marketInfo?.underlying,
@@ -46,16 +46,16 @@ export const DepositItemOverall: React.FC<DepositItemOverallProps> = ({
       isCorrectUSDC: marketInfo?.underlying === expectedUSDC,
       marketInfo,
       balanceResult: result.data,
-      userAddress: user.address,
+      userAddress: account.address,
       requestedChainId: chainId,
       isLoading: result.isLoading,
       error: result.error,
-      note: 'balance fetching',
+      note: "balance fetching",
     });
-  }, [chainId, address, marketInfo, result, user.address]);
+  }, [chainId, address, marketInfo, result, account.address]);
 
   const getComptrollerAddress = (chainId: number): `0x${string}` => {
-    if (chainId === 11155111) { 
+    if (chainId === 11155111) {
       return CONTRACT_ADDRESSES.sepolia.comptroller as `0x${string}`;
     } else if (chainId === 421614) {
       return CONTRACT_ADDRESSES.arbitrum_sepolia.comptroller as `0x${string}`;
@@ -64,10 +64,10 @@ export const DepositItemOverall: React.FC<DepositItemOverallProps> = ({
   };
 
   const { isMember, isLoading } = useCheckCollateralMembership(
-      getComptrollerAddress(chainId),
-      account.address as `0x${string}`,
-      address,
-      chainId
+    getComptrollerAddress(chainId),
+    account.address as `0x${string}`,
+    address,
+    chainId
   );
 
   return (
@@ -76,30 +76,32 @@ export const DepositItemOverall: React.FC<DepositItemOverallProps> = ({
         currency={marketInfo?.name as Currency}
         primaryText={marketInfo && marketInfo.name}
       />
-      <Table.Item mobileTitle={'Wallet balance'}>
+      <Table.Item mobileTitle={"Wallet balance"}>
         {result.data?.formatted
           ? `${result.data.formatted} ${marketInfo?.symbol}`
-          : '—'}
+          : "—"}
       </Table.Item>
-      <Table.Item mobileTitle={'APY'}>{marketInfo?.supplyAPY.toFixed(2)}%</Table.Item>
+      <Table.Item mobileTitle={"APY"}>
+        {marketInfo?.supplyAPY.toFixed(2)}%
+      </Table.Item>
       <Table.Item mobileTitle="Can be collateral">
-          {isLoading ? (
-              <Skeleton width={16} height={16} />
-          ) : isMember ? (
-              <Icon glyph="Check" width={16} height={16} className={styles.check} />
-          ) : (
-              <Icon glyph="Cross" width={16} height={16} className={styles.cross} />
-          )}
+        {isLoading ? (
+          <Skeleton width={16} height={16} />
+        ) : isMember ? (
+          <Icon glyph="Check" width={16} height={16} className={styles.check} />
+        ) : (
+          <Icon glyph="Cross" width={16} height={16} className={styles.cross} />
+        )}
       </Table.Item>
       <Table.Item>
         {marketInfo && (
           <Button
             className={styles.button}
-            size={'small'}
-            variant={'purple'}
+            size={"small"}
+            variant={"purple"}
             onClick={() =>
               account.isConnected
-                ? openModal('Supply', {
+                ? openModal("Supply", {
                     underlyingDecimals: result.data?.decimals!,
                     underlyingBalance: result.data?.formatted,
                     underlyingAddress: marketInfo.underlying,
@@ -113,11 +115,11 @@ export const DepositItemOverall: React.FC<DepositItemOverallProps> = ({
                       icon: marketInfo.symbol as Currency,
                     },
                   })
-                : openModal('ConnectWallet', null)
+                : openModal("ConnectWallet", null)
             }
           >
             <Text size={12} theme={500}>
-              {account.isConnected ? 'Supply' : 'Connect'}
+              {account.isConnected ? "Supply" : "Connect"}
             </Text>
           </Button>
         )}

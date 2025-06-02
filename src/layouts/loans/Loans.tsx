@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { useControls } from "leva";
 
 import {
   Heading,
@@ -20,13 +19,7 @@ import { useModalsStore } from "@/utils/stores";
 export const LoansPage: React.FC = () => {
   const { openModal } = useModalsStore();
 
-  const controls = useControls({
-    ["loans-state"]: {
-      options: ["Loans", "Wallet1", "Wallet2", "Borrow"],
-      value: "Loans",
-      label: "Page state",
-    },
-  });
+  const controls = "Loans" as any;
 
   const onClickReadMore = () =>
     openModal("ReadMore", {

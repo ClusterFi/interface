@@ -1,7 +1,7 @@
-import { useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
-import { useState } from 'react';
-import { ABIS } from '../abi/abis';
-import { parseUnits } from 'viem';
+import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
+import { useState } from "react";
+import { ABIS } from "../abi/abis";
+import { parseUnits } from "viem";
 
 export const useRedeem = (cTokenAddress: `0x${string}`) => {
   const [hash, setHash] = useState<`0x${string}` | undefined>();
@@ -14,12 +14,12 @@ export const useRedeem = (cTokenAddress: `0x${string}`) => {
       const txHash = await writeContractAsync({
         abi: ABIS.CTokenABI,
         address: cTokenAddress,
-        functionName: 'redeemUnderlying',
+        functionName: "redeemUnderlying",
         args: [parsedAmount],
       });
       setHash(txHash);
     } catch (err) {
-      console.error('Redeem failed:', err);
+      console.error("Redeem failed:", err);
     }
   };
 
@@ -31,4 +31,4 @@ export const useRedeem = (cTokenAddress: `0x${string}`) => {
     isConfirming,
     hash,
   };
-}; 
+};

@@ -18,3 +18,4 @@ export const CONTRACT_ADDRESSES = {
     stargateRouter: '0x543BdA7c6cA4384FE90B1F5929bb851F52888983',
   },
 };
+
