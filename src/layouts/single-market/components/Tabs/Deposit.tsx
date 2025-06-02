@@ -17,7 +17,7 @@ import styles from "./Tabs.module.scss";
 
 export const Deposit = () => {
   const [value, setValue] = React.useState("");
-  const controls = "default" as any;
+  const controls = {"deposit": "default"} as any;
 
   return (
     <React.Fragment>
