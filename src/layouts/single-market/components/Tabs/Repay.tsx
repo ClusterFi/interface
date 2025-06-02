@@ -16,7 +16,7 @@ import styles from "./Tabs.module.scss";
 
 export const Repay = () => {
   const [value, setValue] = React.useState("1.0");
-  const controls = "default" as any;
+  const controls = {"repay": "default"} as any;
 
   return (
     <React.Fragment>
