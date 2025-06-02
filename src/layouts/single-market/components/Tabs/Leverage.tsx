@@ -18,7 +18,7 @@ import styles from "./Tabs.module.scss";
 
 export const Leverage = () => {
   const [value, setValue] = React.useState("1.0");
-  const controls = "default" as any;
+  const controls = {"leverage": "default"} as any;
 
   const getStepStatus = (option: string, index: number) => {
     if (option === "default" || option === "step 1") {
