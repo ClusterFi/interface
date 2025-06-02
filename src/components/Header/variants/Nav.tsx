@@ -28,13 +28,13 @@ const navigation: {
   },
   {
     text: "Singularity (soon)",
-    href: "/",
+    href: "/singularity",
     icon: "Singularity",
     disabled: true,
   },
   {
     text: "Swap (soon)",
-    href: "/",
+    href: "/swap",
     icon: "Swap",
     disabled: true,
   },
