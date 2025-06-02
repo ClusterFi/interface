@@ -12,6 +12,7 @@ import {useGetAllMarkets} from '@/utils/evm/hooks/useGetAllMarkets';
 import { useAccount } from 'wagmi';
 import { useUserData } from '@/utils/evm/hooks/useUserData';
 import { useGlobalStore } from '@/utils/stores';
+import { useMarketInfo } from '@/utils/evm/hooks/useMarketInfo';
 
 type BorrowsProps = {
   state: ComponentState;
