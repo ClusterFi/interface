@@ -61,7 +61,7 @@ export const Deposits: React.FC<DepositsProps> = ({ state }) => {
           </Heading>
         </Section>
       ) : (
-        <Accordion title="Your supplies" defaultOpen>
+        <Accordion title="Your Supply" defaultOpen>
           <CommonInfo />
           <Table className={styles.table}>
             <Table.Head>
@@ -69,7 +69,7 @@ export const Deposits: React.FC<DepositsProps> = ({ state }) => {
                 <Table.Item>Asset</Table.Item>
                 <Table.Item>Balance</Table.Item>
                 <Table.Item>APY</Table.Item>
-                <Table.Item title="some info">
+                <Table.Item title="Toggle to use as collateral.">
                   Collateral
                   <Icon glyph="Info" width={10} height={10} />
                 </Table.Item>
@@ -90,7 +90,7 @@ export const Deposits: React.FC<DepositsProps> = ({ state }) => {
           </Table>
         </Accordion>
       )}
-      <Accordion defaultOpen title="Assets to supply">
+      <Accordion defaultOpen title="Available to Supply">
         {/* <label className={styles.manage}>
           <input type='checkbox' className={styles.checkbox} />
           <Text size={12} theme={400}>
@@ -102,7 +102,9 @@ export const Deposits: React.FC<DepositsProps> = ({ state }) => {
             <Table.Row>
               <Table.Item>Asset</Table.Item>
               <Table.Item>Wallet balance</Table.Item>
-              <Table.Item>APY</Table.Item>
+              <Table.Item title="Annual yield earned on deposits">APY
+              <Icon glyph="Info" width={10} height={10} />
+              </Table.Item>
               <Table.Item>Can be collateral</Table.Item>
               <Table.Item />
             </Table.Row>
