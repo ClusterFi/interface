@@ -16,7 +16,7 @@ import styles from "./Tabs.module.scss";
 
 export const Withdraw = () => {
   const [value, setValue] = React.useState("");
-  const controls = "default" as any;
+  const controls = {"withdraw": "default"} as any;;
 
   return (
     <React.Fragment>
