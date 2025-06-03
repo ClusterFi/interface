@@ -87,17 +87,17 @@ export const Borrows: React.FC<BorrowsProps> = ({ state }) => {
           </Table>
         </Accordion>
       )}
-      <Accordion defaultOpen title="Assets to borrow">
+      <Accordion defaultOpen title="Borrowable Assets">
         <Table className={styles.table}>
           <Table.Head>
             <Table.Row>
               <Table.Item>Asset</Table.Item>
-              <Table.Item title="some info">
-                Avaliable
+              <Table.Item title="Max borrow based on collateral.">
+                Borrow Limit
                 <Icon glyph="Info" width={10} height={10} />
               </Table.Item>
-              <Table.Item title="some info">
-                APY, borrow rate
+              <Table.Item title="Annual interest charged on your loan.">
+                APY
                 <Icon glyph="Info" width={10} height={10} />
               </Table.Item>
               <Table.Item></Table.Item>
