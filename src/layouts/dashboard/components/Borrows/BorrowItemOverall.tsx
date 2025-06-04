@@ -76,7 +76,7 @@ export const BorrowItemOverall: React.FC<BorrowItemOverallProps> = ({
         mobileTitle="Available"
       />
 
-      <Table.Item mobileTitle="APY, borrow rate">
+      <Table.Item mobileTitle="APY">
         {marketInfo ? `${marketInfo.borrowAPY.toFixed(2)}%` : "0%"}
       </Table.Item>
 
