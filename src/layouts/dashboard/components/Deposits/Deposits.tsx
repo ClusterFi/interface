@@ -90,7 +90,7 @@ export const Deposits: React.FC<DepositsProps> = ({ state }) => {
           </Table>
         </Accordion>
       )}
-      <Accordion defaultOpen title="Available to Supply">
+      <Accordion defaultOpen title="Suppliable Assets">
         {/* <label className={styles.manage}>
           <input type='checkbox' className={styles.checkbox} />
           <Text size={12} theme={400}>
