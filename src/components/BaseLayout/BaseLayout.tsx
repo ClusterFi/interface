@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-import { Footer, Header, Modals, NetworkMismatchWarning } from "@/components";
+import { Footer, Header, Modals } from "@/components";
 import { useWindowSize } from "usehooks-ts";
 
 import styles from "./BaseLayout.module.scss";
@@ -25,7 +25,6 @@ const BaseLayout = ({ children }: BaseLayoutProps) => {
 
   return (
     <div className={styles.base}>
-      <NetworkMismatchWarning />
       <Header className={styles.header} />
       <main className={styles.content}>{children}</main>
       <Footer className={styles.footer} />

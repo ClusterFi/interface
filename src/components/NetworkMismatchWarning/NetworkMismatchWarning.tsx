@@ -1,35 +1,38 @@
-import React from 'react';
-import { useAccount, useChainId, useSwitchChain } from 'wagmi';
-import { useGlobalStore } from '@/utils/stores';
-import { getChainById, CHAINS } from '@/constants';
-import { Button, Text, Icon } from '@/components';
-import styles from './NetworkMismatchWarning.module.scss';
+import React from "react";
+import { useAccount, useChainId, useSwitchChain } from "wagmi";
+import { useGlobalStore } from "@/utils/stores";
+import { getChainById, CHAINS } from "@/constants";
+import { Button, Text, Icon } from "@/components";
+import styles from "./NetworkMismatchWarning.module.scss";
 
 export const NetworkMismatchWarning: React.FC = () => {
   const { isConnected } = useAccount();
-  const walletChainId = useChainId(); 
-  const { chainId: appChainId, setChainId } = useGlobalStore(); 
+  const walletChainId = useChainId();
+  const { chainId: appChainId, setChainId } = useGlobalStore();
   const { switchChain } = useSwitchChain();
   const [isDismissed, setIsDismissed] = React.useState(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('networkMismatchDismissed') === 'true';
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("networkMismatchDismissed") === "true";
     }
     return false;
   });
 
-  const showWarning = isConnected && walletChainId !== appChainId && !isDismissed;
+  const showWarning =
+    isConnected && walletChainId !== appChainId && !isDismissed;
 
-  const isWalletChainSupported = CHAINS.some(chain => chain.chainId === walletChainId);
+  const isWalletChainSupported = CHAINS.some(
+    (chain) => chain.chainId === walletChainId
+  );
 
   React.useEffect(() => {
     if (walletChainId === appChainId && isDismissed) {
       setIsDismissed(false);
-      localStorage.removeItem('networkMismatchDismissed');
+      localStorage.removeItem("networkMismatchDismissed");
     }
   }, [walletChainId, appChainId, isDismissed]);
 
   React.useEffect(() => {
-    console.log('NetworkMismatchWarning Debug:', {
+    console.log("NetworkMismatchWarning Debug:", {
       isConnected,
       walletChainId,
       appChainId,
@@ -39,7 +42,14 @@ export const NetworkMismatchWarning: React.FC = () => {
       walletChain: getChainById(walletChainId),
       appChain: getChainById(appChainId),
     });
-  }, [isConnected, walletChainId, appChainId, isDismissed, showWarning, isWalletChainSupported]);
+  }, [
+    isConnected,
+    walletChainId,
+    appChainId,
+    isDismissed,
+    showWarning,
+    isWalletChainSupported,
+  ]);
 
   if (!showWarning) return null;
 
@@ -63,7 +73,7 @@ export const NetworkMismatchWarning: React.FC = () => {
 
   const handleDismiss = () => {
     setIsDismissed(true);
-    localStorage.setItem('networkMismatchDismissed', 'true');
+    localStorage.setItem("networkMismatchDismissed", "true");
   };
 
   return (
@@ -75,7 +85,7 @@ export const NetworkMismatchWarning: React.FC = () => {
             Network Mismatch
           </Text>
           <Text size={12} theme={400} className={styles.description}>
-            Your wallet is connected to <strong>{walletNetworkName}</strong>, 
+            Your wallet is connected to <strong>{walletNetworkName}</strong>,
             but the app is set to <strong>{appNetworkName}</strong>.
             {!isWalletChainSupported && (
               <> This network is not supported by the app.</>
@@ -117,4 +127,4 @@ export const NetworkMismatchWarning: React.FC = () => {
       </div>
     </div>
   );
-}; 
+};

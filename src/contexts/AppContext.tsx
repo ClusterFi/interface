@@ -1,3 +1,5 @@
+"use client";
+
 import { fetchSolBalance, isSolanaChain } from "@/utils";
 import { useGlobalStore } from "@/utils/stores";
 import { useWallet } from "@solana/wallet-adapter-react";

@@ -20,7 +20,11 @@ export const DepositItemOverall: React.FC<DepositItemOverallProps> = ({
   address,
   chainId,
 }) => {
-  const { data: marketInfo, isPending, error } = useMarketInfo(address, chainId);
+  const {
+    data: marketInfo,
+    isPending,
+    error,
+  } = useMarketInfo(address, chainId);
   const { openModal } = useModalsStore();
   const account = useAccount();
 
