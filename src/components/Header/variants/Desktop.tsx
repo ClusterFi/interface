@@ -65,7 +65,7 @@ export const Desktop: React.FC<DesktopProps> = ({ className }) => {
                 <Balance
                   className={cx(
                     styles.balancePopup,
-                    balanceOpened && styles.open
+                    balanceOpened && styles.open,
                   )}
                 />
               </div>
@@ -83,7 +83,7 @@ export const Desktop: React.FC<DesktopProps> = ({ className }) => {
                 <ConnectedWallet
                   className={cx(
                     styles.walletPopup,
-                    profileOpened && styles.open
+                    profileOpened && styles.open,
                   )}
                 />
               </div>

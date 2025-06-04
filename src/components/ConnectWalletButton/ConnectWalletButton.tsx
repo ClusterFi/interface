@@ -10,7 +10,6 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { shortenAddress } from "@/utils";
 import { useAccount } from "wagmi";
 import { SOLANA_CHAIN_ID } from "@/constants";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 type ConnectWalletButtonProps = {
   className?: string;
@@ -27,43 +26,31 @@ export const ConnectWalletButton: React.FC<ConnectWalletButtonProps> = ({
   const { address } = useAccount();
 
   const isSolana = React.useMemo(() => {
-    return chainId === SOLANA_CHAIN_ID;
+    return chainId == SOLANA_CHAIN_ID;
   }, [chainId]);
 
   const btnTitle = React.useMemo(() => {
-    if (isSolana && publicKey) {
-      return shortenAddress(publicKey.toBase58());
+    if (isSolana) {
+      if (publicKey) {
+        return shortenAddress(publicKey.toBase58());
+      }
+    } else {
+      if (address) {
+        return shortenAddress(address);
+      }
     }
-    if (!isSolana && address) {
-      return shortenAddress(address);
-    }
+
     return "Connect Wallet";
   }, [isSolana, publicKey, address]);
 
   return (
-    <ConnectButton.Custom>
-      {({
-        account,
-        chain,
-        openAccountModal,
-        openChainModal,
-        openConnectModal,
-        mounted,
-      }) => {
-        const connected = mounted && account && chain;
-
-        return (
-          <AnimatedButton
-            className={cx(styles.base, className)}
-            style={{ paddingInline: "3px" }}
-            size="default"
-            onClick={!connected ? openConnectModal : openAccountModal}
-            {...rest}
-          >
-            {btnTitle}
-          </AnimatedButton>
-        );
-      }}
-    </ConnectButton.Custom>
+    <AnimatedButton
+      className={cx(styles.base, className)}
+      size={"default"}
+      onClick={() => openModal("ConnectWallet", null)}
+      {...rest}
+    >
+      {btnTitle}
+    </AnimatedButton>
   );
 };

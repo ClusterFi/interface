@@ -3,7 +3,6 @@
 import * as React from "react";
 import cx from "classnames";
 import { ModalLayout } from "@/components/Modals/ModalLayout/ModalLayout";
-import { Connector, useConnect } from "wagmi";
 import {
   ModalProps,
   WalletIcon,
@@ -120,7 +119,6 @@ const SOL_WALLETS: WalletVariant[] = [
 
 export const ConnectWallet: React.FC<ConnectWallet> = ({ props, ...rest }) => {
   const { chainId } = useGlobalStore();
-  const { connectors, connect } = useConnect();
 
   return (
     <ModalLayout title={"Connect Wallet"} isSwipeable {...rest}>
@@ -133,27 +131,22 @@ export const ConnectWallet: React.FC<ConnectWallet> = ({ props, ...rest }) => {
             To start using Cluster
           </Text>
         </React.Fragment>
-        <div className="flex flex-col items-center justify-center gap-5">
-          {connectors.map((connector: Connector) => (
-            <button
-              key={connector.id}
-              onClick={() => connect({ connector })}
-              className="flex items-center justify-center w-full max-w-xs px-4 py-3 space-x-3 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              {connector.icon && (
-                <div className="w-6 h-6 flex items-center gap-2">
-                  <img
-                    src={connector.icon}
-                    alt={`${connector.name} icon`}
-                    width={24}
-                    height={24}
-                  />
-                </div>
-              )}
-              <span className="text-sm font-medium">{connector.name}</span>
-            </button>
-          ))}
-        </div>
+
+        {chainId == SOLANA_CHAIN_ID
+          ? SOL_WALLETS.map((wallet, index) => (
+              <SolanaWalletBtn
+                key={`solana-wallet-${wallet.name}`}
+                index={index}
+                {...wallet}
+              />
+            ))
+          : EVM_WALLETS.map((wallet, index) => (
+              <EvmWalletBtn
+                key={`evm-wallet-${wallet.name}`}
+                index={index}
+                {...wallet}
+              />
+            ))}
 
         <Text size={12} theme={400} className={styles.note}>
           By connecting I accept Cluster’s{" "}

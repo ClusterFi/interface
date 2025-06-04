@@ -1,5 +1,3 @@
-"use client";
-
 import { ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { http, createConfig, WagmiProvider } from "wagmi";
@@ -44,7 +42,7 @@ const connectors = connectorsForWallets(
   {
     appName: "ClusterFi",
     projectId: WALLET_CONNECT_PROJECT_ID,
-  }
+  },
 );
 
 export const evmChainsConfig = createConfig({
