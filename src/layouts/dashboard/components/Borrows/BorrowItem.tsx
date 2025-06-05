@@ -55,9 +55,10 @@ export const BorrowItem: React.FC<BorrowItemProps> = ({
         mobileTitle={"Borrows"}
       />
       <Table.ItemAmount
-        primaryValue={"8.33%"}
-        mobileTitle={"APY"}
-      />
+  primaryValue={"8.33%"}
+  secondaryValue={""} 
+  mobileTitle={"APY"}
+/>
       <Table.Item>
         <div className={styles.buttons}>
           <Button
