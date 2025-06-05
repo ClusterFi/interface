@@ -56,8 +56,6 @@ export const BorrowItem: React.FC<BorrowItemProps> = ({
       />
       <Table.ItemAmount
         primaryValue={"8.33%"}
-        secondaryValue={"ARB RATE"}
-        isSecondaryWrapped
         mobileTitle={"APY"}
       />
       <Table.Item>
