@@ -60,7 +60,7 @@ export const BorrowItem: React.FC<BorrowItemProps> = ({
       />
       <Table.ItemAmount
         primaryValue={"8.33%"}
-        secondaryValue={"ARB RATE"}
+        secondaryValue={""}
         isSecondaryWrapped
         mobileTitle={"APY"}
       />
@@ -70,6 +70,7 @@ export const BorrowItem: React.FC<BorrowItemProps> = ({
           <Text size={12} theme={400}>{chainInfo?.name}</Text>
         </div>
       </Table.Item>
+
       <Table.Item>
         <div className={styles.buttons}>
           <Button
