@@ -9,6 +9,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { isSolanaChain, shortenAddress } from "@/utils";
 import { AppContext } from "@/contexts/AppContext";
 import Image from "next/image";
+import { useEffect } from "react";
 
 type ConnectedWalletProps = {
   className?: string;
@@ -22,8 +23,8 @@ export const ConnectedWallet: React.FC<ConnectedWalletProps> = ({
   const { openModal } = useModalsStore();
   const { account, isSolana } = React.useContext(AppContext);
 
-  const { wallet: solWallet, disconnect: disconnectSol } = useWallet();
-  const { connectors } = useConnect();
+  const { wallet: solWallet, disconnect: disconnectSol, connected } = useWallet();
+  const { connectors,  } = useConnect();
   const { disconnect: disconnectEvm } = useDisconnect();
 
   const handleToggleWallet = () => {
@@ -37,6 +38,9 @@ export const ConnectedWallet: React.FC<ConnectedWalletProps> = ({
       disconnectEvm();
     }
   };
+  useEffect(() => {
+    console.log("connected", connected)
+  }, []);
 
   return (
     <Section className={cx(styles.base, className)}>

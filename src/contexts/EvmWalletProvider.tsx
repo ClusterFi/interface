@@ -61,7 +61,7 @@ const queryClient = new QueryClient();
 
 export const EvmWalletProvider = ({ children }: { children: ReactNode }) => {
   return (
-    <WagmiProvider config={evmChainsConfig}>
+    <WagmiProvider config={evmChainsConfig} reconnectOnMount={true}>
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider>{children}</RainbowKitProvider>
       </QueryClientProvider>
