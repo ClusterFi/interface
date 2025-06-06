@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Table, Button, Text, Icon } from "@/components";
+import { Table, Button, Text, Icon, CurrencyIcon } from "@/components";
 import styles from "./Deposits.module.scss";
 import { useMarketInfo } from "@/utils/evm/hooks/useMarketInfo";
 import { Currency } from "@/types";
@@ -10,6 +10,7 @@ import { CONTRACT_ADDRESSES } from "@/utils/evm/contracts";
 import { useCheckCollateralMembership } from "@/utils/evm/hooks/useCheckCollateralMembership";
 import Skeleton from "react-loading-skeleton";
 import { useCrossChainBalance } from "@/utils/evm/hooks/useCrossChainBalance";
+import { formatTokenAmount } from "@/utils/formatters";
 
 type DepositItemOverallProps = {
   address: `0x${string}`;
@@ -36,28 +37,6 @@ export const DepositItemOverall: React.FC<DepositItemOverallProps> = ({
 
   const chainInfo = getChainById(chainId);
 
-  React.useEffect(() => {
-    const expectedUSDC =
-      chainId === 11155111
-        ? CONTRACT_ADDRESSES.sepolia.USDC
-        : CONTRACT_ADDRESSES.arbitrum_sepolia.USDC;
-
-    console.log("DepositItemOverall Debug (Updated):", {
-      chainId,
-      cTokenAddress: address,
-      underlyingToken: marketInfo?.underlying,
-      expectedUSDC,
-      isCorrectUSDC: marketInfo?.underlying === expectedUSDC,
-      marketInfo,
-      balanceResult: result.data,
-      userAddress: account.address,
-      requestedChainId: chainId,
-      isLoading: result.isLoading,
-      error: result.error,
-      note: "balance fetching",
-    });
-  }, [chainId, address, marketInfo, result, account.address]);
-
   const getComptrollerAddress = (chainId: number): `0x${string}` => {
     if (chainId === 11155111) {
       return CONTRACT_ADDRESSES.sepolia.comptroller as `0x${string}`;
@@ -74,6 +53,25 @@ export const DepositItemOverall: React.FC<DepositItemOverallProps> = ({
     chainId
   );
 
+  const handleSupplyClick = () => {
+    if (marketInfo) {
+      openModal("Supply", {
+        underlyingDecimals: result.data?.decimals!,
+        underlyingBalance: result.data?.formatted,
+        underlyingAddress: marketInfo.underlying,
+        spenderAddress: address,
+        chain: {
+          name: chainInfo?.name!,
+          icon: chainInfo?.currency!,
+        },
+        asset: {
+          name: marketInfo.name,
+          icon: marketInfo.symbol as Currency,
+        },
+      });
+    }
+  };
+
   return (
     <Table.Row className={styles.row}>
       <Table.ItemAsset
@@ -82,7 +80,7 @@ export const DepositItemOverall: React.FC<DepositItemOverallProps> = ({
       />
       <Table.Item mobileTitle={"Wallet balance"}>
         {result.data?.formatted
-          ? `${result.data.formatted} ${marketInfo?.symbol}`
+          ? formatTokenAmount(parseFloat(result.data.formatted), marketInfo?.symbol)
           : "—"}
       </Table.Item>
       <Table.Item mobileTitle={"APY"}>
@@ -97,33 +95,22 @@ export const DepositItemOverall: React.FC<DepositItemOverallProps> = ({
           <Icon glyph="Cross" width={16} height={16} className={styles.cross} />
         )}
       </Table.Item>
+      <Table.Item mobileTitle="Chain">
+        <div className={styles.chainDisplay}>
+          <CurrencyIcon width={16} height={16} currency={chainInfo?.currency!} />
+          <Text size={12} theme={400}>{chainInfo?.name}</Text>
+        </div>
+      </Table.Item>
       <Table.Item>
-        {marketInfo && (
+        {marketInfo && account.isConnected && (
           <Button
             className={styles.button}
             size={"small"}
             variant={"purple"}
-            onClick={() =>
-              account.isConnected
-                ? openModal("Supply", {
-                    underlyingDecimals: result.data?.decimals!,
-                    underlyingBalance: result.data?.formatted,
-                    underlyingAddress: marketInfo.underlying,
-                    spenderAddress: address,
-                    chain: {
-                      name: chainInfo?.name!,
-                      icon: chainInfo?.currency!,
-                    },
-                    asset: {
-                      name: marketInfo.name,
-                      icon: marketInfo.symbol as Currency,
-                    },
-                  })
-                : openModal("ConnectWallet", null)
-            }
+            onClick={handleSupplyClick}
           >
             <Text size={12} theme={500}>
-              {account.isConnected ? "Supply" : "Connect"}
+              Supply
             </Text>
           </Button>
         )}

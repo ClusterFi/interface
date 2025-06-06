@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Table, Switcher, Button, Text, Icon } from "@/components";
+import { Table, Switcher, Button, Text, Icon, CurrencyIcon } from "@/components";
 import styles from "./Deposits.module.scss";
 import { useModalsStore } from "@/utils/stores";
 import { useMarketInfo } from "@/utils/evm/hooks/useMarketInfo";
@@ -9,20 +9,32 @@ import { formatUnits } from "viem";
 import { CONTRACT_ADDRESSES } from "@/utils/evm/contracts";
 import { useCollateralToggle } from "@/utils/evm/hooks/useCollateralToggle";
 import { useAccount } from "wagmi";
+import { formatTokenAmount } from "@/utils/formatters";
 
 type DepositItemProps = {
   address: `0x${string}`;
   amount: bigint;
+  chainId: number;
 };
 
 export const DepositItem: React.FC<DepositItemProps> = ({
   address,
   amount,
+  chainId,
 }) => {
   const { openModal } = useModalsStore();
   const { address: userAddress } = useAccount();
-  const { data: marketInfo, isPending } = useMarketInfo(address);
-  const chainInfo = getChainById(11155111);
+  const { data: marketInfo, isPending } = useMarketInfo(address, chainId);
+  const chainInfo = getChainById(chainId);
+
+  const getComptrollerAddress = (chainId: number): `0x${string}` => {
+    if (chainId === 11155111) {
+      return CONTRACT_ADDRESSES.sepolia.comptroller as `0x${string}`;
+    } else if (chainId === 421614) {
+      return CONTRACT_ADDRESSES.arbitrum_sepolia.comptroller as `0x${string}`;
+    }
+    return CONTRACT_ADDRESSES.sepolia.comptroller as `0x${string}`;
+  };
 
   let {
     isMember,
@@ -32,9 +44,9 @@ export const DepositItem: React.FC<DepositItemProps> = ({
     toggleCollateral,
     refetch,
   } = useCollateralToggle(
-    CONTRACT_ADDRESSES.sepolia.comptroller as `0x${string}`,
+    getComptrollerAddress(chainId),
     userAddress,
-    address,
+    address
   );
 
   const handleWithdrawClick = () => {
@@ -60,6 +72,7 @@ export const DepositItem: React.FC<DepositItemProps> = ({
   }
 
   const formatted = formatUnits(amount, marketInfo.cTokenDecimals);
+  const formattedNumber = parseFloat(formatted);
 
   const handleSwitch = async (value: boolean) => {
     await toggleCollateral(value);
@@ -73,7 +86,7 @@ export const DepositItem: React.FC<DepositItemProps> = ({
         primaryText={marketInfo.name}
       />
       <Table.ItemAmount
-        primaryValue={formatted}
+        primaryValue={formatTokenAmount(formattedNumber)}
         secondaryValue={`${marketInfo.symbol}`}
         mobileTitle={"Deposits"}
       />
@@ -87,6 +100,12 @@ export const DepositItem: React.FC<DepositItemProps> = ({
           onSwitch={handleSwitch}
           disabled={isChecking || isWriting || isConfirming}
         />
+      </Table.Item>
+      <Table.Item mobileTitle="Chain">
+        <div className={styles.chainDisplay}>
+          <CurrencyIcon width={16} height={16} currency={chainInfo?.currency!} />
+          <Text size={12} theme={400}>{chainInfo?.name}</Text>
+        </div>
       </Table.Item>
       <Table.Item>
         <Button

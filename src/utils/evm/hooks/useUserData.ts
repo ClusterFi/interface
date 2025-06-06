@@ -29,6 +29,7 @@ export const useUserData = (chainId: number, userAddress?: Address) => {
         abi: ABIS.CTokenABI as Abi,
         functionName: "balanceOf" as const,
         args: [userAddress!],
+        chainId: chainId,
       }))
     : [];
 
@@ -38,6 +39,7 @@ export const useUserData = (chainId: number, userAddress?: Address) => {
         abi: ABIS.CTokenABI as Abi,
         functionName: "borrowBalanceCurrent" as const,
         args: [userAddress!],
+        chainId: chainId,
       }))
     : [];
 
@@ -47,6 +49,7 @@ export const useUserData = (chainId: number, userAddress?: Address) => {
         abi: ABIS.CTokenABI as Abi,
         functionName: "borrowBalanceStored" as const,
         args: [userAddress!],
+        chainId: chainId,
       }))
     : [];
 

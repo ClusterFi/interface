@@ -141,6 +141,12 @@
   > * {
     flex: 1;
     max-width: calc(50% - 3px);
+    min-width: 70px;
+    
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
   }
 }
 
@@ -173,4 +179,78 @@
   z-index: 1;
   inset: 0;
   text-decoration: none;
+}
+
+.chainDisplay {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: $text-secondary;
+  font-size: 12px;
+  
+  p {
+    margin: 0;
+  }
+}
+
+.multiChain {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  
+  @include breakpoint-max("tablet") {
+    gap: 6px;
+  }
+}
+
+.chainItem {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  
+  @include breakpoint-max("tablet") {
+    padding: 1px 4px;
+    gap: 3px;
+  }
+}
+
+.chainSeparator {
+  color: var(--color-text-300);
+  margin: 0 4px;
+  font-weight: bold;
+  font-size: 10px;
+}
+
+.emptySubtitle {
+  margin-top: 4px;
+  color: var(--color-text-300);
+  font-size: 14px;
+}
+
+.subtitle {
+  margin-bottom: 12px;
+  color: var(--color-text-400);
+  font-size: 14px;
+}
+
+.crossChain {
+  color: var(--color-primary-400);
+  font-weight: 500;
+  margin-left: 2px;
+}
+
+.networkMismatch {
+  color: #ff6b6b;
+  margin-left: 4px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
 }

@@ -2,12 +2,11 @@
 
 import * as React from "react";
 import cx from "classnames";
-import { useAccount, useChainId } from "wagmi";
+import { useAccount } from "wagmi";
 import { useMemo } from "react";
 import { Address } from "viem";
 import { formatNumberCompact } from "@/utils";
 import { CONTRACT_ADDRESSES } from "@/utils/evm/contracts";
-import { useGetAllMarkets } from "@/utils/evm/hooks/useGetAllMarkets";
 import { useMultiNetworkStats } from "@/utils/evm/hooks/useMultiNetworkStats";
 
 import {
@@ -26,7 +25,6 @@ import { getState } from "./components/helpers";
 import styles from "./Dashboard.module.scss";
 import Image from "next/image";
 import { mediaBreaks, useMedia } from "@/utils";
-import { AssetInfo } from "@/types";
 import { ARBITRUM_CHAIN_ID, SEPOLIA_CHAIN_ID } from "@/constants";
 
 const tabs = {
@@ -43,23 +41,6 @@ export const DashboardPage: React.FC = () => {
   const componentState = "default" as any;
   const { address: userAddress } = useAccount();
   const isConnected = !!userAddress;
-  const chainId = useChainId();
-  const {
-    data: rawMarkets,
-    isPending: isMarketsPending,
-    error: marketsError,
-  } = useGetAllMarkets(chainId);
-
-  const markets = rawMarkets as Address[];
-
-  const asset = useMemo<AssetInfo | undefined>(() => {
-    if (!markets || markets.length === 0) return undefined;
-
-    return {
-      cTokenAddress: markets[0] as Address,
-      underlyingDecimals: 18,
-    };
-  }, [markets]);
 
   const {
     stats: statsAcrossChains,
@@ -118,11 +99,12 @@ export const DashboardPage: React.FC = () => {
           </Section>
         ) : (
           <React.Fragment>
+            {/* Cross-Chain Stats Header */}
             {isConnected && (
               <div className={styles.info}>
                 <div className={styles.box}>
                   <Text className={styles.boxTitle} size={14} theme={500}>
-                    Net worth
+                    Cross-Chain Net Worth
                   </Text>
                   <Heading className={styles.boxText} element="h3">
                     {renderValue(
@@ -133,10 +115,13 @@ export const DashboardPage: React.FC = () => {
                       "$",
                     )}{" "}
                   </Heading>
+                  <Text size={10} theme={400} className={styles.chainInfo}>
+                    Across Ethereum & Arbitrum
+                  </Text>
                 </div>
                 <div className={styles.box}>
                   <Text className={styles.boxTitle} size={14} theme={500}>
-                    Net APY
+                    Cross-Chain APY
                   </Text>
                   <Heading className={styles.boxText} element="h3">
                     <span>
@@ -148,6 +133,9 @@ export const DashboardPage: React.FC = () => {
                       )}
                     </span>
                   </Heading>
+                  <Text size={10} theme={400} className={styles.chainInfo}>
+                    Weighted average
+                  </Text>
                 </div>
                 <div className={styles.box}>
                   <Text className={styles.boxTitle} size={14} theme={500}>
@@ -168,6 +156,9 @@ export const DashboardPage: React.FC = () => {
                       </Text>
                     </Button>
                   </Heading>
+                  <Text size={10} theme={400} className={styles.chainInfo}>
+                    Cross-chain collateral
+                  </Text>
                 </div>
               </div>
             )}

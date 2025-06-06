@@ -29,6 +29,8 @@ import {
   SupplyProps,
   BorrowRepay,
   BorrowRepayProps,
+  Repay,
+  RepayProps,
   Withdraw,
   WithdrawProps,
   Details,
@@ -52,6 +54,7 @@ export type ModalPropsMap = {
   Borrow: BorrowProps;
   Supply: SupplyProps;
   BorrowRepay: BorrowRepayProps;
+  Repay: RepayProps;
   Withdraw: WithdrawProps;
 };
 export type ModalProps = {
@@ -80,6 +83,7 @@ const modalsByName: TModals = {
   Loans,
   Supply,
   BorrowRepay,
+  Repay,
   Withdraw,
 } as const;
 
