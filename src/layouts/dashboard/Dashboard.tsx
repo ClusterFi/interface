@@ -115,7 +115,7 @@ export const DashboardPage: React.FC = () => {
                       "$",
                     )}{" "}
                   </Heading>
-                  <Text size={10} theme={400} className={styles.chainInfo}>
+                  <Text size={12} theme={400} className={styles.chainInfo}>
                     Across Ethereum & Arbitrum
                   </Text>
                 </div>
