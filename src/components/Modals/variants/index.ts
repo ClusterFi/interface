@@ -13,4 +13,5 @@ export * from "./Loans/Loans";
 export * from "./Borrow/Borrow";
 export * from "./Supply/Supply";
 export * from "./BorrowRepay/BorrowRepay";
+export * from "./Repay/Repay";
 export * from "./Withdraw/Withdraw";

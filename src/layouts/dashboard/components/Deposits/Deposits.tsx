@@ -9,10 +9,10 @@ import { DepositItemOverall } from "./DepositItemOverall";
 import styles from "./Deposits.module.scss";
 import { Currency } from "@/types";
 import Image from "next/image";
-import { useGetAllMarkets } from "@/utils/evm/hooks/useGetAllMarkets";
+import { useGetAllMarketsForSupportedNetworks } from "@/utils/evm/hooks/useGetAllMarkets";
 import { useAccount } from "wagmi";
 import { useUserData } from "@/utils/evm/hooks/useUserData";
-import { useGlobalStore } from "@/utils/stores";
+import { SEPOLIA_CHAIN_ID, ARBITRUM_CHAIN_ID } from "@/constants";
 
 type TAsset = {
   id: string;
@@ -34,16 +34,37 @@ type DepositsProps = {
 
 export const Deposits: React.FC<DepositsProps> = ({ state }) => {
   type Address = `0x${string}`;
-  const { chainId } = useGlobalStore();
-  const { data, isPending, error } = useGetAllMarkets(chainId);
-  const addresses = (data ?? []) as Address[];
   const { address: userAddress } = useAccount();
-  const { supplies, isPending: isUserDataPending } = useUserData(chainId, userAddress);
+  
+  const allMarketsData = useGetAllMarketsForSupportedNetworks();
+  
+  const { supplies: ethereumSupplies, isPending: isEthereumPending } = useUserData(SEPOLIA_CHAIN_ID, userAddress);
+  const { supplies: arbitrumSupplies, isPending: isArbitrumPending } = useUserData(ARBITRUM_CHAIN_ID, userAddress);
 
-  const hasSupplies =
-    supplies &&
-    supplies.length > 0 &&
-    supplies.some((supply) => supply.balance > BigInt(0));
+  React.useEffect(() => {
+    console.log("Cross-Chain Supply Data Debug:", {
+      userAddress,
+      ethereumSupplies: ethereumSupplies?.length || 0,
+      arbitrumSupplies: arbitrumSupplies?.length || 0,
+      isEthereumPending,
+      isArbitrumPending,
+      ethereumSuppliesData: ethereumSupplies,
+      arbitrumSuppliesData: arbitrumSupplies,
+    });
+  }, [userAddress, ethereumSupplies, arbitrumSupplies, isEthereumPending, isArbitrumPending]);
+
+  const allSupplies = React.useMemo(() => {
+    const combined = [];
+    if (ethereumSupplies) {
+      combined.push(...ethereumSupplies.map(supply => ({ ...supply, chainId: SEPOLIA_CHAIN_ID })));
+    }
+    if (arbitrumSupplies) {
+      combined.push(...arbitrumSupplies.map(supply => ({ ...supply, chainId: ARBITRUM_CHAIN_ID })));
+    }
+    return combined;
+  }, [ethereumSupplies, arbitrumSupplies]);
+
+  const hasSupplies = allSupplies.length > 0 && allSupplies.some((supply) => supply.balance > BigInt(0));
 
   return (
     <div className={styles.base}>
@@ -59,9 +80,12 @@ export const Deposits: React.FC<DepositsProps> = ({ state }) => {
           <Heading element="h4" className={styles.emptyTitle}>
             Nothing supplied yet
           </Heading>
+          <Text size={12} theme={400} className={styles.emptySubtitle}>
+            Across all supported chains
+          </Text>
         </Section>
       ) : (
-        <Accordion title="Your Supply" defaultOpen>
+        <Accordion title="Your Cross-Chain Supply" defaultOpen>
           <CommonInfo />
           <Table className={styles.table}>
             <Table.Head>
@@ -73,30 +97,29 @@ export const Deposits: React.FC<DepositsProps> = ({ state }) => {
                   Collateral
                   <Icon glyph="Info" width={10} height={10} />
                 </Table.Item>
+                <Table.Item>Chain</Table.Item>
                 <Table.Item />
               </Table.Row>
             </Table.Head>
             <Table.Body className={styles.body}>
-              {supplies
+              {allSupplies
                 .filter((supply) => supply.balance > BigInt(0))
                 .map((supply, index) => (
                   <DepositItem
-                    key={index}
+                    key={`${supply.cToken}-${supply.chainId}-${index}`}
                     address={supply.cToken}
                     amount={supply.balance}
+                    chainId={supply.chainId}
                   />
                 ))}
             </Table.Body>
           </Table>
         </Accordion>
       )}
-      <Accordion defaultOpen title="Suppliable Assets">
-        {/* <label className={styles.manage}>
-          <input type='checkbox' className={styles.checkbox} />
-          <Text size={12} theme={400}>
-            Show assets with 0 balance
-          </Text>
-        </label> */}
+      <Accordion defaultOpen title="All Suppliable Assets">
+        <Text size={12} theme={400} className={styles.subtitle}>
+          Assets available across Ethereum and Arbitrum networks
+        </Text>
         <Table className={styles.table}>
           <Table.Head>
             <Table.Row>
@@ -106,14 +129,15 @@ export const Deposits: React.FC<DepositsProps> = ({ state }) => {
               <Icon glyph="Info" width={10} height={10} />
               </Table.Item>
               <Table.Item>Can be collateral</Table.Item>
+              <Table.Item>Chain</Table.Item>
               <Table.Item />
             </Table.Row>
           </Table.Head>
           <Table.Body className={styles.body}>
-            {addresses.map((address, index) => (
+            {allMarketsData?.map(({ market, chainId }) => (
               <DepositItemOverall
-                key={index}
-                address={address}
+                key={`${market}-${chainId}`}
+                address={market}
                 chainId={chainId}
               />
             ))}

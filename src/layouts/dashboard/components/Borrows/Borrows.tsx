@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Accordion, Heading, Icon, Section, Table } from "@/components";
+import { Accordion, Heading, Icon, Section, Table, Text } from "@/components";
 import { CommonInfo } from "../CommonInfo/CommonInfo";
 import { BorrowItem } from "./BorrowItem";
 import styles from "./Borrows.module.scss";
@@ -11,13 +11,14 @@ import { useGetAllMarketsForSupportedNetworks } from "@/utils/evm/hooks/useGetAl
 import { useAccount } from "wagmi";
 import { useUserData } from "@/utils/evm/hooks/useUserData";
 import { useMarketInfo } from "@/utils/evm/hooks/useMarketInfo";
+import { SEPOLIA_CHAIN_ID, ARBITRUM_CHAIN_ID } from "@/constants";
 
 type BorrowsProps = {
   state: ComponentState;
 };
 
-const BorrowItemWrapper: React.FC<{ borrow: Borrow }> = ({ borrow }) => {
-  const { data: marketInfo } = useMarketInfo(borrow.cToken as `0x${string}`);
+const BorrowItemWrapper: React.FC<{ borrow: Borrow & { chainId: number } }> = ({ borrow }) => {
+  const { data: marketInfo } = useMarketInfo(borrow.cToken as `0x${string}`, borrow.chainId);
 
   return (
     <BorrowItem
@@ -25,26 +26,66 @@ const BorrowItemWrapper: React.FC<{ borrow: Borrow }> = ({ borrow }) => {
       name={marketInfo?.name || ""}
       amount={borrow.currentBalance}
       address={marketInfo?.underlying}
+      cTokenAddress={borrow.cToken as `0x${string}`}
+      chainId={borrow.chainId}
     />
   );
 };
 
 export const Borrows: React.FC<BorrowsProps> = ({ state }) => {
   const { address: userAddress } = useAccount();
-  const { borrows, isPending: isUserDataPending } = useUserData(
-    11155111,
-    userAddress,
-  );
+  
+
+  const { borrows: ethereumBorrows, isPending: isEthereumPending } = useUserData(SEPOLIA_CHAIN_ID, userAddress);
+  const { borrows: arbitrumBorrows, isPending: isArbitrumPending } = useUserData(ARBITRUM_CHAIN_ID, userAddress);
 
   const markets = useGetAllMarketsForSupportedNetworks();
 
-  const hasBorrows =
-    borrows &&
-    borrows.length > 0 &&
-    borrows.some(
-      (borrow) =>
-        borrow.currentBalance > BigInt(0) || borrow.storedBalance > BigInt(0),
-    );
+  const allBorrows = React.useMemo(() => {
+    const combined = [];
+    if (ethereumBorrows) {
+      combined.push(...ethereumBorrows.map(borrow => ({ ...borrow, chainId: SEPOLIA_CHAIN_ID })));
+    }
+    if (arbitrumBorrows) {
+      combined.push(...arbitrumBorrows.map(borrow => ({ ...borrow, chainId: ARBITRUM_CHAIN_ID })));
+    }
+    return combined;
+  }, [ethereumBorrows, arbitrumBorrows]);
+
+  const consolidatedMarkets = React.useMemo(() => {
+    if (!markets) return [];
+    
+    if (markets.length <= 1) {
+      return markets.map(({ market, chainId }) => ({
+        key: `market-${chainId}`,
+        sourceAddress: market,
+        sourceChainId: chainId,
+        destinationChainId: chainId,
+        isConsolidated: false,
+        consolidatedChains: undefined,
+      }));
+    }
+    
+    const primaryMarket = markets[0];
+    const allChains = markets.map(({ market, chainId }) => ({
+      chainId,
+      address: market,
+    }));
+    
+    return [{
+      key: 'usdc-consolidated',
+      sourceAddress: primaryMarket.market,
+      sourceChainId: primaryMarket.chainId,
+      destinationChainId: primaryMarket.chainId,
+      isConsolidated: true,
+      consolidatedChains: allChains,
+    }];
+  }, [markets]);
+
+  const hasBorrows = allBorrows.length > 0 && allBorrows.some(
+    (borrow) =>
+      borrow.currentBalance > BigInt(0) || borrow.storedBalance > BigInt(0),
+  );
 
   return (
     <div className={styles.base}>
@@ -60,9 +101,12 @@ export const Borrows: React.FC<BorrowsProps> = ({ state }) => {
           <Heading element="h4" className={styles.emptyTitle}>
             Nothing borrowed yet
           </Heading>
+          <Text size={12} theme={400} className={styles.emptySubtitle}>
+            Across all supported chains
+          </Text>
         </Section>
       ) : (
-        <Accordion title="Your borrows" defaultOpen>
+        <Accordion title="Your Cross-Chain Borrows" defaultOpen>
           <CommonInfo />
           <Table className={styles.table}>
             <Table.Head>
@@ -70,24 +114,28 @@ export const Borrows: React.FC<BorrowsProps> = ({ state }) => {
                 <Table.Item>Asset</Table.Item>
                 <Table.Item>Borrows</Table.Item>
                 <Table.Item>APY</Table.Item>
+                <Table.Item>Chain</Table.Item>
                 <Table.Item></Table.Item>
               </Table.Row>
             </Table.Head>
             <Table.Body className={styles.body}>
-              {borrows
+              {allBorrows
                 .filter(
                   (borrow) =>
                     borrow.currentBalance > BigInt(0) ||
                     borrow.storedBalance > BigInt(0),
                 )
                 .map((borrow, index) => (
-                  <BorrowItemWrapper key={index} borrow={borrow} />
+                  <BorrowItemWrapper key={`${borrow.cToken}-${borrow.chainId}-${index}`} borrow={borrow} />
                 ))}
             </Table.Body>
           </Table>
         </Accordion>
       )}
-      <Accordion defaultOpen title="Borrowable Assets">
+      <Accordion defaultOpen title="All Borrowable Assets">
+        <Text size={12} theme={400} className={styles.subtitle}>
+          Cross-chain borrowing available across Ethereum and Arbitrum networks
+        </Text>
         <Table className={styles.table}>
           <Table.Head>
             <Table.Row>
@@ -100,16 +148,19 @@ export const Borrows: React.FC<BorrowsProps> = ({ state }) => {
                 APY
                 <Icon glyph="Info" width={10} height={10} />
               </Table.Item>
+              <Table.Item>Chain</Table.Item>
               <Table.Item></Table.Item>
             </Table.Row>
           </Table.Head>
           <Table.Body className={styles.body}>
-            {markets?.map(({ market, chainId }) => (
+            {consolidatedMarkets.map((market) => (
               <BorrowItemOverall
-                key={`${market}-${chainId}`}
-                sourceAddress={market}
-                sourceChainId={chainId}
-                destinationChainId={chainId}
+                key={market.key}
+                sourceAddress={market.sourceAddress}
+                sourceChainId={market.sourceChainId}
+                destinationChainId={market.destinationChainId}
+                isConsolidated={market.isConsolidated}
+                consolidatedChains={market.consolidatedChains}
               />
             ))}
           </Table.Body>
