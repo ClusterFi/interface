@@ -10,7 +10,8 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { shortenAddress } from "@/utils";
 import { useAccount } from "wagmi";
 import { SOLANA_CHAIN_ID } from "@/constants";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { ConnectButton, getDefaultWallets } from "@rainbow-me/rainbowkit";
+import { useEffect } from "react";
 
 type ConnectWalletButtonProps = {
   className?: string;

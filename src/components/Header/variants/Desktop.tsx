@@ -12,12 +12,14 @@ import {
   ConnectedWallet,
   Logotype,
 } from "@/components";
-import { formatCoin } from "@/utils";
+import { formatCoin, shortenAddress } from "@/utils";
 import { Nav } from "./Nav";
 import { Status } from "./Status";
 
 import styles from "./Header.module.scss";
 import { useOnClickOutside } from "usehooks-ts";
+import { useAccount } from "wagmi";
+import { useEffect } from "react";
 
 type DesktopProps = {
   className?: string;
@@ -29,6 +31,18 @@ export const Desktop: React.FC<DesktopProps> = ({ className }) => {
   const profileRef = React.useRef<HTMLDivElement>(null);
   const [balanceOpened, setBalanceOpened] = React.useState(false);
   const [profileOpened, setProfileOpened] = React.useState(false);
+
+  const { address, status } = useAccount();
+
+  useEffect(() => {
+    if (status === 'connected' && address) {
+      console.log("Connected wallet:", address);
+    } else if (status === 'disconnected') {
+      console.log("Wallet not connected.");
+    } else {
+      console.log("Hydrating...");
+    }
+  }, [status, address]);
 
   useOnClickOutside(balanceRef, () => {
     setBalanceOpened(false);
@@ -46,7 +60,8 @@ export const Desktop: React.FC<DesktopProps> = ({ className }) => {
         <div className={styles.manage}>
           <Status />
           <NetworkSelection />
-          {!isAuthed ? (
+          {!address ? (
+          // {!isAuthed ? (
             <ConnectWalletButton />
           ) : (
             <React.Fragment>
@@ -77,7 +92,7 @@ export const Desktop: React.FC<DesktopProps> = ({ className }) => {
                   onClick={() => setProfileOpened((prev) => !prev)}
                 >
                   <Text size={14} theme={600}>
-                    0x6fdfr...680a
+                    {shortenAddress(address)}
                   </Text>
                 </Button>
                 <ConnectedWallet
