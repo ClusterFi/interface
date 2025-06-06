@@ -3,7 +3,10 @@ import { DashboardPage } from "@/layouts";
 
 export const metadata: Metadata = {
   title: "Dashboard",
-  description: "Page description",
+  description: "Omnichain lending & borrowing across EVM.(Testnet)",
+  icons: {
+    icon: "images/favicon.jpg",
+  },
 };
 
 export default function Page() {

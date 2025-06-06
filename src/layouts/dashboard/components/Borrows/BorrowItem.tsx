@@ -13,8 +13,8 @@ type BorrowItemProps = {
   currency: Currency;
   name: string;
   amount: bigint;
-  address?: `0x${string}` | undefined; 
-  cTokenAddress: `0x${string}`; 
+  address?: `0x${string}` | undefined;
+  cTokenAddress: `0x${string}`;
   chainId: number;
 };
 
@@ -61,13 +61,18 @@ export const BorrowItem: React.FC<BorrowItemProps> = ({
       <Table.ItemAmount
         primaryValue={"8.33%"}
         secondaryValue={""}
-        isSecondaryWrapped
         mobileTitle={"APY"}
       />
       <Table.Item mobileTitle="Chain">
         <div className={styles.chainDisplay}>
-          <CurrencyIcon width={16} height={16} currency={chainInfo?.currency!} />
-          <Text size={12} theme={400}>{chainInfo?.name}</Text>
+          <CurrencyIcon
+            width={16}
+            height={16}
+            currency={chainInfo?.currency!}
+          />
+          <Text size={12} theme={400}>
+            {chainInfo?.name}
+          </Text>
         </div>
       </Table.Item>
 
