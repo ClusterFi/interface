@@ -133,7 +133,7 @@ export const DashboardPage: React.FC = () => {
                       )}
                     </span>
                   </Heading>
-                  <Text size={10} theme={400} className={styles.chainInfo}>
+                  <Text size={12} theme={400} className={styles.chainInfo}>
                     Weighted average
                   </Text>
                 </div>
@@ -156,7 +156,7 @@ export const DashboardPage: React.FC = () => {
                       </Text>
                     </Button>
                   </Heading>
-                  <Text size={10} theme={400} className={styles.chainInfo}>
+                  <Text size={12} theme={400} className={styles.chainInfo}>
                     Cross-chain collateral
                   </Text>
                 </div>
