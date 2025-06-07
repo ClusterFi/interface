@@ -1,57 +1,25 @@
 import * as React from "react";
 
 import { Accordion, Heading, Icon, Section, Table, Text } from "@/components";
-import { ComponentState } from "../helpers";
 import { CommonInfo } from "../CommonInfo/CommonInfo";
 import { DepositItem } from "./DepositItem";
 import { DepositItemOverall } from "./DepositItemOverall";
 
-import styles from "./Deposits.module.scss";
-import { Currency } from "@/types";
 import Image from "next/image";
 import { useGetAllMarketsForSupportedNetworks } from "@/utils/evm/hooks/useGetAllMarkets";
 import { useAccount } from "wagmi";
 import { useUserData } from "@/utils/evm/hooks/useUserData";
 import { SEPOLIA_CHAIN_ID, ARBITRUM_CHAIN_ID } from "@/constants";
 
-type TAsset = {
-  id: string;
-  name: string;
-  currency: Currency;
-};
+import styles from "./Deposits.module.scss";
 
-const assets: TAsset[] = [
-  {
-    id: "0",
-    name: "rETH",
-    currency: "RocketPoolETH",
-  },
-];
-
-type DepositsProps = {
-  state: ComponentState;
-};
-
-export const Deposits: React.FC<DepositsProps> = ({ state }) => {
-  type Address = `0x${string}`;
+export const Deposits = () => {
   const { address: userAddress } = useAccount();
   
   const allMarketsData = useGetAllMarketsForSupportedNetworks();
   
-  const { supplies: ethereumSupplies, isPending: isEthereumPending } = useUserData(SEPOLIA_CHAIN_ID, userAddress);
-  const { supplies: arbitrumSupplies, isPending: isArbitrumPending } = useUserData(ARBITRUM_CHAIN_ID, userAddress);
-
-  React.useEffect(() => {
-    console.log("Cross-Chain Supply Data Debug:", {
-      userAddress,
-      ethereumSupplies: ethereumSupplies?.length || 0,
-      arbitrumSupplies: arbitrumSupplies?.length || 0,
-      isEthereumPending,
-      isArbitrumPending,
-      ethereumSuppliesData: ethereumSupplies,
-      arbitrumSuppliesData: arbitrumSupplies,
-    });
-  }, [userAddress, ethereumSupplies, arbitrumSupplies, isEthereumPending, isArbitrumPending]);
+  const { supplies: ethereumSupplies } = useUserData(SEPOLIA_CHAIN_ID, userAddress);
+  const { supplies: arbitrumSupplies } = useUserData(ARBITRUM_CHAIN_ID, userAddress);
 
   const allSupplies = React.useMemo(() => {
     const combined = [];

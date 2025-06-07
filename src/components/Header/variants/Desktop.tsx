@@ -5,7 +5,6 @@ import {
   Container,
   Text,
   Button,
-  NetworkSelection,
   ConnectWalletButton,
   CurrencyIcon,
   Balance,
@@ -45,7 +44,6 @@ export const Desktop: React.FC<DesktopProps> = ({ className }) => {
         <Nav />
         <div className={styles.manage}>
           <Status />
-          <NetworkSelection />
           {!isAuthed ? (
             <ConnectWalletButton />
           ) : (

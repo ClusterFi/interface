@@ -3,7 +3,6 @@
 import * as React from "react";
 import cx from "classnames";
 import { useAccount } from "wagmi";
-import { useMemo } from "react";
 import { Address } from "viem";
 import { formatNumberCompact } from "@/utils";
 import { CONTRACT_ADDRESSES } from "@/utils/evm/contracts";
@@ -19,13 +18,11 @@ import {
   AnimatedButton,
 } from "@/components";
 
-import { Deposits, Borrows } from "./components";
-import { getState } from "./components/helpers";
+import Image from "next/image";
+import { ARBITRUM_CHAIN_ID, SEPOLIA_CHAIN_ID } from "@/constants";
 
 import styles from "./Dashboard.module.scss";
-import Image from "next/image";
-import { mediaBreaks, useMedia } from "@/utils";
-import { ARBITRUM_CHAIN_ID, SEPOLIA_CHAIN_ID } from "@/constants";
+import {Borrows, Deposits} from "@/layouts/dashboard/components";
 
 const tabs = {
   supply: "supply",
@@ -37,16 +34,13 @@ type Tab = keyof typeof tabs;
 export const DashboardPage: React.FC = () => {
   const [activeTab, setActiveTab] = React.useState<Tab>(tabs.supply);
   const [activeNav, setActiveNav] = React.useState(0);
-  const isMobile = useMedia(mediaBreaks.max.xga);
   const componentState = "default" as any;
   const { address: userAddress } = useAccount();
   const isConnected = !!userAddress;
 
   const {
-    stats: statsAcrossChains,
     aggregate,
     isPending,
-    error,
   } = useMultiNetworkStats({
     userAddress,
     comptrollerAddresses: {
@@ -162,7 +156,6 @@ export const DashboardPage: React.FC = () => {
                 </div>
               </div>
             )}
-            {isMobile && (
               <CustomTabs className={styles.tabs}>
                 {Object.entries(tabs).map(([key, val]) => (
                   <CustomTabs.Item
@@ -174,7 +167,6 @@ export const DashboardPage: React.FC = () => {
                   </CustomTabs.Item>
                 ))}
               </CustomTabs>
-            )}
             <div className={styles.inner}>
               <div className={styles.options}>
                 <Button
@@ -211,11 +203,11 @@ export const DashboardPage: React.FC = () => {
                   </Text>
                 </Button>
               </div>
-              <div className={styles.row}>
-                {Boolean(!isMobile || activeTab === tabs.supply) && (
-                  <Deposits state={componentState} />
+              <div>
+                {Boolean(activeTab === tabs.supply) && (
+                  <Deposits />
                 )}
-                {Boolean(!isMobile || activeTab === tabs.borrow) && (
+                {Boolean(activeTab === tabs.borrow) && (
                   <Borrows state={componentState} />
                 )}
               </div>

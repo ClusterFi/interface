@@ -27,17 +27,6 @@
   }
 }
 
-.row {
-  display: grid;
-  grid-template-columns: repeat(2, calc(50% - 10px));
-  gap: 20px;
-
-  @include breakpoint-max("xga") {
-    grid-template-columns: 100%;
-    gap: 16px;
-  }
-}
-
 .auth {
   padding: 120px 32px;
   display: flex;
