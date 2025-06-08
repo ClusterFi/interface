@@ -3,7 +3,7 @@
 import * as React from "react";
 import cx from "classnames";
 import { ModalLayout } from "@/components/Modals/ModalLayout/ModalLayout";
-import { Connector, useConnect } from "wagmi";
+import { Connector, useConnect, useAccount, useConnectors } from "wagmi";
 import {
   ModalProps,
   WalletIcon,
@@ -20,8 +20,12 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletReadyState } from "@solana/wallet-adapter-base";
 import { SolanaWalletBtn } from "./SolanaWalletBtn";
 import { EvmWalletBtn } from "./EvmWalletBtn";
-import { useGlobalStore } from "@/utils/stores";
+import { useGlobalStore, useModalsStore } from "@/utils/stores";
 import { SOLANA_CHAIN_ID } from "@/constants";
+import { metaMask, walletConnect, injected, safe, coinbaseWallet } from 'wagmi/connectors';
+import { AppContext } from "@/contexts/AppContext";
+import { shortenAddress } from "@/utils";
+
 
 export type ConnectWalletProps = null;
 
@@ -37,7 +41,7 @@ export type WalletVariant = {
 
 const EVM_WALLETS: WalletVariant[] = [
   {
-    id: "metamask",
+    id: "metaMask",
     icon: <WalletIcon wallet={"MetaMask"} width={24} height={24} />,
     name: "MetaMask",
   },
@@ -120,7 +124,42 @@ const SOL_WALLETS: WalletVariant[] = [
 
 export const ConnectWallet: React.FC<ConnectWallet> = ({ props, ...rest }) => {
   const { chainId } = useGlobalStore();
-  const { connectors, connect } = useConnect();
+  const { wallets } = useWallet();
+  const { account, isSolana } = React.useContext(AppContext);
+  const solWallet = wallets.find(w => w.adapter.name === (isSolana ? wallets[0]?.adapter?.name : undefined));
+  const { connector: activeConnector } = useAccount();
+  const connectors = useConnectors();
+  const { closeModal } = useModalsStore();
+
+  // Find the icon for the connected EVM wallet
+  let evmIcon: React.ReactElement = <WalletIcon wallet={"MetaMask"} width={24} height={24} />;
+  if (activeConnector) {
+    let found: WalletVariant | undefined = undefined;
+    if (activeConnector.id === 'injected') {
+      // Try to detect Trust Wallet by provider or connector name
+      const isTrust = typeof window !== 'undefined' &&
+        (window.ethereum?.isTrust || (activeConnector.name && activeConnector.name.toLowerCase().includes('trust')));
+      if (isTrust) {
+        found = EVM_WALLETS.find(w => w.id === 'trust');
+      } else {
+        found = EVM_WALLETS.find(w => w.id === 'metaMask');
+      }
+    } else {
+      found = EVM_WALLETS.find(w => w.id === activeConnector.id);
+    }
+    if (found && React.isValidElement(found.icon)) {
+      evmIcon = found.icon as React.ReactElement;
+    }
+  }
+
+  // Auto-close modal on new connect (only when account changes from falsy to truthy)
+  const prevAccountRef = React.useRef(account);
+  React.useEffect(() => {
+    if (!prevAccountRef.current && account) {
+      closeModal();
+    }
+    prevAccountRef.current = account;
+  }, [account, closeModal]);
 
   return (
     <ModalLayout title={"Connect Wallet"} isSwipeable {...rest}>
@@ -133,30 +172,38 @@ export const ConnectWallet: React.FC<ConnectWallet> = ({ props, ...rest }) => {
             To start using Cluster
           </Text>
         </React.Fragment>
-        <div className="flex flex-col items-center justify-center gap-5">
-          {connectors.map((connector: Connector) => (
-            <button
-              key={connector.id}
-              onClick={() => connect({ connector })}
-              className="flex items-center justify-center w-full max-w-xs px-4 py-3 space-x-3 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              {connector.icon && (
-                <div className="w-6 h-6 flex items-center gap-2">
+        <div className="flex flex-col items-center justify-center gap-2 w-full">
+          {/* Connected wallet at the top (only if connected) */}
+          {account && (
+            <div className={cx(styles.button, styles.solana)} style={{ display: 'flex', alignItems: 'center', marginBottom: 12 }}>
+              {isSolana ? (
+                <>
                   <img
-                    src={connector.icon}
-                    alt={`${connector.name} icon`}
-                    width={24}
-                    height={24}
+                    src={solWallet?.adapter.icon ?? ''}
+                    alt={solWallet?.adapter.name ?? ''}
+                    style={{ width: 24, height: 24, borderRadius: 4, marginRight: 8 }}
                   />
-                </div>
+                  <span style={{ fontWeight: 500 }}>{shortenAddress(account)}</span>
+                  <span className={styles.status} style={{ marginLeft: 'auto', color: 'var(--text-secondary)' }}>Connected</span>
+                </>
+              ) : (
+                <>
+                  {evmIcon}
+                  <span style={{ fontWeight: 500, marginLeft: 8 }}>{shortenAddress(account)}</span>
+                  <span className={styles.status} style={{ marginLeft: 'auto', color: 'var(--text-secondary)' }}>Connected</span>
+                </>
               )}
-              <span className="text-sm font-medium">{connector.name}</span>
-            </button>
+            </div>
+          )}
+          {/* Divider (only if connected) */}
+          {account && <div style={{ width: '100%', borderBottom: '1px solid var(--stroke-grey)', margin: '16px 0' }} />}
+          {/* EVM wallets */}
+          {EVM_WALLETS.map((wallet, idx) => (
+            <EvmWalletBtn key={wallet.id} {...wallet} index={idx} />
           ))}
         </div>
-
         <Text size={12} theme={400} className={styles.note}>
-          By connecting I accept Cluster’s{" "}
+          By connecting I accept Cluster's{" "}
           <Link target={"_blank"} href="#">
             Terms of Service
           </Link>
