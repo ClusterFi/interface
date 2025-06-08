@@ -76,15 +76,19 @@ export const DepositItemOverall: React.FC<DepositItemOverallProps> = ({
         currency={marketInfo?.name as Currency}
         primaryText={marketInfo && marketInfo.name}
       />
-      <Table.Item mobileTitle={"Wallet balance"}>
-        {result.data?.formatted
-          ? formatTokenAmount(parseFloat(result.data.formatted), marketInfo?.symbol)
-          : "—"}
-      </Table.Item>
+      <Table.ItemAmount
+        primaryValue={
+          result.data?.formatted
+            ? formatTokenAmount(parseFloat(result.data.formatted))
+            : "—"
+        }
+        secondaryValue={`${marketInfo?.symbol}`}
+        mobileTitle={"Wallet balance"}
+      />
       <Table.Item mobileTitle={"APY"}>
         {marketInfo?.supplyAPY.toFixed(2)}%
       </Table.Item>
-      <Table.Item mobileTitle="Can be collateral">
+      <Table.Item mobileTitle="Collateral">
         {isLoading ? (
           <Skeleton width={16} height={16} />
         ) : isMember ? (
@@ -95,8 +99,14 @@ export const DepositItemOverall: React.FC<DepositItemOverallProps> = ({
       </Table.Item>
       <Table.Item mobileTitle="Chain">
         <div className={styles.chainDisplay}>
-          <CurrencyIcon width={16} height={16} currency={chainInfo?.currency!} />
-          <Text size={12} theme={400}>{chainInfo?.name}</Text>
+          <CurrencyIcon
+            width={16}
+            height={16}
+            currency={chainInfo?.currency!}
+          />
+          <Text size={12} theme={400}>
+            {chainInfo?.name}
+          </Text>
         </div>
       </Table.Item>
       <Table.Item>

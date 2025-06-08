@@ -27,7 +27,11 @@ export const BorrowItemOverall: React.FC<BorrowItemOverallProps> = ({
   consolidatedChains,
   isConsolidated = false,
 }) => {
-  const { data: marketInfo, isPending, error } = useMarketInfo(sourceAddress, sourceChainId);
+  const {
+    data: marketInfo,
+    isPending,
+    error,
+  } = useMarketInfo(sourceAddress, sourceChainId);
   const { openModal } = useModalsStore();
   const { isConnected } = useAccount();
 
@@ -37,7 +41,7 @@ export const BorrowItemOverall: React.FC<BorrowItemOverallProps> = ({
 
   const sourceChainInfo = getChainById(sourceChainId);
   const destinationChainInfo = getChainById(destinationChainId);
-  
+
   const handleClick = () => {
     openModal("Borrow", {
       sourceChain: {
@@ -67,13 +71,15 @@ export const BorrowItemOverall: React.FC<BorrowItemOverallProps> = ({
               const chainInfo = getChainById(chain.chainId);
               return (
                 <div key={chain.chainId} className={styles.chainItem}>
-                  <CurrencyIcon width={16} height={16} currency={chainInfo?.currency!} />
+                  <CurrencyIcon
+                    width={16}
+                    height={16}
+                    currency={chainInfo?.currency!}
+                  />
                   <Text size={12} theme={400}>
                     {chainInfo?.name}
                   </Text>
-                  {index < consolidatedChains.length - 1 && (
-                    <span className={styles.chainSeparator}>•</span>
-                  )}
+                  {index < consolidatedChains.length - 1}
                 </div>
               );
             })}
@@ -84,11 +90,18 @@ export const BorrowItemOverall: React.FC<BorrowItemOverallProps> = ({
 
     return (
       <div className={styles.chainDisplay}>
-        <CurrencyIcon width={16} height={16} currency={sourceChainInfo?.currency!} />
+        <CurrencyIcon
+          width={16}
+          height={16}
+          currency={sourceChainInfo?.currency!}
+        />
         <Text size={12} theme={400}>
           {sourceChainInfo?.name}
           {sourceChainId !== destinationChainId && (
-            <span className={styles.crossChain}> → {destinationChainInfo?.name}</span>
+            <span className={styles.crossChain}>
+              {" "}
+              → {destinationChainInfo?.name}
+            </span>
           )}
         </Text>
       </div>
@@ -106,24 +119,28 @@ export const BorrowItemOverall: React.FC<BorrowItemOverallProps> = ({
       <Table.ItemAmount
         primaryValue={
           marketInfo
-            ? formatTokenAmount(Number(marketInfo.cash) / 10 ** marketInfo.decimals, marketInfo.symbol)
+            ? formatTokenAmount(
+                Number(marketInfo.cash) / 10 ** marketInfo.decimals,
+                marketInfo.symbol
+              )
             : "0"
         }
         secondaryValue={
           marketInfo
-            ? formatTokenAmount(Number(marketInfo.cash) / 10 ** marketInfo.decimals, marketInfo.symbol)
+            ? formatTokenAmount(
+                Number(marketInfo.cash) / 10 ** marketInfo.decimals,
+                marketInfo.symbol
+              )
             : "0"
         }
-        mobileTitle="Available"
+        mobileTitle="Borrow Limit"
       />
 
       <Table.Item mobileTitle="APY">
         {marketInfo ? `${marketInfo.borrowAPY.toFixed(2)}%` : "0%"}
       </Table.Item>
 
-      <Table.Item mobileTitle="Chain">
-        {renderChainDisplay()}
-      </Table.Item>
+      <Table.Item mobileTitle="Chain">{renderChainDisplay()}</Table.Item>
 
       <Table.Item>
         {isConnected && (

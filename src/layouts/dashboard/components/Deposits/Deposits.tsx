@@ -15,24 +15,36 @@ import styles from "./Deposits.module.scss";
 
 export const Deposits = () => {
   const { address: userAddress } = useAccount();
-  
+
   const allMarketsData = useGetAllMarketsForSupportedNetworks();
-  
-  const { supplies: ethereumSupplies } = useUserData(SEPOLIA_CHAIN_ID, userAddress);
-  const { supplies: arbitrumSupplies } = useUserData(ARBITRUM_CHAIN_ID, userAddress);
+
+const { supplies: ethereumSupplies } = useUserData(SEPOLIA_CHAIN_ID, userAddress);
+const { supplies: arbitrumSupplies } = useUserData(ARBITRUM_CHAIN_ID, userAddress);
 
   const allSupplies = React.useMemo(() => {
     const combined = [];
     if (ethereumSupplies) {
-      combined.push(...ethereumSupplies.map(supply => ({ ...supply, chainId: SEPOLIA_CHAIN_ID })));
+      combined.push(
+        ...ethereumSupplies.map((supply) => ({
+          ...supply,
+          chainId: SEPOLIA_CHAIN_ID,
+        }))
+      );
     }
     if (arbitrumSupplies) {
-      combined.push(...arbitrumSupplies.map(supply => ({ ...supply, chainId: ARBITRUM_CHAIN_ID })));
+      combined.push(
+        ...arbitrumSupplies.map((supply) => ({
+          ...supply,
+          chainId: ARBITRUM_CHAIN_ID,
+        }))
+      );
     }
     return combined;
   }, [ethereumSupplies, arbitrumSupplies]);
 
-  const hasSupplies = allSupplies.length > 0 && allSupplies.some((supply) => supply.balance > BigInt(0));
+  const hasSupplies =
+    allSupplies.length > 0 &&
+    allSupplies.some((supply) => supply.balance > BigInt(0));
 
   return (
     <div className={styles.base}>
@@ -86,17 +98,18 @@ export const Deposits = () => {
       )}
       <Accordion defaultOpen title="All Suppliable Assets">
         <Text size={12} theme={400} className={styles.subtitle}>
-          Assets available across Ethereum and Arbitrum networks
+          Assets available across supported networks.
         </Text>
         <Table className={styles.table}>
           <Table.Head>
             <Table.Row>
               <Table.Item>Asset</Table.Item>
-              <Table.Item>Wallet balance</Table.Item>
-              <Table.Item title="Annual yield earned on deposits">APY
-              <Icon glyph="Info" width={10} height={10} />
+              <Table.Item>Holdings</Table.Item>
+              <Table.Item title="Annual yield earned on deposits">
+                APY
+                <Icon glyph="Info" width={10} height={10} />
               </Table.Item>
-              <Table.Item>Can be collateral</Table.Item>
+              <Table.Item>Collateral</Table.Item>
               <Table.Item>Chain</Table.Item>
               <Table.Item />
             </Table.Row>
