@@ -151,6 +151,7 @@ export const ConnectWallet: React.FC<ConnectWallet> = ({ props, ...rest }) => {
       evmIcon = found.icon as React.ReactElement;
     }
   }
+  // 
 // 
   // Auto-close modal on new connect (only when account changes from falsy to truthy)
   const prevAccountRef = React.useRef(account);
