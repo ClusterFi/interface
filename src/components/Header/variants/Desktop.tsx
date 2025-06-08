@@ -35,9 +35,9 @@ export const Desktop: React.FC<DesktopProps> = ({ className }) => {
   const { address, status } = useAccount();
 
   useEffect(() => {
-    if (status === 'connected' && address) {
+    if (status === "connected" && address) {
       console.log("Connected wallet:", address);
-    } else if (status === 'disconnected') {
+    } else if (status === "disconnected") {
       console.log("Wallet not connected.");
     } else {
       console.log("Hydrating...");
@@ -61,29 +61,10 @@ export const Desktop: React.FC<DesktopProps> = ({ className }) => {
           <Status />
           <NetworkSelection />
           {!address ? (
-          // {!isAuthed ? (
+            // {!isAuthed ? (
             <ConnectWalletButton />
           ) : (
             <React.Fragment>
-              <div ref={balanceRef} className={styles.balance}>
-                <Button
-                  className={styles.balanceButton}
-                  size={"medium"}
-                  variant={"gradient-dark"}
-                  onClick={() => setBalanceOpened((prev) => !prev)}
-                >
-                  <Text size={12} theme={500}>
-                    <CurrencyIcon currency={"Cluster"} width={30} height={30} />
-                    {formatCoin(134.3478)}
-                  </Text>
-                </Button>
-                <Balance
-                  className={cx(
-                    styles.balancePopup,
-                    balanceOpened && styles.open
-                  )}
-                />
-              </div>
               <div ref={profileRef} className={styles.wallet}>
                 <Button
                   className={styles.walletButton}

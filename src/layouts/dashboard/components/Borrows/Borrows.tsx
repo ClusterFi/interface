@@ -17,8 +17,13 @@ type BorrowsProps = {
   state: ComponentState;
 };
 
-const BorrowItemWrapper: React.FC<{ borrow: Borrow & { chainId: number } }> = ({ borrow }) => {
-  const { data: marketInfo } = useMarketInfo(borrow.cToken as `0x${string}`, borrow.chainId);
+const BorrowItemWrapper: React.FC<{ borrow: Borrow & { chainId: number } }> = ({
+  borrow,
+}) => {
+  const { data: marketInfo } = useMarketInfo(
+    borrow.cToken as `0x${string}`,
+    borrow.chainId
+  );
 
   return (
     <BorrowItem
@@ -34,27 +39,38 @@ const BorrowItemWrapper: React.FC<{ borrow: Borrow & { chainId: number } }> = ({
 
 export const Borrows: React.FC<BorrowsProps> = ({ state }) => {
   const { address: userAddress } = useAccount();
-  
 
-  const { borrows: ethereumBorrows, isPending: isEthereumPending } = useUserData(SEPOLIA_CHAIN_ID, userAddress);
-  const { borrows: arbitrumBorrows, isPending: isArbitrumPending } = useUserData(ARBITRUM_CHAIN_ID, userAddress);
+  const { borrows: ethereumBorrows, isPending: isEthereumPending } =
+    useUserData(SEPOLIA_CHAIN_ID, userAddress);
+  const { borrows: arbitrumBorrows, isPending: isArbitrumPending } =
+    useUserData(ARBITRUM_CHAIN_ID, userAddress);
 
   const markets = useGetAllMarketsForSupportedNetworks();
 
   const allBorrows = React.useMemo(() => {
     const combined = [];
     if (ethereumBorrows) {
-      combined.push(...ethereumBorrows.map(borrow => ({ ...borrow, chainId: SEPOLIA_CHAIN_ID })));
+      combined.push(
+        ...ethereumBorrows.map((borrow) => ({
+          ...borrow,
+          chainId: SEPOLIA_CHAIN_ID,
+        }))
+      );
     }
     if (arbitrumBorrows) {
-      combined.push(...arbitrumBorrows.map(borrow => ({ ...borrow, chainId: ARBITRUM_CHAIN_ID })));
+      combined.push(
+        ...arbitrumBorrows.map((borrow) => ({
+          ...borrow,
+          chainId: ARBITRUM_CHAIN_ID,
+        }))
+      );
     }
     return combined;
   }, [ethereumBorrows, arbitrumBorrows]);
 
   const consolidatedMarkets = React.useMemo(() => {
     if (!markets) return [];
-    
+
     if (markets.length <= 1) {
       return markets.map(({ market, chainId }) => ({
         key: `market-${chainId}`,
@@ -65,27 +81,31 @@ export const Borrows: React.FC<BorrowsProps> = ({ state }) => {
         consolidatedChains: undefined,
       }));
     }
-    
+
     const primaryMarket = markets[0];
     const allChains = markets.map(({ market, chainId }) => ({
       chainId,
       address: market,
     }));
-    
-    return [{
-      key: 'usdc-consolidated',
-      sourceAddress: primaryMarket.market,
-      sourceChainId: primaryMarket.chainId,
-      destinationChainId: primaryMarket.chainId,
-      isConsolidated: true,
-      consolidatedChains: allChains,
-    }];
+
+    return [
+      {
+        key: "usdc-consolidated",
+        sourceAddress: primaryMarket.market,
+        sourceChainId: primaryMarket.chainId,
+        destinationChainId: primaryMarket.chainId,
+        isConsolidated: true,
+        consolidatedChains: allChains,
+      },
+    ];
   }, [markets]);
 
-  const hasBorrows = allBorrows.length > 0 && allBorrows.some(
-    (borrow) =>
-      borrow.currentBalance > BigInt(0) || borrow.storedBalance > BigInt(0),
-  );
+  const hasBorrows =
+    allBorrows.length > 0 &&
+    allBorrows.some(
+      (borrow) =>
+        borrow.currentBalance > BigInt(0) || borrow.storedBalance > BigInt(0)
+    );
 
   return (
     <div className={styles.base}>
@@ -123,10 +143,13 @@ export const Borrows: React.FC<BorrowsProps> = ({ state }) => {
                 .filter(
                   (borrow) =>
                     borrow.currentBalance > BigInt(0) ||
-                    borrow.storedBalance > BigInt(0),
+                    borrow.storedBalance > BigInt(0)
                 )
                 .map((borrow, index) => (
-                  <BorrowItemWrapper key={`${borrow.cToken}-${borrow.chainId}-${index}`} borrow={borrow} />
+                  <BorrowItemWrapper
+                    key={`${borrow.cToken}-${borrow.chainId}-${index}`}
+                    borrow={borrow}
+                  />
                 ))}
             </Table.Body>
           </Table>
@@ -134,7 +157,7 @@ export const Borrows: React.FC<BorrowsProps> = ({ state }) => {
       )}
       <Accordion defaultOpen title="All Borrowable Assets">
         <Text size={12} theme={400} className={styles.subtitle}>
-          Cross-chain borrowing available across Ethereum and Arbitrum networks
+          Access borrowable assets across supported networks.
         </Text>
         <Table className={styles.table}>
           <Table.Head>
