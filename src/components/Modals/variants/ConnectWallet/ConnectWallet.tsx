@@ -183,9 +183,11 @@ export const ConnectWallet: React.FC<ConnectWallet> = ({ props, ...rest }) => {
             <div className={cx(styles.button, styles.solana)} style={{ display: 'flex', alignItems: 'center', marginBottom: 12 }}>
               {isSolana ? (
                 <>
-                  <img
+                  <Image
                     src={solWallet?.adapter.icon ?? ''}
                     alt={solWallet?.adapter.name ?? ''}
+                    width={24}
+                    height={24}
                     style={{ width: 24, height: 24, borderRadius: 4, marginRight: 8 }}
                   />
                   <span style={{ fontWeight: 500 }}>{shortenAddress(account)}</span>
@@ -208,7 +210,7 @@ export const ConnectWallet: React.FC<ConnectWallet> = ({ props, ...rest }) => {
           ))}
         </div>
         <Text size={12} theme={400} className={styles.note}>
-          By connecting I accept Cluster's{" "}
+          By connecting I accept Cluster’s{" "}
           <Link target={"_blank"} href="#">
             Terms of Service
           </Link>
