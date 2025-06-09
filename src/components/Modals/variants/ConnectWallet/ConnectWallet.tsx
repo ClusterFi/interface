@@ -131,6 +131,10 @@ export const ConnectWallet: React.FC<ConnectWallet> = ({ props, ...rest }) => {
   const connectors = useConnectors();
   const { closeModal } = useModalsStore();
 
+  // console.log("account", account);
+
+  // console.log("activeConnector", activeConnector);
+
   // Find the icon for the connected EVM wallet
   let evmIcon: React.ReactElement = <WalletIcon wallet={"MetaMask"} width={24} height={24} />;
   if (activeConnector) {
