@@ -23,8 +23,12 @@ export const ConnectedWallet: React.FC<ConnectedWalletProps> = ({
   const { openModal } = useModalsStore();
   const { account, isSolana } = React.useContext(AppContext);
 
-  const { wallet: solWallet, disconnect: disconnectSol, connected } = useWallet();
-  const { connectors,  } = useConnect();
+  const {
+    wallet: solWallet,
+    disconnect: disconnectSol,
+    connected,
+  } = useWallet();
+  const { connectors } = useConnect();
   const { disconnect: disconnectEvm } = useDisconnect();
 
   const handleToggleWallet = () => {
@@ -39,8 +43,8 @@ export const ConnectedWallet: React.FC<ConnectedWalletProps> = ({
     }
   };
   useEffect(() => {
-    console.log("connected", connected)
-  }, []);
+    console.log("connected", connected);
+  }, [connected]);
 
   return (
     <Section className={cx(styles.base, className)}>
