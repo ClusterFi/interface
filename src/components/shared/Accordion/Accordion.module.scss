@@ -4,6 +4,15 @@
 .base {
   position: relative;
   padding: 24px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
 
   @include breakpoint-max("xga") {
     padding: 16px;
@@ -50,4 +59,6 @@
 
 .content {
   display: block;
+  overflow: auto;
+  flex-grow: 1;
 }
