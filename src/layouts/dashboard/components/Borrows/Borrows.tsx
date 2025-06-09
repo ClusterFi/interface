@@ -37,13 +37,11 @@ const BorrowItemWrapper: React.FC<{ borrow: Borrow & { chainId: number } }> = ({
   );
 };
 
-export const Borrows: React.FC<BorrowsProps> = ({ state }) => {
-  const { address: userAddress } = useAccount();
+export const Borrows: React.FC<BorrowsProps> = () => {
+const { address: userAddress } = useAccount();
 
-  const { borrows: ethereumBorrows, isPending: isEthereumPending } =
-    useUserData(SEPOLIA_CHAIN_ID, userAddress);
-  const { borrows: arbitrumBorrows, isPending: isArbitrumPending } =
-    useUserData(ARBITRUM_CHAIN_ID, userAddress);
+const { borrows: ethereumBorrows } = useUserData(SEPOLIA_CHAIN_ID, userAddress);
+const { borrows: arbitrumBorrows } = useUserData(ARBITRUM_CHAIN_ID, userAddress);
 
   const markets = useGetAllMarketsForSupportedNetworks();
 

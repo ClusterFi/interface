@@ -24,7 +24,7 @@ export const Accordion: React.FC<AccordionProps> = ({
   const handleClick = () => setOpen((prev) => !prev);
 
   return (
-    <Section className={styles.base}>
+    <Section className={styles.base} containerClassName={styles.base__container}>
       <div className={styles.head}>
         <Heading element="h4" className={styles.title}>
           {title}

@@ -5,7 +5,6 @@ import cx from "classnames";
 
 import {
   Container,
-  NetworkSelection,
   Logotype,
   Button,
   Icon,
@@ -45,7 +44,6 @@ export const Mobile: React.FC<MobileProps> = ({ className }) => {
           <Logotype className={styles.logotype} />
           <div className={styles.manage}>
             <Status />
-            <NetworkSelection className={styles.networkSelect} />
             <Button
               className={styles.button}
               onClick={onWalletClick}
