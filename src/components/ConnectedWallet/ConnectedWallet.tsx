@@ -44,7 +44,7 @@ export const ConnectedWallet: React.FC<ConnectedWalletProps> = ({
   };
   useEffect(() => {
     console.log("connected", connected);
-  }, []);
+  }, [connected]);
 
   return (
     <Section className={cx(styles.base, className)}>
