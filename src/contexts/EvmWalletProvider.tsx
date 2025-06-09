@@ -15,6 +15,7 @@ import {
 } from "@rainbow-me/rainbowkit/wallets";
 import {
   connectorsForWallets,
+  darkTheme,
   RainbowKitProvider,
 } from "@rainbow-me/rainbowkit";
 
@@ -63,7 +64,7 @@ export const EvmWalletProvider = ({ children }: { children: ReactNode }) => {
   return (
     <WagmiProvider config={evmChainsConfig} reconnectOnMount={true}>
       <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider>{children}</RainbowKitProvider>
+        <RainbowKitProvider modalSize="compact" coolMode={true}>{children}</RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
   );

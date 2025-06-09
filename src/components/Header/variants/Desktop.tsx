@@ -19,6 +19,7 @@ import styles from "./Header.module.scss";
 import { useOnClickOutside } from "usehooks-ts";
 import { useAccount } from "wagmi";
 import { useEffect } from "react";
+import { useModalsStore } from "@/utils/stores";
 
 type DesktopProps = {
   className?: string;
@@ -30,6 +31,8 @@ export const Desktop: React.FC<DesktopProps> = ({ className }) => {
   const profileRef = React.useRef<HTMLDivElement>(null);
   const [balanceOpened, setBalanceOpened] = React.useState(false);
   const [profileOpened, setProfileOpened] = React.useState(false);
+  const { openModal } = useModalsStore();
+
 
   const { address, status } = useAccount();
 
@@ -58,9 +61,11 @@ export const Desktop: React.FC<DesktopProps> = ({ className }) => {
         <Nav />
         <div className={styles.manage}>
           <Status />
+
           {!isAuthed ? (
             <ConnectWalletButton />
-          ) : (
+
+         ) : (
             <React.Fragment>
               <div ref={profileRef} className={styles.wallet}>
                 <Button

@@ -59,6 +59,7 @@ export const ConnectWalletButton: React.FC<ConnectWalletButtonProps> = ({
             style={{ paddingInline: "3px" }}
             size="default"
             onClick={!connected ? openConnectModal : openAccountModal}
+            // onClick={!connected ? openConnectModal : openAccountModal}
             {...rest}
           >
             {btnTitle}
