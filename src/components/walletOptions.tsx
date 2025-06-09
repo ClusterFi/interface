@@ -1,5 +1,6 @@
 import { Connector, useConnect } from "wagmi";
 import { useCallback } from "react";
+import Image from "next/image";
 
 export function WalletOptions() {
   const { connectors, connect } = useConnect();
@@ -21,11 +22,12 @@ export function WalletOptions() {
         >
           {connector.icon && (
             <div className="w-6 h-6">
-              <img
+              <Image
                 src={connector.icon}
                 alt={`${connector.name} icon`}
                 width={24}
                 height={24}
+                style={{ width: 24, height: 24, borderRadius: 4, marginRight: 8 }}
                 className="w-6 h-6"
               />
             </div>
