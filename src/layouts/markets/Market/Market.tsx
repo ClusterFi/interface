@@ -57,6 +57,7 @@ export const Market: React.FC<MarketProps> = ({
                 key={market.address}
                 isLoading={false}
                 marketData={market}
+                chainId={chainId}
                 currency="USDC" 
               />
             ))

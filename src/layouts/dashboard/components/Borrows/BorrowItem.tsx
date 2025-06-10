@@ -54,8 +54,8 @@ export const BorrowItem: React.FC<BorrowItemProps> = ({
     <Table.Row className={styles.row}>
       <Table.ItemAsset currency={currency} primaryText={name} />
       <Table.ItemAmount
-        primaryValue={formatTokenAmount(Number(amount))}
-        secondaryValue={"$" + formatUSD(Number(amount))}
+        primaryValue={formatTokenAmount(Number(amount) / 1e6, name)}
+        secondaryValue={"$" + formatUSD(Number(amount) / 1e6)}
         mobileTitle={"Borrows"}
       />
       <Table.ItemAmount

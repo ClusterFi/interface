@@ -6,6 +6,16 @@ export const metadata: Metadata = {
   description: "Page description",
 };
 
-export default function Page() {
-  return <SingleMarketPage />;
+type PageProps = {
+  searchParams: {
+    address?: string;
+    chainId?: string;
+  };
+};
+
+export default function Page({ searchParams }: PageProps) {
+  const marketAddress = searchParams.address as `0x${string}` | undefined;
+  const chainId = searchParams.chainId ? parseInt(searchParams.chainId) : undefined;
+  
+  return <SingleMarketPage marketAddress={marketAddress} chainId={chainId} />;
 }

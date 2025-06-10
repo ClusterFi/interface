@@ -11,6 +11,7 @@ import { MarketData } from "@/utils/evm/hooks/useAllMarketsData";
 type MarketItemProps = {
   isLoading: boolean;
   marketData?: MarketData;
+  chainId?: number;
   // Fallback props for when no market data
   name?: string;
   fullName?: string;
@@ -20,6 +21,7 @@ type MarketItemProps = {
 export const MarketItem: React.FC<MarketItemProps> = ({
   isLoading,
   marketData,
+  chainId,
   name,
   fullName,
   currency,
@@ -27,7 +29,13 @@ export const MarketItem: React.FC<MarketItemProps> = ({
   const isMobile = useMedia(mediaBreaks.max.tablet);
   const Wrapper = isMobile ? "div" : React.Fragment;
   const Row = isMobile ? "a" : Table.Row;
-  const rowProps = isMobile ? { href: "/single-market" } : undefined;
+  
+  // Build URL with market parameters
+  const marketUrl = marketData && chainId 
+    ? `/single-market?address=${marketData.address}&chainId=${chainId}`
+    : "/single-market";
+  
+  const rowProps = isMobile ? { href: marketUrl } : undefined;
 
   // Use market data if available, otherwise fallback to props
   const displayName = marketData?.symbol || name || "Unknown";
@@ -66,7 +74,7 @@ export const MarketItem: React.FC<MarketItemProps> = ({
         <Table.ItemArrow className={styles.arrow} isLoading={true} />
         {!isMobile && (
           <th className={styles.link}>
-            <Link href={"/single-market"} className={styles.link} />
+            <Link href={marketUrl} className={styles.link} />
           </th>
         )}
       </Row>
@@ -109,7 +117,7 @@ export const MarketItem: React.FC<MarketItemProps> = ({
       <Table.ItemArrow className={styles.arrow} isLoading={false} />
       {!isMobile && (
         <th className={styles.link}>
-          <Link href={"/single-market"} className={styles.link} />
+          <Link href={marketUrl} className={styles.link} />
         </th>
       )}
     </Row>

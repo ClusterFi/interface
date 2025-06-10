@@ -151,26 +151,29 @@ export const useMultiNetworkStats = ({
       const collateralUnderlying =
         (cTokenBalance * exchangeRate) / BigInt(1e18);
       
-      const totalCollateralValue = (collateralUnderlying * price) / BigInt(1e18);
+      const totalCollateralValueRaw = (collateralUnderlying * price) / BigInt(1e18);
+      const totalCollateralValue = totalCollateralValueRaw * BigInt(1e12);
       
-      const collateralValue =
-        (collateralUnderlying * price * collateralFactorMantissa) /
-        BigInt(1e36);
+      const collateralValueRaw = (collateralUnderlying * price * collateralFactorMantissa) / 
+        (BigInt(1e18) * BigInt(1e18));
+      const collateralValue = collateralValueRaw * BigInt(1e12);
         
-      const borrowValue = (borrowBalance * price) / BigInt(1e18);
+      const borrowValueRaw = (borrowBalance * price) / BigInt(1e18);
+      const borrowValue = borrowValueRaw * BigInt(1e12);
 
-      const netWorth = Number(totalCollateralValue - borrowValue);
+      const netWorth = Number(totalCollateralValue - borrowValue) / 1e18;
       const currentApyBase =
-        Number(totalCollateralValue) * supplyApy - Number(borrowValue) * borrowApy;
-      const collateral = Number(collateralValue); // Keep for borrowing capacity
-      const totalCollateral = Number(totalCollateralValue);
-      const borrow = Number(borrowValue);
+        (Number(totalCollateralValue) / 1e18) * supplyApy - (Number(borrowValue) / 1e18) * borrowApy;
+      const collateral = Number(collateralValue) / 1e18; // Keep for borrowing capacity  
+      const totalCollateral = Number(totalCollateralValue) / 1e18;
+      const borrow = Number(borrowValue) / 1e18;
       const netApy = netWorth === 0 ? 0 : currentApyBase / netWorth;
 
       let healthFactor = Infinity;
       let ltv = 0;
-      if (borrow > 0 && totalCollateral > 0) {
-        healthFactor = totalCollateral / borrow;
+      if (borrow > 0 && collateral > 0) {
+        // Health factor should use collateral factor adjusted value
+        healthFactor = collateral / borrow;
         ltv = borrow / totalCollateral;
       }
 
@@ -217,7 +220,7 @@ export const useMultiNetworkStats = ({
 
     let healthFactor = Infinity;
     let ltv = 0;
-    if (totalBorrow > 0 && totalCollateralForNetWorth > 0) {
+    if (totalBorrow > 0 && totalCollateralEligible > 0) {
       healthFactor = totalCollateralEligible / totalBorrow;
       ltv = totalBorrow / totalCollateralForNetWorth;
     }
