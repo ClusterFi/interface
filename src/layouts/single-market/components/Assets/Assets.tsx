@@ -4,8 +4,11 @@ import styles from "./Assets.module.scss";
 import { Button, Heading, Section, Table, Text } from "@/components";
 import { AssetsItem } from "./AssetsItem";
 import { Currency } from "@/types";
+import { useMarketData } from "../../SingleMarket";
 
 export const Assets: React.FC = () => {
+  const { marketData, isLoading } = useMarketData();
+
   return (
     <Section className={styles.base}>
       <Heading element="h4" className={styles.title}>
@@ -56,20 +59,24 @@ export const Assets: React.FC = () => {
             </Table.Row>
           </Table.Head>
           <Table.Body className={styles.body}>
-            {Array.from({ length: 2 }, () => ({
-              currency: "Ethereum" as Currency,
-              name: "rsETH",
-              fullName: "KelpDao Restaked ETH",
-            })).map((item, index) => {
-              return (
-                <AssetsItem
-                  currency={item.currency}
-                  name={item.name}
-                  fullName={item.fullName}
-                  key={index}
-                />
-              );
-            })}
+            {isLoading || !marketData ? (
+              // Show loading state
+              <AssetsItem
+                currency="USDC"
+                name="Loading..."
+                fullName="Loading..."
+                isLoading={true}
+              />
+            ) : (
+              // Show real market data
+              <AssetsItem
+                currency="USDC"
+                name={marketData.symbol}
+                fullName={marketData.name}
+                marketData={marketData}
+                isLoading={false}
+              />
+            )}
           </Table.Body>
         </Table>
       </div>
