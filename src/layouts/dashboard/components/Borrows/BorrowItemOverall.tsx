@@ -133,7 +133,7 @@ export const BorrowItemOverall: React.FC<BorrowItemOverallProps> = ({
               )
             : "0"
         }
-        mobileTitle="Borrow Limit"
+        mobileTitle="Avaliable Liquidity"
       />
 
       <Table.Item mobileTitle="APY">
