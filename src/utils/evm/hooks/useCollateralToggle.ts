@@ -10,6 +10,7 @@ export const useCollateralToggle = (
   comptrollerAddress: `0x${string}`,
   account: `0x${string}` | undefined,
   cTokenAddress: `0x${string}` | undefined,
+  chainId?: number,
 ) => {
   const [hash, setHash] = useState<`0x${string}` | undefined>();
 
@@ -22,6 +23,7 @@ export const useCollateralToggle = (
     address: comptrollerAddress,
     functionName: "checkMembership",
     args: account && cTokenAddress ? [account, cTokenAddress] : undefined,
+    chainId: chainId,
     query: {
       enabled: !!account && !!cTokenAddress,
     },
@@ -44,6 +46,7 @@ export const useCollateralToggle = (
         address: comptrollerAddress,
         functionName: enable ? "enterMarkets" : "exitMarket",
         args: enable ? [[cTokenAddress]] : [cTokenAddress],
+        chainId: chainId,
       });
 
       setHash(txHash);

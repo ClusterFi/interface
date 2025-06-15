@@ -61,6 +61,7 @@ export const DepositItemOverall: React.FC<DepositItemOverallProps> = ({
         chain: {
           name: chainInfo?.name!,
           icon: chainInfo?.currency!,
+          chainId: chainId,
         },
         asset: {
           name: marketInfo.name,

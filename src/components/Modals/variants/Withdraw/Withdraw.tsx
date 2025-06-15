@@ -8,11 +8,14 @@ import { Currency } from "@/types";
 import { formatUnits } from "viem";
 import { useRedeem } from "@/utils/evm/hooks/useRedeem";
 import { useModalsStore } from "@/utils/stores";
+import { useAccount, useChainId, useSwitchChain } from "wagmi";
+import { getChainById } from "@/constants";
 
 export type WithdrawProps = {
   chain: {
     name: string;
     icon: Currency;
+    chainId?: number;
   };
   asset: {
     name: string;
@@ -36,6 +39,24 @@ export const Withdraw: React.FC<Withdraw> = ({ props, ...rest }) => {
   const [inputAmount, setInputAmount] = React.useState("");
   const { redeem, isPending, isConfirming, hash } = useRedeem(cTokenAddress);
   const { closeModal } = useModalsStore();
+  const walletChainId = useChainId();
+  const { switchChain } = useSwitchChain();
+  const account = useAccount();
+
+  // Get the target chain ID from the chain name
+  const targetChainId = React.useMemo(() => {
+    if (props.chain.chainId) return props.chain.chainId;
+    
+    // Fallback: determine chain ID from chain name
+    if (props.chain.name.toLowerCase().includes('arbitrum')) {
+      return 421614; // Arbitrum Sepolia
+    } else if (props.chain.name.toLowerCase().includes('ethereum') || props.chain.name.toLowerCase().includes('sepolia')) {
+      return 11155111; // Ethereum Sepolia
+    }
+    return 11155111; // Default to Ethereum Sepolia
+  }, [props.chain]);
+
+  const isWrongNetwork = account.isConnected && walletChainId !== targetChainId;
 
   const supply = Number(formatUnits(amount, marketInfo.cTokenDecimals));
   const parsedAmount = parseFloat(inputAmount);
@@ -52,7 +73,18 @@ export const Withdraw: React.FC<Withdraw> = ({ props, ...rest }) => {
     }
   }, [hash, closeModal]);
 
+  const handleNetworkSwitch = () => {
+    if (switchChain) {
+      switchChain({ chainId: targetChainId });
+    }
+  };
+
   const handleWithdraw = async () => {
+    if (isWrongNetwork) {
+      handleNetworkSwitch();
+      return;
+    }
+    
     if (isDisabled) return;
     await redeem(inputAmount, marketInfo.underlyingDecimals);
   };
@@ -61,12 +93,28 @@ export const Withdraw: React.FC<Withdraw> = ({ props, ...rest }) => {
     setInputAmount(supply.toFixed(marketInfo.cTokenDecimals));
   };
 
+  const targetChain = getChainById(targetChainId);
+  const currentChain = getChainById(walletChainId);
+
   return (
     <ModalLayout title="Withdraw Asset" isSwipeable {...rest}>
       <div className={styles.content}>
         <Text size={16} theme={600} className={styles.title}>
           Withdraw Asset
         </Text>
+        
+        {isWrongNetwork && (
+          <div className={styles.networkWarning}>
+            <Text size={14} theme={600} className={styles.warningTitle}>
+              Wrong Network
+            </Text>
+            <Text size={12} theme={400} className={styles.warningText}>
+              You're connected to {currentChain?.name || 'Unknown Network'}. 
+              Switch to {targetChain?.name || 'Target Network'} to withdraw this asset.
+            </Text>
+          </div>
+        )}
+        
         <div className={styles.field}>
           <Text size={14} theme={400} className={styles.label}>
             Chain
@@ -105,7 +153,7 @@ export const Withdraw: React.FC<Withdraw> = ({ props, ...rest }) => {
               size="small"
               variant="stroke"
               onClick={handleMaxClick}
-              disabled={isPending || isConfirming}
+              disabled={isPending || isConfirming || isWrongNetwork}
               className={styles.maxButton}
             >
               <Text size={12} theme={500}>
@@ -118,19 +166,30 @@ export const Withdraw: React.FC<Withdraw> = ({ props, ...rest }) => {
           </Text>
         </div>
 
-        <Button
-          size="large"
-          variant="purple"
-          className={styles.button}
-          disabled={isDisabled}
-          onClick={handleWithdraw}
-        >
-          {isPending
-            ? "Processing..."
-            : isConfirming
-              ? "Confirming..."
-              : "Withdraw"}
-        </Button>
+        {isWrongNetwork ? (
+          <Button
+            size="large"
+            variant="purple"
+            className={styles.button}
+            onClick={handleNetworkSwitch}
+          >
+            Switch to {targetChain?.name || 'Target Network'}
+          </Button>
+        ) : (
+          <Button
+            size="large"
+            variant="purple"
+            className={styles.button}
+            disabled={isDisabled}
+            onClick={handleWithdraw}
+          >
+            {isPending
+              ? "Processing..."
+              : isConfirming
+                ? "Confirming..."
+                : "Withdraw"}
+          </Button>
+        )}
       </div>
     </ModalLayout>
   );

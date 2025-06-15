@@ -17,8 +17,9 @@ type BorrowInfo = {
 };
 
 export const useUserData = (chainId: number, userAddress?: Address) => {
-  const { data: markets, isPending: isMarketsPending } =
-    useGetAllMarkets(chainId);
+  const result = useGetAllMarkets(chainId);
+  const markets = result.data;
+  const isMarketsPending = result.isPending;
 
   const cTokenAddresses = (markets ?? []) as Address[];
   const enabled = !!userAddress && cTokenAddresses.length > 0;

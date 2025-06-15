@@ -199,12 +199,19 @@
 
 .multiChain {
   display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.multiChainApy {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   
-  @include breakpoint-max("tablet") {
-    gap: 6px;
+  .apyItem {
+    display: flex;
+    align-items: center;
+    gap: 4px;
   }
 }
 
