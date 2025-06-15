@@ -46,7 +46,8 @@ export const DepositItem: React.FC<DepositItemProps> = ({
   } = useCollateralToggle(
     getComptrollerAddress(chainId),
     userAddress,
-    address
+    address,
+    chainId
   );
 
   const handleWithdrawClick = () => {
@@ -55,6 +56,7 @@ export const DepositItem: React.FC<DepositItemProps> = ({
         chain: {
           name: chainInfo?.name!,
           icon: chainInfo?.currency!,
+          chainId: chainId,
         },
         asset: {
           name: marketInfo.name,

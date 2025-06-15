@@ -32,6 +32,12 @@ export const BorrowItemOverall: React.FC<BorrowItemOverallProps> = ({
     isPending,
     error,
   } = useMarketInfo(sourceAddress, sourceChainId);
+  
+  const { data: arbitrumMarketInfo } = useMarketInfo(
+    isConsolidated && consolidatedChains?.[1]?.address || sourceAddress,
+    isConsolidated && consolidatedChains?.[1]?.chainId || sourceChainId
+  );
+  
   const { openModal } = useModalsStore();
   const { isConnected } = useAccount();
 
@@ -137,7 +143,24 @@ export const BorrowItemOverall: React.FC<BorrowItemOverallProps> = ({
       />
 
       <Table.Item mobileTitle="APY">
-        {marketInfo ? `${marketInfo.borrowAPY.toFixed(2)}%` : "0%"}
+        {isConsolidated && consolidatedChains ? (
+          <div className={styles.multiChainApy}>
+            {consolidatedChains.map((chain, index) => {
+              const chainInfo = getChainById(chain.chainId);
+              const apy = index === 0 ? marketInfo?.borrowAPY : arbitrumMarketInfo?.borrowAPY;
+              return (
+                <div key={chain.chainId} className={styles.apyItem}>
+                  <CurrencyIcon width={12} height={12} currency={chainInfo?.currency!} />
+                  <Text size={12} theme={400}>
+                    {apy ? `${apy.toFixed(2)}%` : "0%"}
+                  </Text>
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          marketInfo ? `${marketInfo.borrowAPY.toFixed(2)}%` : "0%"
+        )}
       </Table.Item>
 
       <Table.Item mobileTitle="Chain">{renderChainDisplay()}</Table.Item>

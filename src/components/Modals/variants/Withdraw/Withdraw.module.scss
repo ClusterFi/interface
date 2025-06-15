@@ -13,6 +13,26 @@
   color: $text-white;
 }
 
+.networkWarning {
+  background: rgba(255, 193, 7, 0.1);
+  border: 1px solid rgba(255, 193, 7, 0.3);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  
+  .warningTitle {
+    color: #ffc107;
+    font-weight: 600;
+  }
+  
+  .warningText {
+    color: $text-secondary;
+    line-height: 1.4;
+  }
+}
+
 .field {
   display: flex;
   flex-direction: column;
@@ -31,6 +51,7 @@
   padding: 0;
   background: none;
   border-radius: 0;
+  line-height: 1;
 
   p {
     margin: 0;
@@ -77,13 +98,22 @@
   }
 }
 
+.inputContainer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.maxButton {
+  flex-shrink: 0;
+  min-width: 60px;
+}
+
 .balanceText {
-  margin-top: 6px;
+  margin-top: 12px;
   color: $text-secondary;
 }
 
 .button {
-  margin-top: 16px;
-  align-self: center;
-  width: 180px;
+  width: 100%;
 }

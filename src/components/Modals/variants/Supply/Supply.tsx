@@ -6,10 +6,11 @@ import styles from "./Supply.module.scss";
 import cx from "classnames";
 import { AmountInput } from "@/components/AmountInput/AmountInput";
 import { Currency } from "@/types";
-import { useAccount } from "wagmi";
+import { useAccount, useChainId, useSwitchChain } from "wagmi";
 import { useAllowance } from "@/utils/evm/hooks/useAllowance";
 import { useApproveToken } from "@/utils/evm/hooks/useApproveToken";
 import { useSupply } from "@/utils/evm/hooks/useSupply";
+import { getChainById } from "@/constants";
 
 export type SupplyProps = {
   underlyingDecimals: number;
@@ -19,6 +20,7 @@ export type SupplyProps = {
   chain: {
     name: string;
     icon: Currency;
+    chainId?: number;
   };
   asset: {
     name: string;
@@ -39,8 +41,37 @@ export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
   } = useSupply(props.spenderAddress);
 
   const [amount, setAmount] = useState("");
+  const walletChainId = useChainId();
+  const { switchChain } = useSwitchChain();
+  const account = useAccount();
+
+  // Get the target chain ID from the chain name
+  const targetChainId = React.useMemo(() => {
+    if (props.chain.chainId) return props.chain.chainId;
+    
+    // Fallback: determine chain ID from chain name
+    if (props.chain.name.toLowerCase().includes('arbitrum')) {
+      return 421614; // Arbitrum Sepolia
+    } else if (props.chain.name.toLowerCase().includes('ethereum') || props.chain.name.toLowerCase().includes('sepolia')) {
+      return 11155111; // Ethereum Sepolia
+    }
+    return 11155111; // Default to Ethereum Sepolia
+  }, [props.chain]);
+
+  const isWrongNetwork = account.isConnected && walletChainId !== targetChainId;
+
+  const handleNetworkSwitch = () => {
+    if (switchChain) {
+      switchChain({ chainId: targetChainId });
+    }
+  };
 
   const handleSupply = () => {
+    if (isWrongNetwork) {
+      handleNetworkSwitch();
+      return;
+    }
+    
     const parsed = parseFloat(amount);
     if (!isNaN(parsed)) {
       const multiplier = 10 ** props.underlyingDecimals;
@@ -50,7 +81,6 @@ export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
   };
 
   const { chain, asset } = props;
-  const account = useAccount();
 
   const parsedBalance = parseFloat(props.underlyingBalance || "0");
   const parsedAmount = parseFloat(amount);
@@ -89,12 +119,28 @@ export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
     }
   }, [isSupplyingConfirming, hash, rest]);
 
+  const targetChain = getChainById(targetChainId);
+  const currentChain = getChainById(walletChainId);
+
   return (
     <ModalLayout title="Supply Asset" isSwipeable {...rest}>
       <div className={styles.content}>
         <Text size={16} theme={600} className={styles.title}>
           Supply Asset
         </Text>
+        
+        {isWrongNetwork && (
+          <div className={styles.networkWarning}>
+            <Text size={14} theme={600} className={styles.warningTitle}>
+              Wrong Network
+            </Text>
+            <Text size={12} theme={400} className={styles.warningText}>
+              You are connected to {currentChain?.name || 'Unknown Network'}. 
+              Switch to {targetChain?.name || 'Target Network'} to supply this asset.
+            </Text>
+          </div>
+        )}
+        
         <div className={styles.field}>
           <Text size={14} theme={400} className={styles.label}>
             Chain
@@ -133,7 +179,16 @@ export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
           </Text>
         </div>
 
-        {needsApproval ? (
+        {isWrongNetwork ? (
+          <Button
+            size="large"
+            variant="purple"
+            className={styles.button}
+            onClick={handleNetworkSwitch}
+          >
+            Switch to {targetChain?.name || 'Target Network'}
+          </Button>
+        ) : needsApproval ? (
           <Button
             size="large"
             variant="purple"

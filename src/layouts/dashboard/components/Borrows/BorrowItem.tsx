@@ -8,6 +8,7 @@ import { useAccount } from "wagmi";
 import { CHAINS, getChainById } from "@/constants";
 import { CONTRACT_ADDRESSES } from "@/utils/evm/contracts";
 import { formatTokenAmount } from "@/utils/formatters";
+import { useMarketInfo } from "@/utils/evm/hooks/useMarketInfo";
 
 type BorrowItemProps = {
   currency: Currency;
@@ -29,6 +30,7 @@ export const BorrowItem: React.FC<BorrowItemProps> = ({
   const { openModal } = useModalsStore();
   const { address: userAddress } = useAccount();
   const chainInfo = getChainById(chainId);
+  const { data: marketInfo } = useMarketInfo(cTokenAddress, chainId);
 
   const handleRepayClick = () => {
     if (!userAddress) return;
@@ -59,7 +61,7 @@ export const BorrowItem: React.FC<BorrowItemProps> = ({
         mobileTitle={"Borrows"}
       />
       <Table.ItemAmount
-        primaryValue={"8.33%"}
+        primaryValue={marketInfo ? `${marketInfo.borrowAPY.toFixed(2)}%` : "Loading..."}
         secondaryValue={""}
         mobileTitle={"APY"}
       />
