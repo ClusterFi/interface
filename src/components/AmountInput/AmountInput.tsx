@@ -32,6 +32,8 @@ export const AmountInput: React.FC<AmountInputProps> = ({
           thousandSeparator=","
           allowLeadingZeros={false}
           decimalScale={6}
+          inputMode="decimal"
+          type="text"
         />
       </div>
     </div>
