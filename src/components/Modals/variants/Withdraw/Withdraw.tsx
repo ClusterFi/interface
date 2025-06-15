@@ -109,7 +109,7 @@ export const Withdraw: React.FC<Withdraw> = ({ props, ...rest }) => {
               Wrong Network
             </Text>
             <Text size={12} theme={400} className={styles.warningText}>
-              You're connected to {currentChain?.name || 'Unknown Network'}. 
+              You are connected to {currentChain?.name || 'Unknown Network'}. 
               Switch to {targetChain?.name || 'Target Network'} to withdraw this asset.
             </Text>
           </div>
