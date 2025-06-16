@@ -6,6 +6,7 @@ import {
   Text,
   Button,
   ConnectWalletButton,
+  NetworkSelection,
   CurrencyIcon,
   Balance,
   ConnectedWallet,
@@ -32,7 +33,6 @@ export const Desktop: React.FC<DesktopProps> = ({ className }) => {
   const [balanceOpened, setBalanceOpened] = React.useState(false);
   const [profileOpened, setProfileOpened] = React.useState(false);
   const { openModal } = useModalsStore();
-
 
   const { address, status } = useAccount();
 
@@ -61,11 +61,10 @@ export const Desktop: React.FC<DesktopProps> = ({ className }) => {
         <Nav />
         <div className={styles.manage}>
           <Status />
-
+          <NetworkSelection />
           {!isAuthed ? (
             <ConnectWalletButton />
-
-         ) : (
+          ) : (
             <React.Fragment>
               <div ref={profileRef} className={styles.wallet}>
                 <Button
@@ -92,4 +91,3 @@ export const Desktop: React.FC<DesktopProps> = ({ className }) => {
     </header>
   );
 };
-

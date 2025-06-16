@@ -92,7 +92,7 @@ export const Wallet: React.FC = () => {
           Wallet balance
         </Text>
         <Heading element="h3" className={styles.balanceText}>
-          {formatTokenAmount(walletBalance, marketData.symbol)} <span>{marketData.symbol}</span>
+          {formatTokenAmount(walletBalance)} <span>{marketData.symbol}</span>
         </Heading>
         <Section className={styles.balanceIcon}>
           <Icon glyph={"Wallet"} width={20} height={20} />
@@ -104,7 +104,7 @@ export const Wallet: React.FC = () => {
             Supplied
           </Text>
           <Heading element="h4" className={styles.boxText}>
-            {formatTokenAmount(suppliedAmount, marketData.symbol)} <span>{marketData.symbol}</span>
+            {formatTokenAmount(suppliedAmount)} <span>{marketData.symbol}</span>
           </Heading>
           <Text size={12} theme={400} className={styles.boxNote}>
             ${suppliedUSD.toFixed(2)}
@@ -115,7 +115,7 @@ export const Wallet: React.FC = () => {
             Borrowed
           </Text>
           <Heading element="h4" className={styles.boxText}>
-            {formatTokenAmount(borrowedAmount, marketData.symbol)} <span>{marketData.symbol}</span>
+            {formatTokenAmount(borrowedAmount)} <span>{marketData.symbol}</span>
           </Heading>
           <Text size={12} theme={400} className={styles.boxNote}>
             ${borrowedUSD.toFixed(2)}

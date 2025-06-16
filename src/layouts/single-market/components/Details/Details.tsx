@@ -42,7 +42,7 @@ export const Details: React.FC = () => {
     },
     {
       title: "Available Liquidity",
-      content: `${formatTokenAmount(availableLiquidity, marketData.symbol)} ${marketData.symbol}`,
+      content: `${formatTokenAmount(availableLiquidity, marketData.symbol)}`,
     },
     {
       title: "Utilization Rate",
@@ -50,11 +50,11 @@ export const Details: React.FC = () => {
     },
     {
       title: "Total Supply",
-      content: `${formatTokenAmount(marketData.totalSupplyUSD / marketData.underlyingPriceUSD, marketData.symbol)} ${marketData.symbol}`,
+      content: `${formatTokenAmount(marketData.totalSupplyUSD / marketData.underlyingPriceUSD, marketData.symbol)}`,
     },
     {
       title: "Total Borrows", 
-      content: `${formatTokenAmount(marketData.totalBorrowUSD / marketData.underlyingPriceUSD, marketData.symbol)} ${marketData.symbol}`,
+      content: `${formatTokenAmount(marketData.totalBorrowUSD / marketData.underlyingPriceUSD, marketData.symbol)}`,
     },
     {
       title: "Collateral factor",
