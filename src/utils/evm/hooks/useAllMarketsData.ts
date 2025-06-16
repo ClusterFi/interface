@@ -229,7 +229,7 @@ export const useAllMarketsData = (chainId?: number) => {
         const marketInfo = marketInfoResult.result as [boolean, bigint, boolean];
         const oraclePrice = Number(priceResult.result as bigint);
 
-        const underlyingPriceUSD = oraclePrice / 1e18; 
+        const underlyingPriceUSD = oraclePrice / 1e24; 
         const underlyingDecimals = 6; 
 
         const blocksPerYear = 2102400;
