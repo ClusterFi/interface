@@ -69,13 +69,13 @@ export const Assets: React.FC = () => {
               />
             ) : (
               // Show real market data
-              <AssetsItem
+                <AssetsItem
                 currency="USDC"
                 name={marketData.symbol}
                 fullName={marketData.name}
                 marketData={marketData}
                 isLoading={false}
-              />
+                />
             )}
           </Table.Body>
         </Table>

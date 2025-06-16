@@ -60,24 +60,24 @@ export const Stats: React.FC = () => {
     {
       text: formatCurrency(marketData.totalSupplyUSD),
       title: "Total Supply",
-    },
-    {
+  },
+  {
       text: formatCurrency(availableLiquidity),
       title: "Available Liquidity",
-    },
-    {
+  },
+  {
       text: formatCurrency(totalReserves),
-      title: "Total Reserves",
-    },
-    {
+    title: "Total Reserves",
+  },
+  {
       text: formatCurrency(marketData.totalSupplyUSD), // TVL = Total Supply for this market
-      title: "TVL",
-    },
-    {
+    title: "TVL",
+  },
+  {
       text: formatCurrency(marketData.underlyingPriceUSD),
-      title: "Oracle Price",
-    },
-  ];
+    title: "Oracle Price",
+  },
+];
 
   return (
     <Section className={styles.base}>

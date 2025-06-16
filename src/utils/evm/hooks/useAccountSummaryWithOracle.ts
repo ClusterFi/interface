@@ -198,9 +198,8 @@ export const useAccountSummaryWithOracle = (chainId: number = 11155111): Account
           if (borrowRateData?.status === 'success' && priceData?.status === 'success') {
             const borrowRate = Number(borrowRateData.result as bigint) / 1e18;
             
-            // FIXED: Oracle price calculation
             const oraclePrice = Number(priceData.result as bigint);
-            const priceUSD = oraclePrice / 1e18; // Convert from 1e18 scale to $1
+            const priceUSD = oraclePrice / 1e18; // Convert to USD per token
             
             // Calculate USD value using correct decimals (USDC has 6 decimals for borrow balance too)
             const borrowBalance = Number(formatUnits(borrow.currentBalance, 6)); // USDC has 6 decimals
