@@ -14,6 +14,7 @@ import { useApproveToken } from "@/utils/evm/hooks/useApproveToken";
 import { useAllowance } from "@/utils/evm/hooks/useAllowance";
 import { useRepayLoanCrossChain } from "@/utils/evm/hooks/useRepayLoanCrossChain";
 import { Currency } from "@/types";
+import { Confirming } from "@/components/shared/Confirming/Confirming";
 
 export type BorrowRepayProps = {
   destinationChain: {
@@ -71,7 +72,6 @@ export const BorrowRepay: React.FC<BorrowRepay> = ({ props, ...rest }) => {
     repay,
     isPending: isRepaying,
     isConfirming: isConfirmingRepay,
-    hash,
   } = useRepayLoanCrossChain(
     clgAddress,
     destinationChain.chainId,
@@ -140,17 +140,21 @@ export const BorrowRepay: React.FC<BorrowRepay> = ({ props, ...rest }) => {
             isConfirmingRepay
           }
         >
-          {needsApproval
-            ? isApproving
-              ? "Waiting for Wallet..."
-              : isConfirmingApprove
-                ? "Confirming..."
-                : "Approve"
-            : isRepaying
-              ? "Waiting for Wallet..."
-              : isConfirmingRepay
-                ? "Confirming..."
-                : "Repay"}
+          {needsApproval ? (
+            isApproving ? (
+              "Waiting for Wallet..."
+            ) : isConfirmingApprove ? (
+              <Confirming />
+            ) : (
+              "Approve"
+            )
+          ) : isRepaying ? (
+            "Waiting for Wallet..."
+          ) : isConfirmingRepay ? (
+            <Confirming />
+          ) : (
+            "Repay"
+          )}
         </Button>
       </div>
     </ModalLayout>

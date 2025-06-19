@@ -25,7 +25,7 @@ import { Currency } from "@/types";
 import { useProtocolStats } from "@/utils/evm/hooks/useProtocolStats";
 import { useAllMarketsData } from "@/utils/evm/hooks/useAllMarketsData";
 import { formatCurrency, formatPercentage } from "@/utils/formatters";
-import { CHAINS } from "@/constants";
+import { ARBITRUM_CHAIN_ID, CHAINS, SEPOLIA_CHAIN_ID } from "@/constants";
 
 import styles from "./Markets.module.scss";
 
@@ -42,14 +42,11 @@ export const MarketsPage: React.FC = () => {
   const [swiper, setSwiper] = React.useState<any>(null);
 
   const protocolStats = useProtocolStats();
-  const sepoliaMarkets = useAllMarketsData(11155111);
-  const arbitrumMarkets = useAllMarketsData(421614);
+  const sepoliaMarkets = useAllMarketsData(SEPOLIA_CHAIN_ID);
+  const arbitrumMarkets = useAllMarketsData(ARBITRUM_CHAIN_ID);
 
   const allMarkets = React.useMemo(() => {
-    return [
-      ...sepoliaMarkets.markets,
-      ...arbitrumMarkets.markets,
-    ];
+    return [...sepoliaMarkets.markets, ...arbitrumMarkets.markets];
   }, [sepoliaMarkets.markets, arbitrumMarkets.markets]);
 
   const onSlidePrev = React.useCallback(() => {
@@ -74,39 +71,42 @@ export const MarketsPage: React.FC = () => {
             content={[
               {
                 title: "Total Value Locked",
-                content: protocolStats.isLoading 
-                  ? "Loading..." 
+                content: protocolStats.isLoading
+                  ? "Loading..."
                   : formatCurrency(protocolStats.totalValueLocked),
                 color: "white",
               },
               {
                 title: "Total Deposits",
-                content: protocolStats.isLoading 
-                  ? "Loading..." 
-                  : (
-                    <>
-                      {formatCurrency(protocolStats.totalDeposits, { compact: true })}
-                    </>
-                  ),
+                content: protocolStats.isLoading ? (
+                  "Loading..."
+                ) : (
+                  <>
+                    {formatCurrency(protocolStats.totalDeposits, {
+                      compact: true,
+                    })}
+                  </>
+                ),
                 color: "purple",
               },
               {
                 title: "Total Borrowed",
-                content: protocolStats.isLoading 
-                  ? "Loading..." 
-                  : (
-                    <>
-                      {formatCurrency(protocolStats.totalBorrowed, { compact: true })}
-                    </>
-                  ),
+                content: protocolStats.isLoading ? (
+                  "Loading..."
+                ) : (
+                  <>
+                    {formatCurrency(protocolStats.totalBorrowed, {
+                      compact: true,
+                    })}
+                  </>
+                ),
                 color: "green",
               },
             ]}
           />
         </Section>
 
-        
-         {/*
+        {/*
          <Heading element="h3" className={styles.title}>
           Popular markets
         </Heading>
@@ -130,7 +130,7 @@ export const MarketsPage: React.FC = () => {
             >
               <Icon glyph={"Arrow"} width={24} height={24} />
             </Button>
-           
+
             <Swiper
               className={styles.swiper}
               pagination={{
@@ -169,12 +169,12 @@ export const MarketsPage: React.FC = () => {
                         <CurrencyIcon
                           width={40}
                           height={40}
-                          currency="USDTether" 
+                          currency="USDTether"
                         />
                         <CurrencyIcon
                           width={18}
                           height={18}
-                          currency="Ethereum" 
+                          currency="Ethereum"
                         />
                       </div>
                       <Heading element="h4" className={styles.tokenName}>
@@ -258,11 +258,10 @@ export const MarketsPage: React.FC = () => {
                 ))
               )}
             </Swiper>
-            
+
           </div>
          )}*/}
-        
-        
+
         <div className={styles.sort}>
           <Select
             pre="Sort By"
@@ -311,7 +310,7 @@ export const MarketsPage: React.FC = () => {
         </div>
         <div className={styles.grid}>
           {CHAINS.map((chain) => (
-            <Market 
+            <Market
               key={chain.chainId}
               chainId={chain.chainId}
               isLoading={protocolStats.isLoading}

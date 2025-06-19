@@ -2,6 +2,7 @@ import { useReadContracts } from "wagmi";
 import { type Abi } from "viem";
 import { ABIS } from "../abi/abis";
 import { useGetAllMarkets } from "./useGetAllMarkets";
+import { useQueryClient } from "@tanstack/react-query"; // Импортируем useQueryClient
 
 type Address = `0x${string}`;
 
@@ -17,6 +18,8 @@ type BorrowInfo = {
 };
 
 export const useUserData = (chainId: number, userAddress?: Address) => {
+  const queryClient = useQueryClient(); // Получаем экземпляр queryClient
+
   const result = useGetAllMarkets(chainId);
   const markets = result.data;
   const isMarketsPending = result.isPending;
@@ -105,6 +108,29 @@ export const useUserData = (chainId: number, userAddress?: Address) => {
         })
       : [];
 
+  const refresh = () => {
+    void queryClient.invalidateQueries({
+      predicate: (query) => {
+        if (query.queryKey[0] !== "readContracts") {
+          return false;
+        }
+
+        const config = query.queryKey[1] as { contracts?: any[] };
+        if (!config || !config.contracts) {
+          return false;
+        }
+
+        return config.contracts.some((contract) => {
+          return (
+            contract.chainId === chainId &&
+            contract.args &&
+            contract.args[0] === userAddress
+          );
+        });
+      },
+    });
+  };
+
   return {
     supplies,
     borrows,
@@ -117,5 +143,6 @@ export const useUserData = (chainId: number, userAddress?: Address) => {
       supplyResult.error ||
       borrowCurrentResult.error ||
       borrowStoredResult.error,
+    refresh,
   };
 };

@@ -1,10 +1,11 @@
-import { useReadContracts, useChainId } from 'wagmi';
-import { useMemo } from 'react';
-import { CONTRACT_ADDRESSES } from '../contracts';
-import { ABIS } from '../abi/abis';
-import { useGetAllMarkets } from './useGetAllMarkets';
-import { formatUnits } from 'viem';
-import type { Abi, Address } from 'viem';
+import { useReadContracts, useChainId } from "wagmi";
+import { useMemo } from "react";
+import { CONTRACT_ADDRESSES } from "../contracts";
+import { ABIS } from "../abi/abis";
+import { useGetAllMarkets } from "./useGetAllMarkets";
+import { formatUnits } from "viem";
+import type { Abi, Address } from "viem";
+import { ARBITRUM_CHAIN_ID, SEPOLIA_CHAIN_ID } from "@/constants";
 
 export interface MarketData {
   address: Address;
@@ -14,7 +15,7 @@ export interface MarketData {
   decimals: number;
   cTokenDecimals: number;
   underlyingDecimals: number;
-  
+
   // Market metrics
   utilization: number;
   supplyAPY: number;
@@ -22,7 +23,7 @@ export interface MarketData {
   totalSupplyUSD: number;
   totalBorrowUSD: number;
   totalCollateralUSD: number;
-  
+
   // Raw values
   cash: bigint;
   totalSupply: bigint;
@@ -31,7 +32,7 @@ export interface MarketData {
   supplyRatePerBlock: bigint;
   borrowRatePerBlock: bigint;
   collateralFactorMantissa: bigint;
-  
+
   // Oracle price
   underlyingPriceUSD: number;
 }
@@ -39,16 +40,17 @@ export interface MarketData {
 export const useAllMarketsData = (chainId?: number) => {
   const currentChainId = useChainId();
   const targetChainId = chainId || currentChainId;
-  
-  const { data: allMarkets, isPending: isMarketsPending } = useGetAllMarkets(targetChainId);
+
+  const { data: allMarkets, isPending: isMarketsPending } =
+    useGetAllMarkets(targetChainId);
 
   const getAddresses = (chainId: number) => {
-    if (chainId === 11155111) { 
+    if (chainId === SEPOLIA_CHAIN_ID) {
       return {
         comptroller: CONTRACT_ADDRESSES.sepolia.comptroller as Address,
         oracle: CONTRACT_ADDRESSES.sepolia.oracle as Address,
       };
-    } else if (chainId === 421614) {
+    } else if (chainId === ARBITRUM_CHAIN_ID) {
       return {
         comptroller: CONTRACT_ADDRESSES.arbitrum_sepolia.comptroller as Address,
         oracle: CONTRACT_ADDRESSES.arbitrum_sepolia.oracle as Address,
@@ -64,74 +66,74 @@ export const useAllMarketsData = (chainId?: number) => {
 
   const marketContracts = useMemo(() => {
     if (!allMarkets || !Array.isArray(allMarkets)) return [];
-    
+
     return (allMarkets as Address[]).flatMap((market) => [
       {
         address: market,
         abi: ABIS.CTokenABI as Abi,
-        functionName: 'underlying' as const,
+        functionName: "underlying" as const,
         chainId: targetChainId,
       },
       {
         address: market,
         abi: ABIS.CTokenABI as Abi,
-        functionName: 'name' as const,
+        functionName: "name" as const,
         chainId: targetChainId,
       },
       {
         address: market,
         abi: ABIS.CTokenABI as Abi,
-        functionName: 'symbol' as const,
+        functionName: "symbol" as const,
         chainId: targetChainId,
       },
       {
         address: market,
         abi: ABIS.CTokenABI as Abi,
-        functionName: 'decimals' as const,
+        functionName: "decimals" as const,
         chainId: targetChainId,
       },
 
       {
         address: market,
         abi: ABIS.CTokenABI as Abi,
-        functionName: 'getCash' as const,
+        functionName: "getCash" as const,
         chainId: targetChainId,
       },
       {
         address: market,
         abi: ABIS.CTokenABI as Abi,
-        functionName: 'totalSupply' as const,
+        functionName: "totalSupply" as const,
         chainId: targetChainId,
       },
       {
         address: market,
         abi: ABIS.CTokenABI as Abi,
-        functionName: 'totalBorrows' as const,
+        functionName: "totalBorrows" as const,
         chainId: targetChainId,
       },
       {
         address: market,
         abi: ABIS.CTokenABI as Abi,
-        functionName: 'exchangeRateStored' as const,
+        functionName: "exchangeRateStored" as const,
         chainId: targetChainId,
       },
       {
         address: market,
         abi: ABIS.CTokenABI as Abi,
-        functionName: 'supplyRatePerBlock' as const,
+        functionName: "supplyRatePerBlock" as const,
         chainId: targetChainId,
       },
       {
         address: market,
         abi: ABIS.CTokenABI as Abi,
-        functionName: 'borrowRatePerBlock' as const,
+        functionName: "borrowRatePerBlock" as const,
         chainId: targetChainId,
       },
-      
+
       {
         address: comptroller,
         abi: ABIS.ComptrollerABI as Abi,
-        functionName: 'markets' as const,
+        functionName: "markets" as const,
         args: [market],
         chainId: targetChainId,
       },
@@ -141,12 +143,12 @@ export const useAllMarketsData = (chainId?: number) => {
   // Get underlying token info
   const underlyingContracts = useMemo(() => {
     if (!allMarkets || !Array.isArray(allMarkets)) return [];
-    
+
     return (allMarkets as Address[]).flatMap((market, index) => [
       {
         address: market,
         abi: ABIS.CTokenABI as Abi,
-        functionName: 'underlying' as const,
+        functionName: "underlying" as const,
         chainId: targetChainId,
       },
     ]);
@@ -154,22 +156,24 @@ export const useAllMarketsData = (chainId?: number) => {
 
   const oracleContracts = useMemo(() => {
     if (!allMarkets || !Array.isArray(allMarkets)) return [];
-    
+
     return (allMarkets as Address[]).map((market) => ({
       address: oracle,
       abi: ABIS.OracleABI as Abi,
-      functionName: 'getUnderlyingPrice' as const,
+      functionName: "getUnderlyingPrice" as const,
       args: [market],
       chainId: targetChainId,
     }));
   }, [allMarkets, targetChainId, oracle]);
 
-  const { data: marketData, isPending: isMarketDataPending } = useReadContracts({
-    contracts: marketContracts,
-    query: {
-      enabled: marketContracts.length > 0,
+  const { data: marketData, isPending: isMarketDataPending } = useReadContracts(
+    {
+      contracts: marketContracts,
+      query: {
+        enabled: marketContracts.length > 0,
+      },
     },
-  });
+  );
 
   const { data: oracleData, isPending: isOraclePending } = useReadContracts({
     contracts: oracleContracts,
@@ -179,17 +183,22 @@ export const useAllMarketsData = (chainId?: number) => {
   });
 
   const processedMarkets = useMemo(() => {
-    if (!allMarkets || !marketData || !oracleData || 
-        isMarketDataPending || isOraclePending) {
+    if (
+      !allMarkets ||
+      !marketData ||
+      !oracleData ||
+      isMarketDataPending ||
+      isOraclePending
+    ) {
       return [];
     }
 
     const markets: MarketData[] = [];
     const marketsArray = allMarkets as Address[];
-    
+
     marketsArray.forEach((marketAddress, index) => {
       const baseIndex = index * 11; // 11 calls per market
-      
+
       const underlyingResult = marketData[baseIndex];
       const nameResult = marketData[baseIndex + 1];
       const symbolResult = marketData[baseIndex + 2];
@@ -203,19 +212,20 @@ export const useAllMarketsData = (chainId?: number) => {
       const marketInfoResult = marketData[baseIndex + 10];
       const priceResult = oracleData[index];
 
-      if (underlyingResult?.status === 'success' &&
-          nameResult?.status === 'success' &&
-          symbolResult?.status === 'success' &&
-          decimalsResult?.status === 'success' &&
-          cashResult?.status === 'success' &&
-          totalSupplyResult?.status === 'success' &&
-          totalBorrowsResult?.status === 'success' &&
-          exchangeRateResult?.status === 'success' &&
-          supplyRateResult?.status === 'success' &&
-          borrowRateResult?.status === 'success' &&
-          marketInfoResult?.status === 'success' &&
-          priceResult?.status === 'success') {
-
+      if (
+        underlyingResult?.status === "success" &&
+        nameResult?.status === "success" &&
+        symbolResult?.status === "success" &&
+        decimalsResult?.status === "success" &&
+        cashResult?.status === "success" &&
+        totalSupplyResult?.status === "success" &&
+        totalBorrowsResult?.status === "success" &&
+        exchangeRateResult?.status === "success" &&
+        supplyRateResult?.status === "success" &&
+        borrowRateResult?.status === "success" &&
+        marketInfoResult?.status === "success" &&
+        priceResult?.status === "success"
+      ) {
         const underlying = underlyingResult.result as Address;
         const name = nameResult.result as string;
         const symbol = symbolResult.result as string;
@@ -226,27 +236,38 @@ export const useAllMarketsData = (chainId?: number) => {
         const exchangeRate = exchangeRateResult.result as bigint;
         const supplyRatePerBlock = supplyRateResult.result as bigint;
         const borrowRatePerBlock = borrowRateResult.result as bigint;
-        const marketInfo = marketInfoResult.result as [boolean, bigint, boolean];
+        const marketInfo = marketInfoResult.result as [
+          boolean,
+          bigint,
+          boolean,
+        ];
         const oraclePrice = Number(priceResult.result as bigint);
 
-        const underlyingPriceUSD = oraclePrice / 1e24; 
-        const underlyingDecimals = 6; 
+        const underlyingPriceUSD = oraclePrice / 1e24;
+        const underlyingDecimals = 6;
 
         const blocksPerYear = 2102400;
         const supplyRate = Number(supplyRatePerBlock) / 1e18;
         const borrowRate = Number(borrowRatePerBlock) / 1e18;
-        const supplyAPY = (Math.pow(supplyRate * blocksPerYear + 1, 1) - 1) * 100;
-        const borrowAPY = (Math.pow(borrowRate * blocksPerYear + 1, 1) - 1) * 100;
+        const supplyAPY =
+          (Math.pow(supplyRate * blocksPerYear + 1, 1) - 1) * 100;
+        const borrowAPY =
+          (Math.pow(borrowRate * blocksPerYear + 1, 1) - 1) * 100;
 
         const totalCash = Number(formatUnits(cash, underlyingDecimals));
-        const totalBorrowsFormatted = Number(formatUnits(totalBorrows, underlyingDecimals));
-        const utilization = totalCash + totalBorrowsFormatted > 0 
-          ? (totalBorrowsFormatted / (totalCash + totalBorrowsFormatted)) * 100 
-          : 0;
+        const totalBorrowsFormatted = Number(
+          formatUnits(totalBorrows, underlyingDecimals),
+        );
+        const utilization =
+          totalCash + totalBorrowsFormatted > 0
+            ? (totalBorrowsFormatted / (totalCash + totalBorrowsFormatted)) *
+              100
+            : 0;
 
-        const totalSupplyUSD = (totalCash + totalBorrowsFormatted) * underlyingPriceUSD;
+        const totalSupplyUSD =
+          (totalCash + totalBorrowsFormatted) * underlyingPriceUSD;
         const totalBorrowUSD = totalBorrowsFormatted * underlyingPriceUSD;
-        
+
         const collateralFactorMantissa = marketInfo[1];
         const collateralFactor = Number(collateralFactorMantissa) / 1e18;
         const totalCollateralUSD = totalSupplyUSD * collateralFactor;
@@ -256,17 +277,17 @@ export const useAllMarketsData = (chainId?: number) => {
           underlying,
           name,
           symbol,
-          decimals: 18, 
+          decimals: 18,
           cTokenDecimals,
           underlyingDecimals,
-          
+
           utilization,
           supplyAPY,
           borrowAPY,
           totalSupplyUSD,
           totalBorrowUSD,
           totalCollateralUSD,
-          
+
           cash,
           totalSupply,
           totalBorrows,
@@ -274,18 +295,24 @@ export const useAllMarketsData = (chainId?: number) => {
           supplyRatePerBlock,
           borrowRatePerBlock,
           collateralFactorMantissa,
-          
+
           underlyingPriceUSD,
         });
       }
     });
 
     return markets;
-  }, [allMarkets, marketData, oracleData, isMarketDataPending, isOraclePending]);
+  }, [
+    allMarkets,
+    marketData,
+    oracleData,
+    isMarketDataPending,
+    isOraclePending,
+  ]);
 
   return {
     markets: processedMarkets,
     isPending: isMarketsPending || isMarketDataPending || isOraclePending,
-    error: null, 
+    error: null,
   };
-}; 
+};

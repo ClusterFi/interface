@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ModalLayout } from "@/components/Modals/ModalLayout/ModalLayout";
 import { Button, ModalProps, Text, CurrencyIcon } from "@/components";
 import styles from "./Supply.module.scss";
@@ -10,9 +10,17 @@ import { useAccount, useChainId, useSwitchChain } from "wagmi";
 import { useAllowance } from "@/utils/evm/hooks/useAllowance";
 import { useApproveToken } from "@/utils/evm/hooks/useApproveToken";
 import { useSupply } from "@/utils/evm/hooks/useSupply";
-import { getChainById } from "@/constants";
+import {
+  ARBITRUM_CHAIN_ID,
+  getChainById,
+  SEPOLIA_CHAIN_ID,
+  USDC_DECIMALS,
+} from "@/constants";
+import { formatUnits } from "viem";
+import { Confirming } from "@/components/shared/Confirming/Confirming";
 
 export type SupplyProps = {
+  cb: () => void;
   underlyingDecimals: number;
   underlyingBalance: string | undefined;
   underlyingAddress: `0x${string}`;
@@ -38,6 +46,7 @@ export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
     isPending: isSupplying,
     isConfirming: isSupplyingConfirming,
     hash,
+    status: supplyStatus,
   } = useSupply(props.spenderAddress);
 
   const [amount, setAmount] = useState("");
@@ -48,14 +57,17 @@ export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
   // Get the target chain ID from the chain name
   const targetChainId = React.useMemo(() => {
     if (props.chain.chainId) return props.chain.chainId;
-    
+
     // Fallback: determine chain ID from chain name
-    if (props.chain.name.toLowerCase().includes('arbitrum')) {
-      return 421614; // Arbitrum Sepolia
-    } else if (props.chain.name.toLowerCase().includes('ethereum') || props.chain.name.toLowerCase().includes('sepolia')) {
-      return 11155111; // Ethereum Sepolia
+    if (props.chain.name.toLowerCase().includes("arbitrum")) {
+      return ARBITRUM_CHAIN_ID; // Arbitrum Sepolia
+    } else if (
+      props.chain.name.toLowerCase().includes("ethereum") ||
+      props.chain.name.toLowerCase().includes("sepolia")
+    ) {
+      return SEPOLIA_CHAIN_ID; // Ethereum Sepolia
     }
-    return 11155111; // Default to Ethereum Sepolia
+    return SEPOLIA_CHAIN_ID; // Default to Ethereum Sepolia
   }, [props.chain]);
 
   const isWrongNetwork = account.isConnected && walletChainId !== targetChainId;
@@ -71,7 +83,7 @@ export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
       handleNetworkSwitch();
       return;
     }
-    
+
     const parsed = parseFloat(amount);
     if (!isNaN(parsed)) {
       const multiplier = 10 ** props.underlyingDecimals;
@@ -80,6 +92,14 @@ export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
     }
   };
 
+  useEffect(() => {
+    if (supplyStatus === "success") {
+      if (typeof props.cb === "function") {
+        props.cb();
+      }
+    }
+  }, [props, props.cb, supplyStatus]);
+
   const { chain, asset } = props;
 
   const parsedBalance = parseFloat(props.underlyingBalance || "0");
@@ -87,7 +107,7 @@ export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
   const isDisabled =
     !amount || isNaN(parsedAmount) || parsedAmount > parsedBalance;
 
-  const { allowance, isLoading: isAllowanceLoading } = useAllowance({
+  const { allowance, refetch } = useAllowance({
     token: props.underlyingAddress,
     owner: account.address,
     spender: props.spenderAddress,
@@ -101,12 +121,15 @@ export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
     value = BigInt(Math.floor(parsedAmount * multiplier));
   }
 
-  const needsApproval = allowance === BigInt(0);
+  const needsApproval = useMemo(() => {
+    return Number(formatUnits(allowance, USDC_DECIMALS)) < +amount;
+  }, [amount, allowance]);
 
   const {
     approve,
     isPending: isApproving,
     isConfirming: isApprovingConfirming,
+    isSuccess: isApprovingSuccess,
   } = useApproveToken({
     token: props.underlyingAddress,
     spender: props.spenderAddress,
@@ -119,6 +142,12 @@ export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
     }
   }, [isSupplyingConfirming, hash, rest]);
 
+  useEffect(() => {
+    if (isApprovingSuccess) {
+      refetch();
+    }
+  }, [isApprovingSuccess, refetch]);
+
   const targetChain = getChainById(targetChainId);
   const currentChain = getChainById(walletChainId);
 
@@ -128,19 +157,20 @@ export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
         <Text size={16} theme={600} className={styles.title}>
           Supply Asset
         </Text>
-        
+
         {isWrongNetwork && (
           <div className={styles.networkWarning}>
             <Text size={14} theme={600} className={styles.warningTitle}>
               Wrong Network
             </Text>
             <Text size={12} theme={400} className={styles.warningText}>
-              You are connected to {currentChain?.name || 'Unknown Network'}. 
-              Switch to {targetChain?.name || 'Target Network'} to supply this asset.
+              You are connected to {currentChain?.name || "Unknown Network"}.
+              Switch to {targetChain?.name || "Target Network"} to supply this
+              asset.
             </Text>
           </div>
         )}
-        
+
         <div className={styles.field}>
           <Text size={14} theme={400} className={styles.label}>
             Chain
@@ -186,7 +216,7 @@ export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
             className={styles.button}
             onClick={handleNetworkSwitch}
           >
-            Switch to {targetChain?.name || 'Target Network'}
+            Switch to {targetChain?.name || "Target Network"}
           </Button>
         ) : needsApproval ? (
           <Button
@@ -196,11 +226,13 @@ export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
             onClick={approve}
             disabled={isApproving || isApprovingConfirming}
           >
-            {isApproving
-              ? "Waiting for Wallet..."
-              : isApprovingConfirming
-                ? "Confirming..."
-                : "Approve"}
+            {isApproving ? (
+              "Waiting for Wallet..."
+            ) : isApprovingConfirming ? (
+              <Confirming />
+            ) : (
+              "Approve"
+            )}
           </Button>
         ) : (
           <Button
@@ -210,11 +242,13 @@ export const Supply: React.FC<Supply> = ({ props, ...rest }) => {
             disabled={isDisabled || isSupplying || isSupplyingConfirming}
             onClick={handleSupply}
           >
-            {isSupplying
-              ? "Waiting for Wallet..."
-              : isSupplyingConfirming
-                ? "Confirming..."
-                : "Supply"}
+            {isSupplying ? (
+              "Waiting for Wallet..."
+            ) : isSupplyingConfirming ? (
+              <Confirming />
+            ) : (
+              "Supply"
+            )}
           </Button>
         )}
       </div>

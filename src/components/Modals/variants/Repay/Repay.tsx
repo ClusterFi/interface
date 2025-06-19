@@ -14,8 +14,10 @@ import { useApproveToken } from "@/utils/evm/hooks/useApproveToken";
 import { useAllowance } from "@/utils/evm/hooks/useAllowance";
 import { useRepayBorrow } from "@/utils/evm/hooks/useRepayBorrow";
 import { Currency } from "@/types";
+import { Confirming } from "@/components/shared/Confirming/Confirming";
 
 export type RepayProps = {
+  cb: () => void;
   chain: {
     name: string;
     icon: Currency;
@@ -70,13 +72,28 @@ export const Repay: React.FC<Repay> = ({ props, ...rest }) => {
     isPending: isRepaying,
     isConfirming: isConfirmingRepay,
     hash,
+    status: repayStatus,
   } = useRepayBorrow(cTokenAddress);
+
+  useEffect(() => {
+    if (!isConfirmingRepay && hash) {
+      rest.onOpenChange(false);
+    }
+  }, [isConfirmingRepay, hash, rest]);
 
   useEffect(() => {
     if (!isConfirmingApprove && !isApproving) {
       refetchAllowance?.();
     }
   }, [isConfirmingApprove, isApproving, refetchAllowance]);
+
+  useEffect(() => {
+    if (repayStatus === "success") {
+      if (typeof props.cb === "function") {
+        props.cb();
+      }
+    }
+  }, [props, props.cb, repayStatus]);
 
   return (
     <ModalLayout title="Repay Loan" isSwipeable {...rest}>
@@ -89,11 +106,7 @@ export const Repay: React.FC<Repay> = ({ props, ...rest }) => {
             Chain
           </Text>
           <div className={styles.staticBox}>
-            <CurrencyIcon
-              currency={chain.icon}
-              width={24}
-              height={24}
-            />
+            <CurrencyIcon currency={chain.icon} width={24} height={24} />
             <Text size={14} theme={500}>
               {chain.name}
             </Text>
@@ -133,19 +146,23 @@ export const Repay: React.FC<Repay> = ({ props, ...rest }) => {
             isConfirmingRepay
           }
         >
-          {needsApproval
-            ? isApproving
-              ? "Waiting for Wallet..."
-              : isConfirmingApprove
-                ? "Confirming..."
-                : "Approve"
-            : isRepaying
-              ? "Waiting for Wallet..."
-              : isConfirmingRepay
-                ? "Confirming..."
-                : "Repay"}
+          {needsApproval ? (
+            isApproving ? (
+              "Waiting for Wallet..."
+            ) : isConfirmingApprove ? (
+              <Confirming />
+            ) : (
+              "Approve"
+            )
+          ) : isRepaying ? (
+            "Waiting for Wallet..."
+          ) : isConfirmingRepay ? (
+            <Confirming />
+          ) : (
+            "Repay"
+          )}
         </Button>
       </div>
     </ModalLayout>
   );
-}; 
+};

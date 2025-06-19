@@ -17,7 +17,6 @@ export type ModalsState = {
 
 export const useModalsStore = create<ModalsState>()((set) => ({
   activeModal: null,
-
   openModal: (name, props) =>
     set(() => ({
       activeModal: {

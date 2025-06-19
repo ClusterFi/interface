@@ -18,7 +18,11 @@ import styles from "./SingleMarket.module.scss";
 import { Leverage } from "./components/Tabs/Leverage";
 import { mediaBreaks, useMedia } from "@/utils";
 import { useModalsStore } from "@/utils/stores";
-import { useAllMarketsData, type MarketData } from "@/utils/evm/hooks/useAllMarketsData";
+import {
+  useAllMarketsData,
+  type MarketData,
+} from "@/utils/evm/hooks/useAllMarketsData";
+import { SEPOLIA_CHAIN_ID } from "@/constants";
 
 export const MarketDataContext = React.createContext<{
   marketData: MarketData | null;
@@ -49,25 +53,33 @@ type SingleMarketPageProps = {
 
 export const SingleMarketPage: React.FC<SingleMarketPageProps> = ({
   marketAddress,
-  chainId = 11155111, // Default to Ethereum Sepolia
+  chainId = SEPOLIA_CHAIN_ID, // Default to Ethereum Sepolia
 }) => {
   const isMobile = useMedia(mediaBreaks.max.tablet);
   const { openModal } = useModalsStore();
-  
+
   // Fetch market data
   const { markets, isPending } = useAllMarketsData(chainId);
-  
+
   // Find the specific market by address
   const marketData = React.useMemo(() => {
     if (!marketAddress || !markets.length) return null;
-    return markets.find(market => market.address.toLowerCase() === marketAddress.toLowerCase()) || null;
+    return (
+      markets.find(
+        (market) =>
+          market.address.toLowerCase() === marketAddress.toLowerCase(),
+      ) || null
+    );
   }, [markets, marketAddress]);
 
-  const contextValue = React.useMemo(() => ({
-    marketData,
-    isLoading: isPending,
-    chainId,
-  }), [marketData, isPending, chainId]);
+  const contextValue = React.useMemo(
+    () => ({
+      marketData,
+      isLoading: isPending,
+      chainId,
+    }),
+    [marketData, isPending, chainId],
+  );
 
   return (
     <MarketDataContext.Provider value={contextValue}>

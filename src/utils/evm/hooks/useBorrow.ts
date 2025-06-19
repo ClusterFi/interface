@@ -24,7 +24,9 @@ export const useBorrow = (cTokenAddress: `0x${string}`) => {
     functionName: "decimals",
   });
 
-  const { isLoading: isConfirming } = useWaitForTransactionReceipt({ hash });
+  const { isLoading: isConfirming, status } = useWaitForTransactionReceipt({
+    hash,
+  });
 
   const borrow = async (amount: string) => {
     if (decimals == null) {
@@ -79,5 +81,6 @@ export const useBorrow = (cTokenAddress: `0x${string}`) => {
     isPending,
     isConfirming,
     hash,
+    status,
   };
 };

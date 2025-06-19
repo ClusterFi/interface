@@ -5,7 +5,7 @@ import { useMarketInfo } from "@/utils/evm/hooks/useMarketInfo";
 import { Currency } from "@/types";
 import { useModalsStore } from "@/utils/stores";
 import { useAccount } from "wagmi";
-import { getChainById } from "@/constants";
+import { ARBITRUM_CHAIN_ID, getChainById, SEPOLIA_CHAIN_ID } from "@/constants";
 import { CONTRACT_ADDRESSES } from "@/utils/evm/contracts";
 import { useCheckCollateralMembership } from "@/utils/evm/hooks/useCheckCollateralMembership";
 import Skeleton from "react-loading-skeleton";
@@ -15,30 +15,30 @@ import { formatTokenAmount } from "@/utils/formatters";
 type DepositItemOverallProps = {
   address: `0x${string}`;
   chainId: number;
+  cb: () => void;
 };
 
 export const DepositItemOverall: React.FC<DepositItemOverallProps> = ({
   address,
   chainId,
+  cb,
 }) => {
-  const {
-    data: marketInfo,
-  } = useMarketInfo(address, chainId);
+  const { data: marketInfo } = useMarketInfo(address, chainId);
   const { openModal } = useModalsStore();
   const account = useAccount();
 
   const result = useCrossChainBalance(
     account.address,
     marketInfo?.underlying,
-    chainId
+    chainId,
   );
 
   const chainInfo = getChainById(chainId);
 
   const getComptrollerAddress = (chainId: number): `0x${string}` => {
-    if (chainId === 11155111) {
+    if (chainId === SEPOLIA_CHAIN_ID) {
       return CONTRACT_ADDRESSES.sepolia.comptroller as `0x${string}`;
-    } else if (chainId === 421614) {
+    } else if (chainId === ARBITRUM_CHAIN_ID) {
       return CONTRACT_ADDRESSES.arbitrum_sepolia.comptroller as `0x${string}`;
     }
     return CONTRACT_ADDRESSES.sepolia.comptroller as `0x${string}`;
@@ -48,12 +48,13 @@ export const DepositItemOverall: React.FC<DepositItemOverallProps> = ({
     getComptrollerAddress(chainId),
     account.address as `0x${string}`,
     address,
-    chainId
+    chainId,
   );
 
   const handleSupplyClick = () => {
     if (marketInfo) {
       openModal("Supply", {
+        cb: cb,
         underlyingDecimals: result.data?.decimals!,
         underlyingBalance: result.data?.formatted,
         underlyingAddress: marketInfo.underlying,

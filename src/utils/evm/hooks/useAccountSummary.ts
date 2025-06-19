@@ -1,10 +1,10 @@
-import { useReadContract, useAccount } from 'wagmi';
-import { useMemo } from 'react';
-import { CONTRACT_ADDRESSES } from '../contracts';
-import { ABIS } from '../abi/abis';
-import { useUserData } from './useUserData';
-import { useMarketInfo } from './useMarketInfo';
-import { formatUnits } from 'viem';
+import { useReadContract, useAccount } from "wagmi";
+import { useMemo } from "react";
+import { CONTRACT_ADDRESSES } from "../contracts";
+import { ABIS } from "../abi/abis";
+import { useUserData } from "./useUserData";
+import { formatUnits } from "viem";
+import { SEPOLIA_CHAIN_ID } from "@/constants";
 
 type Address = `0x${string}`;
 
@@ -19,15 +19,25 @@ export interface AccountSummary {
   error: Error | null;
 }
 
-export const useAccountSummary = (chainId: number = 11155111): AccountSummary => {
+export const useAccountSummary = (
+  chainId: number = SEPOLIA_CHAIN_ID,
+): AccountSummary => {
   const { address: userAddress } = useAccount();
-  const { supplies, borrows, isPending: isUserDataPending } = useUserData(chainId, userAddress);
+  const {
+    supplies,
+    borrows,
+    isPending: isUserDataPending,
+  } = useUserData(chainId, userAddress);
 
   // Get account liquidity from Comptroller
-  const { data: accountLiquidityData, isPending: isLiquidityPending, error: liquidityError } = useReadContract({
+  const {
+    data: accountLiquidityData,
+    isPending: isLiquidityPending,
+    error: liquidityError,
+  } = useReadContract({
     address: CONTRACT_ADDRESSES.sepolia.comptroller as Address,
     abi: ABIS.ComptrollerABI,
-    functionName: 'getAccountLiquidity',
+    functionName: "getAccountLiquidity",
     args: userAddress ? [userAddress] : undefined,
     query: {
       enabled: !!userAddress,
@@ -57,12 +67,22 @@ export const useAccountSummary = (chainId: number = 11155111): AccountSummary =>
     let weightedBorrowAPY = 0;
 
     // For now, we'll use the account liquidity data from the contract
-    const accountLiquidity = accountLiquidityData 
-      ? Number(formatUnits((accountLiquidityData as [bigint, bigint, bigint])[1], 18))
+    const accountLiquidity = accountLiquidityData
+      ? Number(
+          formatUnits(
+            (accountLiquidityData as [bigint, bigint, bigint])[1],
+            18,
+          ),
+        )
       : 0;
-    
-    const accountShortfall = accountLiquidityData 
-      ? Number(formatUnits((accountLiquidityData as [bigint, bigint, bigint])[2], 18))
+
+    const accountShortfall = accountLiquidityData
+      ? Number(
+          formatUnits(
+            (accountLiquidityData as [bigint, bigint, bigint])[2],
+            18,
+          ),
+        )
       : 0;
 
     // Calculate net APY (simplified - would need more complex calculation with actual market data)
@@ -78,10 +98,16 @@ export const useAccountSummary = (chainId: number = 11155111): AccountSummary =>
       isLoading: false,
       error: liquidityError,
     };
-  }, [supplies, borrows, accountLiquidityData, isUserDataPending, liquidityError]);
+  }, [
+    supplies,
+    borrows,
+    accountLiquidityData,
+    isUserDataPending,
+    liquidityError,
+  ]);
 
   return {
     ...summary,
     isLoading: isUserDataPending || isLiquidityPending,
   };
-}; 
+};

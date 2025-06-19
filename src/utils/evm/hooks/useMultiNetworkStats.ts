@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useReadContracts } from "wagmi";
-import { CHAINS } from "@/constants";
+import { CHAINS, SEPOLIA_CHAIN_ID } from "@/constants";
 import { ABIS } from "@/utils/evm/abi/abis";
 import { type Address, type Abi } from "viem";
 import { type NetworkStats } from "@/types";
@@ -15,7 +15,7 @@ export const useMultiNetworkStats = ({
   userAddress,
   comptrollerAddresses,
 }: Params) => {
-  const blocksPerYear = 2102400;
+  // const blocksPerYear = 2102400;
   const markets = useGetAllMarketsForSupportedNetworks();
 
   const baseContracts = useMemo(() => {
@@ -132,7 +132,7 @@ export const useMultiNetworkStats = ({
 
       const [error, cTokenBalance, borrowBalance, exchangeRate] =
         snapshotRes.result as [bigint, bigint, bigint, bigint];
-      
+
       if (error !== BigInt(0)) {
         continue;
       }
@@ -141,19 +141,27 @@ export const useMultiNetworkStats = ({
       const [, collateralFactorMantissa] = marketRes.result as [
         boolean,
         bigint,
-        boolean
+        boolean,
       ];
       const price = oracle.result as bigint;
 
-      const blocksPerYear = marketInfo.chainId === 11155111 ? 2628000 : 126144000;
-      const supplyApy = (Number(supplyRatePerBlock) / 1e18) * blocksPerYear * 100;
-      const borrowApy = (Number(borrowRatePerBlock) / 1e18) * blocksPerYear * 100;
-      
-      console.log(`Chain ${chain.name} - Supply Rate Per Block: ${supplyRatePerBlock}, Borrow Rate Per Block: ${borrowRatePerBlock}`);
-      console.log(`Chain ${chain.name} - Supply APY: ${supplyApy}%, Borrow APY: ${borrowApy}%`);
+      const blocksPerYear =
+        marketInfo.chainId === SEPOLIA_CHAIN_ID ? 2628000 : 126144000;
+      const supplyApy =
+        (Number(supplyRatePerBlock) / 1e18) * blocksPerYear * 100;
+      const borrowApy =
+        (Number(borrowRatePerBlock) / 1e18) * blocksPerYear * 100;
 
-      const collateralUnderlying = (cTokenBalance * exchangeRate) / BigInt(1e18);
-      
+      console.log(
+        `Chain ${chain.name} - Supply Rate Per Block: ${supplyRatePerBlock}, Borrow Rate Per Block: ${borrowRatePerBlock}`,
+      );
+      console.log(
+        `Chain ${chain.name} - Supply APY: ${supplyApy}%, Borrow APY: ${borrowApy}%`,
+      );
+
+      const collateralUnderlying =
+        (cTokenBalance * exchangeRate) / BigInt(1e18);
+
       console.log(`Chain ${chain.name} - Raw values:`);
       console.log(`  cTokenBalance: ${cTokenBalance}`);
       console.log(`  exchangeRate: ${exchangeRate}`);
@@ -162,7 +170,6 @@ export const useMultiNetworkStats = ({
       console.log(`  price: ${price}`);
       console.log(`  collateralFactorMantissa: ${collateralFactorMantissa}`);
 
-
       let oraclePriceDecimals: bigint;
       if (price >= BigInt(1e28)) {
         oraclePriceDecimals = BigInt(1e30); // Arbitrum format
@@ -170,18 +177,24 @@ export const useMultiNetworkStats = ({
         oraclePriceDecimals = BigInt(1e18); // Ethereum format
       }
 
-      const totalCollateralValue = (collateralUnderlying * price) / (BigInt(1e6) * oraclePriceDecimals);
-      const collateralValue = (collateralUnderlying * price * collateralFactorMantissa) / (BigInt(1e6) * oraclePriceDecimals * BigInt(1e18));
-      const borrowValue = (borrowBalance * price) / (BigInt(1e6) * oraclePriceDecimals);
+      const totalCollateralValue =
+        (collateralUnderlying * price) / (BigInt(1e6) * oraclePriceDecimals);
+      const collateralValue =
+        (collateralUnderlying * price * collateralFactorMantissa) /
+        (BigInt(1e6) * oraclePriceDecimals * BigInt(1e18));
+      const borrowValue =
+        (borrowBalance * price) / (BigInt(1e6) * oraclePriceDecimals);
 
       // Now these values are in actual USD (not scaled)
       const netWorth = Number(totalCollateralValue - borrowValue);
-      const currentApyBase = Number(totalCollateralValue) * supplyApy - Number(borrowValue) * borrowApy;
+      const currentApyBase =
+        Number(totalCollateralValue) * supplyApy -
+        Number(borrowValue) * borrowApy;
       const collateral = Number(collateralValue);
       const totalCollateral = Number(totalCollateralValue);
       const borrow = Number(borrowValue);
       const netApy = netWorth === 0 ? 0 : currentApyBase / netWorth;
-      
+
       console.log(`  totalCollateral USD: ${totalCollateral}`);
       console.log(`  borrow USD: ${borrow}`);
       console.log(`  netWorth USD: ${netWorth}`);
@@ -216,43 +229,62 @@ export const useMultiNetworkStats = ({
 
     const totalCollateralForNetWorth = statsPerChain.reduce(
       (sum, s) => sum + s.totalCollateralValue,
-      0
+      0,
     );
     const totalCollateralEligible = statsPerChain.reduce(
       (sum, s) => sum + s.collateralValue,
-      0
+      0,
     );
-    const totalBorrow = statsPerChain.reduce((sum, s) => sum + s.borrowValue, 0);
-    
+    const totalBorrow = statsPerChain.reduce(
+      (sum, s) => sum + s.borrowValue,
+      0,
+    );
+
     const netWorth = totalCollateralForNetWorth - totalBorrow;
 
-    const totalSupplyValue = statsPerChain.reduce((sum, s) => sum + s.totalCollateralValue, 0);
-    const totalBorrowValue = statsPerChain.reduce((sum, s) => sum + s.borrowValue, 0);
-    
-    const weightedSupplyApy = totalSupplyValue > 0 
-      ? statsPerChain.reduce((sum, s) => sum + (s.totalCollateralValue * s.supplyApy), 0) / totalSupplyValue
-      : 0;
-    
-    const weightedBorrowApy = totalBorrowValue > 0
-      ? statsPerChain.reduce((sum, s) => sum + (s.borrowValue * s.borrowApy), 0) / totalBorrowValue
-      : 0;
+    const totalSupplyValue = statsPerChain.reduce(
+      (sum, s) => sum + s.totalCollateralValue,
+      0,
+    );
+    const totalBorrowValue = statsPerChain.reduce(
+      (sum, s) => sum + s.borrowValue,
+      0,
+    );
+
+    const weightedSupplyApy =
+      totalSupplyValue > 0
+        ? statsPerChain.reduce(
+            (sum, s) => sum + s.totalCollateralValue * s.supplyApy,
+            0,
+          ) / totalSupplyValue
+        : 0;
+
+    const weightedBorrowApy =
+      totalBorrowValue > 0
+        ? statsPerChain.reduce(
+            (sum, s) => sum + s.borrowValue * s.borrowApy,
+            0,
+          ) / totalBorrowValue
+        : 0;
 
     // Net APY should be calculated based on the net worth
     const supplyEarnings = (totalSupplyValue * weightedSupplyApy) / 100;
     const borrowCosts = (totalBorrowValue * weightedBorrowApy) / 100;
     const netEarnings = supplyEarnings - borrowCosts;
     const netApy = netWorth > 0 ? (netEarnings / netWorth) * 100 : 0;
-    
-    console.log('Aggregate Stats:');
-    console.log(`Total Supply Value: $${totalSupplyValue}, Weighted Supply APY: ${weightedSupplyApy}%`);
-    console.log(`Total Borrow Value: $${totalBorrowValue}, Weighted Borrow APY: ${weightedBorrowApy}%`);
+
+    console.log("Aggregate Stats:");
+    console.log(
+      `Total Supply Value: $${totalSupplyValue}, Weighted Supply APY: ${weightedSupplyApy}%`,
+    );
+    console.log(
+      `Total Borrow Value: $${totalBorrowValue}, Weighted Borrow APY: ${weightedBorrowApy}%`,
+    );
     console.log(`Net Worth: $${netWorth}, Net APY: ${netApy}%`);
-
-
 
     let healthFactor = Infinity;
     let ltv = 0;
-    
+
     if (totalBorrow > 0) {
       healthFactor = totalCollateralEligible / totalBorrow;
       ltv = totalBorrow / totalCollateralForNetWorth;
@@ -260,10 +292,6 @@ export const useMultiNetworkStats = ({
       healthFactor = Infinity;
       ltv = 0;
     }
-
-
-
-
 
     return {
       netWorth,

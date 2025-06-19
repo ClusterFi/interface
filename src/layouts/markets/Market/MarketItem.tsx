@@ -1,7 +1,7 @@
 import * as React from "react";
 import Link from "next/link";
-import { CircularProgress, Skeleton, Table, Text } from "@/components";
-import { formatCoin, formatUSD, mediaBreaks, useMedia } from "@/utils";
+import { CircularProgress, Skeleton, Table } from "@/components";
+import { mediaBreaks, useMedia } from "@/utils";
 import { formatCurrency, formatPercentage } from "@/utils/formatters";
 
 import styles from "./Market.module.scss";
@@ -27,20 +27,20 @@ export const MarketItem: React.FC<MarketItemProps> = ({
   currency,
 }) => {
   const isMobile = useMedia(mediaBreaks.max.tablet);
-  const Wrapper = isMobile ? "div" : React.Fragment;
   const Row = isMobile ? "a" : Table.Row;
-  
+
   // Build URL with market parameters
-  const marketUrl = marketData && chainId 
-    ? `/single-market?address=${marketData.address}&chainId=${chainId}`
-    : "/single-market";
-  
+  const marketUrl =
+    marketData && chainId
+      ? `/single-market?address=${marketData.address}&chainId=${chainId}`
+      : "/single-market";
+
   const rowProps = isMobile ? { href: marketUrl } : undefined;
 
   // Use market data if available, otherwise fallback to props
   const displayName = marketData?.symbol || name || "Unknown";
   const displayFullName = marketData?.name || fullName || "Unknown Token";
-  const displayCurrency = currency || "USDC" as Currency; // Fallback currency
+  const displayCurrency = currency || ("USDC" as Currency); // Fallback currency
 
   if (isLoading) {
     return (
@@ -51,26 +51,49 @@ export const MarketItem: React.FC<MarketItemProps> = ({
           secondaryText="—"
           isLoading={true}
         />
-        <Wrapper className={styles.wrapper}>
-          <Table.Item mobileTitle="Utilization">
-            <Skeleton />
-          </Table.Item>
-          <Table.Item mobileTitle="Net Earn APR">
-            <Skeleton />
-          </Table.Item>
-          <Table.Item mobileTitle="Net Borrow APR">
-            <Skeleton />
-          </Table.Item>
-          <Table.Item mobileTitle="Total Earning">
-            <Skeleton />
-          </Table.Item>
-          <Table.Item mobileTitle="Total Borrowing">
-            <Skeleton />
-          </Table.Item>
-          <Table.Item mobileTitle="Total Collateral">
-            <Skeleton />
-          </Table.Item>
-        </Wrapper>
+        {isMobile ? (
+          <div className={styles.wrapper}>
+            <Table.Item mobileTitle="Utilization">
+              <Skeleton />
+            </Table.Item>
+            <Table.Item mobileTitle="Net Earn APR">
+              <Skeleton />
+            </Table.Item>
+            <Table.Item mobileTitle="Net Borrow APR">
+              <Skeleton />
+            </Table.Item>
+            <Table.Item mobileTitle="Total Earning">
+              <Skeleton />
+            </Table.Item>
+            <Table.Item mobileTitle="Total Borrowing">
+              <Skeleton />
+            </Table.Item>
+            <Table.Item mobileTitle="Total Collateral">
+              <Skeleton />
+            </Table.Item>
+          </div>
+        ) : (
+          <>
+            <Table.Item mobileTitle="Utilization">
+              <Skeleton />
+            </Table.Item>
+            <Table.Item mobileTitle="Net Earn APR">
+              <Skeleton />
+            </Table.Item>
+            <Table.Item mobileTitle="Net Borrow APR">
+              <Skeleton />
+            </Table.Item>
+            <Table.Item mobileTitle="Total Earning">
+              <Skeleton />
+            </Table.Item>
+            <Table.Item mobileTitle="Total Borrowing">
+              <Skeleton />
+            </Table.Item>
+            <Table.Item mobileTitle="Total Collateral">
+              <Skeleton />
+            </Table.Item>
+          </>
+        )}
         <Table.ItemArrow className={styles.arrow} isLoading={true} />
         {!isMobile && (
           <th className={styles.link}>
@@ -89,31 +112,59 @@ export const MarketItem: React.FC<MarketItemProps> = ({
         secondaryText={displayName}
         isLoading={false}
       />
-      <Wrapper className={styles.wrapper}>
-        <Table.Item mobileTitle="Utilization">
-          <span className={styles.progress}>
-            {marketData ? formatPercentage(marketData.utilization) : "—"}
-            {marketData && (
-              <CircularProgress percentage={marketData.utilization} />
-            )}
-          </span>
-        </Table.Item>
-        <Table.Item mobileTitle="Net Earn APR">
-          {marketData ? formatPercentage(marketData.supplyAPY) : "—"}
-        </Table.Item>
-        <Table.Item mobileTitle="Net Borrow APR">
-          {marketData ? formatPercentage(marketData.borrowAPY) : "—"}
-        </Table.Item>
-        <Table.Item mobileTitle="Total Earning">
-          {marketData ? formatCurrency(marketData.totalSupplyUSD) : "—"}
-        </Table.Item>
-        <Table.Item mobileTitle="Total Borrowing">
-          {marketData ? formatCurrency(marketData.totalBorrowUSD) : "—"}
-        </Table.Item>
-        <Table.Item mobileTitle="Total Collateral">
-          {marketData ? formatCurrency(marketData.totalCollateralUSD) : "—"}
-        </Table.Item>
-      </Wrapper>
+      {isMobile ? (
+        <div className={styles.wrapper}>
+          <Table.Item mobileTitle="Utilization">
+            <span className={styles.progress}>
+              {marketData ? formatPercentage(marketData.utilization) : "—"}
+              {marketData && (
+                <CircularProgress percentage={marketData.utilization} />
+              )}
+            </span>
+          </Table.Item>
+          <Table.Item mobileTitle="Net Earn APR">
+            {marketData ? formatPercentage(marketData.supplyAPY) : "—"}
+          </Table.Item>
+          <Table.Item mobileTitle="Net Borrow APR">
+            {marketData ? formatPercentage(marketData.borrowAPY) : "—"}
+          </Table.Item>
+          <Table.Item mobileTitle="Total Earning">
+            {marketData ? formatCurrency(marketData.totalSupplyUSD) : "—"}
+          </Table.Item>
+          <Table.Item mobileTitle="Total Borrowing">
+            {marketData ? formatCurrency(marketData.totalBorrowUSD) : "—"}
+          </Table.Item>
+          <Table.Item mobileTitle="Total Collateral">
+            {marketData ? formatCurrency(marketData.totalCollateralUSD) : "—"}
+          </Table.Item>
+        </div>
+      ) : (
+        <>
+          <Table.Item mobileTitle="Utilization">
+            <span className={styles.progress}>
+              {marketData ? formatPercentage(marketData.utilization) : "—"}
+              {marketData && (
+                <CircularProgress percentage={marketData.utilization} />
+              )}
+            </span>
+          </Table.Item>
+          <Table.Item mobileTitle="Net Earn APR">
+            {marketData ? formatPercentage(marketData.supplyAPY) : "—"}
+          </Table.Item>
+          <Table.Item mobileTitle="Net Borrow APR">
+            {marketData ? formatPercentage(marketData.borrowAPY) : "—"}
+          </Table.Item>
+          <Table.Item mobileTitle="Total Earning">
+            {marketData ? formatCurrency(marketData.totalSupplyUSD) : "—"}
+          </Table.Item>
+          <Table.Item mobileTitle="Total Borrowing">
+            {marketData ? formatCurrency(marketData.totalBorrowUSD) : "—"}
+          </Table.Item>
+          <Table.Item mobileTitle="Total Collateral">
+            {marketData ? formatCurrency(marketData.totalCollateralUSD) : "—"}
+          </Table.Item>
+        </>
+      )}
       <Table.ItemArrow className={styles.arrow} isLoading={false} />
       {!isMobile && (
         <th className={styles.link}>

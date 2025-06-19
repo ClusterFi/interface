@@ -9,9 +9,12 @@ import { formatUnits } from "viem";
 import { useRedeem } from "@/utils/evm/hooks/useRedeem";
 import { useModalsStore } from "@/utils/stores";
 import { useAccount, useChainId, useSwitchChain } from "wagmi";
-import { getChainById } from "@/constants";
+import { ARBITRUM_CHAIN_ID, getChainById, SEPOLIA_CHAIN_ID } from "@/constants";
+import { Confirming } from "@/components/shared/Confirming/Confirming";
+import { useEffect } from "react";
 
 export type WithdrawProps = {
+  cb: () => void;
   chain: {
     name: string;
     icon: Currency;
@@ -37,7 +40,14 @@ type Withdraw = ModalProps & {
 export const Withdraw: React.FC<Withdraw> = ({ props, ...rest }) => {
   const { chain, asset, amount, marketInfo, cTokenAddress } = props;
   const [inputAmount, setInputAmount] = React.useState("");
-  const { redeem, isPending, isConfirming, hash } = useRedeem(cTokenAddress);
+  const {
+    redeem,
+    isPending,
+    isConfirming,
+    hash,
+    status: supplyStatus,
+  } = useRedeem(cTokenAddress);
+
   const { closeModal } = useModalsStore();
   const walletChainId = useChainId();
   const { switchChain } = useSwitchChain();
@@ -46,14 +56,17 @@ export const Withdraw: React.FC<Withdraw> = ({ props, ...rest }) => {
   // Get the target chain ID from the chain name
   const targetChainId = React.useMemo(() => {
     if (props.chain.chainId) return props.chain.chainId;
-    
+
     // Fallback: determine chain ID from chain name
-    if (props.chain.name.toLowerCase().includes('arbitrum')) {
-      return 421614; // Arbitrum Sepolia
-    } else if (props.chain.name.toLowerCase().includes('ethereum') || props.chain.name.toLowerCase().includes('sepolia')) {
-      return 11155111; // Ethereum Sepolia
+    if (props.chain.name.toLowerCase().includes("arbitrum")) {
+      return ARBITRUM_CHAIN_ID; // Arbitrum Sepolia
+    } else if (
+      props.chain.name.toLowerCase().includes("ethereum") ||
+      props.chain.name.toLowerCase().includes("sepolia")
+    ) {
+      return SEPOLIA_CHAIN_ID; // Ethereum Sepolia
     }
-    return 11155111; // Default to Ethereum Sepolia
+    return SEPOLIA_CHAIN_ID; // Default to Ethereum Sepolia
   }, [props.chain]);
 
   const isWrongNetwork = account.isConnected && walletChainId !== targetChainId;
@@ -68,10 +81,10 @@ export const Withdraw: React.FC<Withdraw> = ({ props, ...rest }) => {
     isConfirming;
 
   React.useEffect(() => {
-    if (hash) {
+    if (!isConfirming && hash) {
       closeModal();
     }
-  }, [hash, closeModal]);
+  }, [hash, closeModal, isConfirming]);
 
   const handleNetworkSwitch = () => {
     if (switchChain) {
@@ -84,7 +97,7 @@ export const Withdraw: React.FC<Withdraw> = ({ props, ...rest }) => {
       handleNetworkSwitch();
       return;
     }
-    
+
     if (isDisabled) return;
     await redeem(inputAmount, marketInfo.underlyingDecimals);
   };
@@ -96,25 +109,34 @@ export const Withdraw: React.FC<Withdraw> = ({ props, ...rest }) => {
   const targetChain = getChainById(targetChainId);
   const currentChain = getChainById(walletChainId);
 
+  useEffect(() => {
+    if (supplyStatus === "success") {
+      if (typeof props.cb === "function") {
+        props.cb();
+      }
+    }
+  }, [props, props.cb, supplyStatus]);
+
   return (
     <ModalLayout title="Withdraw Asset" isSwipeable {...rest}>
       <div className={styles.content}>
         <Text size={16} theme={600} className={styles.title}>
           Withdraw Asset
         </Text>
-        
+
         {isWrongNetwork && (
           <div className={styles.networkWarning}>
             <Text size={14} theme={600} className={styles.warningTitle}>
               Wrong Network
             </Text>
             <Text size={12} theme={400} className={styles.warningText}>
-              You are connected to {currentChain?.name || 'Unknown Network'}. 
-              Switch to {targetChain?.name || 'Target Network'} to withdraw this asset.
+              You are connected to {currentChain?.name || "Unknown Network"}.
+              Switch to {targetChain?.name || "Target Network"} to withdraw this
+              asset.
             </Text>
           </div>
         )}
-        
+
         <div className={styles.field}>
           <Text size={14} theme={400} className={styles.label}>
             Chain
@@ -173,7 +195,7 @@ export const Withdraw: React.FC<Withdraw> = ({ props, ...rest }) => {
             className={styles.button}
             onClick={handleNetworkSwitch}
           >
-            Switch to {targetChain?.name || 'Target Network'}
+            Switch to {targetChain?.name || "Target Network"}
           </Button>
         ) : (
           <Button
@@ -183,11 +205,13 @@ export const Withdraw: React.FC<Withdraw> = ({ props, ...rest }) => {
             disabled={isDisabled}
             onClick={handleWithdraw}
           >
-            {isPending
-              ? "Processing..."
-              : isConfirming
-                ? "Confirming..."
-                : "Withdraw"}
+            {isPending ? (
+              "Waiting for Wallet..."
+            ) : isConfirming ? (
+              <Confirming />
+            ) : (
+              "Withdraw"
+            )}
           </Button>
         )}
       </div>

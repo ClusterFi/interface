@@ -1,18 +1,18 @@
 import React from "react";
-import cx from "classnames";
 import styles from "./Wallet.module.scss";
-import { Button, Heading, Icon, Section, Text } from "@/components";
-import { useMarketData } from "../../SingleMarket";
+import { Heading, Icon, Section, Text } from "@/components";
+import { useMarketData } from "@/layouts";
 import { useAccount, useBalance } from "wagmi";
 import { formatUnits } from "viem";
 import { useMultiNetworkStats } from "@/utils/evm/hooks/useMultiNetworkStats";
 import { CONTRACT_ADDRESSES } from "@/utils/evm/contracts";
 import { formatTokenAmount } from "@/utils/formatters";
+import { ARBITRUM_CHAIN_ID, SEPOLIA_CHAIN_ID } from "@/constants";
 
 export const Wallet: React.FC = () => {
   const { marketData, isLoading: isMarketLoading, chainId } = useMarketData();
   const { address } = useAccount();
-  
+
   const { data: tokenBalance } = useBalance({
     address,
     token: marketData?.underlying,
@@ -20,20 +20,27 @@ export const Wallet: React.FC = () => {
     query: { enabled: !!marketData?.underlying && !!address && !!chainId },
   });
 
-  const comptrollerAddresses = chainId ? {
-    [chainId]: chainId === 11155111 
-      ? CONTRACT_ADDRESSES.sepolia.comptroller as `0x${string}`
-      : CONTRACT_ADDRESSES.arbitrum_sepolia.comptroller as `0x${string}`
-  } : {};
+  const comptrollerAddresses = chainId
+    ? {
+        [chainId]:
+          chainId === SEPOLIA_CHAIN_ID
+            ? (CONTRACT_ADDRESSES.sepolia.comptroller as `0x${string}`)
+            : (CONTRACT_ADDRESSES.arbitrum_sepolia
+                .comptroller as `0x${string}`),
+      }
+    : {};
 
-  const { stats: userStats, isPending: isStatsLoading } = useMultiNetworkStats({
+  const { stats: userStats } = useMultiNetworkStats({
     userAddress: address,
     comptrollerAddresses,
   });
 
-  const currentChainStats = userStats.find(stat => 
-    chainId === 11155111 ? stat.networkName === "Ethereum Sepolia" :
-    chainId === 421614 ? stat.networkName === "Arbitrum Sepolia" : false
+  const currentChainStats = userStats.find((stat) =>
+    chainId === SEPOLIA_CHAIN_ID
+      ? stat.networkName === "Ethereum Sepolia"
+      : chainId === ARBITRUM_CHAIN_ID
+        ? stat.networkName === "Arbitrum Sepolia"
+        : false,
   );
 
   if (isMarketLoading || !marketData) {
@@ -79,10 +86,18 @@ export const Wallet: React.FC = () => {
   }
 
   // Calculate actual user positions
-  const walletBalance = tokenBalance ? Number(formatUnits(tokenBalance.value, tokenBalance.decimals)) : 0;
-  const suppliedAmount = currentChainStats ? currentChainStats.totalCollateralValue / marketData.underlyingPriceUSD : 0;
-  const borrowedAmount = currentChainStats ? currentChainStats.borrowValue / marketData.underlyingPriceUSD : 0;
-  const suppliedUSD = currentChainStats ? currentChainStats.totalCollateralValue : 0;
+  const walletBalance = tokenBalance
+    ? Number(formatUnits(tokenBalance.value, tokenBalance.decimals))
+    : 0;
+  const suppliedAmount = currentChainStats
+    ? currentChainStats.totalCollateralValue / marketData.underlyingPriceUSD
+    : 0;
+  const borrowedAmount = currentChainStats
+    ? currentChainStats.borrowValue / marketData.underlyingPriceUSD
+    : 0;
+  const suppliedUSD = currentChainStats
+    ? currentChainStats.totalCollateralValue
+    : 0;
   const borrowedUSD = currentChainStats ? currentChainStats.borrowValue : 0;
 
   return (

@@ -18,8 +18,15 @@ export const Deposits = () => {
 
   const allMarketsData = useGetAllMarketsForSupportedNetworks();
 
-const { supplies: ethereumSupplies } = useUserData(SEPOLIA_CHAIN_ID, userAddress);
-const { supplies: arbitrumSupplies } = useUserData(ARBITRUM_CHAIN_ID, userAddress);
+  const { supplies: ethereumSupplies, refresh: ethereumSuppliesRefresh } =
+    useUserData(SEPOLIA_CHAIN_ID, userAddress);
+  const { supplies: arbitrumSupplies, refresh: arbitrumSuppliesRefresh } =
+    useUserData(ARBITRUM_CHAIN_ID, userAddress);
+
+  const reloadDeposits = () => {
+    ethereumSuppliesRefresh();
+    arbitrumSuppliesRefresh();
+  };
 
   const allSupplies = React.useMemo(() => {
     const combined = [];
@@ -28,7 +35,7 @@ const { supplies: arbitrumSupplies } = useUserData(ARBITRUM_CHAIN_ID, userAddres
         ...ethereumSupplies.map((supply) => ({
           ...supply,
           chainId: SEPOLIA_CHAIN_ID,
-        }))
+        })),
       );
     }
     if (arbitrumSupplies) {
@@ -36,7 +43,7 @@ const { supplies: arbitrumSupplies } = useUserData(ARBITRUM_CHAIN_ID, userAddres
         ...arbitrumSupplies.map((supply) => ({
           ...supply,
           chainId: ARBITRUM_CHAIN_ID,
-        }))
+        })),
       );
     }
     return combined;
@@ -90,6 +97,7 @@ const { supplies: arbitrumSupplies } = useUserData(ARBITRUM_CHAIN_ID, userAddres
                     address={supply.cToken}
                     amount={supply.balance}
                     chainId={supply.chainId}
+                    cb={reloadDeposits}
                   />
                 ))}
             </Table.Body>
@@ -120,6 +128,7 @@ const { supplies: arbitrumSupplies } = useUserData(ARBITRUM_CHAIN_ID, userAddres
                 key={`${market}-${chainId}`}
                 address={market}
                 chainId={chainId}
+                cb={reloadDeposits}
               />
             ))}
           </Table.Body>

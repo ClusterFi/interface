@@ -7,6 +7,8 @@ export const SEPOLIA_CHAIN_ID = 11155111;
 export const SOLANA_CHAIN_ID = 99999;
 export const ARBITRUM_CHAIN_ID = 421614;
 
+export const USDC_DECIMALS = 6;
+
 export const getChainById = (chainId: number): ChainProps | undefined => {
   return CHAINS.find((chain) => chain.chainId === chainId);
 };

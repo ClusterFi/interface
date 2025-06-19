@@ -21,12 +21,15 @@ export const useSupply = (cTokenAddress: `0x${string}`) => {
     }
   };
 
-  const { isLoading: isConfirming } = useWaitForTransactionReceipt({ hash });
+  const { isLoading: isConfirming, status } = useWaitForTransactionReceipt({
+    hash,
+  });
 
   return {
     supply,
     isPending,
     isConfirming,
+    status,
     hash,
   };
 };

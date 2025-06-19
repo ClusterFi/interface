@@ -5,18 +5,25 @@ import styles from "./Borrow.module.scss";
 import cx from "classnames";
 import { ChainSelection } from "@/components/ChainSelection/ChainSelection";
 import { AmountInput } from "@/components/AmountInput/AmountInput";
-import { CHAINS, getChainById } from "@/constants";
+import {
+  ARBITRUM_CHAIN_ID,
+  CHAINS,
+  getChainById,
+  SEPOLIA_CHAIN_ID,
+} from "@/constants";
 import { Currency } from "@/types";
 import { useAccount } from "wagmi";
 import { useBorrow } from "@/utils/evm/hooks/useBorrow";
 import { useModalsStore } from "@/utils/stores";
 import { parseUnits } from "viem";
+import { Confirming } from "@/components/shared/Confirming/Confirming";
+import { useEffect } from "react";
 
 const getLayerZeroEid = (chainId: number): number => {
   switch (chainId) {
-    case 11155111:
+    case SEPOLIA_CHAIN_ID:
       return 40161;
-    case 421614:
+    case ARBITRUM_CHAIN_ID:
       return 40231;
     default:
       throw new Error(`Unsupported chain ID: ${chainId}`);
@@ -24,6 +31,7 @@ const getLayerZeroEid = (chainId: number): number => {
 };
 
 export type BorrowProps = {
+  cb: () => void;
   sourceChain: {
     name: string;
     icon: Currency;
@@ -51,18 +59,25 @@ export const Borrow: React.FC<Borrow> = ({ props, ...rest }) => {
   const [amount, setAmount] = React.useState("");
 
   const account = useAccount();
-  const { borrow, borrowCrossChain, isPending, isConfirming, hash } = useBorrow(
-    props.sourceChain.cTokenAddress,
-  );
+
+  const {
+    borrow,
+    borrowCrossChain,
+    isPending,
+    isConfirming,
+    hash,
+    status: borrowStatus,
+  } = useBorrow(props.sourceChain.cTokenAddress);
+
   const { closeModal } = useModalsStore();
 
   React.useEffect(() => {
-    if (hash) {
+    if (!isConfirming && hash) {
       closeModal();
     }
-  }, [hash, closeModal]);
+  }, [hash, closeModal, isConfirming]);
 
-    const openPosition = async () => {
+  const openPosition = async () => {
     if (!amount) return;
 
     try {
@@ -70,26 +85,34 @@ export const Borrow: React.FC<Borrow> = ({ props, ...rest }) => {
         await borrow(amount);
       } else {
         const dstEid = getLayerZeroEid(destination.chainId);
-        
-        console.log('=== Cross-chain Borrow Parameters ===');
-        console.log('Amount:', amount);
-        console.log('Destination EID:', dstEid);
-        console.log('Recipient:', account.address);
-        console.log('Options:', '""');
-        console.log('Gas Value (ETH):', '0.1');
+
+        console.log("=== Cross-chain Borrow Parameters ===");
+        console.log("Amount:", amount);
+        console.log("Destination EID:", dstEid);
+        console.log("Recipient:", account.address);
+        console.log("Options:", '""');
+        console.log("Gas Value (ETH):", "0.1");
 
         await borrowCrossChain(
           amount,
           dstEid,
           account.address as `0x${string}`,
           "",
-          parseUnits("0.1", 18) // 0.1 ETH for gas fees
+          parseUnits("0.1", 18), // 0.1 ETH for gas fees
         );
       }
     } catch (err) {
       console.error("Borrow failed:", err);
     }
   };
+
+  useEffect(() => {
+    if (borrowStatus === "success") {
+      if (typeof props.cb === "function") {
+        props.cb();
+      }
+    }
+  }, [props, props.cb, borrowStatus]);
 
   return (
     <ModalLayout title="Cross-Chain Borrow" isSwipeable {...rest}>
@@ -145,11 +168,13 @@ export const Borrow: React.FC<Borrow> = ({ props, ...rest }) => {
           onClick={openPosition}
           disabled={isPending || isConfirming}
         >
-          {isPending
-            ? "Processing..."
-            : isConfirming
-              ? "Confirming..."
-              : "Open Position"}
+          {isPending ? (
+            "Waiting for Wallet..."
+          ) : isConfirming ? (
+            <Confirming />
+          ) : (
+            "Open Position"
+          )}
         </Button>
       </div>
     </ModalLayout>

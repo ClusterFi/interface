@@ -1,6 +1,6 @@
-import { useMemo } from 'react';
-import { useAllMarketsData } from './useAllMarketsData';
-import { CHAINS } from '@/constants';
+import { useMemo } from "react";
+import { useAllMarketsData } from "./useAllMarketsData";
+import { ARBITRUM_CHAIN_ID, SEPOLIA_CHAIN_ID } from "@/constants";
 
 export interface ProtocolStats {
   totalValueLocked: number;
@@ -13,12 +13,12 @@ export interface ProtocolStats {
 
 export const useProtocolStats = () => {
   // Get data for all supported chains
-  const sepoliaData = useAllMarketsData(11155111);
-  const arbitrumData = useAllMarketsData(421614);
+  const sepoliaData = useAllMarketsData(SEPOLIA_CHAIN_ID);
+  const arbitrumData = useAllMarketsData(ARBITRUM_CHAIN_ID);
 
   const stats = useMemo(() => {
     const isLoading = sepoliaData.isPending || arbitrumData.isPending;
-    
+
     if (isLoading) {
       return {
         totalValueLocked: 0,
@@ -31,16 +31,22 @@ export const useProtocolStats = () => {
     }
 
     // Combine data from all chains
-    const allMarkets = [
-      ...sepoliaData.markets,
-      ...arbitrumData.markets,
-    ];
+    const allMarkets = [...sepoliaData.markets, ...arbitrumData.markets];
 
     // Calculate totals
-    const totalDeposits = allMarkets.reduce((sum, market) => sum + market.totalSupplyUSD, 0);
-    const totalBorrowed = allMarkets.reduce((sum, market) => sum + market.totalBorrowUSD, 0);
-    const totalCollateral = allMarkets.reduce((sum, market) => sum + market.totalCollateralUSD, 0);
-    
+    const totalDeposits = allMarkets.reduce(
+      (sum, market) => sum + market.totalSupplyUSD,
+      0,
+    );
+    const totalBorrowed = allMarkets.reduce(
+      (sum, market) => sum + market.totalBorrowUSD,
+      0,
+    );
+    const totalCollateral = allMarkets.reduce(
+      (sum, market) => sum + market.totalCollateralUSD,
+      0,
+    );
+
     // Total Value Locked = Total Deposits
     const totalValueLocked = totalDeposits;
 
@@ -55,4 +61,4 @@ export const useProtocolStats = () => {
   }, [sepoliaData, arbitrumData]);
 
   return stats;
-}; 
+};

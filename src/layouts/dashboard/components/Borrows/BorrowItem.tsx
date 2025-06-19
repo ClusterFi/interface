@@ -1,16 +1,16 @@
 import * as React from "react";
 import { Button, Table, Text, CurrencyIcon } from "@/components";
 import styles from "./Borrows.module.scss";
-import { formatCoin, formatUSD } from "@/utils";
+import { formatUSD } from "@/utils";
 import { Currency } from "@/types";
 import { useModalsStore } from "@/utils/stores";
 import { useAccount } from "wagmi";
-import { CHAINS, getChainById } from "@/constants";
-import { CONTRACT_ADDRESSES } from "@/utils/evm/contracts";
+import { getChainById } from "@/constants";
 import { formatTokenAmount } from "@/utils/formatters";
 import { useMarketInfo } from "@/utils/evm/hooks/useMarketInfo";
 
 type BorrowItemProps = {
+  cb: () => void;
   currency: Currency;
   name: string;
   amount: bigint;
@@ -26,6 +26,7 @@ export const BorrowItem: React.FC<BorrowItemProps> = ({
   address,
   cTokenAddress,
   chainId,
+  cb,
 }) => {
   const { openModal } = useModalsStore();
   const { address: userAddress } = useAccount();
@@ -36,6 +37,7 @@ export const BorrowItem: React.FC<BorrowItemProps> = ({
     if (!userAddress) return;
 
     openModal("Repay", {
+      cb: cb,
       chain: {
         name: chainInfo?.name || "Unknown",
         icon: chainInfo?.currency || "Ethereum",
@@ -61,7 +63,9 @@ export const BorrowItem: React.FC<BorrowItemProps> = ({
         mobileTitle={"Borrows"}
       />
       <Table.ItemAmount
-        primaryValue={marketInfo ? `${marketInfo.borrowAPY.toFixed(2)}%` : "Loading..."}
+        primaryValue={
+          marketInfo ? `${marketInfo.borrowAPY.toFixed(2)}%` : "Loading..."
+        }
         secondaryValue={""}
         mobileTitle={"APY"}
       />

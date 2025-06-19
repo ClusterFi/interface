@@ -17,12 +17,13 @@ type BorrowsProps = {
   state: ComponentState;
 };
 
-const BorrowItemWrapper: React.FC<{ borrow: Borrow & { chainId: number } }> = ({
-  borrow,
-}) => {
+const BorrowItemWrapper: React.FC<{
+  borrow: Borrow & { chainId: number };
+  cb: () => void;
+}> = ({ borrow, cb }) => {
   const { data: marketInfo } = useMarketInfo(
     borrow.cToken as `0x${string}`,
-    borrow.chainId
+    borrow.chainId,
   );
 
   return (
@@ -33,15 +34,23 @@ const BorrowItemWrapper: React.FC<{ borrow: Borrow & { chainId: number } }> = ({
       address={marketInfo?.underlying}
       cTokenAddress={borrow.cToken as `0x${string}`}
       chainId={borrow.chainId}
+      cb={cb}
     />
   );
 };
 
 export const Borrows: React.FC<BorrowsProps> = () => {
-const { address: userAddress } = useAccount();
+  const { address: userAddress } = useAccount();
 
-const { borrows: ethereumBorrows } = useUserData(SEPOLIA_CHAIN_ID, userAddress);
-const { borrows: arbitrumBorrows } = useUserData(ARBITRUM_CHAIN_ID, userAddress);
+  const { borrows: ethereumBorrows, refresh: ethereumBorrowsRefresh } =
+    useUserData(SEPOLIA_CHAIN_ID, userAddress);
+  const { borrows: arbitrumBorrows, refresh: arbitrumBorrowsRefresh } =
+    useUserData(ARBITRUM_CHAIN_ID, userAddress);
+
+  const refreshBorrows = () => {
+    ethereumBorrowsRefresh();
+    arbitrumBorrowsRefresh();
+  };
 
   const markets = useGetAllMarketsForSupportedNetworks();
 
@@ -52,7 +61,7 @@ const { borrows: arbitrumBorrows } = useUserData(ARBITRUM_CHAIN_ID, userAddress)
         ...ethereumBorrows.map((borrow) => ({
           ...borrow,
           chainId: SEPOLIA_CHAIN_ID,
-        }))
+        })),
       );
     }
     if (arbitrumBorrows) {
@@ -60,7 +69,7 @@ const { borrows: arbitrumBorrows } = useUserData(ARBITRUM_CHAIN_ID, userAddress)
         ...arbitrumBorrows.map((borrow) => ({
           ...borrow,
           chainId: ARBITRUM_CHAIN_ID,
-        }))
+        })),
       );
     }
     return combined;
@@ -102,7 +111,7 @@ const { borrows: arbitrumBorrows } = useUserData(ARBITRUM_CHAIN_ID, userAddress)
     allBorrows.length > 0 &&
     allBorrows.some(
       (borrow) =>
-        borrow.currentBalance > BigInt(0) || borrow.storedBalance > BigInt(0)
+        borrow.currentBalance > BigInt(0) || borrow.storedBalance > BigInt(0),
     );
 
   return (
@@ -141,12 +150,13 @@ const { borrows: arbitrumBorrows } = useUserData(ARBITRUM_CHAIN_ID, userAddress)
                 .filter(
                   (borrow) =>
                     borrow.currentBalance > BigInt(0) ||
-                    borrow.storedBalance > BigInt(0)
+                    borrow.storedBalance > BigInt(0),
                 )
                 .map((borrow, index) => (
                   <BorrowItemWrapper
                     key={`${borrow.cToken}-${borrow.chainId}-${index}`}
                     borrow={borrow}
+                    cb={refreshBorrows}
                   />
                 ))}
             </Table.Body>
@@ -182,6 +192,7 @@ const { borrows: arbitrumBorrows } = useUserData(ARBITRUM_CHAIN_ID, userAddress)
                 destinationChainId={market.destinationChainId}
                 isConsolidated={market.isConsolidated}
                 consolidatedChains={market.consolidatedChains}
+                cb={refreshBorrows}
               />
             ))}
           </Table.Body>

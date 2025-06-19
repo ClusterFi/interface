@@ -1,10 +1,10 @@
 import * as React from "react";
-import { Table, Switcher, Button, Text, Icon, CurrencyIcon } from "@/components";
+import { Table, Switcher, Button, Text, CurrencyIcon } from "@/components";
 import styles from "./Deposits.module.scss";
 import { useModalsStore } from "@/utils/stores";
 import { useMarketInfo } from "@/utils/evm/hooks/useMarketInfo";
 import { Currency } from "@/types";
-import { getChainById } from "@/constants";
+import { ARBITRUM_CHAIN_ID, getChainById, SEPOLIA_CHAIN_ID } from "@/constants";
 import { formatUnits } from "viem";
 import { CONTRACT_ADDRESSES } from "@/utils/evm/contracts";
 import { useCollateralToggle } from "@/utils/evm/hooks/useCollateralToggle";
@@ -12,6 +12,7 @@ import { useAccount } from "wagmi";
 import { formatTokenAmount } from "@/utils/formatters";
 
 type DepositItemProps = {
+  cb: () => void;
   address: `0x${string}`;
   amount: bigint;
   chainId: number;
@@ -21,6 +22,7 @@ export const DepositItem: React.FC<DepositItemProps> = ({
   address,
   amount,
   chainId,
+  cb,
 }) => {
   const { openModal } = useModalsStore();
   const { address: userAddress } = useAccount();
@@ -28,9 +30,9 @@ export const DepositItem: React.FC<DepositItemProps> = ({
   const chainInfo = getChainById(chainId);
 
   const getComptrollerAddress = (chainId: number): `0x${string}` => {
-    if (chainId === 11155111) {
+    if (chainId === SEPOLIA_CHAIN_ID) {
       return CONTRACT_ADDRESSES.sepolia.comptroller as `0x${string}`;
-    } else if (chainId === 421614) {
+    } else if (chainId === ARBITRUM_CHAIN_ID) {
       return CONTRACT_ADDRESSES.arbitrum_sepolia.comptroller as `0x${string}`;
     }
     return CONTRACT_ADDRESSES.sepolia.comptroller as `0x${string}`;
@@ -47,12 +49,13 @@ export const DepositItem: React.FC<DepositItemProps> = ({
     getComptrollerAddress(chainId),
     userAddress,
     address,
-    chainId
+    chainId,
   );
 
   const handleWithdrawClick = () => {
     if (marketInfo) {
       openModal("Withdraw", {
+        cb: cb,
         chain: {
           name: chainInfo?.name!,
           icon: chainInfo?.currency!,
@@ -105,8 +108,14 @@ export const DepositItem: React.FC<DepositItemProps> = ({
       </Table.Item>
       <Table.Item mobileTitle="Chain">
         <div className={styles.chainDisplay}>
-          <CurrencyIcon width={16} height={16} currency={chainInfo?.currency!} />
-          <Text size={12} theme={400}>{chainInfo?.name}</Text>
+          <CurrencyIcon
+            width={16}
+            height={16}
+            currency={chainInfo?.currency!}
+          />
+          <Text size={12} theme={400}>
+            {chainInfo?.name}
+          </Text>
         </div>
       </Table.Item>
       <Table.Item>

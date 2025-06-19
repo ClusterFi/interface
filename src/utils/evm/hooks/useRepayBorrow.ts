@@ -21,12 +21,15 @@ export const useRepayBorrow = (cTokenAddress: `0x${string}`) => {
     }
   };
 
-  const { isLoading: isConfirming } = useWaitForTransactionReceipt({ hash });
+  const { isLoading: isConfirming, status } = useWaitForTransactionReceipt({
+    hash,
+  });
 
   return {
     repay,
     isPending,
     isConfirming,
+    status,
     hash,
   };
-}; 
+};

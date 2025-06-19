@@ -1,6 +1,8 @@
 import { useReadContract, useToken } from "wagmi";
 import { CONTRACT_ADDRESSES } from "../contracts";
 import { ABIS } from "../abi/abis";
+import { ARBITRUM_CHAIN_ID, SEPOLIA_CHAIN_ID } from "@/constants";
+import { useQueryClient } from "@tanstack/react-query"; // Импортируем useQueryClient
 
 type Address = `0x${string}`;
 
@@ -21,10 +23,12 @@ export type MarketInfo = {
 };
 
 export const useMarketInfo = (marketAddress: Address, chainId?: number) => {
+  const queryClient = useQueryClient(); // Получаем экземпляр queryClient
+
   const getComptrollerAddress = (chainId?: number): Address | undefined => {
-    if (chainId === 11155111) {
+    if (chainId === SEPOLIA_CHAIN_ID) {
       return CONTRACT_ADDRESSES.sepolia.comptroller as Address;
-    } else if (chainId === 421614) {
+    } else if (chainId === ARBITRUM_CHAIN_ID) {
       return CONTRACT_ADDRESSES.arbitrum_sepolia.comptroller as Address;
     }
     return CONTRACT_ADDRESSES.sepolia.comptroller as Address;
@@ -145,9 +149,48 @@ export const useMarketInfo = (marketAddress: Address, chainId?: number) => {
       }
     : undefined;
 
+  const refresh = () => {
+    void queryClient.invalidateQueries({
+      predicate: (query) => {
+        const queryKey = query.queryKey;
+        const queryType = queryKey[0];
+        const queryConfig = queryKey[1] as {
+          address?: Address;
+          chainId?: number;
+          args?: any[];
+        };
+
+        if (
+          queryType === "readContract" &&
+          queryConfig.address === marketAddress &&
+          queryConfig.chainId === chainId
+        ) {
+          return true;
+        }
+
+        if (queryType === "token" && queryConfig.chainId === chainId) {
+          if (
+            underlyingCall.data &&
+            queryConfig.address === underlyingCall.data
+          ) {
+            return true;
+          }
+        }
+
+        return (
+          queryType === "readContract" &&
+          queryConfig.address === comptrollerAddress &&
+          queryConfig.args?.[0] === marketAddress &&
+          queryConfig.chainId === chainId
+        );
+      },
+    });
+  };
+
   return {
     data,
     isPending,
     error,
+    refresh,
   };
 };

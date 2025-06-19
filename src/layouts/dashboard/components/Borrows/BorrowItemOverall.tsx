@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Button, Table, Text, CurrencyIcon } from "@/components";
 import styles from "./Borrows.module.scss";
-import { formatCoin } from "@/utils";
 import { Currency } from "@/types";
 import { useMarketInfo } from "@/utils/evm/hooks/useMarketInfo";
 import { useModalsStore } from "@/utils/stores";
@@ -10,6 +9,7 @@ import { CHAINS, getChainById } from "@/constants";
 import { formatTokenAmount } from "@/utils/formatters";
 
 type BorrowItemOverallProps = {
+  cb: () => void;
   sourceAddress: `0x${string}`;
   sourceChainId: number;
   destinationChainId: number;
@@ -26,18 +26,19 @@ export const BorrowItemOverall: React.FC<BorrowItemOverallProps> = ({
   destinationChainId,
   consolidatedChains,
   isConsolidated = false,
+  cb,
 }) => {
   const {
     data: marketInfo,
     isPending,
     error,
   } = useMarketInfo(sourceAddress, sourceChainId);
-  
+
   const { data: arbitrumMarketInfo } = useMarketInfo(
-    isConsolidated && consolidatedChains?.[1]?.address || sourceAddress,
-    isConsolidated && consolidatedChains?.[1]?.chainId || sourceChainId
+    (isConsolidated && consolidatedChains?.[1]?.address) || sourceAddress,
+    (isConsolidated && consolidatedChains?.[1]?.chainId) || sourceChainId,
   );
-  
+
   const { openModal } = useModalsStore();
   const { isConnected } = useAccount();
 
@@ -50,6 +51,7 @@ export const BorrowItemOverall: React.FC<BorrowItemOverallProps> = ({
 
   const handleClick = () => {
     openModal("Borrow", {
+      cb: cb,
       sourceChain: {
         name: sourceChainInfo?.name!,
         icon: sourceChainInfo?.currency!,
@@ -127,7 +129,7 @@ export const BorrowItemOverall: React.FC<BorrowItemOverallProps> = ({
           marketInfo
             ? formatTokenAmount(
                 Number(marketInfo.cash) / 10 ** marketInfo.decimals,
-                marketInfo.symbol
+                marketInfo.symbol,
               )
             : "0"
         }
@@ -135,7 +137,7 @@ export const BorrowItemOverall: React.FC<BorrowItemOverallProps> = ({
           marketInfo
             ? formatTokenAmount(
                 Number(marketInfo.cash) / 10 ** marketInfo.decimals,
-                marketInfo.symbol
+                marketInfo.symbol,
               )
             : "0"
         }
@@ -147,10 +149,17 @@ export const BorrowItemOverall: React.FC<BorrowItemOverallProps> = ({
           <div className={styles.multiChainApy}>
             {consolidatedChains.map((chain, index) => {
               const chainInfo = getChainById(chain.chainId);
-              const apy = index === 0 ? marketInfo?.borrowAPY : arbitrumMarketInfo?.borrowAPY;
+              const apy =
+                index === 0
+                  ? marketInfo?.borrowAPY
+                  : arbitrumMarketInfo?.borrowAPY;
               return (
                 <div key={chain.chainId} className={styles.apyItem}>
-                  <CurrencyIcon width={12} height={12} currency={chainInfo?.currency!} />
+                  <CurrencyIcon
+                    width={12}
+                    height={12}
+                    currency={chainInfo?.currency!}
+                  />
                   <Text size={12} theme={400}>
                     {apy ? `${apy.toFixed(2)}%` : "0%"}
                   </Text>
@@ -158,8 +167,10 @@ export const BorrowItemOverall: React.FC<BorrowItemOverallProps> = ({
               );
             })}
           </div>
+        ) : marketInfo ? (
+          `${marketInfo.borrowAPY.toFixed(2)}%`
         ) : (
-          marketInfo ? `${marketInfo.borrowAPY.toFixed(2)}%` : "0%"
+          "0%"
         )}
       </Table.Item>
 
